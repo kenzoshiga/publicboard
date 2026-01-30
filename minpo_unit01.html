@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit1</title>
+  <style>
+    :root{
+      --bg:#f7f8fb; --paper:#ffffff; --text:#111827; --muted:#6b7280;
+      --line:#e5e7eb; --accent:#2563eb;
+    }
+    body{ margin:0; font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif; background:var(--bg); color:var(--text); }
+    header{ position:sticky; top:0; background:rgba(247,248,251,.92); backdrop-filter: blur(8px); border-bottom:1px solid var(--line); }
+    header .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; gap:12px; align-items:center; justify-content:space-between; }
+    header h1{ font-size:16px; margin:0; font-weight:700; }
+    header a{ color:var(--accent); text-decoration:none; font-size:13px; }
+    main{ max-width:1100px; margin:16px auto; padding:0 16px 40px; display:grid; grid-template-columns: 320px 1fr; gap:16px; }
+    @media (max-width: 960px){ main{ grid-template-columns: 1fr; } nav{ position:static; } }
+    nav{
+      background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:14px;
+      position:sticky; top:64px; height:fit-content;
+    }
+    nav h2{ font-size:14px; margin:0 0 10px; }
+    nav ul{ margin:0; padding-left:18px; }
+    nav li{ margin:6px 0; }
+    nav a{ color:var(--accent); text-decoration:none; }
+    nav a:hover{ text-decoration:underline; }
+    article{
+      background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px 18px 30px;
+    }
+    .sec-title{ margin:22px 0 10px; padding-top:6px; border-top:1px solid var(--line); }
+    h2{ font-size:20px; margin:0; }
+    h3{ font-size:16px; margin:18px 0 8px; }
+    h4{ font-size:14px; margin:14px 0 6px; color:#111827; }
+    p{ margin:6px 0 10px; line-height:1.75; }
+    .meta{ color:var(--muted); font-size:12px; margin-top:6px; }
+    .item{ padding:10px 12px; border:1px solid var(--line); border-radius:10px; margin:10px 0; }
+    .item > .label{ font-weight:700; }
+    .sub{ margin-left:16px; padding-left:12px; border-left:3px solid #eef2ff; }
+    .anchor{
+      display:inline-block; margin-left:8px; font-size:12px; color:var(--muted); text-decoration:none;
+      border:1px solid var(--line); padding:1px 6px; border-radius:999px;
+    }
+    .anchor:hover{ color:var(--accent); border-color:#c7d2fe; }
+    .toplink{ font-size:12px; color:var(--muted); text-decoration:none; margin-left:10px; }
+    .toplink:hover{ color:var(--accent); }
+    code, pre{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace; }
+    table{ border-collapse:collapse; width:100%; margin:8px 0 12px; font-size:13px; }
+    th, td{ border:1px solid var(--line); padding:8px; vertical-align:top; }
+    th{ background:#f3f4f6; text-align:left; }
+  </style>
+</head>
+
+<body>
+  <a id="top"></a>
+
+  <header>
+    <div class="wrap">
+      <h1>民法 Unit1</h1>
+      <a href="#toc">目次へ</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- TOC -->
+    <nav id="toc" aria-label="目次">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="#intro">序　論</a>
+          <ul>
+            <li><a href="#intro-1">１　民法とは</a></li>
+            <li><a href="#intro-2">２　民法の性格</a>
+              <ul>
+                <li><a href="#intro-2-1">1. 私法</a></li>
+                <li><a href="#intro-2-2">2. 実体法</a></li>
+                <li><a href="#intro-2-3">3. 一般法</a></li>
+              </ul>
+            </li>
+            <li><a href="#intro-3">３　民法の指導原理</a>
+              <ul>
+                <li><a href="#intro-3-1">1. 権利能力平等の原則</a></li>
+                <li><a href="#intro-3-2">2. 所有権絶対の原則</a></li>
+                <li><a href="#intro-3-3">3. 私的自治の原則</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li><a href="#part1">第１編　総則</a>
+          <ul>
+            <li><a href="#part1-ch1">第１章　私権についての基本原理</a>
+              <ul>
+                <li><a href="#part1-ch1-1">１　公共の福祉（１条１項）</a></li>
+                <li><a href="#part1-ch1-2">２　信義誠実の原則（信義則。１条２項）</a>
+                  <ul>
+                    <li><a href="#part1-ch1-2-1">1. 意義</a></li>
+                    <li><a href="#part1-ch1-2-2">2. 機能</a></li>
+                    <li><a href="#part1-ch1-2-3">3. 派生原則（信義則の分身）</a></li>
+                    <li><a href="#part1-ch1-2-3-1">(1) 禁反言の原則</a></li>
+                    <li><a href="#part1-ch1-2-3-2">(2) クリーンハンズの原則</a></li>
+                    <li><a href="#part1-ch1-2-3-3">(3) 事情変更の原則</a></li>
+                  </ul>
+                </li>
+                <li><a href="#part1-ch1-3">３　権利濫用の禁止（１条３項）</a>
+                  <ul>
+                    <li><a href="#part1-ch1-3-1">1. 意義</a></li>
+                    <li><a href="#part1-ch1-3-2">2. 要件</a></li>
+                    <li><a href="#part1-ch1-3-3">3. 効果</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li><a href="#part1-ch2">第２章　人</a>
+              <ul>
+                <li><a href="#part1-ch2-sec1">第１節　権利能力</a>
+                  <ul>
+                    <li><a href="#part1-ch2-sec1-1">１　意義</a></li>
+                    <li><a href="#part1-ch2-sec1-2">２　権利能力の始期</a>
+                      <ul>
+                        <li><a href="#part1-ch2-sec1-2-1">1. 原則－出生（３条１項）</a></li>
+                        <li><a href="#part1-ch2-sec1-2-2">2. 例外－胎児についての特則</a></li>
+                        <li><a href="#part1-ch2-sec1-2-q">Ｑ：意義</a></li>
+                        <li><a href="#part1-ch2-sec1-2-a1">Ａ：停止条件説</a></li>
+                        <li><a href="#part1-ch2-sec1-2-a2">Ｂ：解除条件説</a></li>
+                        <li><a href="#part1-ch2-sec1-2-table">胎児に対する代理の可否（表）</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#part1-ch2-sec1-3">３　終期</a>
+                      <ul>
+                        <li><a href="#part1-ch2-sec1-3-1">1. 死亡</a></li>
+                        <li><a href="#part1-ch2-sec1-3-2">2. 生死不明者と死体が発見されない場合</a></li>
+                        <li><a href="#part1-ch2-sec1-3-2-1">(1) 失踪宣告</a></li>
+                        <li><a href="#part1-ch2-sec1-3-2-2">(2) 認定死亡</a></li>
+                        <li><a href="#part1-ch2-sec1-3-3">3. 同時死亡の推定（32条の２）</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+
+                <li><a href="#part1-ch2-sec2">第２節　意思能力と行為能力</a>
+                  <ul>
+                    <li><a href="#part1-ch2-sec2-i">Ⅰ　意思能力</a></li>
+                    <li><a href="#part1-ch2-sec2-ii">Ⅱ　行為能力</a>
+                      <ul>
+                        <li><a href="#part1-ch2-sec2-ii-1">１　総説</a></li>
+                        <li><a href="#part1-ch2-sec2-ii-2">２　未成年者</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p class="meta">各見出し右の「#」から、その場所への直リンクをコピーできます。</p>
+    </nav>
+
+    <!-- CONTENT -->
+    <article>
+      <!-- 序論 -->
+      <section class="sec-title">
+        <h2 id="intro">序　論<a class="toplink" href="#top">↑Top</a></h2>
+
+        <div class="item">
+          <div class="label" id="intro-1">１　民法とは</div>
+          <p>私人の日常生活（社会生活）を規律する最も基本的な法であり、主として私人の財産関係と家族関係を規律する。</p>
+        </div>
+
+        <div class="item">
+          <div class="label" id="intro-2">２　民法の性格</div>
+
+          <div class="sub">
+            <h4 id="intro-2-1">1.　私法</h4>
+            <p>民法は、平等な私人間の関係を規律する法である。<br>
+              cf. 公法（国家統治権の発動に関する法　ex. 刑法）</p>
+
+            <h4 id="intro-2-2">2.　実体法</h4>
+            <p>民法は、裁判をする際の紛争解決の基準となる法である。<br>
+              cf. 手続法（裁判を進める方法や形式についての基準となる法　ex. 民事訴訟法）</p>
+
+            <h4 id="intro-2-3">3.　一般法</h4>
+            <p>民法は、私法の分野における一般法であるから、人・事物・行為あるいは地域を限定せず、広く一般に適用される。<br>
+              cf. 特別法（特定の人・事物・行為又は地域に限って適用される法）</p>
+            <p>この、一般法と特別法の区別は相対的なものである。例えば、商法は、民法に対しては特別法であるが、金融商品取引法などに対しては一般法である。</p>
+            <p>一般法・特別法の区別の実益は、法適用の順序に現れる。特別法は一般法に優先して適用される。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label" id="intro-3">３　民法の指導原理</div>
+
+          <div class="sub">
+            <h4 id="intro-3-1">1.　権利能力平等の原則</h4>
+            <p>：すべての自然人が差別されることなく、権利義務の主体になる資格（権利能力）をもつという原則（３条１項参照）</p>
+
+            <h4 id="intro-3-2">2.　所有権絶対の原則</h4>
+            <p>：人は所有物に対しては完全な支配権を有し、しかも神聖不可侵であるという原則（憲法29条１項）</p>
+
+            <h4 id="intro-3-3">3.　私的自治の原則</h4>
+            <p>：市民社会において人が義務を負うのは、自らの意思でそれを望んだときだけであるという原則</p>
+            <p>その内容として、契約自由の原則が挙げられる。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 第1編 -->
+      <section class="sec-title">
+        <h2 id="part1">第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+
+        <!-- 第1章 -->
+        <h3 id="part1-ch1">第１章　私権についての基本原理</h3>
+
+        <div class="item">
+          <div class="label" id="part1-ch1-1">１　公共の福祉（１条１項）</div>
+          <p>私権の行使については、社会的共同生活の利益に反してはならない（憲法29条２項参照）。</p>
+        </div>
+
+        <div class="item">
+          <div class="label" id="part1-ch1-2">２　信義誠実の原則（信義則。１条２項）</div>
+
+          <div class="sub">
+            <h4 id="part1-ch1-2-1">1.　意義</h4>
+            <p>：人は、具体的事情の下において相手方から一般に期待される信頼を裏切ることのないように、誠意をもって行動すべきであるとする原則</p>
+            <p>はじめは債権法を支配する原理であったが、やがて、物権法の領域でも妥当するとされ、さらには社会的接触関係に立つ者同士（例えば、これから契約関係に入ろうとする者同士）の間でも適用されると考えられるようになった。</p>
+
+            <h4 id="part1-ch1-2-2">2.　機能</h4>
+            <p>①法律解釈の基準となる（最判昭32.７.５）。<br>
+               ②社会的接触関係にある者同士の規範関係を具体化する。<br>
+               ③制定法の規定の存しない部分を補充し、又は制定法の形式的適用による不都合を克服する。</p>
+
+            <h4 id="part1-ch1-2-3">3.　派生原則（信義則の分身）</h4>
+
+            <h4 id="part1-ch1-2-3-1">(1) 禁反言の原則</h4>
+            <p>自己の行為に矛盾した態度をとることは許されない。</p>
+
+            <h4 id="part1-ch1-2-3-2">(2) クリーンハンズの原則</h4>
+            <p>自ら法を尊重する者だけが法の尊重を要求できる（708条参照）。</p>
+
+            <h4 id="part1-ch1-2-3-3">(3) 事情変更の原則</h4>
+            <p>契約締結当時の社会的事情や契約成立の基礎となった事情に、その後著しい変動を生じ、契約をそのまま強制することが信義公平に反するに至った場合には、不利益を受ける側は、その廃棄又は変更を請求することができる（契約の拘束力の例外）。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label" id="part1-ch1-3">３　権利濫用の禁止（１条３項）</div>
+
+          <div class="sub">
+            <h4 id="part1-ch1-3-1">1.　意義</h4>
+            <p>：形式的には正当な権利に基づく行使であっても、実質的に見れば権利の社会性に反する行為は認められないとする法理</p>
+            <p>私権の行使に際して生じる他の法益との衝突を具体的公平の見地から調整するもの。</p>
+
+            <h4 id="part1-ch1-3-2">2.　要件</h4>
+            <p>権利行使によって生じる権利者個人の利益と、相手方又は社会全体に及ぼす害悪との客観的な比較衡量による（判例・通説）。</p>
+
+            <h4 id="part1-ch1-3-3">3.　効果</h4>
+            <p>権利に対する他人の侵害の排除を主張することが権利濫用となる場合には、排除の請求そのものが否定される。</p>
+          </div>
+        </div>
+
+        <!-- 第2章 -->
+        <h3 id="part1-ch2">第２章　人</h3>
+
+        <!-- 第1節 -->
+        <h4 id="part1-ch2-sec1">第１節　権利能力</h4>
+
+        <div class="item">
+          <div class="label" id="part1-ch2-sec1-1">１　意義</div>
+          <p>：権利義務の主体となることのできる資格</p>
+        </div>
+
+        <div class="item">
+          <div class="label" id="part1-ch2-sec1-2">２　権利能力の始期</div>
+
+          <div class="sub">
+            <h4 id="part1-ch2-sec1-2-1">1.　原則－出生（３条１項）</h4>
+            <p>出生時をいつとするかは、文言上明らかでないが、体が母体から全部露出した時点（全部露出説）とするのが通説である。<br>
+               cf. 刑法－一部露出説</p>
+
+            <h4 id="part1-ch2-sec1-2-2">2.　例外－胎児についての特則</h4>
+            <p>胎児は人ではないので、原則として権利能力は否定される。ただし、例外的に以下の場合には生まれたものとみなされる。<br>
+              ①損害賠償請求（721条）<br>
+              ②相続（886条）<br>
+              ③遺贈（965条）</p>
+            <p>なお、胎児に対する認知も可能である（783条１項）。</p>
+
+            <h4 id="part1-ch2-sec1-2-q">Ｑ　「既に生まれたものとみなす」（721条、886条、965条）の意義</h4>
+
+            <h4 id="part1-ch2-sec1-2-a1">Ａ　停止条件説（大判昭７.10.６）</h4>
+            <p>胎児でいる間は原則どおり権利能力はないが、胎児が生きて生まれた時に、問題の時点（不法行為や相続時など）に生まれていたものとみなし、さかのぼって権利能力を取得する。</p>
+            <p>（理由）現行法上、胎児の財産を管理する法定代理制度が存在しない。</p>
+
+            <h4 id="part1-ch2-sec1-2-a2">Ｂ　解除条件説</h4>
+            <p>胎児であっても生まれたものとみなされる範囲（損害賠償、相続など）では権利能力を有し、ただ、死産である場合には遡及的に権利能力が消滅する。</p>
+            <p>（理由）①胎児の母に法定代理人たる地位を認めることができ、胎児の権利が保護される。②特に相続をめぐる法律関係を速やかに確定できる。</p>
+
+            <h4 id="part1-ch2-sec1-2-table">胎児に対する代理の可否</h4>
+            <table>
+              <thead>
+                <tr><th>説</th><th>可否</th><th>理由</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>停止条件説</td><td>×</td><td>胎児中に権利能力がないから</td></tr>
+                <tr><td>解除条件説</td><td>○</td><td>胎児中に権利能力があるから</td></tr>
+              </tbody>
+            </table>
+            <p>※　解除条件説は胎児の権利能力を肯定することができる点に特徴があるが、その場合でも、代理が認められるのは上記例外の３つの範囲に限られる点に注意する必要がある（母が胎児を代理して売買契約を結ぶことは認められない）。</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label" id="part1-ch2-sec1-3">３　終期</div>
+
+          <div class="sub">
+            <h4 id="part1-ch2-sec1-3-1">1.　死亡</h4>
+            <p>（明文はないが、882条から推知される。）</p>
+
+            <h4 id="part1-ch2-sec1-3-2">2.　生死不明者と死体が発見されない場合の取扱い</h4>
+
+            <h4 id="part1-ch2-sec1-3-2-1">(1) 失踪宣告（30条～32条）</h4>
+            <p>：不在者の生死不明の状態が一定期間継続した場合に、一応その者の死亡を擬制して、従来の住所を中心とする法律関係を確定する制度</p>
+            <p>認定死亡と異なり、後に生存が確認されても直ちには生存者としては扱われない。</p>
+
+            <h4 id="part1-ch2-sec1-3-2-2">(2) 認定死亡（戸籍法89条）</h4>
+            <p>：危難に遭遇して死亡したのは確実だが死体が発見されない場合に、その取調べをした官庁又は公署が死亡の認定を行う制度</p>
+
+            <h4 id="part1-ch2-sec1-3-3">3.　同時死亡の推定（32条の２）</h4>
+
+            <div class="sub">
+              <p><b>(1) 意義</b>：数人の者が死亡した場合において、その死亡の先後が明らかでないときに同時に死亡したものと推定する制度</p>
+              <p><b>(2) 趣旨</b> 数人が危難にあって死亡した場合、その先後によって相続関係は大きく異なる（相続分など）。そこで、死亡の先後が明らかでない場合の解決方法として同時に死亡したものとする推定規定を置いた。</p>
+              <p><b>(3) 要件</b>－数人の者が死亡した場合において、その死亡時期の先後関係が不明であること。次のような場合に適用がある。<br>
+                ①共に同一の危難に遭遇し、死亡の先後関係が不明である場合。<br>
+                ②別々の危難に遭遇したが、いずれの死亡時期も不明である場合。<br>
+                ③一方の死亡時期は明確であるが、他方の死亡時期が不明である場合。</p>
+              <p><b>(4) 効果</b><br>
+                ①同時死亡の推定が及ぶ者相互の間では相続が生じない。<br>
+                ②同時死亡の推定が及ぶ者相互の間では遺贈も効力を生じない（994条１項）。<br>
+                ③代襲相続は生じる（887条２項）。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第2節 -->
+        <h4 id="part1-ch2-sec2">第２節　意思能力と行為能力</h4>
+
+        <div class="item">
+          <div class="label" id="part1-ch2-sec2-i">Ⅰ　意思能力</div>
+          <p>：自己の法律行為の結果を弁識するに足るだけの精神能力</p>
+          <p>法律行為の当事者が意思表示をした時に意思能力を有しなかったときは、その法律行為は、無効とする(民法3条の2)。私的自治の原則により、私人の法律行為は自己の意思に基づいてのみ行われなければならないことから、当然の前提とされている。</p>
+        </div>
+
+        <div class="item">
+          <div class="label" id="part1-ch2-sec2-ii">Ⅱ　行為能力</div>
+
+          <div class="sub">
+            <h4 id="part1-ch2-sec2-ii-1">１　総説</h4>
+
+            <div class="sub">
+              <p><b>1. 行為能力の意義</b><br>行為能力：自ら単独で法律行為をすることができる能力</p>
+
+              <p><b>2. 制限行為能力者制度の趣旨</b><br>
+              民法は、未成年者・成年被後見人・被保佐人及び被補助人を制限行為能力者と定め、これらの者は単独で有効に法律行為を行い得ないものとした。<br>
+              意思能力（自己の行為の結果を弁識する精神能力）のない者の行為は本来無効となる。しかし、意思能力の存否の証明は容易でないことから、意思能力のない者・不十分な者を保護しつつ、取引の安全を図るべく、一定の者を画一的に制限行為能力者としたものである。</p>
+
+              <p><b>3. 意思能力と行為能力との関係</b><br>
+              Ｑ　制限行為能力者が同時に意思能力を欠いていた場合の行為の効力は認められるか。<br>
+              Ａ　二重効肯定説（判例・通説）：取り消すことができると同時に無効主張もできる。<br>
+              （理由）制限行為能力者制度は、意思無能力者に与えられたプラスアルファの保護であり、本来の保護である意思能力を欠くことを理由とする無効主張は当然に可能である。<br>
+              Ｂ　二重効否定説：取消しのみ可能とする。<br>
+              （理由）意思能力の制度は行為能力の制度に客観的画一的に転化してしまっている。</p>
+
+              <p><b>4. 制限行為能力者の行為が取り消された場合の効果　</b><a href="minpo_unit01q.html#q-pu1-1">過去問</a><br>
+              (1) 行為の効力：取消しがなされると、当該行為は初めから無効であったことになる（121条）。制限行為能力者の保護を優先するため、善意無過失の第三者の保護規定（96条３項参照）はない。よって、すべての第三者に取消しの効果を主張することができる。<br>
+              192条の即時取得の適用も否定される。これを認めてしまうと、制限行為能力者を取引から保護しようとした趣旨が没却されるからである。<br>
+              なお、取引の相手方の保護の制度（20条、21条）や、取消権の行使期間の制限（126条）の規定の適用はある。また、動産の場合は192条、不動産の場合は94条２項の類推適用によって転得者は保護され得る（通説）。<br>
+              (2) 制限行為能力者の返還義務：行為の時に制限行為能力者であった者は、現存利益の範囲でのみ返還義務を負う（121条の２第３項）。無効な行為又は取り消された行為に基づく履行が既になされている場合には、当事者は原状回復義務を負うのが原則であるが（121条の２第１項）、制限行為能力者等一定の場合には当該義務が軽減されている。取消権の行使を容易にする趣旨である。<a href="minpo_unit01q.html#q-h06-07-a">過去問</a></p>
+            </div>
+
+            <h4 id="part1-ch2-sec2-ii-2">２　未成年者</h4>
+
+            <div class="sub">
+              <p><b>1. 意義</b>：18歳未満の者（４条）<br>
+                 本条の例外：特定の営業に関しての成年擬制（６条）</p>
+
+              <p><b>2. 趣旨</b><br>
+              未成年者は、幼児のように意思能力がない場合もあり、また意思能力があってもまだ取引に十分な判断能力がないので、この者を保護するとともに、取引の相手方を不測の損害から保護することをその趣旨とする。</p>
+
+              <p><b>3. 未成年者の行為能力</b><br>
+              (1) 原則：未成年者が法律行為をするには、原則として法定代理人の「同意」を得なければならず、その同意を得ないでした法律行為は「取り消す」ことができる（５条１項本文、２項）。<br>
+              (2) 例外：例外的に未成年者が単独でできる行為が法定されている。<br>
+              (a) 「単に権利を得、又は義務を免れる法律行為」（５条１項ただし書）<br>
+              ex. 負担付きでない贈与を受ける。債務の免除を受ける。<br>
+              (b) 法定代理人が処分を許した財産の処分（５条３項）<br>
+              ①「目的を定めて処分を許した財産」（学費、下宿代等）は、その目的の範囲内でのみ処分できる。<br>
+              ②「目的を定めないで処分を許した財産」（小遣い等）は、任意に処分できる。<br>
+              (c) 許可された営業に関する行為（６条１項）<br>
+              ①「営業」：営利を目的にして同種の行為を反復継続して行うこと（他人に雇われて働く場合は含まない）。<br>
+              ②「一種又は数種の営業」：取引社会において１単位と認められるものの１個又は数個。<br>
+              ③許可の取消し（６条２項）：遡及効が無い（厳密には撤回）。商業の場合は登記による公示が必要（商法５、９、10条）。<br>
+              (d) 法定代理人の同意を得ないでした行為の取消し（５条２項、120条１項）<br>
+              (e) 身分行為 ex. 認知（780条）、遺言（961条。ただし15歳以上）</p>
+
+              <p><b>4. 保護者－法定代理人</b><br>
+              (1) 法定代理人の意義：同意（５条１項本文）を与え、また未成年者に代わって法律行為を行う（824条、859条）。<br>
+              (2) 法定代理人となる者：第１次的に親権者（818条）、第２次的に未成年後見人（838条１号）。<br>
+              (3) 権限： (a) 同意権、(b) 財産管理権、(c) 代理権、(d) 取消権、(e) 追認権（122条）<br>
+              ※ 労働契約：代理権は認められない（労働基準法58条１項）。子自身が締結し、親の同意が必要（５条１項本文）。</p>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>
