@@ -27,8 +27,8 @@
     .toc a{text-decoration:none;}
     .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
     .sec-title{margin-top:28px;padding-top:6px;}
-    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
-    h3{margin-top:12px;}
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
+    h3{margin-top:12px;scroll-margin-top: 70px;}
     .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
     .outer{background:var(--outer-bg);border-color:var(--outer-border);}
     .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
@@ -50,6 +50,7 @@
     .ind4{margin-left:0.800em;}
     .ind5{margin-left:1.000em;}
     .ind6{margin-left:1.200em;}
+
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
@@ -57,9 +58,9 @@
     body.toc-hidden .toc-title{display:none;}
   </style>
 </head>
-<body>
+<body id="top">
 <script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
-<a id="top"></a>
+<div id="top"></div>
 <header>
   <div class="wrap">
     <div class="toc-wrap">
@@ -4465,5 +4466,18 @@
 </section>
 
 </main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      // iOS Safariでhashジャンプが不安定な場合の保険
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); // まず確実に
+      location.hash = '#top'; // 履歴にも残したい場合
+    }, {passive:false});
+  }
+})();
+</script>
 </body>
 </html>
