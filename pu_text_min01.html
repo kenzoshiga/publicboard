@@ -50,7 +50,6 @@
     .ind4{margin-left:0.800em;}
     .ind5{margin-left:1.000em;}
     .ind6{margin-left:1.200em;}
-
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
@@ -58,15 +57,23 @@
     body.toc-hidden .toc-title{display:none;}
   </style>
 </head>
-<body id="top">
+<body>
 <script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
-<div id="top"></div>
+<a id="top"></a>
 <header>
   <div class="wrap">
+    <div style="display: flex; justify-content: space-between;">
+      <span>民法１</span>
+      <span><a href="minpo_unit01q.html#q-pu1-1">肢別へ</a></span>
+    </div>
     <div class="toc-wrap">
       <div class="toc" id="toc">
         <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
         <ul>
+<li><a href="#A00">第０編　序　論</a>
+  <ul>
+  </ul>
+</li>
 <li><a href="#A01">第１編　総則</a>
   <ul>
     <li><a href="#A01-01">第１章　私権についての基本原理</a>
@@ -153,6 +160,52 @@
 </header>
 <script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
 <main id="content">
+<section class="sec-title" id="A00">
+  <h2>第０編　序　論<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="blk outer">
+      <div class="outer-title">１　民法とは</div>
+      <p>私人の日常生活（社会生活）を規律する最も基本的な法であり、主として私人の財産関係と家族関係を規律する。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　民法の性格</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　私法</p>
+          <p class="p6 ind1">民法は、平等な私人間の関係を規律する法である。</p>
+          <p class="p6 ind1">cf. 公法（国家統治権の発動に関する法　ex. 刑法）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　実体法</p>
+          <p class="p6 ind1">民法は、裁判をする際の紛争解決の基準となる法である。</p>
+          <p class="p6 ind1">cf. 手続法（裁判を進める方法や形式についての基準となる法　ex. 民事訴訟法）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　一般法</p>
+          <p class="p6 ind1">民法は、私法の分野における一般法であるから、人・事物・行為あるいは地域を限定せず、広く一般に適用される。</p>
+          <p class="p6 ind1">cf. 特別法（特定の人・事物・行為又は地域に限って適用される法）</p>
+          <p class="p6 ind1">この、一般法と特別法の区別は相対的なものである。例えば、商法は、民法に対しては特別法であるが、金融商品取引法などに対しては一般法である。</p>
+          <p class="p6 ind1">一般法・特別法の区別の実益は、法適用の順序に現れる。特別法は一般法に優先して適用される。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　民法の指導原理</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　権利能力平等の原則</p>
+          <p class="p6 ind1">：すべての自然人が差別されることなく、権利義務の主体になる資格（権利能力）をもつという原則（３条１項参照）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　所有権絶対の原則</p>
+          <p class="p6 ind1">：人は所有物に対しては完全な支配権を有し、しかも神聖不可侵であるという原則（憲法29条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　私的自治の原則</p>
+          <p class="p6 ind1">：市民社会において人が義務を負うのは、自らの意思でそれを望んだときだけであるという原則</p>
+          <p class="p6 ind1">その内容として、契約自由の原則が挙げられる。</p>
+        </div>
+      </div>
+    </div>
 <section class="sec-title" id="A01">
   <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
   <div class="p-card chap-card">
@@ -4471,10 +4524,9 @@
   var links = document.querySelectorAll('a.toplink');
   for (var i=0;i<links.length;i++){
     links[i].addEventListener('click', function(e){
-      // iOS Safariでhashジャンプが不安定な場合の保険
       e.preventDefault();
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); // まず確実に
-      location.hash = '#top'; // 履歴にも残したい場合
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
     }, {passive:false});
   }
 })();
