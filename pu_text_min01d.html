@@ -1,0 +1,1422 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pu_text_min01d</title>
+  <style>
+    :root{
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0;}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{max-width:980px;margin:0 auto;padding:12px 16px;position:relative;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{background:var(--toc-bg);border:1px solid var(--toc-border);padding:10px 12px;border-radius:10px;max-height:15vh;overflow:auto;font-size:0.82em;line-height:1.02;flex:1;min-width:0;}
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
+    h3{margin-top:12px;scroll-margin-top: 70px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap">
+    <div style="display: flex; justify-content: space-between;">
+      <span>民法１</span>
+      <span><a href="pu_text_min01c.html">前へ</a>　<a href="minpo_unit01q.html#q-pu1-1">肢別へ</a></span>
+    </div>
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A01">第１編　総則</a>
+  <ul>
+    <li><a href="#A01-08">第８章　法律行為の無効及び取消し</a>
+      <ul>
+        <li><a href="#A01-08-01">第１節　総説</a></li>
+        <li><a href="#A01-08-02">第２節　無効</a></li>
+        <li><a href="#A01-08-03">第３節　取消し</a></li>
+      </ul>
+    </li>
+    <li><a href="#A01-09">第９章　条件及び期限</a>
+      <ul>
+        <li><a href="#A01-09-01">第１節　総説</a></li>
+        <li><a href="#A01-09-02">第２節　条件</a></li>
+        <li><a href="#A01-09-03">第３節　期限</a></li>
+      </ul>
+    </li>
+    <li><a href="#A01-10">第１０章　期間</a>
+      <ul>
+      </ul>
+    </li>
+    <li><a href="#A01-11">第１１章　時効</a>
+      <ul>
+        <li><a href="#A01-11-01">第１節　総説</a></li>
+        <li><a href="#A01-11-02">第２節　取得時効</a></li>
+        <li><a href="#A01-11-03">第３節　消滅時効</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+    </div>
+  </div>
+</header>
+<script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
+<main id="content">
+<section class="sec-title" id="A01">
+  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A01-08">第８章　法律行為の無効及び取消し<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　法律行為の無効と取消しの意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　無効</p>
+          <p class="p6 ind1">無効：法律行為の効力がはじめから生じないこと</p>
+          <p class="p6 ind1">ex. 公序良俗違反（90条）、強行法規違反（91条）、虚偽表示（94条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　取消し</p>
+          <p class="p6 ind1">取消し：取消権者の意思によって法律行為を遡及的に無効にすること</p>
+          <p class="p6 ind1">ex. 制限行為能力者の行為（５条、９条、13条、17条）、錯誤に基づく意思表示（95条）、詐欺・強迫による行為（96条）</p>
+          <p class="p6 ind1">※　無効も取消しも、ともに、法律効果の発生が阻止される場合である点で共通する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　無効と取消しの差異</p>
+          <table class="tbl">
+            <tr><td></td><td>無効</td><td>取消し</td></tr>
+            <tr><td>効力の有無</td><td>何人の主張をまたずに最初から当然に効力を有しない</td><td>取消権者（120条）の取消しによって初めて遡及的に効力がなくなる</td></tr>
+            <tr><td>追認の可否</td><td>追認によって治癒されないのが原則（119）</td><td>追認によりさかのぼって確定的に有効となる（122、125）</td></tr>
+            <tr><td>時の経過による影響</td><td>なし</td><td>一定期間の経過により取り消せなくなる（126）</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　無効・取消しの効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　効果</p>
+          <p class="p6 ind1">無効・取消しの結果、法律行為としての効力は失われる（121条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　原状回復義務の発生（121条の２第１項）</p>
+          <p class="p6 ind1">無効な行為又は取り消された行為に基づいて履行が既になされている場合には、その履行によって引き渡された物等の返還が必要になる（121条の２）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 返還義務の特則（121条の２第２項、３項）</p>
+          <p class="p6 ind2">原状回復は引き渡された物等の全部についてするのが原則だが、以下の場合には、「現に利益を受けている限度」において返還すれば足りる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①無効又は取消し可能な無償行為に基づく債務の履行を受けた給付受領者が給付を受けたときに善意であるとき（121条の２第２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②給付受領者が給付を受けたときに意思能力を欠く者であったとき（121条の２第３項前段）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③給付受領者が給付を受けたときに制限行為能力者であったとき（121条の２第３項後段）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">取消権行使を容易にして、給付原因が無効又は取消可能であることを知らない給付受領者、意思能力を欠く者、制限行為能力者を保護する趣旨である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「現に利益を受けている限度」（現存利益）の意義</p>
+          <p class="p6 ind2">現存利益とは、受けた利益がそのままの形で、又は形を変えて残っている場合をいう。</p>
+          <p class="p6 ind2">浪費してしまった場合には現存利益はないが、生活費や他の債務の弁済にあてた場合にはその分出費を免れたことになり、現存利益はあることになる（大判昭７.10.26）。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-02">第２節　無効<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>：法律行為の効力がはじめから生じないということ</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　効果</div>
+      <p>無効の法律行為にあっては、当事者が意図した法律効果は初めから当然に発生しない。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　当事者間</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 表見的に発生した債務は発生しなかったことになる－履行の拒絶</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 既に履行した場合－原状回復義務（121条の２）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　第三者に対する効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則としてすべての人に対して主張することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 第三者の保護</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①94条２項</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②取得時効（162条・163条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③即時取得（192条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④受領権者としての外観を有する者への弁済（478条）</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　一部無効</div>
+      <p>法律行為の一部に無効原因が存在する場合、残余の部分についても無効となるのか。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　明文規定があるときはそれに従う。</p>
+          <p class="p6 ind1">ex. 利息制限法１条</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　明文の規定がない場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">無効な部分を分離できるときは、できる限り残りの部分を有効な契約として存続させる。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">当事者の意思に沿う場合が多い。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外（全体として無効）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　残部のみでは当事者が欲しないだろうといえる場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　全部を無効にしないと強行規定の目的が達せられない場合</p>
+          <p class="p6 ind4">ex. 芸娼妓契約</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　無効行為の追認</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：無効な法律行為を有効にする意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">無効行為は当然かつ絶対的に効力のないものであるから、追認によってその行為を有効とすることはできないのが原則であるが（119条本文）、当事者が望むならばその行為に何らかの法律効果を認めてもよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　要件</p>
+          <p class="p6 ind1">強行規定違反や公序良俗違反による無効は、その状態が続く以上、追認は認められない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">遡及効は認められない（119条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外</p>
+          <p class="p6 ind2">当事者間の関係だけで、さかのぼって「無効」行為のときから有効だったような扱いをすることは認められる（116条類推）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 他人の権利の処分に対する本人の追認の効果</p>
+          <p class="p6 ind2">処分権のない者の処分行為は効果不帰属という意味で無効である。この場合、事後に処分権者が追認したら、この行為は、行為の時にさかのぼって有効となるのか。</p>
+          <p class="p6 ind2">→　116条類推適用説（最判昭37.８.10）</p>
+          <p class="p6 ind2">ある物件につき、何ら権利を有しない者が、これを自己の権利に属するものとして処分した場合において真実の権利者が後日これを追認したときは、無権代理行為の追認に関する民法116条の類推適用により、 処分の時にさかのぼって効力を生ずるものと解する。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">無権代理行為も非権利者の処分行為も処分権能を欠く場合で、効果帰属要件としての評価においては同様に扱うことができるものである。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">５　無効行為の転換</div>
+      <p>無効行為の転換：ある法律行為が無効であっても、他の法律行為としての要件を実質的に充たしている場合に、後者の法律行為として有効とすること</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　法律上認められている場合</p>
+          <p class="p6 ind1">971条、戸籍法62条</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　判例の態度</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 妾との間の子（非嫡出子）の嫡出子としての届出</p>
+          <p class="p6 ind2">→　認知としての効力を有する（大判大15.10.11）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 他人の子を自己の嫡出子とする届出</p>
+          <p class="p6 ind2">→　養子縁組としての効力も認められない（最判昭50.４.８）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">要式行為への転換は慎重になされるべきである。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-03">第３節　取消し<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>：意思表示に瑕疵がある場合に、いったん発生した意思表示としての効力を廃棄する旨の表意者の意思表示、又は、制限行為能力者の行った法律行為の効果が一応制限行為能力者に帰属しているのを排除する旨の制限行為能力者側の意思表示</p>
+      <p>cf. 撤回：完全に有効な行為の効力を将来に向かってのみ失わせるもの</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　方法</div>
+      <p>相手方への意思表示による（単独行為。123条）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　遡及的無効（121条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　原状回復義務の発生（121条の２）</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　取り消すことができる法律行為の追認</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：一応有効に成立している法律行為を確定的に有効とする意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①取消しの原因である状況が消滅した後であること（124条１項前段）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②取消権を有することを知った後であること（124条１項後段）。</p>
+          <p class="p6 ind4">なお、法定代理人、保佐人又は補助人の追認及び成年被後見人を除く制限行為能力者が法定代理人、保佐人又は補助人の同意を得てする追認には上記①・②の要件はない（124条２項１号、２号）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">法律行為が確定的に有効になる。（122条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　催告（20条）</p>
+          <p class="p6 ind1">制限行為能力者の相手方には、一定の要件のもとに追認についての催告権が認められている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　法定追認</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">取り消すことができる行為について、社会一般に追認と認められるような一定の事実があった場合に、取消権者の意思を問わず、追認が擬制される（125条）。法律関係の安定を図る趣旨である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 取消権者が追認をすることができる時以後に125条１号から６号までの事実のいずれかがあること。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　「全部又は一部の履行」</p>
+          <p class="p6 ind4">取消権者自らが、債務者として履行する場合だけでなく、債権者として受領する場合も含む（大判昭８.４.28）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　「履行の請求」</p>
+          <p class="p6 ind4">相手方から請求を受けた場合は含まない（大判明39.５.17）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　「更改」</p>
+          <p class="p6 ind4">取消権者が債務者であると債権者であると問われない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　「担保の供与」</p>
+          <p class="p6 ind4">債権者として担保の供与を受けたときも含む。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤　「取り消すことができる行為によって取得した権利の全部又は一部の譲渡」</p>
+          <p class="p6 ind4">取消権者が譲渡した場合に限る。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑥　「強制執行」</p>
+          <p class="p6 ind4">債権者として執行した場合。問題は、債務者として執行を受けた場合であるが、判例はこの場合は含まないとしている（大判昭４.11.22）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 追認権者が異議を留めないこと（125条ただし書）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 効果</p>
+          <p class="p6 ind2">法律行為が確定的に有効になる。（122条）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">５　取消権の存続期間</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　存続期間</p>
+          <p class="p6 ind1">追認できるようになってから５年、又は行為の時から20年の経過により取消権は消滅する（126条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">取り消すことができる法律行為による不確定的無効の状態を長く放置しておくと相手方や第三者の地位を不安定にするから。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A01-09">第９章　条件及び期限<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>将来において一定の事実が発生した場合に法律行為の効力を発生又は消滅させる旨の意思表示を、法律行為の付款という。条件及び期限はこれに当たる。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　両者の区別</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件：成否が不確実であるもの</p>
+          <p class="p6 ind1">ex. 試験に合格したら</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　期限：発生が明確であるもの</p>
+          <p class="p6 ind1">ex. 20歳になったら</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　出世払は条件か期限か。</p>
+          <p class="p6 ind1">→　期限（不確定期限）である（大判大４.３.24）。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">出世しなければ弁済しなくてよい、とするのは当事者の通常の意思に合致しない。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-02">第２節　条件<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>：法律行為の効力の発生又は消滅を成否未定の事実にかからせる、法律行為の付款</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　停止条件：法律行為の効力の発生に関する条件</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　解除条件：法律行為の効力の消滅に関する条件</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　有効要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　成否不確定な将来の事実に関するものであること（ただし、既成条件については特則がある。131条参照）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　条件に親しむ行為であること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　条件として認められていない事柄でないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件に親しまない行為</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 身分行為－身分秩序の安定の見地から絶対に許されない。</p>
+          <p class="p6 ind2">もっとも、「就職したら結婚しよう」といった合意は、条件付の婚姻としてではなく、婚約としての効力が認められ、破棄されると慰謝料請求ができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 単独行為－相手方の地位の安定の見地から、原則的に許されない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不法条件</p>
+          <p class="p6 ind1">不法な条件をつけた法律行為は、その条件だけでなく、法律行為自体が無効になる（132条）。</p>
+          <p class="p6 ind1">ex. Ａを脅迫したら300万円贈与するという契約</p>
+          <p class="p6 ind1">不法行為をしないことを条件とする法律行為も同様である。</p>
+          <p class="p6 ind1">ex. Ａの息子を誘拐しなかったら300万円贈与するという契約</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　不能条件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 不能の停止条件－無効（133条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 不能の解除条件－無条件（133条２項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　純粋随意条件</p>
+          <p class="p6 ind1">債務者の意思だけにかかる停止条件（純粋随意条件）のついた法律行為は、当事者に法的拘束力を生じさせる意思があるとは考えられないため、無効とされる（134条）。</p>
+          <p class="p6 ind1">ex. 気がむいたら金をやる</p>
+          <p class="p6 ind1">※　債権者の意思だけにかかる停止条件のついた法律行為は有効である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　条件付法律行為の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件成就</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 条件成就の効果</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①原則：条件成就のときに発生する（127条１項、２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②例外：当事者の意思によって遡及効を与えたとき（127条３項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 既成条件（131条）</p>
+          <p class="p6 ind2">条件成就の成否が行為時に既に確定している場合（131条）</p>
+          <table class="tbl">
+            <tr><td></td><td>停止条件</td><td>解除条件</td></tr>
+            <tr><td>条件が成就していたとき（１項）</td><td>無条件</td><td>無効</td></tr>
+            <tr><td>条件不成就が確定していたとき（２項）</td><td>無効</td><td>無条件</td></tr>
+          </table>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 条件の成就の妨害（130条１項）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①条件成就によって不利益を受ける当事者が</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②故意に条件成就を妨害したこと</p>
+          <p class="p6 ind4">※過失による条件成就の妨害は損害賠償（128条）の問題</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③妨害によって不成就になったこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④条件を不成就としたことが信義則に反すること</p>
+          <p class="p6 ind4">（信義則・クリーンハンズの原則という本条の趣旨から解釈上要件とされる）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">相手方は条件成就とみなす権利を取得する。</p>
+          <p class="p6 ind3">この権利は形成権であり、妨害者に対する意思表示によって行使する（通説）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 不正な条件成就（130条２項）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①条件成就によって利益を受ける当事者が</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②不正に条件を成就させたこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③条件を成就させたことが信義則に反すること</p>
+          <p class="p6 ind4">（信義則・クリーンハンズの原則という本条の趣旨から解釈上要件とされる）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">相手方は条件不成就とみなす権利を取得する。</p>
+          <p class="p6 ind3">この権利は形成権であり、妨害者に対する意思表示によって行使する（通説）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　条件付権利（期待権）の保護</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">条件成就により利益を受ける当事者の期待を期待権という。</p>
+          <p class="p6 ind2">条件の成否が不明の間でも、期待権を保護する必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 保護</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 条件付権利の侵害禁止（不可侵義務、128条）</p>
+          <p class="p6 ind3">条件付法律行為の各当事者は、条件の成否が未定の間は、条件成就により生じる相手方の利益を害することはできない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 条件付権利等の処分（129条）</p>
+          <p class="p6 ind3">条件の成否が未定の間でも、その権利義務は、処分・相続・保存又は担保に供することができる。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-03">第３節　期限<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>期限：法律行為の効力の発生・消滅又は債務の履行を、将来到来することの確実</p>
+      <p>な事実の生起にかからせる法律行為の付款</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　確定期限：いつ到来するか確実なもの</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不確定期限：いつ到来するか不明なもの（到来することは確実である点で条件と異なる）</p>
+          <p class="p6 ind1">ex. 自分が死んだら、総理大臣が替わったら</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　期限に親しまない行為</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　親族法上の行為</p>
+          <p class="p6 ind1">婚姻、縁組、認知といった身分行為は、その行為の性質上、その効果が直ちに確定的に発生することを必要とするため、期限をつけることは原則認められていない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　遡及効のある行為</p>
+          <p class="p6 ind1">期限の意味がなくなるからである（ex. 相殺、506条１項後段）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　期限付法律行為の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　期限の到来の効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 履行期限の場合</p>
+          <p class="p6 ind2">履行期限の場合は債務の履行を請求することができる（135条１項）。</p>
+          <p class="p6 ind2">消滅時効はこのときから進行する（166条１項２号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 停止期限・終期の場合</p>
+          <p class="p6 ind2">停止期限の場合は、法律行為の効力が生じ、終期の場合は法律行為の効力が消滅する（135条２項）。</p>
+          <p class="p6 ind2">※条件とは異なり、遡及効は付すことができない（127条３項参照）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　期限付権利の保護</p>
+          <p class="p6 ind1">民法に規定はないが、128条、129条の類推適用で保護される（通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　期限の利益</p>
+          <p class="p6 ind1">：期限が付されていること（すなわち、期限が到来しないこと）によって、その間に当事者が受ける利益</p>
+          <p class="p6 ind1">法は、債務者の利益のために定めたものとする推定規定を設けている（136条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 期限の利益の放棄（136条２項）</p>
+          <p class="p6 ind2">期限の利益は放棄可能であるが（同条項本文）、相手方の利益を害してはならない（同条項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 期限の利益の喪失（137条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①債務者が破産手続開始の決定を受けた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②債務者が担保を滅失させ、損傷させ、又はこれを減少させた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③債務者が担保を供する義務を負う場合にこれを提供しない場合</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">債権者は期限到来を主張し、直ちに債務履行を請求することができる（当然に遅滞になるわけではない）。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A01-10">第１０章　期間<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>期間：ある時点からある時点に至る継続した時の区分</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　計算方法（139条～143条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　時・分・秒を単位とする場合（139条）</p>
+          <p class="p6 ind1">自然的計算方法（瞬間から瞬間まで）による。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　日・週・月・年を単位とする場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 起算点</p>
+          <p class="p6 ind2">日、週、月又は年によって期間を定めたときは、期間の初日は、算入しない（初日不算入の原則、140条本文）。初日はもはや完全な１日ではないからである。ただし、その期間が午前０時から始まるときは、この限りでない（民法140条ただし書）。時効期間の計算も同様である（大判大6.11.8）。</p>
+          <p class="p6 ind2">初日が完全な１日であるとき（ex. 来年の１月１日から１年と決めるような場合）には初日から計算する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 満了点</p>
+          <p class="p6 ind2">暦法的計算方法により、末日の終了により満了する（141条、143条）。</p>
+          <p class="p6 ind2">末日が、祝日・日曜その他の休日に当たり、その日に取引をしない慣習のあるときには、その翌日が末日となる（142条）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A01-11">第１１章　時効<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-11-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　定義</p>
+          <p class="p6 ind1">時効制度：一定の事実状態が永続する場合に、それを権利関係として認めようとする制度</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　分類</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 取得時効</p>
+          <p class="p6 ind2">権利者としての事実状態を根拠として、真実の権利者とみなす場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 消滅時効</p>
+          <p class="p6 ind2">権利不行使の事実状態を根拠として、権利の消滅を認める場合</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　趣旨</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 永続した事実状態の尊重</p>
+          <p class="p6 ind2">永続した事実状態を保護することによって社会の法律関係の安定を図り、公益に奉仕すること。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 立証の困難性の救済</p>
+          <p class="p6 ind2">永続した事実状態は通常真実の法律関係に合致していることが多いことを前提に、古い事実についての立証の困難を救済すること。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 権利の上に眠る者は保護しない</p>
+          <p class="p6 ind2">永続した事実状態がたまたま真実の法律関係に反していても、権利の上に眠る者は保護に値しない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　類似の制度</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 除斥期間</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">：一定の権利について権利関係を速やかに確定する目的で法律があらかじめ定めた期間</p>
+          <p class="p6 ind3">消滅時効同様、一定の時の経過に権利消滅の効果を認める制度である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 趣旨</p>
+          <p class="p6 ind3">権利関係の速やかな確定</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 消滅時効との相違</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①更新（147条）がない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②援用（145条）は不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③起算点は権利発生時である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④効果が不遡及である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 消滅時効との区別方法</p>
+          <p class="p6 ind3">民法上、除斥期間という語は存在しない。そこで、法律に権利行使の期間の定めがある場合、それを消滅時効とみるか除斥期間とみるか、区別が問題となる。この点、権利の性質や規定の趣旨から実質的に判断すべきとされる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 権利失効の原則</p>
+          <p class="p6 ind2">：権利者が信義に反して長く権利を行使しないでいると、消滅時効や除斥期間を待つまでもなく、権利の行使が阻止されるという原則（最判昭30.11.22）</p>
+          <p class="p6 ind2">根拠は、信義則である（１条２項）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　時効の一般的要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　時効の完成（時効期間の経過）</p>
+          <p class="p6 ind1">時効の完成とは、一定の事実状態が一定期間継続することをいう。</p>
+          <p class="p6 ind1">「一定の事実状態」が継続し、時効期間が経過することによって、時効は完成する。「一定の事実状態」とは、取得時効では占有を基礎とする事実状態、消滅時効では権利の不行使のことをいう。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　時効の援用（145条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">時効は、当事者（消滅時効にあっては、保証人、物上保証人、第三取得者その他権利の消滅について正当な利益を有する者を含む。）が援用しなければ、裁判所がこれによって裁判することができない（145条）。</p>
+          <p class="p6 ind2">時効の援用とは、時効の利益を享受しようとする者が、その旨を主張する行為である。</p>
+          <p class="p6 ind2">時効の要件として、時効の完成のみならずその援用を要求した趣旨は、時効の利益を享受することを潔しとしない当事者の意思を尊重しようとした点にある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法的性質</p>
+          <p class="p6 ind2">Ｑ　法は一方で、時効の完成により権利関係の変動が生ずるとしつつ、他方で当事者がそれを「援用」しなければ裁判所は時効により裁判をすることができないとしているが、これら相矛盾する規定の関係をいかに解すべきか。時効の法的構成と関連し、援用の性質をいかに解するかが問題となる。</p>
+          <p class="p6 ind2">Ａ　実体法説</p>
+          <p class="p6 ind2">A1　確定効果説</p>
+          <p class="p6 ind2">時効期間経過により権利の得喪は絶対的に生じ、援用は攻撃防御方法である。</p>
+          <p class="p6 ind2">A2　不確定効果説</p>
+          <p class="p6 ind2">A2-1　解除条件説</p>
+          <p class="p6 ind2">時効による権利の得喪は解除条件的に生じ、放棄により発生した効果が消滅する。</p>
+          <p class="p6 ind2">A2-2　停止条件説（最判昭61.３.17）</p>
+          <p class="p6 ind2">時効による権利の得喪は停止条件的に生じ、援用によりはじめて確定する。</p>
+          <p class="p6 ind2">Ｂ　訴訟法説－法定証拠説</p>
+          <p class="p6 ind2">時効は、権利の得喪そのものを生じさせるものではなく、権利の得喪に関する訴訟上の証拠方法であり、援用は証拠の提出である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 援用権者</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 「当事者」（145条）の意義</p>
+          <p class="p6 ind3">145条括弧書きは、消滅時効における援用権者の範囲について、判例上認められている保証人、物上保証人、第三取得者を例示した上で、権利の消滅について正当な利益を有する者を含むことを明文化している。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 援用権者と認められた者</p>
+          <p class="p6 ind3">保証人、連帯保証人、物上保証人（145条かっこ書、最判昭42.10.27）</p>
+          <p class="p6 ind3">抵当不動産の第三取得者（145条かっこ書、最判昭48.12.14）</p>
+          <p class="p6 ind3">詐害行為の受益者（最判平10.６.22）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 判例によって援用権者と認められなかった者</p>
+          <p class="p6 ind3">一般債権者</p>
+          <p class="p6 ind3">借地上の建物賃借人（賃貸人の敷地所有権の取得時効につき、最判昭44.７.15）</p>
+          <p class="p6 ind3">後順位抵当権者（最判平11.10.21）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 援用の効果の及ぶ範囲</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 原則－相対効</p>
+          <p class="p6 ind3">援用の効果は人的範囲に関し相対的である。</p>
+          <p class="p6 ind3">援用権者が複数いる場合にそのうち１人が援用しても、その効果は他の者には及ばない（ex. 保証人が主債務の消滅時効を援用しても、その効果は主債務者には及ばない）。</p>
+          <p class="p6 ind3">相対効としたのは、時効を援用するか、時効の利益を放棄するかは各人の良心に委ねるべきという点に基づく。</p>
+          <p class="p6 ind3">※　もっとも、援用権者が援用したことを主張するのは誰でも可能である（大判昭10.12.24）。</p>
+          <p class="p6 ind3">ex. 土地の占有者が取得時効を援用した場合に、土地をこの者から借りている賃借人が援用の事実を主張するような場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 例外</p>
+          <p class="p6 ind3">主債務者の援用による主債務の消滅によって保証債務が消滅する場合（保証債務の附従性）</p>
+          <p class="p6 ind3">＜判例＞　最判平13.７.10</p>
+          <p class="p6 ind3">被相続人の占有により取得時効が完成した場合において共同相続人の１人が取得時効を援用することができる限度</p>
+          <p class="p6 ind3">・判旨</p>
+          <p class="p6 ind3">「時効の完成により利益を受ける者は自己が直接に受けるべき利益の存する限度で時効を援用することができるものと解すべきであって、被相続人の占有により取得時効が完成した場合において、その共同相続人の１人は、自己の相続分の限度においてのみ取得時効を援用することができるにすぎないと解するのが相当である。」</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　時効の効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　時効の遡及効</p>
+          <p class="p6 ind1">時効の効力は起算日にさかのぼる（144条）。時効は、永続した事実状態を真実に合致したものとし、あるいは、そのまま保護する制度であるからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　具体的効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 取得時効－時効期間中の占有は権限のある占有になる。</p>
+          <p class="p6 ind2">→　果実は時効取得者に帰属する。</p>
+          <p class="p6 ind2">時効期間中の権利侵害者は、時効取得者に対して不法行為責任を負う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 消滅時効－時効期間中の遅延損害金を支払う必要はない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　時効の利益の放棄</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 時効の利益の放棄</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">時効の利益の放棄：時効の利益を受けないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相手方に対してすること</p>
+          <p class="p6 ind4">黙示でもよい。</p>
+          <p class="p6 ind4">時効完成を知ってする債務の自認行為は、黙示の放棄である。</p>
+          <p class="p6 ind4">時効完成を知らずにする債務の承認については後述する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　時効完成後であること</p>
+          <p class="p6 ind4">時効完成前にあらかじめ放棄することは許されない（146条）。</p>
+          <p class="p6 ind4">同様の趣旨から、時効期間を延長する特約も許されないと解されている。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 効果</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　時効の援用権を失う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　放棄の効果は、援用と同様に相対的である。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 時効の完成を知らずに債務を承認した場合</p>
+          <p class="p6 ind2">Ｑ　時効完成後にそれを知らないで債務の承認をした者は時効を援用することが許されるか。</p>
+          <p class="p6 ind2">→　時効完成の知不知を問わず、いったん債務承認をしたのち時効援用することは信義則（１条２項）に反し許されない（最判昭41.４.20）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">時効完成後の債務の承認は、時効による債務消滅の主張と相容れない行為であり、相手方も債務者はもはや時効の援用をしない趣旨と考えるであろうから、その後の時効援用を認めないのが信義則上相当である。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　時効の完成猶予及び更新</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">完成猶予：一定期間が経過するまで時効の完成が猶予されること</p>
+          <p class="p6 ind1">更新：それまでの時効期間の経過が全く無意味になり、ふりだしに戻ること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　完成猶予・更新事由</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 裁判上の請求等（147条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 147条で規定する事由（147条１項１号～４号）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①裁判上の請求　②支払督促　③裁判上の和解、民事調停、家事調停</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④破産手続参加、再生手続参加、更正手続参加</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①～④の事由が終了するまでの間（継続中）は、時効が完成しない。また、手続が取下げ、却下、棄却により終了した場合には、その終了の時から６ヵ月を経過するまでの間は時効が完成しない（147条１項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 時効の更新</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①～④の事由があり、確定判決による権利確定、支払督促確定、和解・調停成立、権利確定に至る破産等手続終了があったときは、時効は、①～④の事由が終了した時から新たに（ゼロから）その進行を始める（147条２項）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 強制執行等（148条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 148条で規定する事由（148条１項１号～４号）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①強制執行　②担保権の実行　③留置権等による競売</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④財産開示手続（民執法196条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①～④の事由が終了するまでの間（継続中）は、時効が完成しない。また、手続が取下げ等により途中で終了した場合には、その終了の時から６ヵ月を経過するまでの間は時効が完成しない（148条１項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 時効の更新</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①～④が終了し、その権利がまだあるときには、時効が更新され、①～④の事由が終了した時から新たに（ゼロから）その進行を始める（148条２項）。</p>
+          <p class="p6 ind4">ｅｘ．債権者が配当を受けたが、債権の全額を回収できず、債権がまだ残っている場合</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 仮差押え、仮処分（149条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 149条で規定する事由（149条１号、２号）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①仮差押え　②仮処分</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①又は②の事由が終了した時から６ヵ月を経過するまでの間は、時効は完成しない（149条）。</p>
+          <p class="p6 ind4">仮差押え又は仮処分は、その後の判決で権利が確定するまでの暫定的措置であるため、時効の完成が猶予されるにとどまる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 催告（150条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">催告は、請求の一種である。</p>
+          <p class="p6 ind3">ｅｘ．手紙や電話で「貸したお金を返して！」と伝える</p>
+          <p class="p6 ind3">催告があると、催告の時から６ヵ月を経過するまでは時効の完成が猶予される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 再度の催告</p>
+          <p class="p6 ind3">催告による時効の完成猶予中に再度の催告をしても、時効の完成猶予の効力を有しない（150条２項）。時効の更新等の効力を生じさせるためには、催告による６か月の完成猶予中に裁判上の請求等（147条）や強制執行等（148条）を行う必要がある。</p>
+          <p class="p6 ind3">また、催告による時効の完成猶予中における151条の協議合意は時効の完成猶予の効力を生じない（151条３項前段）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 協議を行う旨の合意（151条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 趣旨</p>
+          <p class="p6 ind3">当事者による自律的な解決の促進</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 時効の完成猶予（151条１項各号）</p>
+          <p class="p6 ind3">権利についての協議を行う旨の合意を書面又は電磁的記録でしたときは、次のいずれか早い時までの間は、時効は完成しない。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①合意があった時から1年を経過した時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②合意において当事者が協議を行う期間（1年に満たないものに限る。）を定めたときは、その期間を経過した時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③当事者の一方から相手方に対して協議の続行を拒絶する旨の通知が書面又は電磁的記録でされたときは、その通知の時から6か月を経過した時</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 再度の合意</p>
+          <p class="p6 ind3">協議を行う旨の合意により時効の完成が猶予されている間にされた再度の協議を行う旨の合意は、時効の完成猶予の効力を有する（151条２項）。ただし、その効力は、時効の完成が猶予されなかったとすれば時効が完成すべき時から通じて5年を超えることができない（151条２項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 催告（150条）と協議を行う旨の合意（151条３項）</p>
+          <p class="p6 ind3">催告によって時効の完成が猶予されている間にされた協議を行う旨の合意は、時効の完成猶予の効力を有しない。また、順番が逆であっても同様である（151条３項）。</p>
+          <p class="p6 ind3">【②の事由で完成猶予効が生じるか？】</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①協議を行う旨の合意による時効の完成猶予</p>
+          <table class="tbl">
+            <tr><td>→②協議を行う旨の再度の合意（151条2項）</td><td>○（※）</td></tr>
+          </table>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①催告による時効の完成猶予</p>
+          <table class="tbl">
+            <tr><td>→②協議を行う旨の合意（151条3項前段）</td><td>×</td></tr>
+          </table>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①協議を行う旨の合意による時効の完成猶予</p>
+          <table class="tbl">
+            <tr><td>→②催告（151条3項後段）</td><td>×</td></tr>
+          </table>
+          <p class="p6 ind4">※　当初の時効が完成すべき時から最長５年間</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(6) 権利の承認（152条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 時効の更新</p>
+          <p class="p6 ind3">時効は、権利の承認があったときは、その時から新たに（ゼロから）その進行を始める（152条１項）。権利の承認とは、自分の債務を認めることであり、債務の一部弁済、利息の支払、支払猶予の申入れ等がこれにあたる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 行為能力等</p>
+          <p class="p6 ind3">承認は単なる事実の認識の表示ゆえ、処分権限又は行為能力は不要である（152条２項）。ただし、管理権限は必要とされる。</p>
+          <table class="tbl">
+            <tr><td>未成年者・成年被後見人</td><td>管理権限がないため単独で有効に「承認」することはできない（大判昭13.２.４）。単独で承認した場合は取消しＯＫ</td></tr>
+            <tr><td>被保佐人</td><td>保佐人の同意なく承認ＯＫ</td></tr>
+          </table>
+          <p class="p6 ind3">ただし、時効完成後の債務の承認は新たな借財にあたり、保佐人の同意が必要。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効力が及ぶ者の範囲</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 147条又は148条の規定による時効の完成猶予又は更新</p>
+          <p class="p6 ind3">裁判上の請求等（147条）又は強制執行等（148条）による時効の完成猶予又は更新は、完成猶予又は更新の事由が生じた当事者及びその承継人の間においてのみ、その効力を有する（153条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 149条から151条までの規定による時効の完成猶予</p>
+          <p class="p6 ind3">仮差押え等（149条）、催告（150条）、協議を行う旨の合意（151条）による時効の完成猶予は、完成猶予の事由が生じた当事者及びその承継人の間においてのみ、その効力を有する（153条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 権利の承認（152条）による時効の更新</p>
+          <p class="p6 ind3">権利の承認（152条）による時効の更新は、更新の事由が生じた当事者及びその承継人の間においてのみ、その効力を有する（153条３項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外</p>
+          <p class="p6 ind2">主債務の時効の完成猶予及び更新の効力は、保証人に対しても及ぶ。</p>
+          <p class="p6 ind2">【完成猶予・更新事由のまとめ】</p>
+          <table class="tbl">
+            <tr><td></td><td>完成猶予事由</td><td>更新事由</td></tr>
+            <tr><td>裁判上の請求等（147条）</td><td>手続開始</td><td>権利の確定</td></tr>
+            <tr><td>強制執行等（148条）</td><td></td><td>手続終了（※）</td></tr>
+            <tr><td>仮差押え等（149条）</td><td></td><td></td></tr>
+            <tr><td>催告（150条）</td><td>催告</td><td></td></tr>
+            <tr><td>協議を行う旨の合意（151条）</td><td>協議を行う旨の合意</td><td></td></tr>
+            <tr><td>承認（152条）</td><td></td><td>承認</td></tr>
+          </table>
+          <p class="p6 ind2">（※）取下げ・取消しの場合を除く</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　その他の完成猶予</p>
+          <p class="p6 ind1">（未成年者又は成年被後見人と時効の完成猶予）</p>
+          <p class="p6 ind1">第158条　時効の期間の満了前６か月以内の間に未成年者又は成年被後見人に法定代理人がないときは、その未成年者若しくは成年被後見人が行為能力者となった時又は法定代理人が就職した時から６か月を経過するまでの間は、その未成年者又は成年被後見人に対して、時効は、完成しない。</p>
+          <p class="p6 ind1">２　未成年者又は成年被後見人がその財産を管理する父、母又は後見人に対して権利を有するときは、その未成年者若しくは成年被後見人が行為能力者となった時又は後任の法定代理人が就職した時から６か月を経過するまでの間は、その権利について、時効は、完成しない。</p>
+          <p class="p6 ind1">（夫婦間の権利の時効の完成猶予）</p>
+          <p class="p6 ind1">第159条　夫婦の一方が他の一方に対して有する権利については、婚姻の解消の時から６か月を経過するまでの間は、時効は、完成しない。</p>
+          <p class="p6 ind1">（相続財産に関する時効の完成猶予）</p>
+          <p class="p6 ind1">第160条　相続財産に関しては、相続人が確定した時、管理人が選任された時又は破産手続開始の決定があった時から６か月を経過するまでの間は、時効は、完成しない。</p>
+          <p class="p6 ind1">（天災等による時効の完成猶予）</p>
+          <p class="p6 ind1">第161条　時効の期間の満了の時に当たり、天災その他避けることのできない事変のため第147条第1項各号又は第148条第1項各号に掲げる事由に係る手続を行うことができないときは、その障害が消滅した時から３か月を経過するまでの間は、時効は、完成しない。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-11-02">第２節　取得時効<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　所有権の取得時効（162条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　要件(1)――占有の継続</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 占有の態様</p>
+          <p class="p6 ind2">所有の意思をもって、平穏に、かつ、公然と他人の物を占有すること（162条）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 所有の意思（自主占有）</p>
+          <p class="p6 ind3">所有の意思の有無は占有を生じさせた原因たる事実の性質によって客観的に決まる。</p>
+          <p class="p6 ind3">ex. 盗人・譲受人は自主占有者、賃借人・受寄者は他主占有者</p>
+          <p class="p6 ind3">自主占有であることは推定される（186条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 平穏、公然</p>
+          <p class="p6 ind3">強暴や隠秘の占有でないことである。これは推定される（186条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 「他人の物」</p>
+          <p class="p6 ind3">Q1　自己物の時効取得</p>
+          <p class="p6 ind3">取得時効の対象となる物は「他人の物」でなければならないか。</p>
+          <p class="p6 ind3">162条は、取得時効の対象物を「他人の物」と規定しており、また一般的には、自己の物について取得時効を認めることは無意味である。しかし、例外的に、自己所有物の時効取得を認めることに実益がある場合が存する。そこで、自己の物についても時効取得を認めてもよいのではないかが問題となる。</p>
+          <p class="p6 ind3">→　肯定（最判昭42.７.21）</p>
+          <p class="p6 ind3">Q2　一筆の土地の一部の時効取得はできるか。</p>
+          <p class="p6 ind3">→　できる。一筆の土地の一部も占有が可能であるため、時効取得の対象となる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 占有継続</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 推定規定（186条２項）</p>
+          <p class="p6 ind3">前後両時点において占有した証拠があればその間占有は継続したものと推定される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 自然中断（164条）</p>
+          <p class="p6 ind3">占有者が任意に占有を中止し、又は他人によって占有を奪われたときは、すべての人に対して中断の効力をもつ（自然中断、164条）。</p>
+          <p class="p6 ind3">占有の喪失が侵奪行為による場合、占有回収の訴え（200条）により占有を回復すれば、占有は継続したものとみなされる（203条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 占有の承継（187条）</p>
+          <p class="p6 ind3">他人から占有を承継した者は、自己の占有のみを主張する他、前主の占有を合算して主張することができる（187条１項）。</p>
+          <p class="p6 ind3">前主の占有を併せて主張するときは、その瑕疵も承継する（187条２項）。</p>
+          <p class="p6 ind3">ex. 前主が悪意で５年占有した不動産を譲り受けた後主が、善意で10年占有した場合、前主の占有も併せて主張すると悪意占有が15年となり時効取得できない（162条１項）。一方、自己のみの占有を主張すれば、善意占有が10年となり、時効取得できる（162条２項）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件(2)――時効期間の満了</p>
+          <table class="tbl">
+            <tr><td>善意無過失</td><td>10年（162条２項）</td></tr>
+            <tr><td>その他</td><td>20年（162条１項）</td></tr>
+          </table>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 「善意」</p>
+          <p class="p6 ind2">自分に所有権があると信じることである。善意は、推定される（186条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 「無過失」：善意についての無過失</p>
+          <p class="p6 ind2">無過失は、推定されない（占有者が立証する）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「占有の開始」</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 占有開始後に悪意となった場合</p>
+          <p class="p6 ind3">Ｑ　占有開始時に善意・無過失であれば、後に悪意に転じた場合でも10年で時効取得できるか。</p>
+          <p class="p6 ind3">→　できる（大判明44.４.７・通説）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 占有主体が変更した場合</p>
+          <p class="p6 ind3">Ｑ　占有主体に変更があり、承継された２個以上の占有が併せて主張される場合（187条１項）、「占有の開始」の善意・無過失は誰を基準とするか。</p>
+          <p class="p6 ind3">→　最初の占有者について判断すべきである（最判昭53.３.６・通説）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">占有者は所有権（又は他の財産権）を原始取得する。遡及効あり（144条）。</p>
+          <p class="p6 ind1">本来の権利者は、権利を喪失する。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　所有権以外の財産権の取得時効（163条）</div>
+      <p>ex. 用益物権、質権など</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　財産権の中でも取得時効の認められないもの</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　直接法律の規定に基づいて成立する権利（留置権・先取特権）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　占有を要素としない権利（抵当権）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　１回の行使で消滅する権利（形成権）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　継続的に行使されない、又は、外形上認識することができない地役権（283条参照）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不動産賃借権について時効取得が認められるか。</p>
+          <p class="p6 ind1">Ｑ　債権は通常１回の履行で消滅するため、永続した事実状態というものはあり得ないが、不動産賃借権ではこれを観念することができる。そこで、不動産賃借権の時効取得の可否が問題となる。</p>
+          <p class="p6 ind1">→　肯定説（最判昭43.10.８等・通説）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①土地の継続的な用益という外形的事実の存在</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②それが賃借の意思に基づくことが客観的に表現されていること（ex. 賃借権行使の外形・賃料の支払又は供託）があれば、時効取得を認めることができる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-11-03">第３節　消滅時効<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　総説</div>
+      <p>消滅時効とは、権利不行使の事実状態を根拠として、権利の消滅を認めるものである。すべての権利が消滅時効にかかるわけではなく、また、時効期間も権利の種類によって異なる点に注意を要する。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　消滅時効の対象</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　消滅時効にかかる権利</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 債権（166条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 債権又は所有権以外の財産権（166条２項）</p>
+          <p class="p6 ind2">ex. 地上権、地役権、永小作権</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 法定解除権</p>
+          <p class="p6 ind2">法定解除権も債権に準じて５年又は10年の時効に服する（大判大６.11.14）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　消滅時効にかからない権利</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 所有権</p>
+          <p class="p6 ind2">所有権に基づく物権的請求権、登記請求権も消滅時効にかからない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 占有権</p>
+          <p class="p6 ind2">事実状態に随伴する権利だからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 抗弁権</p>
+          <p class="p6 ind2">抗弁権、ないし抗弁的に主張される権利は時効にかからない、という考え方もある。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　消滅時効の起算点</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　総説</p>
+          <p class="p6 ind1">消滅時効の起算点には、主観的起算点と客観的起算点がある。</p>
+          <p class="p6 ind1">主観的起算点は「債権者が権利を行使することができることを知った時」（166条１項１号）であり、客観的起算点は「権利を行使することができる時」（166条１項２号）である。</p>
+          <p class="p6 ind1">消滅時効の期間は、これらの各起算点から進行する。そして、166条１項１号又は166条１項２号のいずれかの期間が到来することにより、時効が完成する。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 主観的起算点からの時効完成</p>
+          <p class="p6 ind2">債権は、債権者が権利を行使することができることを知った時から５年間行使しないときは、時効によって消滅する（166条１項１号）。</p>
+          <p class="p6 ind2">「債権者が権利を行使することができることを知った時（主観的起算点、166条１項１号）」とは具体的には、権利の発生原因等を認識し、かつ、債務者が誰であるかまで認識した時をいうと解される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 客観的起算点からの時効完成</p>
+          <p class="p6 ind2">債権は、権利を行使することができる時から10年間行使しないときは、時効によって消滅する（166条１項２号）。</p>
+          <p class="p6 ind2">「権利を行使することができる時（客観的起算点、166条１項２号）」とは具体的には、権利行使につき法律上の障害（※）がなくなった時をいうと解される。</p>
+          <p class="p6 ind2">※　法律上の障害とは、例えば、条件・期限が付されていることである。</p>
+          <p class="p6 ind2">本条の趣旨は、法律上権利行使できるのにその行使を怠っている者は、権利の上に眠る者として保護しないという点にある。従って、事実上の障害（権利者の病気・不在・不知、制限行為能力者の法定代理人の不存在など）や債権者の意思によって除くことができる法律上の障害（同時履行の抗弁権、533条）は含まない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　各種債権の消滅時効の客観的起算点</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 債務不履行に基づく損害賠償請求権－本来の債務の履行を請求できる時（大判昭18.６.15）</p>
+          <p class="p6 ind2">なぜなら、債務不履行に基づく損害賠償請求権は、本来の債務の内容が変更されただけで同一性は失われていないからである。</p>
+          <p class="p6 ind2">なお、契約の解除による原状回復請求権は、解除により発生する債権だから、その消滅時効は、解除の時から進行する（最判昭35.11.1）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 不当利得返還請求権－請求権発生時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 停止条件付債権－条件成就時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 不作為債権－違反行為がなされた時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 割賦払債務に期限の利益喪失約款のある場合の時効期間の起算点</p>
+          <p class="p6 ind2">１回の弁済の不履行と同時に当然に期限の利益を失い、債権者の請求がなくても全額につき弁済期が到来するという趣旨である場合、支払遅滞時から全額について時効が進行することについて争いはない。</p>
+          <p class="p6 ind2">Ｑ　では、債権者の請求によって期限の利益を失わせ、全額の支払を請求することができるという趣旨のものの場合、時効期間の起算点をいかに解するか。</p>
+          <p class="p6 ind2">Ａ　債権者意思説（請求時説。大連判昭15.３.13）</p>
+          <p class="p6 ind2">債権者の請求があって初めて全額についての時効が進行する。</p>
+          <p class="p6 ind2">Ｂ　即時進行説</p>
+          <p class="p6 ind2">支払遅滞の時点から全額について時効が進行する。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　時効の客観的起算点と履行遅滞（412条）</p>
+          <p class="p6 ind1">時効の客観的起算点と履行遅滞（412条）の発生時とは無関係である。</p>
+          <table class="tbl">
+            <tr><td></td><td>消滅時効の客観的起算点</td><td>履行遅滞の時期</td></tr>
+            <tr><td>①確定期限付債権</td><td>期限到来の時</td><td>期限到来の時（412条１項）</td></tr>
+            <tr><td>②不確定期限付債権</td><td>期限到来の時</td><td>期限到来後の債権請求時又は債務者が期限の到来を知った時（412条２項）</td></tr>
+            <tr><td>③期限の定めのない債権</td><td>債権発生時</td><td>債権者の履行請求時（412条３項）</td></tr>
+            <tr><td>④返還時期の定めのない消費貸借</td><td>債権成立から相当期間経過時</td><td>催告後相当期間経過時（591条１項）</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　時効期間の満了</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　各権利の時効期間</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 債権</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 一般債権－5年（166条１項１号）又は10年（166条１項２号）</p>
+          <p class="p6 ind3">なお、不法行為に基づく損害賠償請求権及び生命・身体の侵害による損害賠償請求権については特則があるため、後述する（724条、167条、724条の２）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 定期金債権（168条）</p>
+          <p class="p6 ind3">：金銭その他の代替物を定期給付する債権</p>
+          <p class="p6 ind3">本体たる債権を「基本債権」といい、それから派生する定期的な債権を「支分権」という。</p>
+          <p class="p6 ind3">定期金債権の時効期間は、各支分権を行使することができることを知った時から10年（主観的起算点、168条１項１号）、各支分権を行使することができる時から20年（客観的起算点、168条１項２号）である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 債権・所有権以外の財産権－20年（166条２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 不法行為に基づく損害賠償請求権－①被害者又はその法定代理人が損害及び加害者を知った時から3年又は②不法行為の時から20年のいずれか（724条）</p>
+          <p class="p6 ind2">被害者の保護を図るための規定である。</p>
+          <p class="p6 ind2">なお、生命・身体の侵害の場合については後述する（（4）を参照）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 人の生命又は身体の侵害による損害賠償請求権（167条、724条の２）</p>
+          <p class="p6 ind2">生命・身体の侵害による損害賠償請求権は、通常の債権よりも権利行使の機会を十分に確保しなければならない権利であることから、客観的起算点からの時効期間を10年から20年に長期化している（167条）。</p>
+          <p class="p6 ind2">また、不法行為に基づく人の生命又は身体の侵害による損害賠償請求権についても、主観的起算点からの時効期間を３年から５年に長期化している（724条の２）。</p>
+          <p class="p6 ind2">これらの特則により、生命・身体の侵害の相手方の権利行使の機会を確保している。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 債務不履行に基づく生命・身体の侵害による損害賠償請求権（167条）</p>
+          <p class="p6 ind3">主観的起算点からの時効期間は通常の債権と同様、債権者が権利を行使することができることを知った時から５年である（166条１項１号）。</p>
+          <p class="p6 ind3">客観的起算点からの時効期間は、権利行使できる時から20年となる（167条、166条１項２号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 不法行為に基づく生命・身体の侵害による損害賠償請求権（724条の２）</p>
+          <p class="p6 ind3">主観的起算点からの時効期間は、被害者又はその法定代理人が損害及び加害者を知った時から５年となる（724条の２、724条１号）。</p>
+          <p class="p6 ind3">客観的起算点からの時効期間は、通常の不法行為に基づく損害賠償請求権と同様、不法行為の時から20年である（724条２号）。</p>
+          <p class="p6 ind3">【まとめ】</p>
+          <table class="tbl">
+            <tr><td></td><td>侵害の種類</td><td>主観的起算点からの</td></tr>
+            <tr><td>時効期間</td><td>客観的起算点からの</td></tr>
+          </table>
+          <p class="p6 ind3">時効期間</p>
+          <table class="tbl">
+            <tr><td>債務不履行に基づく損害賠償請求権</td><td>生命・身体の侵害</td><td>５年（166Ⅰ①）</td><td>20年（167、166Ⅰ②）</td></tr>
+            <tr><td></td><td>上記以外の</td></tr>
+            <tr><td>侵害</td><td></td><td>10年（166Ⅰ②）</td></tr>
+            <tr><td>不法行為に基づく損害賠償請求権</td><td>生命・身体の侵害</td><td>５年（724の2、724①）</td><td>20年（724②）</td></tr>
+            <tr><td></td><td>上記以外の</td></tr>
+            <tr><td>侵害</td><td>３年（724①）</td><td></td></tr>
+          </table>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 公に確定した権利（169条１項）</p>
+          <p class="p6 ind2">確定判決又は確定判決と同一の効力を有するものによって確定された権利は、短期消滅時効期間の定めのあるものについても、時効期間は一様に10年とされる（169条１項）。ただし、確定の当時に弁済期の到来していない債権については同条項の適用はない（同条２項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　時効期間の満了の効果</p>
+          <p class="p6 ind1">権利が遡及的に消滅する。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+</script>
+</body>
+</html>

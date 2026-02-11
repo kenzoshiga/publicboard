@@ -1,0 +1,968 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pu_text_min01c</title>
+  <style>
+    :root{
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0;}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{max-width:980px;margin:0 auto;padding:12px 16px;position:relative;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{background:var(--toc-bg);border:1px solid var(--toc-border);padding:10px 12px;border-radius:10px;max-height:15vh;overflow:auto;font-size:0.82em;line-height:1.02;flex:1;min-width:0;}
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
+    h3{margin-top:12px;scroll-margin-top: 70px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap">
+    <div style="display: flex; justify-content: space-between;">
+      <span>民法１</span>
+      <span><a href="pu_text_min01b.html">前へ</a>　<a href="pu_text_min01d.html">次へ</a>　<a href="minpo_unit01q.html#q-pu1-1">肢別へ</a></span>
+    </div>
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A01">第１編　総則</a>
+  <ul>
+    <li><a href="#A01-07">第７章　代理</a>
+      <ul>
+        <li><a href="#A01-07-01">第１節　総説</a></li>
+        <li><a href="#A01-07-02">第２節　代理の効力が問題となる場合</a></li>
+        <li><a href="#A01-07-03">第３節　復代理制度</a></li>
+        <li><a href="#A01-07-04">第４節　無権代理</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+    </div>
+  </div>
+</header>
+<script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
+<main id="content">
+<section class="sec-title" id="A01">
+  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A01-07">第７章　代理<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　代理の意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">代理：本人と一定の関係にある他人（代理人）が本人のためにすることを示して意思表示をなし、その法律効果が全面的に本人に帰属することを認める制度</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理権の存在</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 顕名があること</p>
+          <p class="p6 ind2">顕名：代理人がその行為の法律効果を本人に帰属させようとする意思（代理</p>
+          <p class="p6 ind2">意思）を有していることを相手方に知らせること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 代理行為：代理人と相手方との間の有効な法律行為</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">代理人がその権限内において本人のためにすることを示してした意思表示は、物権的効果、債権的効果を問わず、本人に対して直接にその効力を生ずる（99条1項）。本来の法律効果の他、法律行為の当事者としての地位（取消権、解除権など）も本人に帰属する。</p>
+          <p class="p6 ind1">また、第三者が代理人に対してした意思表示についても、本人に対して直接にその効力を生ずる（99条2項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　代理の類型（法定代理と任意代理）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">本人の意思又は信任による代理を任意代理といい、そうでない代理を法定代理という。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 区別の実益</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　任意代理は普通、個別代理であるが、法定代理は包括的代理であることが多い。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　復任権（104条、106条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　代理権の消滅事由（111条１項、２項）</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　代理人の能力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人の行為能力の要否</p>
+          <p class="p6 ind2">制限行為能力者が代理人としてした行為は、行為能力の制限によっては取り消すことができない（102条本文）。したがって、代理人及び本人は、代理人が制限行為能力者であることを理由として、代理行為を取り消すことができない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">代理行為の効果は直接本人に帰属するから（99条）、代理人に不利益が及ぶことはなく、制限行為能力者制度によって代理人を保護する必要はない。</p>
+          <p class="p6 ind2">また、制限行為能力者を代理人とした本人が後になって代理人が制限行為能力者であることを理由に取消権を行使するのを許すべきではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 例外</p>
+          <p class="p6 ind2">ただし、制限行為能力者が他の制限行為能力者の法定代理人としてした行為については、この限りでない（102条ただし書）。</p>
+          <p class="p6 ind2">その趣旨は、制限行為能力者が他の制限行為能力者の法定代理人としてした行為について、代理行為を取り消すことができないとすると、①本人の保護という行為能力制度の目的が十分に達成されないおそれがあること、②本人が代理人の選任に直接関与するわけではないから、代理人が制限行為能力者であることのリスクを本人に負担させるのは妥当でないこと、から、例外的に行為能力の制限を根拠とする代理行為の取消しを認める点にある。</p>
+          <p class="p6 ind2">ｅｘ．被保佐人Ｂが未成年者Ａの親権者である場合</p>
+          <p class="p6 ind2">被保佐人Ｂが他の被保佐人Ａの保佐人である場合</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　代理と使者</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　使者の意義</p>
+          <p class="p6 ind1">本人以外の者で、書面等を届ける等、本人の意思表示をそのまま伝達する者（伝達機関としての使者）や、口頭で伝える等、本人の決定した意思を示してその意思表示を完成させる者（表示機関としての使者）をいう。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理との違い</p>
+          <p class="p6 ind2">代理では、代理人の意思表示の効果が、直接に本人に帰属する。これに対し、使者とは、本人の決定した効果意思を表示し（表示機関）、又は、完成した意思表示を伝達する者（伝達機関）である。すなわち、効果意思を決定するのは本人であり、使者はそれを表示・伝達するにすぎない。</p>
+          <p class="p6 ind2">以上のことから、代理と使者の根本的な差異は、使者は意思決定の自由を有しない点に求められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 具体的差異</p>
+          <table class="tbl">
+            <tr><td></td><td>代 理</td><td>使 者</td></tr>
+            <tr><td>能　力</td><td>代理人→行為能力不要＋意思能力が必要（102条）</td></tr>
+            <tr><td>本　人→不要</td><td>使　者→不要</td></tr>
+          </table>
+          <p class="p6 ind2">本　人→意思・行為能力必要</p>
+          <table class="tbl">
+            <tr><td>法律行為の要件（効力）</td><td>主として代理人について決する（101条）</td><td>本人について決する</td></tr>
+            <tr><td>復　 任</td><td>制限あり（104条、106条）</td><td>広く認めてよい（権能が小さいから）</td></tr>
+            <tr><td>無権代理人の責任</td><td>あり（117条）</td><td>なし（独立の意思決定をした者でないから）</td></tr>
+            <tr><td>仕事完了時</td><td>通常、相手方の意思表示受領時</td><td>表示ないし伝達時</td></tr>
+          </table>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　代理権の範囲</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　法定代理権</p>
+          <p class="p6 ind1">法定代理人に関する法律の規定（28条、824条以下など）によって決定されている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　任意代理権</p>
+          <p class="p6 ind1">代理権を授与する契約によって決まるのが原則である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　「権限の定めのない代理人」</p>
+          <p class="p6 ind1">代理権があることは明らかであるが、その範囲が不明である場合、又は、特に範囲を決めていない場合の補充規定として、103条は、代理人は、保存行為・利用行為・改良行為をすることができるとする。ただし、利用行為及び改良行為は、物又は権利の性質を変えない範囲内でのみ許されるとしている。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 保存行為（103条１号）</p>
+          <p class="p6 ind2">：財産の現状を維持するための行為</p>
+          <p class="p6 ind2">ex. 家屋の修繕、消滅時効の更新、未登記不動産の登記</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 利用行為（103条２号）</p>
+          <p class="p6 ind2">：財産について収益を図る行為</p>
+          <p class="p6 ind2">代理人は、目的物又は権利の性質を変えない範囲での利用行為が出来る。</p>
+          <p class="p6 ind2">ex. 現金の預金、物の賃貸（無償で貸し付けることは利用に当たらない）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 改良行為（103条２号）</p>
+          <p class="p6 ind2">：財産の経済的価値を増加させる行為</p>
+          <p class="p6 ind2">代理人は、目的物又は権利の性質を変えない範囲での改良行為ができる。</p>
+          <p class="p6 ind2">ex. 家屋に電気・ガスの設備を施す、無利息貸金を利息付にする</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　共同代理</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">数人が同一事項につき代理権を有し、すべての代理人が共同してのみ代理行為をすることができる場合を、共同代理という（818条３項本文など）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">代理権の濫用を防止し、本人を保護する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 効果</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 全員の共同によらない代理は、完全な代理にはならず、その意味で、共同代理は各代理人にとって代理権の制限となる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) この制限に反して単独でなされた代理行為については、無権代理となると解される。もっとも、一般的には表見代理の適用が考えられる。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　代理権の消滅</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　法定代理・任意代理共通の消滅原因</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　本人の死亡（111条１項１号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　代理人の死亡又は代理人が破産手続開始の決定若しくは後見開始の審判を受けたこと（111条１項２号）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　法定代理特有の消滅原因</p>
+          <p class="p6 ind1">特に規定が置かれている（ex. 25条２項、26条、834条、835条等）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　任意代理特有の消滅原因</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　対内関係（授権行為の基礎となる委任その他の法律関係）の消滅（111条２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　本人の破産手続開始の決定（653条２号）</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-02">第２節　代理の効力が問題となる場合<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　顕名のない代理行為</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　非顕名のときの効果（代理人が本人のためにすることを示さないでした意思表示の効果）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">代理人が自己のためにした意思表示とみなされる（100条本文）。すなわち、代理人が錯誤による取消し（95条）を主張することは許されない。取引の相手が代理人自身であるという相手方の信頼を保護するためである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外</p>
+          <p class="p6 ind2">「本人のためにする」行為であること（代理意思のあること。代理権が存在することではない）を相手方が知り、又は知ることができた場合には本人に効果が帰属する（100条ただし書）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　代理人が直接本人の名だけを示した場合も顕名ありといえるか。</p>
+          <p class="p6 ind1">ex. Ａから代理権を与えられたＢが直接「Ａ」と表示してＣと取引する場合</p>
+          <p class="p6 ind1">→　肯定（最判昭39.９.15）</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">効果帰属主体を明らかにするという顕名の趣旨は満たされる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　代理権の濫用</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">代理人が自己又は第三者の利益を図る目的で代理権の範囲内の行為をした場　合に代理行為の効力はどうなるか。代理権が濫用された場合でも、代理人は代理権の範囲内で行動しているため問題となる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　代理権の濫用の要件（107条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人が自己又は第三者の利益を図る目的で代理権の範囲内の行為をしたこ</p>
+          <p class="p6 ind2">と</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相手方がその目的を知り、又は知ることができたこと</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">代理権の濫用の要件を充足した場合には、その代理行為は無権代理とみなされる（107条）。したがって、代理行為の効果は本人に帰属することがないのが原則である（113条）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　自己契約・双方代理</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">自己契約：同一の法律行為について当事者の一方が相手方の代理人となること</p>
+          <p class="p6 ind1">双方代理：同一人が同一法律行為の当事者双方の代理人となること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">自己契約・双方代理は、事実上、代理人が１人で契約を締結することになり、本人や当事者の一方の利益が不当に害されるおそれがあるため、これを禁止した。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則－無権代理（108条１項本文）</p>
+          <p class="p6 ind2">自己契約、及び本人と代理人との利益相反行為は無権代理とみなされる（108条１項、２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外－有効な代理行為となる場合（108条１項ただし書）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 債務を履行する場合</p>
+          <p class="p6 ind3">本人の利益を害するおそれがないからである。</p>
+          <p class="p6 ind3">債務の履行であっても、本人を害するおそれがある場合、たとえば新たな契約である代物弁済や期限未到来の債務・争いのある債務の弁済については、本条ただし書は適用されない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 本人があらかじめ許諾した場合</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　利益相反行為</p>
+          <p class="p6 ind1">代理人と本人との利益が相反する行為についても、無権代理行為とみなす（108条２項）。ただし、本人があらかじめ許諾した行為については、この限りでない（108条２項ただし書）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　代理行為の瑕疵</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　代理行為の瑕疵</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人が相手方に対してした意思表示の効力</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 原則</p>
+          <p class="p6 ind3">代理人が相手方に対してした意思表示の効力が意思の不存在、錯誤、詐欺、強迫又はある事情を知っていたこと若しくは知らなかったことにつき過失があったことによって影響を受けるべき場合には、その事実の有無は、代理人について決するものとする（101条１項）。</p>
+          <p class="p6 ind3">つまり、代理行為の瑕疵の有無は、実際に代理行為をした代理人を基準として決せられる（101条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 例外</p>
+          <p class="p6 ind3">特定の法律行為をすることを委託された代理人がその行為をしたときは、本人が知っていた事情及び過失によって知らなかった事情について代理人が知らなかったことを主張することができない（101条３項）。</p>
+          <p class="p6 ind3">その趣旨は、代理人の不知を利用して本人が有利な結果を得るのは公平でないからである。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　相手方が代理人に対してした意思表示の効力</p>
+          <p class="p6 ind1">相手方が代理人に対してした意思表示の効力が、意思表示を受けた者がある事情を知っていたこと又は知らなかったことにつき過失があったことによって影響を受けるべき場合には、その事実の有無は、代理人について決するものとする（101条2項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代理行為と詐欺</p>
+          <p class="p6 ind1">本人（甲）</p>
+          <p class="p6 ind1">｜</p>
+          <p class="p6 ind1">代理人（乙）－　相手方（丙）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 相手方が代理人を詐欺した場合の処理（丙→乙）</p>
+          <p class="p6 ind2">原則として、本人（甲）は代理行為を取り消すことができる（101条１項）。</p>
+          <p class="p6 ind2">取消しについて代理人への授権がない限り、取消権を行使できるのは本人である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相手方が本人を詐欺した場合（丙→甲）</p>
+          <p class="p6 ind2">詐欺に基づいて授権行為があった場合、相手方は「第三者」に当たらず、原則として、本人は授権行為を取り消し得る。</p>
+          <p class="p6 ind2">ex. 丙が甲を詐欺した結果、甲が乙に代理権を授与した場合、甲は乙への代理権の授与を取り消すことができる</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 代理人が相手方を詐欺した場合（乙→丙）</p>
+          <p class="p6 ind2">この場合、代理人の意思表示の問題ではないから101条１項は適用されず、また、相手方が代理人に対してした意思表示の効力が「意思表示を受けた者がある事情をして知っていたこと又は知らなかったことにつき過失があったことによって影響を受けるべき場合」ではないから101条２項も適用されない。</p>
+          <p class="p6 ind2">これにより、本人の善意悪意を問わず、相手方は常に取り消し得る（96条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 本人が相手方を詐欺した場合（甲→丙）</p>
+          <p class="p6 ind2">相手方は、代理人の善意悪意を問わず、取り消し得る。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-03">第３節　復代理制度<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>復代理：代理人が、自分の権限内の行為を、自分の名でさらに代理人を選任して、その者に行わせること</p>
+      <p>代理人によって選任された代理人を復代理人という。</p>
+      <p>復代理人は、その権限内の行為について、本人を代表する（106条１項）。復代理人はあくまでも本人の代理人であり、代理人の代理人ではない。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　復任権</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">復任権：復代理人を選任する権限</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　選任</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意代理人の場合</p>
+          <p class="p6 ind2">本人の許諾を得た場合又はやむを得ない事由がある場合にのみ選任できる（104条）。</p>
+          <p class="p6 ind2">任意代理は、本人との信任関係が基礎にあることから、限られた範囲でのみ選任が許される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代理人の場合</p>
+          <p class="p6 ind2">いつでも自由に選任できる（105条前段）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①信任関係とは別個であり、②権限が広汎である一方、辞任が容易ではないことから、常に復任が認められる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　復代理人の過誤に対する代理人の責任</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意代理人の場合</p>
+          <p class="p6 ind2">本人・代理人間の関係を、通常の債権者・債務者間の関係と区別して、代理人の責任を一律に軽減する合理的理由はないとの理由から、復代理人を選任した任意代理人の本人に対する責任は、本人・代理人間の委任契約における債務不履行の一場面であり、任意代理人が責任を負うかどうかは債務不履行の一般原則に従って判断される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代理人の場合</p>
+          <p class="p6 ind2">原則として全責任を負う（105条前段）。</p>
+          <p class="p6 ind2">例外として、やむを得ない事由で復代理人を選任した場合には、選任及び監督について責任を負う（105条後段）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　復代理人選任の効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　復代理人の権限及び義務</p>
+          <p class="p6 ind1">復代理人は、本人及び第三者に対して、その権限の範囲内において、代理人と同一の権利を有し、義務を負う（106条２項）。</p>
+          <p class="p6 ind1">復代理人は、代理人の選任・監督に服し、その権限（復代理権）も代理人の権限内に限られる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　顕名</p>
+          <p class="p6 ind1">復代理人は、代理人の代理人ではなく、本人の代理人であるから（106条１項）、本人の名において代理行為をし、その効果は直接本人に帰属する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代理人の権限</p>
+          <p class="p6 ind1">復代理人選任後も代理人は代理権を失わない。代理人と本人との関係は従来通りであるが、前述のように責任関係が生じる。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-04">第４節　無権代理<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A01-07-04-1" class="h6 ind0">Ⅰ　狭義の無権代理</p>
+    <div class="blk outer">
+      <div class="outer-title">１　意義</div>
+      <p>代理人として行為をした者に代理権がなかった場合を広義の無権代理といい、このうち表見代理が成立する場合を除いたものを狭義の無権代理という。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則</p>
+          <p class="p6 ind1">代理権を有しない者が他人の代理人としてした契約は、本人がその追認をしなければ、本人に対してその効力を生じない（113条１項）。つまり、無効である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　例外－相手方の保護</p>
+          <p class="p6 ind1">取引の相手方保護を通じて代理制度の社会的信用を確保するため、民法は無権代理行為を無効なものとして固定せず、以下の効果を定めている。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 催告権（114条）</p>
+          <p class="p6 ind2">相手方から本人に対し追認をするか否かを迫る手段をいう。</p>
+          <p class="p6 ind2">放置すると追認拒絶とみなされる。悪意の相手方にも催告権が認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 取消権（115条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 定義</p>
+          <p class="p6 ind3">：無権代理行為の効果を無効なものとして確定するための、相手方による一方的意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相手方が、代理人に代理権がないことについて善意であること（115条ただし書）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　本人の追認がないこと（115条本文）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 効果</p>
+          <p class="p6 ind3">取消しによって代理行為は始めからなかったことになる。</p>
+          <p class="p6 ind3">相手方は、他の手段（催告、無権代理人の責任追及、表見代理）を採り得なくなる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 行使方法</p>
+          <p class="p6 ind3">この取消しの意思表示は、本人・無権代理人のいずれに対して行ってもよいと解されている。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 無権代理人への履行又は損害賠償請求（117条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">無権代理人が本人の追認（113条１項）を得られない場合、善意・無過失の相手方に対する無過失責任を認めたものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 趣旨</p>
+          <p class="p6 ind3">取引の安全を図り、代理制度の信用を維持することにある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　「他人の代理人として契約をした」こと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　代理権の存在を証明できなかったこと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　本人の追認がないこと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　相手方が取消権（115条）を行使していないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤　相手方が無権代理であることにつき、善意であること（117条２項１号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑥　相手方が無権代理であることにつき、無過失であること（117条２項２号本文）</p>
+          <p class="p6 ind4">なお、自己に代理権がないことについて悪意の無権代理人が、相手方の過失を証明して無権代理人の責任を免れることは信義に反するので、相手方が無権代理であることにつき、過失がある場合であっても、無権代理人が自己に代理権がないことを知っていたときは、無権代理人の責任を追求することができる（117条２項２号ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑦　無権代理人が制限行為能力者でないこと（117条２項３号）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 表見代理が成立する場合にも無権代理人の責任を追及できるか</p>
+          <p class="p6 ind3">Ａ　否定説</p>
+          <p class="p6 ind3">表見代理が成立する場合には、117条の責任追及は認められない。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　表見代理が成立する場合には、相手方は予定していた効果をおさめることができるから、取引の安全のための117条の責任を生じさせる必要はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　有権代理の場合でさえ本人が責任を負うだけなのに、表見代理の場合には本人、無権代理人のいずれにも責任を追及できるのは不当である。</p>
+          <p class="p6 ind4">（批判）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相手方が予定の効果をおさめることができるのは、まさに表見代理が認められた場合であって、その主張がなされていない場合にまでこれを理由とすることはできない。だとすれば、無権代理であるはずの表見代理を117条の適用からはずす根拠はなく、むしろ、113条、115条の適用が是認されていることと不均衡が生じる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　表見代理の立証は一般に困難であり、無権代理人への責任追及も本人のすばやい追認で切り落とされる危険にさらされていることを考慮すれば、本人、表見代理人のいずれに対しても責任追及ができるとしても、相手方の保護は過大にならない。</p>
+          <p class="p6 ind4">Ｂ　肯定説（最判昭62.７.７）</p>
+          <p class="p6 ind4">表見代理が成立し得る場合にも、表見代理の成立と無権代理人への責任追及の主張が選択的に認められる。</p>
+          <p class="p6 ind4">（理由）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　表見代理と無権代理人の責任とは別個独立の制度であり、無権代理人の責任は表見代理が成立しない場合における補充的な責任ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　無権代理人が表見代理の成立を理由にその責任を免れるとするのは妥当でない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(e) 117条２項の善意・無過失の立証責任</p>
+          <p class="p6 ind3">相手方が無権代理であることにつき悪意有過失であることの立証責任は、無権代理人側にある(上記要件⑤)（通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(f) 責任の内容</p>
+          <p class="p6 ind3">相手方の選択に従って、①履行又は②損害賠償の責任を負う（117条１項）。</p>
+          <p class="p6 ind3">【まとめ】</p>
+          <table class="tbl">
+            <tr><td></td><td>催告権</td><td>取消権</td><td>117条の責任追及</td></tr>
+            <tr><td>相手方の態様</td><td>善意無過失</td><td>○</td><td>○</td><td>○</td></tr>
+            <tr><td></td><td>善意有過失</td><td>○</td><td>○</td><td>△</td></tr>
+            <tr><td></td><td>悪意</td><td>○</td><td>×</td><td>×</td></tr>
+          </table>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　本人の追認・追認拒絶権（113条、116条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 追認（113条、116条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 定義</p>
+          <p class="p6 ind3">：代理権のない代理行為について、代理権があったのと同じに扱うという本人の意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果（116条）</p>
+          <p class="p6 ind3">特約のない限り、代理行為の効果は契約の時にさかのぼって有効となる（116条本文）。</p>
+          <p class="p6 ind3">ただし、第三者の権利を害することはできない（116条ただし書。もっとも、これは対抗要件の問題となることがほとんどで、116条ただし書が適用されることはまれである）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 追認拒絶（113条）</p>
+          <p class="p6 ind2">追認拒絶とは、この追認を拒絶することである。</p>
+          <p class="p6 ind2">代理行為の効果は本人に帰属しないことに確定する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 追認・追認拒絶の方法（113条２項）</p>
+          <p class="p6 ind2">相手方に対する意思表示による。無権代理人に対してすることもできるが、その場合、相手方が知るまではその効力を主張できない（相手方からの、追認があったことの主張は可能）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　本人と無権代理人の地位の同一化</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　無権代理人が本人を相続した場合（無権代理人相続型）</p>
+          <p class="p6 ind1">無権代理人が本人を相続した場合の処理については以下の問題点がある。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 本人と無権代理人の地位は融合するか、それとも併存するか。</p>
+          <p class="p6 ind2">Ａ　地位融合説（総合的立場。最判昭40.６.18〔単独相続の事案〕）</p>
+          <p class="p6 ind2">相続によって、本人としての地位と無権代理人としての地位が融合し、追認があったのと同様に無権代理が治癒される。</p>
+          <p class="p6 ind2">（批判）</p>
+          <p class="p6 ind2">共同相続人がいる場合、他の者の追認拒絶権を無視することになる。</p>
+          <p class="p6 ind2">Ｂ　地位併存説（分析的立場。最判平５.１.21〔共同相続の事案〕はこれを前提としていると解される）</p>
+          <p class="p6 ind2">無権代理行為は、相続によって当然に有効とはならず、無権代理人において本人の地位と無権代理人の地位が併存する。</p>
+          <p class="p6 ind2">そして、この場合、相手方は、相続開始前と同様に取消権の行使や無権代理人の責任追及ができる。</p>
+          <p class="p6 ind2">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相続は、被相続人が生存しているのと同じ法律関係を、相続の前後を通じて維持しようとするものである。相続という偶然的事実で、利益や不利益を生じさせるべきではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　相手方が取消権（115条）や無権代理人の責任追及（117条）を選択することが可能となり、相手方の利益保護の点でも妥当である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 地位が併存するとして、無権代理人は本人の地位において追認拒絶できるか。</p>
+          <p class="p6 ind2">→　信義則説（最判平５.１.21〔共同相続の事案〕）</p>
+          <p class="p6 ind2">無権代理人は、信義則上、追認拒絶できない。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">追認拒絶は先行する無権代理行為と相容れない矛盾する行為である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 共同相続の場合、他の共同相続人が追認拒絶しても追認の効力が生じ無権代理行為が有効となるのか、追認権の帰属態様が問題となる。</p>
+          <p class="p6 ind2">→　追認不可分説（最判平５.１.21）</p>
+          <p class="p6 ind2">追認するかどうかを選択できる地位は性質上すべての相続人に承継される。従って、共同相続人全員がそろって追認しない限り、無権代理行為は、無権代理人の相続分に相当する部分についても有効にならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 本人が追認拒絶後に死亡し、無権代理人が本人を相続した場合の無権代理行為の効力はどうか。前述と同様に、無権代理人の追認拒絶は許されないとして有効になるのか。</p>
+          <p class="p6 ind2">→　有効にはならない（最判平10.７.17）。</p>
+          <p class="p6 ind2">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　本人が追認を拒絶すれば無権代理の効力が本人に及ばないことが確定し、追認拒絶の後は本人であっても追認によって無権代理行為を有効にすることができない。追認拒絶の後に無権代理人が本人を相続したとしても、このような追認拒絶の効果に何ら影響はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　この場合、相続した無権代理人が本人の追認拒絶の効果を主張することがそれ自体信義則に反するものであるということはできない。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　本人が無権代理人を相続した場合（本人相続型）</p>
+          <p class="p6 ind1">本人が無権代理人を相続した場合の処理については以下の問題点がある。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 両者の地位は併存するのか。</p>
+          <p class="p6 ind2">無権代理人が本人を相続した場合と同様の議論である。</p>
+          <p class="p6 ind2">→　地位併存説（最判昭37.４.20）</p>
+          <p class="p6 ind2">両者の地位は併存し、さらにこの場合、本人の地位で追認を拒絶することは何ら信義に反するものではないから、本人は追認拒絶できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 無権代理人の責任の取扱い</p>
+          <p class="p6 ind2">Ｑ　地位併存説を前提とした場合、無権代理人の責任（117条の義務）は本人に承継されるか。</p>
+          <p class="p6 ind2">Ａ　無権代理人の責任は本人に承継されない。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">117条の責任を負わせたのでは、本人に追認拒絶権の行使を認めたことが無意味になる。</p>
+          <p class="p6 ind2">（批判）</p>
+          <p class="p6 ind2">他の共同相続人がいる場合、本人のみが責任を免れることになり不公平である。</p>
+          <p class="p6 ind2">Ｂ　本人は無権代理人の責任を、履行責任を含めて全面的に負う（最判昭48.７.３。ただし、本来の債務が金銭の支払である場合）。</p>
+          <p class="p6 ind2">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　取引安全（相手方保護）のためにはこの責任を認める必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　117条の責任を認めるためには相手方が善意・無過失であることが必要であるから、これを認めても、本人に追認拒絶権を認めた意味は失われない。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　双方相続の場合</p>
+          <p class="p6 ind1">Ｑ　本人とともに無権代理人の地位を相続した者が、さらに本人の地位を相続した場合の処理</p>
+          <p class="p6 ind1">→　相続人は本人の資格で無権代理行為の追認を拒絶する余地はない（最判昭63.３.１）。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">無権代理人が本人の地位を相続した場合と同様の法律上の地位ないし効果を生じる。</p>
+          <p class="p6 ind1">（批判）</p>
+          <p class="p6 ind1">相続の先後関係は偶然に決まるものであり、相続人は何ら非難されるべき行為をしていないのだから、むしろ、本人が無権代理人を相続した場合と同様に扱うべきである。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　単独行為の無権代理（118条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　単独行為</p>
+          <p class="p6 ind1">一方的意思表示により法律効果の変動を生じさせる行為</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 相手方のない単独行為の無権代理は常に無効</p>
+          <p class="p6 ind2">絶対的に無効であり、本人の追認に効力はなく、無権代理人の責任も生じない。</p>
+          <p class="p6 ind2">ex. 相続の承認・放棄、所有権の放棄</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相手方のある単独行為</p>
+          <p class="p6 ind2">原則として無効であるが、以下の場合には契約に関する無権代理の規定を準用する。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　代理権なしに行為することに相手方が同意し、又は代理権を争わなかったとき</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　無権代理人が同意して相手方の意思表示を受領したとき</p>
+          <p class="p6 ind4">ex. 契約の解除、債務の免除</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A01-07-04-2" class="h6 ind0">Ⅱ　表見代理</p>
+    <div class="blk outer">
+      <div class="outer-title">１　総説</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">無権代理の中にも、無権代理人と本人との間に代理権の存在を推測させるような客観的事情が存在し、相手方がそれを信頼して取引関係に入る場合がある。このような場合に、有権代理と同様の効果を生じさせる制度を表見代理という。すなわち、表見代理が成立する場合、本人は無権代理を理由として自分への効果帰属を拒否することができない。</p>
+          <p class="p6 ind1">民法は、表見代理について３種に分けて規定している（109条、110条、112条）。</p>
+          <p class="p6 ind1">代理権授与表示型</p>
+          <table class="tbl">
+            <tr><td>（109条）</td><td>本人が代理権を与えた旨を表示し、</td></tr>
+          </table>
+          <p class="p6 ind1">代理人が代理行為をした</p>
+          <p class="p6 ind1">権限踰越型</p>
+          <table class="tbl">
+            <tr><td>（110条）</td><td>代理権のある代理人が</td></tr>
+          </table>
+          <p class="p6 ind1">代理権を逸脱して代理行為をした</p>
+          <p class="p6 ind1">権限消滅型</p>
+          <table class="tbl">
+            <tr><td>（112条）</td><td>代理権が消滅した後に</td></tr>
+          </table>
+          <p class="p6 ind1">代理人であった者が代理行為をした</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">取引の安全及び代理制度に対する信頼の保護</p>
+          <p class="p6 ind1">理論的根拠は、禁反言又は権利外観理論である。すなわち、一方で、外観に対する第三者の信頼を保護し、他方で、本人の帰責事由を要求することにより、真の権利者保護と取引安全の調和を図っている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">本人の有権代理的責任（本人は代理行為の効果帰属を否定できない）。</p>
+          <p class="p6 ind1">ただし、有権代理とまったく同一ではない。相手方は、表見代理を主張せずに無権代理人の責任を追及することもできるし、取消権を行使することもできる（最判昭62.７.７）。もちろん、本人が追認することも可能である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">２　代理権授与の表示による表見代理（109条）</div>
+      <p>（代理権授与の表示による表見代理等）</p>
+      <p>第109条　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間でした行為について、その責任を負う。ただし、第三者が、その他人が代理権を与えられていないことを知り、又は過失によって知らなかったときは、この限りでない。</p>
+      <p>２　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　趣旨</p>
+          <p class="p6 ind1">109条は、本人Ａが第三者Ｃに対して他人Ｂに代理権を与えた旨を「表示」した場合には、その代理権の範囲内においてＢが代理人としてＣと行った行為について責任を負わなければならない旨を規定している。</p>
+          <p class="p6 ind1">実際には、代理権を授与していなかったにも関わらず「表示」がなされた場合の責任である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 表見代理人が表示された代理権の範囲内で代理行為をした場合（109条１項）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　代理権の授与がないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　相手方が、表見代理人に代理権がないことにつき善意無過失であること</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 表見代理人が表示された代理権の範囲外で代理行為をした場合（109条２項）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　代理権の授与がないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　第三者がその行為についてその他人の代理権があると信ずべき正当な理由があること</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">３　権限外の行為の表見代理（110条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　趣旨</p>
+          <p class="p6 ind1">何らかの基本代理権（基本権限）を有する者が、その代理権の範囲を越えて代理行為（権限外の行為、越権行為）をする場合である。この場合の本人が責任を負う根拠は、信用できない者を代理人に選んだ本人がリスクを負担せよということである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　基本代理権の存在（「その権限」110条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　基本代理権を逸脱して代理行為をしたこと（「その権限外の行為をした場合」、110条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　相手方の善意無過失（「代理人の権限があると信ずべき正当な理由」、110条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　基本代理権の意義</p>
+          <p class="p6 ind1">110条の基本代理権にあたるか問題となるものに以下のものがある。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 公法上の行為</p>
+          <p class="p6 ind2">原則：公法上の行為は基本代理権にあたらない</p>
+          <p class="p6 ind2">ｅｘ．印鑑証明書下付申請の代理権（最判昭39.４.２）</p>
+          <p class="p6 ind2">例外：当該行為が「特定の私法上の取引行為の一環としてなされるものであるとき」は表見代理の成立を認め得る（最判昭46.６.３）</p>
+          <p class="p6 ind2">ｅｘ．所有権移転登記申請の代理権（最判昭46.６.３）</p>
+          <p class="p6 ind2">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①表見代理制度は取引の安全を目的としているから、基本代理権は私法上の代理権であることを要する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②しかし、当該行為と私法取引との関連性が強く、対外的にみて基本代理権授与とみられるような場合には、代理人の外観を信頼した第三者の保護を図る必要がある。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代理権も基本代理権となるか</p>
+          <p class="p6 ind2">Ｑ　法定代理権も基本代理権となり得るか、法定代理の場合、代理権の内容は法定されており本人の関与はないのであるから、表見代理を成立させるべきではないようにも思えるので問題となる。</p>
+          <p class="p6 ind2">→　法定代理にも110条は適用される（大連判昭17.５.20）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 夫婦間の日常家事（761条）と110条</p>
+          <p class="p6 ind2">（日常の家事に関する債務の連帯責任）</p>
+          <p class="p6 ind2">第７６１条　夫婦の一方が日常の家事に関して第三者と法律行為をしたときは、他の一方は、これによって生じた債務について、連帯してその責任を負う。ただし、第三者に対し責任を負わない旨を予告した場合は、この限りでない。</p>
+          <p class="p6 ind2">例えば、妻が、夫から代理権を与えられているわけではないのに、夫の所有する土地を第三者に無断で譲渡したような場合、相手方を110条で保護し得るか。この点については以下のような問題が生じる。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 761条を根拠に夫婦相互の代理権を認めることができるか。</p>
+          <p class="p6 ind3">文言上761条は日常家事に関する夫婦の連帯責任を規定したものであって、代理権を規定したものではないので問題となる。</p>
+          <p class="p6 ind3">→　肯定（最判昭44.12.18）</p>
+          <p class="p6 ind3">※　ただし、通常の代理とは異なり、①顕名不要であり、②効果が双方に帰属する点に注意。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 110条適用の可否</p>
+          <p class="p6 ind3">Ｑ　夫婦間での明示的・黙示的な代理権の授与はなく、日常家事の範囲内の行為とも認められず761条による代理権も認められない場合、761条の夫婦間での代理権を基本代理権として、110条の表見代理が成立する余地はないかが問題となる。</p>
+          <p class="p6 ind3">→　110条の趣旨類推適用説（最判昭44.12.18）</p>
+          <p class="p6 ind3">第三者が、当該行為を日常家事の範囲内と信ずるにつき正当な理由がある場合には、110条の趣旨を類推適用して、第三者を保護する。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　基本代理権を逸脱して代理行為をしたこと</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人の行為が、基本権限と同質のものであることは要しない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 代理人が本人名義で代理権限を越えて取引を行った場合</p>
+          <p class="p6 ind2">Ｑ　直接本人名義を用いても、顕名として認められる（前述）。ではこの場合、110条の適用を認めることができるか。</p>
+          <p class="p6 ind2">→　本人自身の行為であると信じたことについて正当な理由がある場合には110条を類推適用できる（最判昭44.12.19）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　「正当な理由」（110条）の意義、判断要因</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">「正当な理由」とは善意・無過失と同義である（信頼の正当性）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 正当理由の判断</p>
+          <p class="p6 ind2">単に相手方から見た事情のみならず、本人側の事情も含んで、表見代理の成立を認めるべきか否かの総合的判断を行う（最判昭51.６.25）。従って、具体的事案ごとに個別に考えるべきである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「第三者」の範囲</p>
+          <p class="p6 ind2">Ｑ　「第三者」（110条）には、転得者が含まれるか。</p>
+          <p class="p6 ind2">→　否定説（最判昭36.12.12・通説）</p>
+          <p class="p6 ind2">第三者は直接の相手方に限る。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title">４　代理権消滅後の表見代理（112条）</div>
+      <p>（代理権消滅後の表見代理等）</p>
+      <p>第112条　他人に代理権を与えた者は、代理権の消滅後にその代理権の範囲内においてその他人が第三者との間でした行為について、代理権の消滅の事実を知らなかった第三者に対してその責任を負う。ただし、第三者が過失によってその事実を知らなかったときは、この限りでない。</p>
+      <p>２　他人に代理権を与えた者は、代理権の消滅後に、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　趣旨</p>
+          <p class="p6 ind1">112条は、かつて代理人であった者が、その代理権消滅後も代理人と称して代理行為を行った場合に、本人は表見代理責任を負わなければならないとしたものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人として行為した者がその代理権の範囲内で代理行為をした場合（112条１項）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　代理人として行為した者がかつて代理権を有していたこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　相手方の善意・無過失</p>
+          <p class="p6 ind4">相手方が、「過去に存在した代理権が代理行為の前に消滅したことを知らなかったこと」が必要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 代理人として行為した者がその代理権の範囲外で代理行為をした場合（112条２項）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　代理人として行為した者がかつて代理権を有していたこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　相手方がその行為についてその他人の代理権があると信ずべき正当な理　由があること</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　適用範囲</p>
+          <p class="p6 ind1">112条は、法定代理には適用されない。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+</script>
+</body>
+</html>
