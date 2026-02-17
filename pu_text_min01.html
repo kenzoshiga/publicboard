@@ -6,6 +6,7 @@
   <title>pu_text_min01</title>
   <style>
     :root{
+      --base-font: 16px;
       --toc-bg:#f7f7f7;
       --toc-border:#e0e0e0;
       --outer-bg:#fbfcff;
@@ -15,7 +16,7 @@
       --pcard-bg:#ffffff;
       --pcard-border:#ffffff;
     }
-    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0;}
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0;font-size: var(--base-font);}
     header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
     .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
     main{padding:16px;max-width:980px;margin:0 auto;}
@@ -28,7 +29,7 @@
     .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
     .sec-title{margin-top:28px;padding-top:6px;}
     h1{ font-size:16px; margin:0; font-weight:700; }
-    h2{margin-top:4px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
     h3{margin-top:12px;scroll-margin-top: 70px;}
     .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
     .outer{background:var(--outer-bg);border-color:var(--outer-border);}
@@ -56,6 +57,10 @@
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
     body.toc-hidden .toc{display:none;}
     body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .fs-label{font-size:0.82em; opacity:.85; user-select:none;}
+    .fs-range{width:140px;}
   </style>
 </head>
 <body>
@@ -69,7 +74,7 @@
   <div class="wrap">
     <div class="toc-wrap">
       <div class="toc" id="toc">
-        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <div class="toc-title"><strong>目次</strong></div>
         <ul>
 <li><a href="#A00">第０編　序　論</a>
   <ul>
@@ -155,11 +160,67 @@
 
         </ul>
       </div>
-      <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">Aa-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">標準</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">Aa+</button>
+        <!-- 任意：スライダー（不要なら丸ごと消してOK） -->
+        <span class="fs-label" id="fsLabel">16px</span>
+        <input class="fs-range" id="fsRange" type="range" min="12" max="24" step="1" value="16" />
+      </div>
     </div>
   </div>
 </header>
 <script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
+<script>
+(function(){
+  // === 設定 ===
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    // CSS変数を読む（未設定なら16）
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) { try { localStorage.setItem(KEY, String(px)); } catch(e){} }
+  }
+  // 初期復元
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  // ボタン操作
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  // スライダー操作（任意）
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+</script>
 <main id="content">
 <section class="sec-title" id="A00">
   <h2>第０編　序　論<a class="toplink" href="#top">↑Top</a></h2>
