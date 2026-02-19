@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>pu_text_min01</title>
+  <title>民法1</title>
   <style>
     :root{
       --base-font: 16px;
@@ -16,7 +16,7 @@
       --pcard-bg:#ffffff;
       --pcard-border:#ffffff;
     }
-    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0;font-size: var(--base-font);}
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
     header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
     .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
     main{padding:16px;max-width:980px;margin:0 auto;}
@@ -29,8 +29,8 @@
     .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
     .sec-title{margin-top:28px;padding-top:6px;}
     h1{ font-size:16px; margin:0; font-weight:700; }
-    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;scroll-margin-top: 70px;}
-    h3{margin-top:12px;scroll-margin-top: 70px;}
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
     .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
     .outer{background:var(--outer-bg);border-color:var(--outer-border);}
     .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
@@ -52,15 +52,17 @@
     .ind4{margin-left:0.800em;}
     .ind5{margin-left:1.000em;}
     .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
     body.toc-hidden .toc{display:none;}
     body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
-    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:3px 3px;cursor:pointer;font-size:0.70em;}
-    .fs-label{font-size:0.82em; opacity:.85; user-select:none;}
-    .fs-range{width:140px;}
+    .btn-ctrl{
+      white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:6px 10px;cursor:pointer;font-size:0.86em;
+    }
   </style>
 </head>
 <body>
@@ -69,12 +71,12 @@
 <header>
   <div class="wrap">
     <h1>民法１ Unit1</h1>
-    前へ  <a href="pu26min01b.html#top">次へ</a>  <a href="pu26min01aq.html#q-pu1-1">肢別へ</a>
+    前へ  <a href="pu26min01b.html#top">次へ</a>  <a href="pu_text_min01q.html#q-pu1-1">肢別へ</a>
   </div>
   <div class="wrap">
     <div class="toc-wrap">
       <div class="toc" id="toc">
-        <div class="toc-title"><strong>目次</strong></div>
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
         <ul>
 <li><a href="#A00">第０編　序　論</a>
   <ul>
@@ -165,62 +167,11 @@
         <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">Aa-</button>
         <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">標準</button>
         <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">Aa+</button>
-        <!-- 任意：スライダー（不要なら丸ごと消してOK） -->
-        <!-- <span class="fs-label" id="fsLabel">16px</span> -->
-        <!-- <input class="fs-range" id="fsRange" type="range" min="12" max="24" step="1" value="16" /> -->
       </div>
     </div>
   </div>
 </header>
 <script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
-<script>
-(function(){
-  // === 設定 ===
-  var KEY = 'baseFontPx';
-  var MIN = 12, MAX = 24, STEP = 1;
-  var root = document.documentElement;
-  var btnDown = document.getElementById('fsDown');
-  var btnUp = document.getElementById('fsUp');
-  var btnReset = document.getElementById('fsReset');
-  var range = document.getElementById('fsRange');
-  var label = document.getElementById('fsLabel');
-  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
-  function getCurrent(){
-    // CSS変数を読む（未設定なら16）
-    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
-    var n = parseInt(v, 10);
-    return Number.isFinite(n) ? n : 16;
-  }
-  function apply(px, save){
-    px = clamp(px);
-    root.style.setProperty('--base-font', px + 'px');
-    if (range) range.value = String(px);
-    if (label) label.textContent = px + 'px';
-    if (save) { try { localStorage.setItem(KEY, String(px)); } catch(e){} }
-  }
-  // 初期復元
-  (function init(){
-    var saved = null;
-    try { saved = localStorage.getItem(KEY); } catch(e){}
-    var px = saved ? parseInt(saved, 10) : getCurrent();
-    if (!Number.isFinite(px)) px = 16;
-    apply(px, false);
-  })();
-  // ボタン操作
-  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
-  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
-  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
-  // スライダー操作（任意）
-  if (range) {
-    range.min = String(MIN);
-    range.max = String(MAX);
-    range.step = String(STEP);
-    range.addEventListener('input', function(){
-      apply(parseInt(range.value, 10), true);
-    });
-  }
-})();
-</script>
 <main id="content">
 <section class="sec-title" id="A00">
   <h2>第０編　序　論<a class="toplink" href="#top">↑Top</a></h2>
@@ -288,7 +239,11 @@
           <p class="h6 ind0">2.　機能</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①法律解釈の基準となる（最判昭32.７.５）。</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">②社会的接触関係にある者同士の規範関係を具体化する。</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">③制定法の規定の存しない部分を補充し、又は制定法の形式的適用による不都合を克服する。</p>
         </div>
         </div>
@@ -727,17 +682,39 @@
           <p class="p6 ind2">被保佐人は、下記のような日常の法律生活上特に重要な法律行為については、保佐人の「同意」を得なければならないが（13条１項本文）、それ以外の行為については制限を受けない。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①　元本を領収し、又は利用すること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">②　借財又は保証をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">③　不動産その他重要な財産に関する権利の得喪を目的とする行為をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">④　訴訟行為をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑤　贈与、和解又は仲裁合意をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑥　相続の承認若しくは放棄又は遺産の分割をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑦　贈与の申込みを拒絶し、遺贈を放棄し、負担付贈与の申込みを承諾し、又は負担付遺贈を承認すること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑧　新築、改築、増築又は大修繕をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑨　602条に定める期間（短期賃貸借）を超える賃貸借をすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑩　①～⑨の行為を制限行為能力者が他の制限行為能力者の法定代理人としてすること</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind2 nobold">(a) 日用品の購入その他日常生活に関する行為</p>
           <p class="p6 ind3">13条１項各号に該当する行為であっても日用品の購入その他日常生活に関する行為については、同意は不要である（13条１項ただし書、９条ただし書）。</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind2 nobold">(b) 13条１項各号の行為を同意を得ずにした場合</p>
           <p class="p6 ind3">「同意」を得ないでした行為は取り消すことができる（13条４項）。</p>
         </div>
@@ -1007,6 +984,8 @@
           <p class="h6 ind0">2.　要件</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①死亡擬制が事実と反することの証明</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">ⅰ　失踪者が生存すること、又は、ⅱ　宣告によって死亡とみなされた時と異なる時に死亡したことの証明がなされること、が必要である。</p>
         </div>
         <div class="p-card">
@@ -1277,6 +1256,8 @@
           <p class="h6 ind0">1.　両者を区別する趣旨</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①歴史的に不動産の方が動産より重要な財産とされて、異なった規律に服してきた。</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">②動く動かないという自然の性質の差異に基づき、扱いが技術的に異ならざるを得ない。</p>
         </div>
         </div>
@@ -1284,10 +1265,20 @@
           <p class="h6 ind0">2.　具体的差異</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①公示方法の差異（177条、178条）</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">②公信の原則の有無（192条）</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">③その上に成立する権利の差異（369条等）</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">④経済的価値の差異からくる取扱いの差異（13条１項３号、864条）</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑤無主物の取扱い（239条）</p>
+        </div>
+        <div class="p-card">
           <p class="h6 ind3 nobold">⑥相隣関係（209条以下）の有無</p>
           <div class="sp"></div>
         </div>
@@ -4479,6 +4470,49 @@
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       location.hash = '#top';
     }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
   }
 })();
 </script>

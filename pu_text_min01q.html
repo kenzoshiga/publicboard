@@ -33,6 +33,20 @@
     .badge.ok{ border-color:#bbf7d0; background:#f0fdf4; color:var(--ok); }
     .badge.ng{ border-color:#fecaca; background:#fef2f2; color:var(--ng); }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace; }
+    .qcheck{display:flex; align-items:flex-start; gap:6px; margin-top:2px; flex:0 0 auto; user-select:none;}
+    .qcheck input{ width:18px; height:18px; margin:2px 0 0; cursor:pointer;}
+    .qcheck span{ font-size:12px; color:var(--muted); line-height:1.2;}
+    .htools{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .hprog{ font-size:12px; color:var(--muted); border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:999px; white-space:nowrap; }
+    .btn.small{ padding:6px 9px; border-radius:10px; font-size:12px; }
+    .qstep{ width:22px; height:22px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; }
+    .qstep[data-level="0"]{ color:var(--muted); }
+    .qstep[data-level="1"]{ border-color:#bbf7d0; background:#f0fdf4; color:var(--ok); font-weight:700; }
+    .qstep[data-level="2"]{ border-color:#bfdbfe; background:#eff6ff; color:var(--accent); font-weight:700; }
+    .qcheck span{ font-size:12px; color:var(--muted); line-height:1.2; }
+    .htools{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .hprog{ font-size:12px; color:var(--muted); border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:999px; white-space:nowrap; }
+    .btn.small{ padding:6px 9px; border-radius:10px; font-size:12px; }
   </style>
 </head>
 <body>
@@ -518,12 +532,122 @@
 </dialog>
 
 <script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+  function renderStep(btn, level){
+    btn.dataset.level = String(level);
+    btn.textContent = (level === 0) ? '' : String(level);
+    btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+    btn.setAttribute('aria-label', `チェック段階 ${level}`);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    let tools = wrap.querySelector('.htools');
+    if (!tools){
+      tools = document.createElement('div');
+      tools.className = 'htools';
+      const existingLinks = Array.from(wrap.querySelectorAll('a'));
+      existingLinks.forEach(a => tools.appendChild(a));
+      wrap.appendChild(tools);
+    }
+    if (!document.getElementById('prog')){
+      const prog = document.createElement('span');
+      prog.className = 'hprog';
+      prog.id = 'prog';
+      tools.prepend(prog);
+    }
+    if (!document.getElementById('btn-clear')){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn small';
+      b.id = 'btn-clear';
+      b.textContent = '全解除';
+      tools.prepend(b);
+    }
+    if (!document.getElementById('btn-all1')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all1'; b.textContent = '全1'; tools.prepend(b); }
+    if (!document.getElementById('btn-all2')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all2'; b.textContent = '全2'; tools.prepend(b); }
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.qhead .left');
+      if (!head || !left) return;
+      if (head.querySelector('button.qstep')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      const lv = clampLevel(saved[qid]);
+      renderStep(btn, lv);
+      const txt = document.createElement('span');
+      txt.textContent = '';
+      wrap.appendChild(btn);
+      wrap.appendChild(txt);
+      head.insertBefore(wrap, left);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
   document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
     const openBtn = e.target.closest('[data-open]');
     if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
     const closeBtn = e.target.closest('[data-close]');
-    if (closeBtn) { const dlg = closeBtn.closest('dialog'); if (dlg) dlg.close(); return; }
-  });
-  document.querySelectorAll('dialog').forEach(d => d.addEventListener('close', () => { const a=document.activeElement; if(a&&a.blur)a.blur(); }));
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
 </script>
 </body></html>
