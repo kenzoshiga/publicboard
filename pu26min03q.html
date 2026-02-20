@@ -1,0 +1,1096 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit1</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit3</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu26min02q.html">前へ</a>
+        <a href="pu26min04q.html">次へ</a>
+        <a href="pu26min03#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h28-04-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-04-2)</div>
+          <p class="qtext">1　不在者が管理人を置いていない場合においても、その不在者が生存していることが明らかであるときは、利害関係人は、管理人の選任を家庭裁判所に請求することができない。(H28-04-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-04-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h07-02-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-02-イ)</div>
+          <p class="qtext">2　Aの父Bが旅行中船舶事故に巻き込まれたまま生死不明になった。Bが事故に遭遇してから1年が経過していなくても、Aは、家庭裁判所に対し、Bのために不在者の財産管理人の選任を請求することができる。(H07-02-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-02-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-r02-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-04-エ)</div>
+          <p class="qtext">3　家庭裁判所が選任した不在者の財産の管理人は、保存行為であれば、裁判上の行為であるか裁判外の行為であるかを問わず、家庭裁判所の許可なくすることができる。(R02-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h28-04-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-04-4)</div>
+          <p class="qtext">4　家庭裁判所が選任した管理人は、家庭裁判所の許可を得ないで、不在者を被告とする建物収去土地明渡請求を認容した判決に対し控訴することができる。(H28-04-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-04-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h22-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-04-イ)</div>
+          <p class="qtext">5　家庭裁判所が不在者Aの財産管理人としてDを選任した場合において、DがA所有の財産の管理費用に充てるためにAの財産の一部である不動産を売却するときは、Dは、これについて裁判所の許可を得る必要はない。(H22-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r02-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-04-オ)</div>
+          <p class="qtext">6　家庭裁判所は、不在者の財産の管理人と不在者との関係その他の事情を考慮し、当該管理人に対し、不在者の財産の中から報酬を与えることも、与えないこともできる。(R02-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h28-04-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-04-1)</div>
+          <p class="qtext">7　不在者が管理人を置いた場合には、その不在者の生死が明らかでなくなったとしても、利害関係人は、その管理人の改任を家庭裁判所に請求することができない。(H28-04-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-04-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h22-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-04-エ)</div>
+          <p class="qtext">8　不在者Aが財産管理人Dを置いた場合において、DがA所有の財産の管理を著しく怠っているときは、家庭裁判所は、Aの生存が明らかであっても、利害関係人の請求により、管理人の任務に適しない事由があるとしてDを改任することができる。(H22-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h28-04-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-04-3)</div>
+          <p class="qtext">9　家庭裁判所が管理人を選任した後、不在者が従来の住所において自ら管理人を置いた場合には、家庭裁判所が選任した管理人は、その権限を失う。(H28-04-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-04-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h07-02-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-02-エ)</div>
+          <p class="qtext">10　Aの父Bが旅行中船舶事故に巻き込まれたまま生死不明になった。Bが事故に遭遇する前に既にBのために財産管理人が選任されている場合には、Aは、Bにつき、失踪宣告の請求をすることができない。(H07-02-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-02-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h07-02-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-02-ア)</div>
+          <p class="qtext">11　Aの父Bが旅行中船舶事故に巻き込まれたまま生死不明になった。Bが事故に遭遇してから1年が経過すれば、Aは、家庭裁判所に対し、Bについての失踪宣告を請求することができる。(H07-02-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-02-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r02-04-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-04-ア)</div>
+          <p class="qtext">12　不在者の生死が7年間明らかでないときは、利害関係人だけでなく検察官も、家庭裁判所に対し、失踪の宣告の請求をすることができる。(R02-04-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-04-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r02-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-04-イ)</div>
+          <p class="qtext">13　生死が7年間明らかでないために失踪の宣告を受けた者は、失踪の宣告を受けた時に死亡したものとみなされる。(R02-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h22-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-04-ウ)</div>
+          <p class="qtext">14　不在者Aが家庭裁判所から失踪宣告を受けた後に、AがEに100万円を貸し渡した場合は、当該金銭消費貸借契約は、当該失踪宣告が取り消されなくても有効である。(H22-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-04-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h14-01-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-01-2)</div>
+          <p class="qtext">15　Aは、Bと婚姻をしていたが、ある日、Bが家を出たまま行方不明となった。Bの失踪宣告がされた場合、Bが死亡したものとみなされる7年の期間満了の時より前に、Aが、Bが既に死亡したものと信じて行ったBの財産の売却処分は、有効とみなされる。(H14-01-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-01-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h07-02-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-02-ウ)</div>
+          <p class="qtext">16　Aの父Bが旅行中船舶事故に巻き込まれたまま生死不明になった。Bが事故に遭遇して生死不明になったことを理由として、Aの請求により失踪宣告がされた場合には、Bは、事故から1年を経過した時に死亡したものとみなされる。(H07-02-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-02-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h14-01-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-01-3)</div>
+          <p class="qtext">17　Aは、Bと婚姻をしていたが、ある日、Bが家を出たまま行方不明となった。Bの失踪宣告がされた後、Bが家出した日に交通事故で死亡していたことが判明した場合、Bが死亡したとみなされる時期は、Bの失踪宣告が取り消されなくとも、現実の死亡時期にまでさかのぼる。(H14-01-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-01-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h14-01-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-01-4)</div>
+          <p class="qtext">18　Aは、Bと婚姻をしていたが、ある日、Bが家を出たまま行方不明となった。Bの失踪宣告がされた後、Bが生存していたことが判明した場合、Bの失踪宣告が取り消されない限り、Aは、相続により取得したBの遺産を返還する必要はない。(H14-01-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-01-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h07-02-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-02-オ)</div>
+          <p class="qtext">19　Aの父Bが旅行中船舶事故に巻き込まれたまま生死不明になった。Bが事故に遭遇して生死不明になったことを理由として、Bについて失踪宣告がされた後、Bが事故後も生存していたことが証明された場合には、Aは、失踪宣告によりAが相続したBの財産を善意で取得した者がいるときを除いて失踪宣告の取消しを請求することができる。(H07-02-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-02-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h14-01-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-01-5)</div>
+          <p class="qtext">20　Aは、Bと婚姻をしていたが、ある日、Bが家を出たまま行方不明となった。Bの失踪宣告がされた後、Aが死亡し、その後にBの失踪宣告が取り消された場合、Bは、Aの遺産を相続することはない。(H14-01-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-01-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h18-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-05-ア)</div>
+          <p class="qtext">21　Aが失踪宣告を受け、Aの妻Bが生命保険金を受け取るとともに、Aの土地を相続した。Bは、受け取った生命保険金を費消し、また、相続した土地をCに売却した。その後、Aが生存することが明らかになったため、失踪宣告は取り消された。Bが生命保険金を費消した際にAの生存について善意であったとしても、遊興費として生命保険金を費消した場合には、Bは、保険者に対し、費消した生命保険金の相当額を返還しなければならない。(H18-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h18-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-05-イ)</div>
+          <p class="qtext">22　Aが失踪宣告を受け、Aの妻Bが生命保険金を受け取るとともに、Aの土地を相続した。Bは、受け取った生命保険金を費消し、また、相続した土地をCに売却した。その後、Aが生存することが明らかになったため、失踪宣告は取り消された。Bが生命保険金を費消した際にAの生存について善意であり、かつ、生活費として生命保険金を費消した場合には、Bは、保険者に対し、費消した生命保険金の相当額を返還する必要はない。(H18-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h22-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-04-オ)</div>
+          <p class="qtext">23　不在者Aが家庭裁判所から失踪宣告を受け、その相続人BがAから相続した銀行預金の大部分を引き出して費消した後、生存していたAの請求により当該失踪宣告が取り消された場合には、それまでAの生存につき善意であったBは、現に利益を受けている限度において返還すれば足りる。(H22-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-r02-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-04-ウ)</div>
+          <p class="qtext">24　Aの失踪の宣告によって財産を得たBがその財産を第三者Cに譲渡した後、Aの生存が判明したために失踪の宣告が取り消された場合において、Cが譲渡を受けた際にAの生存を知らなかったときは、BがAの生存を知っていたとしても、失踪の宣告の取消しはその財産の譲渡の効力に影響を及ぼさない。(R02-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-04-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h22-04-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-04-ア)</div>
+          <p class="qtext">25　不在者Aが家庭裁判所から失踪宣告を受け、その相続人BがAから相続した不動産をCに売却して引き渡したが、その後、生存していたAの請求により当該失踪宣告が取り消された場合には、当該売買の当時Aの生存につきBが善意であってもCが悪意であったのであれば、Aは、Cに対し、当該不動産の返還を請求することができる。(H22-04-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-04-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h18-05-uh18-05-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-05-ウ)(H18-05-エ)</div>
+          <p class="qtext">26　Aが失踪宣告を受け、Aの妻Bが生命保険金を受け取るとともに、Aの土地を相続した。Bは、受け取った生命保険金を費消し、また、相続した土地をCに売却した。その後、Aが生存することが明らかになったため、失踪宣告は取り消された。BがCに土地を売却した際にAの生存について悪意であったときは、Cが善意であっても、Aについての失踪宣告の取消しにより、Cは、当該土地の所有権を失う。(H18-05-ウ)(H18-05-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-05-uh18-05-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h18-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-05-オ)</div>
+          <p class="qtext">27　Aが失踪宣告を受け、Aの妻Bが生命保険金を受け取るとともに、Aの土地を相続した。Bは、受け取った生命保険金を費消し、また、相続した土地をCに売却した。その後、Aが生存することが明らかになったため、失踪宣告は取り消された。BがCに土地を売却した際、BとCがともにAの生存について善意であった場合において、CがAの生存について悪意であるDに土地を転売したときは、Aについての失踪宣告の取消しにより、Dは、当該土地の所有権を失う。(H18-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h03-04-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-04-ア)</div>
+          <p class="qtext">28　権利能力なき社団の代表者は、土地賃貸借契約を締結した場合には、構成員全員の同意なくして賃借権を処分することができない。(H03-04-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-04-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h16-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-04-イ)</div>
+          <p class="qtext">29　権利能力なき社団の構成員には、財産の分割請求は認められない。ただし、構成員の間で特段の合意をしている場合には、財産の分割請求も認められる。(H16-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h03-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-04-イ)</div>
+          <p class="qtext">30　権利能力なき社団に属する不動産については、社団名義の登記が認められておらず、代表者個人の名義で登記する以外に登記の方法がない。(H03-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h16-04-ah03-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-04-ア)(H03-04-ウ)</div>
+          <p class="qtext">31　権利能力なき社団であるA団体には法人格がないことから、債権者を保護する必要があり、代表者と構成員は、いずれも支払義務を負うことになる。(H16-04-ア)(H03-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min03q.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-04-ah03-04-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h28-04-2">
+  <div class="dlg-head"><div class="dlg-title">(H28-04-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>従来の住所又は居所を去った者がその財産の管理人を置かなかったときは、家庭裁判所は、利害関係人又は検察官の請求により、その財産の管理について必要な処分を命ずることができる（民法<span class="mono">25条</span>1項前段）。その趣旨は、不在者の財産の保全と利害関係人の保護にある。当該不在者の生死不明は要件とされていない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-02-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-02-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不在者がその財産の管理人を置かなかったときは、家庭裁判所は、利害関係人又は検察官の請求により、その財産の管理について必要な処分を命ずることができる（民法<span class="mono">25条</span>1項前段）。必要な処分の例として、不在者の財産管理人の選任が挙げられる。不在者が財産管理人を置かなかった場合、不在者の生存が明らかであってもその生死が不明であっても不在者の財産を管理することが必要となるため、事故に遭遇してから１年が経過していなくても、不在者の財産管理人の選任の請求が可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-04-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不在者の財産の管理人は民法<span class="mono">103条</span>に規定する権限を超える行為を必要とするときは、家庭裁判所の許可を得て、その行為をすることができる（民法<span class="mono">28条</span>前段）。これにより、保存行為（民法<span class="mono">103条</span>1号）、代理の目的である物又は権利の性質を変えない範囲内において、その利用又は改良を目的とする行為（同条2号）は、民法<span class="mono">103条</span>の規定する権限を超える行為ではないため、不在者の財産の管理人は、家庭裁判所の許可を得ることなくすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-04-4">
+  <div class="dlg-head"><div class="dlg-title">(H28-04-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「被上告人の提起した本訴建物収去土地明渡等の請求を認容する第一審判決に対し控訴を提起し、その控訴を不適法として却下した第二審判決に対し上告を提起すること及び右訴訟行為をさせるため訴訟代理人を選任することは、いずれも上告人の財産の現状を維持する行為として同法（辰已注：民法）<span class="mono">103条</span>1号にいう保存行為に該当するものであるから、本件不在者財産管理人及び同人の選任した訴訟代理人は、同法<span class="mono">28条</span>所定の家庭裁判所の許可を得ることなしに、本件第一、二審判決に対する上訴を提起する権限を有するものというべきである。」としている。その趣旨は、相手方の提起した訴えに敗訴した不在者は、上訴をしなければ、不在者の財産が失われる結果となるから、本件の上訴が不在者の財産の現状を維持する行為として、保存行為にあたると解されることにある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H22-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>財産管理人が、民法<span class="mono">103条</span>に規定する権限を超える行為を必要とするときは、家庭裁判所の許可を得て、その行為をする必要がある（民法<span class="mono">28条</span>前段）。この点、財産管理人が、不在者の財産の一部を売却する行為は、民法<span class="mono">103条</span>に規定する権限を超える行為に当たる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-04-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>家庭裁判所は、管理人と不在者との関係その他の事情により、不在者の財産の中から、相当な報酬を管理人に与えることができる（民法<span class="mono">29条</span>2項）。つまり、必ず報酬を与えなければならないわけではなく、報酬を与えないこともできる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-04-1">
+  <div class="dlg-head"><div class="dlg-title">(H28-04-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不在者が管理人を置いた場合において、その不在者の生死が明らかでないときは、家庭裁判所は、利害関係人又は検察官の請求により、管理人を改任することができる（民法<span class="mono">26条</span>）。その趣旨は、不在者が置いた管理人の権限は存続しているのではあるが、管理が失当であったり、管理人の権限が不明確であるようなときには、公益的見地から裁判所が介入するということにある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H22-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不在者が管理人を置いた場合において、その不在者の生死が明らかでないときは、家庭裁判所は、利害関係人又は検察官の請求により、管理人を改任することができる（民法<span class="mono">26条</span>）。よって、不在者が財産管理人を置いた場合において、不在者の生存が明らかであるときは、家庭裁判所は、その管理人に義務違反があっても、これに干渉すべきではなく、管理人を改任することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-04-3">
+  <div class="dlg-head"><div class="dlg-title">(H28-04-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">25条</span>1項の規定に基づく財産管理についての命令後、本人が管理人を置いたときは、家庭裁判所は、その管理人、利害関係人又は検察官の請求により、その命令を取り消さなければならない（民法<span class="mono">25条</span>2項）。選任の審判は家庭裁判所の固有の職分に基づいて行う形成の裁判であると解されていることから、管理人の権限は、裁判所が当該審判を取り消さない限り有効であると解されている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-02-e">
+  <div class="dlg-head"><div class="dlg-title">(H07-02-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪宣告は、不在者の生死不明の状態が継続することにより利害関係人の身分上・財産上の地位が不確定な状態も継続することになるため、不在者を死亡したものとみなすことにより法律関係を確定させるものである。一方、不在者の財産管理の制度は、不在者及び利害関係人のために不在者の財産を管理する制度である。これらの制度は、目的を異にするものであり、不在者のために財産管理人が選任されていたとしても、失踪宣告の請求をすることは可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-02-a">
+  <div class="dlg-head"><div class="dlg-title">(H07-02-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>沈没した船舶の中に在った者の生死が、船舶が沈没した後1年間明らかでないときは、家庭裁判所は、利害関係人の請求により、失踪の宣告をすることができる（民法<span class="mono">30条</span>2項）。利害関係人とは、失踪宣告に関して法律上の利害関係を有する者であり、配偶者、法定相続人、親権者などが挙げられる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-04-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-04-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不在者の生死が７年間明らかでないときは、家庭裁判所は、利害関係人の請求により、失踪の宣告をすることができる（民法<span class="mono">30条</span>1項）。利害関係人とは、失踪者の生死について法律上の利害関係を有する者を指し（大決昭7.7.26）、不在者の配偶者や親、子、受遺者、保険金受取人などがこれにあたり、検察官は利害関係人には含まれない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-04-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>生死が7年間明らかでないために失踪の宣告を受けた者（民法<span class="mono">30条</span>1項）は、7年間の期間が満了した時に死亡したものとみなされる（民法<span class="mono">31条</span>前段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-04-u">
+  <div class="dlg-head"><div class="dlg-title">(H22-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>失踪宣告を受けた者は、死亡したものとみなされる（民法<span class="mono">31条</span>）。しかし、失踪宣告の制度の趣旨は、その失踪した者を死亡したものとして扱い、その最後の居住地における財産・身分関係について区切りをつけ、相続の開始等をさせることにあるのであって、被宣告者の権利能力まで奪うものではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-01-2">
+  <div class="dlg-head"><div class="dlg-title">(H14-01-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪の宣告を受けた者は、法律上、死亡したものとみなされるが、それは普通失踪においては期間満了時である（民法<span class="mono">31条</span>）。よって、本肢のＢは、期間満了時より前にはいまだ死亡したものとはみなされず、Ａに処分権限がない以上、Ａが、Ｂが既に死亡していたものと信じて行ったＢの財産の売却処分は、有効とはみなされない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-02-u">
+  <div class="dlg-head"><div class="dlg-title">(H07-02-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">30条</span>2項により特別失踪の宣告を受けた者は、その危難が去った時に、死亡したものとみなす（民法<span class="mono">31条</span>）。最も死亡の蓋然性が高い時点で死亡したものとみなすものである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-01-3">
+  <div class="dlg-head"><div class="dlg-title">(H14-01-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪者が生存すること又は民法<span class="mono">31条</span>に規定する時と異なる時に死亡したことの証明があったときは、家庭裁判所は、本人又は利害関係人の請求により、失踪の宣告を取り消さなければならない（民法<span class="mono">32条</span>1項前段）。よって、失踪宣告が取り消されていない状態の本肢のＢの死亡時期は、現実の死亡時期までさかのぼることはない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-01-4">
+  <div class="dlg-head"><div class="dlg-title">(H14-01-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>失踪の宣告によって財産を得た者は、その取消しによって権利を失う（民法<span class="mono">32条</span>2項本文）。失踪宣告の取消しの結果、失踪宣告の効果として生じた財産上の変動はなかったものとされる。よって、本肢のＡは、Ｂの失踪宣告が取り消されない限り相続により取得したＢの遺産を返還する必要はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-02-o">
+  <div class="dlg-head"><div class="dlg-title">(H07-02-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪者が生存すること又は民法<span class="mono">31条</span>に規定する時と異なる時に死亡したことの証明があったときは、家庭裁判所は、本人又は利害関係人の請求により、失踪の宣告を取り消さなければならない（民法<span class="mono">32条</span>1項前段）。失踪宣告の取消しの審判がなされると、失踪宣告に伴う身分や財産の変動はなかったものとされ、従来の法律関係が復活するが、第三者への影響が大きいため、その取消しは、失踪の宣告後その取消し前に善意でした行為の効力に影響を及ぼさない（民法<span class="mono">32条</span>1項後段）として、取消しの遡及効を制限したものである。よって、Ｂの財産を善意で取得した者がいる時であっても、失踪宣告の取消しを請求することは可能であり、取消しの効果を第三者に対抗できない場合があるにとどまる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-01-5">
+  <div class="dlg-head"><div class="dlg-title">(H14-01-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪宣告の取消しの結果、失踪宣告の効果として生じた身分上の変動はなかったものとされる。よって、Ｂの失踪宣告の取消しにより、Ａとの婚姻も遡及的に復活するから、Ａの死亡により生じた相続においても、Ｂが相続人となり、Ａの遺産を相続する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H18-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>遊興費として生命保険金を費消した場合には、利益が現存しているとはいえないので、善意のＢは保険者に対し、費消した生命保険金の相当額を返還する必要はない（民法<span class="mono">32条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H18-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>生活費として生命保険金を費消した場合には、必要な出費を免れたという利益が現存しているので、Ｂは保険者に対し、費消した生命保険金の相当額を返還しなければならない（民法<span class="mono">32条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-04-o">
+  <div class="dlg-head"><div class="dlg-title">(H22-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>失踪の宣告によって財産を得た者は、その取消しによって権利を失う（民法<span class="mono">32条</span>2項本文）が、その生存につき善意であった者は、現に利益を受けている限度においてのみ、その財産を返還すれば足りる（民法<span class="mono">32条</span>2項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-04-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>失踪の宣告が取り消された場合において、その取消しは、失踪の宣告後その取消し前に善意でした行為の効力に影響を及ぼさない（民法<span class="mono">32条</span>1項）。ここでいう「善意」とは、失踪宣告が事実に反することを知らないことをいい、その善意は行為の双方の当事者が善意であることを要する（大判昭13.2.7）。本記述では、財産の譲渡人であるＢがＡの生存を知っており、失踪宣告が事実に反することについて悪意であるので、失踪宣告は財産の譲渡の効力に影響を及ぼす。したがって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-04-a">
+  <div class="dlg-head"><div class="dlg-title">(H22-04-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>失踪宣告が取り消された場合、その取消しは、失踪の宣告後その取消し前に善意でした行為の効力に影響を及ぼさないとされている（民法<span class="mono">32条</span>1項後段）。そして、失踪宣告後その取消し前の行為が契約であるときには、民法<span class="mono">32条</span>1項後段は、当事者双方が善意であるときに適用されると解されている（大判昭13.2.7）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-05-uh18-05-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-05-ウ)(H18-05-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">32条</span>1項後段でいう「善意でした行為」とは、契約については、契約当時双方とも善意であることを要する（大判昭13.2.7）。よって、一方のみが善意である場合には、失踪者は失踪宣告が取り消されると本来の権利状態を回復することができる。従って、本肢は正しい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H18-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例の趣旨からは、善意のＣによる所有権取得の効果は確定的なものとなり（絶対的構成）、Ｃから土地を譲り受けたＤが悪意であっても、Ｄは当該土地の所有権を失わない（大判大3.7.9）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-04-a">
+  <div class="dlg-head"><div class="dlg-title">(H03-04-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>権利能力なき社団の資産は、構成員に総有的に帰属し、個々の構成員に分属する物ではないと解されている（最判昭39.10.15）。よって、権利能力なき社団が賃借した土地の賃借権も、各構成員には分属せず、その処分の際に構成員全員の同意は要しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H16-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>権利能力なき社団の財産は、実質的には社団を構成する構成員の総有に属するものであるから、構成員の同意をもって、総有の廃止その他財産の処分に関する定めがなされない限り、構成員は、脱退に際し、財産の分割請求をすることはできない（最判昭32.11.14）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、権利能力なき社団は、登記請求権を有せず登記申請人となりえないため、登記申請に当たっては、代表者が構成員全員からの受託者たる地位において、代表者個人名義で登記するほかないとしている（最判昭47.6.2）。もっとも、各構成員は登記申請人となることができるため、構成員全員の共有名義で登記することは、可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-04-ah03-04-u">
+  <div class="dlg-head"><div class="dlg-title">(H16-04-ア)(H03-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>権利能力なき社団の代表者が社団の名においてした取引上の債務は、社団の構成員全員に1個の義務として総有的に帰属し、社団の総有財産だけがその責任財産となり、構成員各自は、取引の相手方に対し個人的債務ないし責任を負わない（最判昭48.10.9）。よって、Ａ団体の代表者や構成員は、借入金の支払義務を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>
