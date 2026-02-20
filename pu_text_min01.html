@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>民法1</title>
+  <title>pu_text_min01</title>
   <style>
     :root{
       --base-font: 16px;
@@ -15,14 +15,34 @@
       --inner-border:#ffffff;
       --pcard-bg:#ffffff;
       --pcard-border:#ffffff;
+      --accent:#2563eb;
     }
     body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
     header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
     .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
     main{padding:16px;max-width:980px;margin:0 auto;}
     .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
     .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
-    .toc{background:var(--toc-bg);border:1px solid var(--toc-border);padding:10px 12px;border-radius:10px;max-height:15vh;overflow:auto;font-size:0.82em;line-height:1.7;flex:1;min-width:0;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
     .toc ul{margin:2px 0 2px 14px;padding:0;}
     .toc li{margin:1px 0;}
     .toc a{text-decoration:none;}
@@ -53,25 +73,44 @@
     .ind5{margin-left:1.000em;}
     .ind6{margin-left:1.200em;}
     h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
     body.toc-hidden .toc{display:none;}
     body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
-    .btn-ctrl{
-      white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
-      padding:6px 10px;cursor:pointer;font-size:0.86em;
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
     }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
   </style>
 </head>
 <body>
 <script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
 <a id="top"></a>
 <header>
-  <div class="wrap">
-    <h1>民法１ Unit1</h1>
-    前へ  <a href="pu26min01b.html#top">次へ</a>  <a href="pu_text_min01q.html#q-pu1-1">肢別へ</a>
+  <div class="wrap hrow1">
+    <h1>民法 Unit1</h1>
+    <div class="hnav">
+      <a href="pu26min01.html">トップへ</a>
+      <a href="pu26min00.html#top">前へ</a>
+      <a href="pu26min01b.html#top">次へ</a>
+      <a href="pu26min01q.html#top">肢別へ</a>
+    </div>
   </div>
   <div class="wrap">
     <div class="toc-wrap">
@@ -80,81 +119,356 @@
         <ul>
 <li><a href="#A00">第０編　序　論</a>
   <ul>
+
+    <li><a href="#A00-00-00-0-01">１　民法とは</a></li>
+
+    <li><a href="#A00-00-00-0-02">２　民法の性格</a></li>
+
+    <li><a href="#A00-00-00-0-03">３　民法の指導原理</a></li>
   </ul>
 </li>
 <li><a href="#A01">第１編　総則</a>
   <ul>
     <li><a href="#A01-01">第１章　私権についての基本原理</a>
       <ul>
+
+        <li><a href="#A01-01-00-0-01">１　公共の福祉（１条１項）</a></li>
+
+        <li><a href="#A01-01-00-0-02">２　信義誠実の原則（信義則。１条２項）</a></li>
+
+        <li><a href="#A01-01-00-0-03">３　権利濫用の禁止（１条３項）</a></li>
       </ul>
     </li>
     <li><a href="#A01-02">第２章　人</a>
       <ul>
-        <li><a href="#A01-02-01">第１節　権利能力</a></li>
-        <li><a href="#A01-02-02">第２節　意思能力と行為能力</a></li>
-        <li><a href="#A01-02-03">第３節　不在者の財産管理及び失踪宣告</a></li>
+        <li><a href="#A01-02-01">第１節　権利能力</a>
+          <ul>
+            <li><a href="#A01-02-01-0-01">１　意義</a></li>
+            <li><a href="#A01-02-01-0-02">２　権利能力の始期</a></li>
+            <li><a href="#A01-02-01-0-03">３　終期</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-02-02">第２節　意思能力と行為能力</a>
+          <ul>
+            <li><a href="#A01-02-02-1">Ⅰ　意思能力</a>
+              <ul>
+            </ul>
+          </li>
+            <li><a href="#A01-02-02-2">Ⅱ　行為能力</a>
+              <ul>
+            <li><a href="#A01-02-02-2-01">１　総説</a></li>
+            <li><a href="#A01-02-02-2-02">２　未成年者</a></li>
+            <li><a href="#A01-02-02-2-03">３　法定後見制度総説</a></li>
+            <li><a href="#A01-02-02-2-04">４　法定後見制度①－後見（審判により開始する後見）</a></li>
+            <li><a href="#A01-02-02-2-05">５　法定後見制度②－保佐</a></li>
+            <li><a href="#A01-02-02-2-06">６　法定後見制度③－補助</a></li>
+            <li><a href="#A01-02-02-2-07">７　制限行為能力者の相手方の保護</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A01-02-03">第３節　不在者の財産管理及び失踪宣告</a>
+          <ul>
+            <li><a href="#A01-02-03-1">Ⅰ　不在者の財産管理</a>
+              <ul>
+            <li><a href="#A01-02-03-1-01">１　意義</a></li>
+            <li><a href="#A01-02-03-1-02">２　要件</a></li>
+            <li><a href="#A01-02-03-1-03">３　効果</a></li>
+            <li><a href="#A01-02-03-1-04">４　管理人の改任・命令の取消し等</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-02-03-2">Ⅱ　失踪宣告</a>
+              <ul>
+            <li><a href="#A01-02-03-2-01">１　意義</a></li>
+            <li><a href="#A01-02-03-2-02">２　要件</a></li>
+            <li><a href="#A01-02-03-2-03">３　効果－死亡の擬制</a></li>
+            <li><a href="#A01-02-03-2-04">４　宣告の取消し</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-03">第３章　法人</a>
       <ul>
-        <li><a href="#A01-03-01">第１節　法人の意義</a></li>
-        <li><a href="#A01-03-02">第２節　権利能力なき社団</a></li>
+        <li><a href="#A01-03-01">第１節　法人の意義</a>
+          <ul>
+            <li><a href="#A01-03-01-0-01">１　意義</a></li>
+            <li><a href="#A01-03-01-0-02">２　趣旨</a></li>
+            <li><a href="#A01-03-01-0-03">３　効果</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-03-02">第２節　権利能力なき社団</a>
+          <ul>
+            <li><a href="#A01-03-02-0-01">１　意義</a></li>
+            <li><a href="#A01-03-02-0-02">２　要件</a></li>
+            <li><a href="#A01-03-02-0-03">３　効果</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-04">第４章　物（権利の客体）</a>
       <ul>
-        <li><a href="#A01-04-01">第１節　物－総説</a></li>
-        <li><a href="#A01-04-02">第２節　不動産と動産</a></li>
-        <li><a href="#A01-04-03">第３節　主物と従物</a></li>
-        <li><a href="#A01-04-04">第４節　元物と果実</a></li>
+        <li><a href="#A01-04-01">第１節　物－総説</a>
+          <ul>
+            <li><a href="#A01-04-01-0-01">１　物とは何か</a></li>
+            <li><a href="#A01-04-01-0-02">２　要件</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-04-02">第２節　不動産と動産</a>
+          <ul>
+            <li><a href="#A01-04-02-0-01">１　不動産</a></li>
+            <li><a href="#A01-04-02-0-02">２　動産</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-04-03">第３節　主物と従物</a>
+          <ul>
+            <li><a href="#A01-04-03-0-01">１　定義</a></li>
+            <li><a href="#A01-04-03-0-02">２　趣旨</a></li>
+            <li><a href="#A01-04-03-0-03">３　従物の要件</a></li>
+            <li><a href="#A01-04-03-0-04">４　効果</a></li>
+            <li><a href="#A01-04-03-0-05">５　従たる権利</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-04-04">第４節　元物と果実</a>
+          <ul>
+            <li><a href="#A01-04-04-0-01">１　定義</a></li>
+            <li><a href="#A01-04-04-0-02">２　果実の帰属</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-05">第５章　法律行為</a>
       <ul>
-        <li><a href="#A01-05-01">第１節　法律行為の意義</a></li>
-        <li><a href="#A01-05-02">第２節　法律行為の解釈</a></li>
-        <li><a href="#A01-05-03">第３節　法律行為の要件</a></li>
+        <li><a href="#A01-05-01">第１節　法律行為の意義</a>
+          <ul>
+            <li><a href="#A01-05-01-0-01">１　定義</a></li>
+            <li><a href="#A01-05-01-0-02">２　法律事実</a></li>
+            <li><a href="#A01-05-01-0-03">３　準法律行為</a></li>
+            <li><a href="#A01-05-01-0-04">４　法律行為の種類・態様</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-05-02">第２節　法律行為の解釈</a>
+          <ul>
+            <li><a href="#A01-05-02-0-01">１　意義</a></li>
+            <li><a href="#A01-05-02-0-02">２　解釈の基準</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-05-03">第３節　法律行為の要件</a>
+          <ul>
+            <li><a href="#A01-05-03-0-01">１　法律行為の成立要件</a></li>
+            <li><a href="#A01-05-03-0-02">２　有効要件</a></li>
+            <li><a href="#A01-05-03-0-03">３　効果帰属要件</a></li>
+            <li><a href="#A01-05-03-0-04">４　効力発生要件</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-06">第６章　意思表示</a>
       <ul>
-        <li><a href="#A01-06-01">第１節　総説</a></li>
-        <li><a href="#A01-06-02">第２節　意思表示と表示主義</a></li>
-        <li><a href="#A01-06-03">第３節　意思の欠缺</a></li>
-        <li><a href="#A01-06-04">第４節　瑕疵ある意思表示</a></li>
+        <li><a href="#A01-06-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-06-01-1">Ⅰ　意思表示</a>
+              <ul>
+            <li><a href="#A01-06-01-1-01">１　意思表示の意義・成立過程</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-06-01-2">Ⅱ　意思表示の到達と受領</a>
+              <ul>
+            <li><a href="#A01-06-01-2-01">１　意思表示の効力発生時期</a></li>
+            <li><a href="#A01-06-01-2-02">２　発信後の表意者の死亡・能力喪失</a></li>
+            <li><a href="#A01-06-01-2-03">３　公示による意思表示（98条1項）</a></li>
+            <li><a href="#A01-06-01-2-04">４　意思表示の受領能力</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A01-06-02">第２節　意思表示と表示主義</a>
+          <ul>
+            <li><a href="#A01-06-02-0-01">１　意義</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-06-03">第３節　意思の欠缺</a>
+          <ul>
+            <li><a href="#A01-06-03-1">Ⅰ　心裡留保（93条）</a>
+              <ul>
+            <li><a href="#A01-06-03-1-01">１　意義</a></li>
+            <li><a href="#A01-06-03-1-02">２　要件</a></li>
+            <li><a href="#A01-06-03-1-03">３　効力</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-06-03-2">Ⅱ　（通謀）虚偽表示（94条）</a>
+              <ul>
+            <li><a href="#A01-06-03-2-01">１　意義</a></li>
+            <li><a href="#A01-06-03-2-02">２　要件</a></li>
+            <li><a href="#A01-06-03-2-03">３　効力</a></li>
+            <li><a href="#A01-06-03-2-04">４　94条2項の類推適用</a></li>
+            <li><a href="#A01-06-03-2-05">５　94条2項類推適用の機能</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A01-06-04">第４節　瑕疵ある意思表示</a>
+          <ul>
+            <li><a href="#A01-06-04-1">Ⅰ　錯誤（95条）</a>
+              <ul>
+            <li><a href="#A01-06-04-1-01">１　意義</a></li>
+            <li><a href="#A01-06-04-1-02">２　態様</a></li>
+            <li><a href="#A01-06-04-1-03">３　要件</a></li>
+            <li><a href="#A01-06-04-1-04">４　和解と錯誤との関係</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-06-04-2">Ⅱ　詐欺による意思表示（96条）</a>
+              <ul>
+            <li><a href="#A01-06-04-2-01">１　意義</a></li>
+            <li><a href="#A01-06-04-2-02">２　要件</a></li>
+            <li><a href="#A01-06-04-2-03">３　効果</a></li>
+            <li><a href="#A01-06-04-2-04">４　錯誤と詐欺</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-06-04-3">Ⅲ　強迫による意思表示（96条）</a>
+              <ul>
+            <li><a href="#A01-06-04-3-01">１　意義</a></li>
+            <li><a href="#A01-06-04-3-02">２　要件</a></li>
+            <li><a href="#A01-06-04-3-03">３　効果</a></li>
+            <li><a href="#A01-06-04-3-04">４　強度の強迫による意思表示</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-07">第７章　代理</a>
       <ul>
-        <li><a href="#A01-07-01">第１節　総説</a></li>
-        <li><a href="#A01-07-02">第２節　代理の効力が問題となる場合</a></li>
-        <li><a href="#A01-07-03">第３節　復代理制度</a></li>
-        <li><a href="#A01-07-04">第４節　無権代理</a></li>
+        <li><a href="#A01-07-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-07-01-0-01">１　代理の意義</a></li>
+            <li><a href="#A01-07-01-0-02">２　代理と使者</a></li>
+            <li><a href="#A01-07-01-0-03">３　代理権の範囲</a></li>
+            <li><a href="#A01-07-01-0-04">４　代理権の消滅</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-07-02">第２節　代理の効力が問題となる場合</a>
+          <ul>
+            <li><a href="#A01-07-02-0-01">１　顕名のない代理行為</a></li>
+            <li><a href="#A01-07-02-0-02">２　代理権の濫用</a></li>
+            <li><a href="#A01-07-02-0-03">３　自己契約・双方代理</a></li>
+            <li><a href="#A01-07-02-0-04">４　代理行為の瑕疵</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-07-03">第３節　復代理制度</a>
+          <ul>
+            <li><a href="#A01-07-03-0-01">１　意義</a></li>
+            <li><a href="#A01-07-03-0-02">２　復任権</a></li>
+            <li><a href="#A01-07-03-0-03">３　復代理人選任の効果</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-07-04">第４節　無権代理</a>
+          <ul>
+            <li><a href="#A01-07-04-1">Ⅰ　狭義の無権代理</a>
+              <ul>
+            <li><a href="#A01-07-04-1-01">１　意義</a></li>
+            <li><a href="#A01-07-04-1-02">２　効果</a></li>
+            <li><a href="#A01-07-04-1-03">３　本人と無権代理人の地位の同一化</a></li>
+            <li><a href="#A01-07-04-1-04">４　単独行為の無権代理（118条）</a></li>
+            </ul>
+          </li>
+            <li><a href="#A01-07-04-2">Ⅱ　表見代理</a>
+              <ul>
+            <li><a href="#A01-07-04-2-01">１　総説</a></li>
+            <li><a href="#A01-07-04-2-02">２　代理権授与の表示による表見代理（109条）</a></li>
+            <li><a href="#A01-07-04-2-03">３　権限外の行為の表見代理（110条）</a></li>
+            <li><a href="#A01-07-04-2-04">４　代理権消滅後の表見代理（112条）</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-08">第８章　法律行為の無効及び取消し</a>
       <ul>
-        <li><a href="#A01-08-01">第１節　総説</a></li>
-        <li><a href="#A01-08-02">第２節　無効</a></li>
-        <li><a href="#A01-08-03">第３節　取消し</a></li>
+        <li><a href="#A01-08-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-08-01-0-01">１　法律行為の無効と取消しの意義</a></li>
+            <li><a href="#A01-08-01-0-02">２　無効・取消しの効果</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-08-02">第２節　無効</a>
+          <ul>
+            <li><a href="#A01-08-02-0-01">１　意義</a></li>
+            <li><a href="#A01-08-02-0-02">２　効果</a></li>
+            <li><a href="#A01-08-02-0-03">３　一部無効</a></li>
+            <li><a href="#A01-08-02-0-04">４　無効行為の追認</a></li>
+            <li><a href="#A01-08-02-0-05">５　無効行為の転換</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-08-03">第３節　取消し</a>
+          <ul>
+            <li><a href="#A01-08-03-0-01">１　意義</a></li>
+            <li><a href="#A01-08-03-0-02">２　方法</a></li>
+            <li><a href="#A01-08-03-0-03">３　効果</a></li>
+            <li><a href="#A01-08-03-0-04">４　取り消すことができる法律行為の追認</a></li>
+            <li><a href="#A01-08-03-0-05">５　取消権の存続期間</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-09">第９章　条件及び期限</a>
       <ul>
-        <li><a href="#A01-09-01">第１節　総説</a></li>
-        <li><a href="#A01-09-02">第２節　条件</a></li>
-        <li><a href="#A01-09-03">第３節　期限</a></li>
+        <li><a href="#A01-09-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-09-01-0-01">１　意義</a></li>
+            <li><a href="#A01-09-01-0-02">２　両者の区別</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-09-02">第２節　条件</a>
+          <ul>
+            <li><a href="#A01-09-02-0-01">１　意義</a></li>
+            <li><a href="#A01-09-02-0-02">２　有効要件</a></li>
+            <li><a href="#A01-09-02-0-03">３　条件付法律行為の効力</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-09-03">第３節　期限</a>
+          <ul>
+            <li><a href="#A01-09-03-0-01">１　意義</a></li>
+            <li><a href="#A01-09-03-0-02">２　期限に親しまない行為</a></li>
+            <li><a href="#A01-09-03-0-03">３　期限付法律行為の効力</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#A01-10">第１０章　期間</a>
       <ul>
+
+        <li><a href="#A01-10-00-0-01">１　意義</a></li>
+
+        <li><a href="#A01-10-00-0-02">２　計算方法（139条～143条）</a></li>
       </ul>
     </li>
     <li><a href="#A01-11">第１１章　時効</a>
       <ul>
-        <li><a href="#A01-11-01">第１節　総説</a></li>
-        <li><a href="#A01-11-02">第２節　取得時効</a></li>
-        <li><a href="#A01-11-03">第３節　消滅時効</a></li>
+        <li><a href="#A01-11-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-11-01-0-01">１　意義</a></li>
+            <li><a href="#A01-11-01-0-02">２　時効の一般的要件</a></li>
+            <li><a href="#A01-11-01-0-03">３　時効の効果</a></li>
+            <li><a href="#A01-11-01-0-04">４　時効の完成猶予及び更新</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-11-02">第２節　取得時効</a>
+          <ul>
+            <li><a href="#A01-11-02-0-01">１　所有権の取得時効（162条）</a></li>
+            <li><a href="#A01-11-02-0-02">２　所有権以外の財産権の取得時効（163条）</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-11-03">第３節　消滅時効</a>
+          <ul>
+            <li><a href="#A01-11-03-0-01">１　総説</a></li>
+            <li><a href="#A01-11-03-0-02">２　消滅時効の対象</a></li>
+            <li><a href="#A01-11-03-0-03">３　消滅時効の起算点</a></li>
+            <li><a href="#A01-11-03-0-04">４　時効期間の満了</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -164,23 +478,183 @@
       </div>
       <div class="ctrl-wrap">
         <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
-        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">Aa-</button>
-        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">標準</button>
-        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">Aa+</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
       </div>
     </div>
   </div>
 </header>
-<script>(function(){var btn=document.getElementById('tocToggle');function sync(){var h=document.body.classList.contains('toc-hidden');btn.textContent=h?'目次を表示':'目次を非表示';}btn.addEventListener('click',function(){var h=document.body.classList.toggle('toc-hidden');try{localStorage.setItem('tocHidden',h?'1':'0');}catch(e){}sync();});sync();})();</script>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
 <main id="content">
 <section class="sec-title" id="A00">
   <h2>第０編　序　論<a class="toplink" href="#top">↑Top</a></h2>
     <div class="blk outer">
-      <div class="outer-title">１　民法とは</div>
+      <div class="outer-title" id="A00-00-00-0-01">１　民法とは</div>
       <p>私人の日常生活（社会生活）を規律する最も基本的な法であり、主として私人の財産関係と家族関係を規律する。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　民法の性格</div>
+      <div class="outer-title" id="A00-00-00-0-02">２　民法の性格</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　私法</p>
@@ -202,7 +676,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　民法の指導原理</div>
+      <div class="outer-title" id="A00-00-00-0-03">３　民法の指導原理</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　権利能力平等の原則</p>
@@ -224,11 +698,11 @@
   <div class="p-card chap-card">
     <h2 id="A01-01">第１章　私権についての基本原理<a class="toplink" href="#top">↑Top</a></h2>
     <div class="blk outer">
-      <div class="outer-title">１　公共の福祉（１条１項）</div>
+      <div class="outer-title" id="A01-01-00-0-01">１　公共の福祉（１条１項）</div>
       <p>私権の行使については、社会的共同生活の利益に反してはならない（憲法29条２項参照）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　信義誠実の原則（信義則。１条２項）</div>
+      <div class="outer-title" id="A01-01-00-0-02">２　信義誠実の原則（信義則。１条２項）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -265,7 +739,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　権利濫用の禁止（１条３項）</div>
+      <div class="outer-title" id="A01-01-00-0-03">３　権利濫用の禁止（１条３項）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -288,11 +762,11 @@
     <div class="p-card sec-card">
       <h3 id="A01-02-01">第１節　権利能力<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-02-01-0-01">１　意義</div>
       <p>：権利義務の主体となることのできる資格</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　権利能力の始期</div>
+      <div class="outer-title" id="A01-02-01-0-02">２　権利能力の始期</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則－出生（３条１項）</p>
@@ -316,7 +790,7 @@
           <p class="p6 ind4">胎児でいる間は原則どおり権利能力はないが、胎児が生きて生まれた時に、問題の時点（不法行為や相続時など）に生まれていたものとみなし、さかのぼって権利能力を取得する。</p>
           <p class="p6 ind4">（理由）</p>
           <p class="p6 ind4">現行法上、胎児の財産を管理する法定代理制度が存在しない。</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_01.png" alt="A01-02-01_01.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-02-01_01.png" alt="/_media/pu/A01-02-01_01.png"></p>
           <p class="p6 ind4">Ｂ　解除条件説</p>
           <p class="p6 ind4">胎児であっても生まれたものとみなされる範囲（損害賠償、相続など）では権利能力を有し、ただ、死産である場合には遡及的に権利能力が消滅する。</p>
           <p class="p6 ind4">（理由）</p>
@@ -326,16 +800,16 @@
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">②特に相続をめぐる法律関係を速やかに確定できる。</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_02.png" alt="A01-02-01_02.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-02-01_02.png" alt="/_media/pu/A01-02-01_02.png"></p>
           <p class="p6 ind4">胎児に対する代理の可否</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_03.png" alt="A01-02-01_03.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-02-01_03.png" alt="/_media/pu/A01-02-01_03.png"></p>
           <p class="p6 ind4">※　解除条件説は胎児の権利能力を肯定することができる点に特徴があるが、その場合でも、代理が認められるのは上記例外の３つの範囲に限られる点に注意する必要がある（母が胎児を代理して売買契約を結ぶことは認められない）。</p>
         </div>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　終期</div>
+      <div class="outer-title" id="A01-02-01-0-03">３　終期</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　死亡（明文はないが、882条から推知される。）</p>
@@ -404,7 +878,7 @@
     <div class="p-card rank4-card">
       <p id="A01-02-02-2" class="h6 ind0">Ⅱ　行為能力</p>
     <div class="blk outer">
-      <div class="outer-title">１　総説</div>
+      <div class="outer-title" id="A01-02-02-2-01">１　総説</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　行為能力の意義</p>
@@ -443,7 +917,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　未成年者</div>
+      <div class="outer-title" id="A01-02-02-2-02">２　未成年者</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -539,7 +1013,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　法定後見制度総説</div>
+      <div class="outer-title" id="A01-02-02-2-03">３　法定後見制度総説</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -610,13 +1084,13 @@
         <div class="p-card">
           <p class="h6 ind0">6.　審判の取消し</p>
           <p class="p6 ind1">家庭裁判所は、後見等の開始の原因が消滅したときは、以下の者の請求により、後見等の開始の審判を取り消されなければならない（10条、14条、18条）。</p>
-          <p class="p6 ind1"><img class="embed-img" src="A01-02-02-2_01.png" alt="A01-02-02-2_01.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/A01-02-02-2_01.png" alt="/_media/pu/A01-02-02-2_01.png"></p>
           <p class="p6 ind1">※補助人への同意権の付与の審判及び代理権付与の審判をすべて取り消す場合にも、家庭裁判所は補助開始の審判を取り消さなければならない（18条３項）。この場合には、被補助人の判断能力が健常に復したといえないときでも、補助を継続する必要性、理由がなくなったということになるからである。</p>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　法定後見制度①－後見（審判により開始する後見）</div>
+      <div class="outer-title" id="A01-02-02-2-04">４　法定後見制度①－後見（審判により開始する後見）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　成年被後見人の行為能力</p>
@@ -673,7 +1147,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">５　法定後見制度②－保佐</div>
+      <div class="outer-title" id="A01-02-02-2-05">５　法定後見制度②－保佐</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　被保佐人の行為能力</p>
@@ -753,7 +1227,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">６　法定後見制度③－補助</div>
+      <div class="outer-title" id="A01-02-02-2-06">６　法定後見制度③－補助</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　被補助人の行為能力</p>
@@ -798,13 +1272,13 @@
           <p class="h6 ind1">(6) 被補助人の居住用不動産の処分（876条の10第１項、859条の３）</p>
           <p class="p6 ind2">補助人に代理権が付与された場合であっても、被補助人の居住用不動産を処分するについては家庭裁判所の許可を得なければならない。</p>
           <p class="p6 ind2">【制限行為能力者の概要】</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-02-02-2_02.png" alt="A01-02-02-2_02.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-02-02-2_02.png" alt="/_media/pu/A01-02-02-2_02.png"></p>
         </div>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">７　制限行為能力者の相手方の保護</div>
+      <div class="outer-title" id="A01-02-02-2-07">７　制限行為能力者の相手方の保護</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　総説</p>
@@ -817,7 +1291,7 @@
         <div class="p-card">
           <p class="h6 ind1">(1) 催告の相手方</p>
           <p class="p6 ind2">受領能力（相手方の意思表示の内容を理解する能力）を有する者でなければならない。</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-02-02-2_03.png" alt="A01-02-02-2_03.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-02-02-2_03.png" alt="/_media/pu/A01-02-02-2_03.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 催告の期間</p>
@@ -826,7 +1300,7 @@
         <div class="p-card">
           <p class="h6 ind1">(3) 催告に対する確答がない場合</p>
           <p class="p6 ind2">催告を受けた者が単独で追認できる場合には追認したものとみなされ、単独で追認できない場合には取り消したものとみなされる。</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-02-02-2_04.png" alt="A01-02-02-2_04.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-02-02-2_04.png" alt="/_media/pu/A01-02-02-2_04.png"></p>
           <p class="p6 ind2">※　「特別の方式を要する行為」については、取り消したものとみなされる（20条３項）。「特別の方式を要する行為」とは、後見人が後見監督人の同意を得なければすることができない行為の場合（864条）などをいう。</p>
         </div>
         </div>
@@ -867,11 +1341,11 @@
     <div class="p-card rank4-card">
       <p id="A01-02-03-1" class="h6 ind0">Ⅰ　不在者の財産管理</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-02-03-1-01">１　意義</div>
       <p>不在者：従来の住所又は居所を去って行方の明らかでない者</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-02-03-1-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　不在者本人が財産管理人を置かなかったとき（25条１項前段）</p>
@@ -887,7 +1361,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-02-03-1-03">３　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　不在者財産管理人の選任（25条１項）</p>
@@ -904,7 +1378,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　管理人の改任・命令の取消し等</div>
+      <div class="outer-title" id="A01-02-03-1-04">４　管理人の改任・命令の取消し等</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　管理人の改任（26条、家事事件手続法146条１項）</p>
@@ -923,7 +1397,7 @@
           <p class="h6 ind1">(1) 命令の取消し</p>
           <p class="p6 ind2">25条1項の規定による命令後、本人が管理人を置いたときは、家庭裁判所は、その管理人、利害関係人又は検察官の請求により、その命令を取り消さなければならない（25条2項）。</p>
           <p class="p6 ind2">家庭裁判所は、以下の場合には、不在者、管理人若しくは利害関係人の申立てにより又は職権で、管理人の選任その他の不在者の財産の管理に関する処分の取消しの審判をしなければならない（家事事件手続法147条）</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-02-03-1_01.png" alt="A01-02-03-1_01.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-02-03-1_01.png" alt="/_media/pu/A01-02-03-1_01.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 管理人の供託</p>
@@ -938,12 +1412,12 @@
     <div class="p-card rank4-card">
       <p id="A01-02-03-2" class="h6 ind0">Ⅱ　失踪宣告</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-02-03-2-01">１　意義</div>
       <p>：不在者の生死不明の状態が一定期間継続した場合に、一応その者の死亡を擬制して、従来の住所を中心とする法律関係を確定する制度</p>
       <p>認定死亡（戸籍法上の制度）と異なり、民法上の制度である。普通失踪と特別失踪とがある。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-02-03-2-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　不在者の生死が明らかでないこと</p>
@@ -969,12 +1443,12 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果－死亡の擬制</div>
+      <div class="outer-title" id="A01-02-03-2-03">３　効果－死亡の擬制</div>
       <p>普通失踪ならば失踪期間満了時、特別失踪ならば危難が去った時に死亡したものとみなされ（31条）、もとの住所を中心とする私法上の法律関係は死亡したのと同じ扱いがなされる（具体的には、相続が開始し（882条）、婚姻は解消し、配偶者は再婚することができる）。</p>
       <p>あくまで、「もとの住所を中心とする」であって、現実にその人が死亡したとは限らないから、どこかで生きている本人が、宣告と同時に権利能力を剥奪されるわけではない。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　宣告の取消し</div>
+      <div class="outer-title" id="A01-02-03-2-04">４　宣告の取消し</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -1056,15 +1530,15 @@
     <div class="p-card sec-card">
       <h3 id="A01-03-01">第１節　法人の意義<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-03-01-0-01">１　意義</div>
       <p>：自然人以外のもので、法律上、独立して権利・義務の主体となることができるもの</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　趣旨</div>
+      <div class="outer-title" id="A01-03-01-0-02">２　趣旨</div>
       <p>社団や財団が取引社会において現実に有する役割･地位にかんがみ、権利義務の帰属主体に昇格させる。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-03-01-0-03">３　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　法人格を得た場合の効果</p>
@@ -1091,7 +1565,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-03-02">第２節　権利能力なき社団<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-03-02-0-01">１　意義</div>
       <p>：社団としての実体を有しながら、法律上権利義務の帰属主体たり得ない団体（ex. 校友会、町内会自治会）</p>
       <p>以下のようなものがこれに該当する。</p>
       <div class="blk inner">
@@ -1105,7 +1579,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-03-02-0-02">２　要件</div>
       <p>できる限り法人と同様の扱いをされるべき「権利能力なき社団」といい得るためには、以下のような要件を具備していることが必要とされる（最判昭39.10.15）。</p>
       <p></p>
       <div class="blk inner">
@@ -1124,7 +1598,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-03-02-0-03">３　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　対内関係</p>
@@ -1144,7 +1618,7 @@
           <p class="p6 ind4">法人格の不存在を反映しつつ、法人格が存在する場合と同じような結論を導き得る構成によるべきである。</p>
           <p class="p6 ind4">Ｂ　合有説</p>
           <p class="p6 ind4">財産や債務は構成員に「合有」（：「共有」と「総有」の中間にあり、構成員は潜在的な持分は有するものの、持分処分の自由や目的物の分割請求をすることができないとする共同所有形態）的に帰属する。</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-03-02_01.png" alt="A01-03-02_01.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-03-02_01.png" alt="/_media/pu/A01-03-02_01.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">ⅱ　登記</p>
@@ -1184,13 +1658,13 @@
     <div class="p-card sec-card">
       <h3 id="A01-04-01">第１節　物－総説<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　物とは何か</div>
+      <div class="outer-title" id="A01-04-01-0-01">１　物とは何か</div>
       <p>民法上の「物」とは有体物をいう（85条）。</p>
       <p>有体物とは、空間の一部を占める外界の物質すべてをいう（固体・液体・気体）。</p>
       <p>もっとも、以下に示すように、有体物がすべて民法にいう「物」というわけではない。権利の客体としてふさわしいことが必要である。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-04-01-0-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind3 nobold">①有体性</p>
@@ -1208,7 +1682,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-04-02">第２節　不動産と動産<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　不動産</div>
+      <div class="outer-title" id="A01-04-02-0-01">１　不動産</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　定義</p>
@@ -1241,7 +1715,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　動産</div>
+      <div class="outer-title" id="A01-04-02-0-02">２　動産</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　定義</p>
@@ -1289,18 +1763,18 @@
     <div class="p-card sec-card">
       <h3 id="A01-04-03">第３節　主物と従物<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　定義</div>
+      <div class="outer-title" id="A01-04-03-0-01">１　定義</div>
       <p>従物：独立の物でありながら、客観的・経済的には他の物に従属して、その効用を助ける物（87条１項）</p>
       <p>主物：従物を付属させる対象となる物</p>
       <p>ex. 刀に対して鞘は従物。レストランの建物を主物とすると、営業用のテーブル・イスは従物。</p>
       <p>従物は、主物の処分に従う（87条２項）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　趣旨</div>
+      <div class="outer-title" id="A01-04-03-0-02">２　趣旨</div>
       <p>物が独立性を有している場合、その処分も独立になされるのが原則であるが、２個の物の間に客観的・経済的な主従結合関係があるとき、これを法律的運命においても同一に取扱い、その結合を破壊しないように要請される場合が多い。かかる要請に応じて設けられたのが、87条２項である。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　従物の要件</div>
+      <div class="outer-title" id="A01-04-03-0-03">３　従物の要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　継続的に主物の効用を助けること</p>
@@ -1314,16 +1788,16 @@
         <div class="p-card">
           <p class="h6 ind0">4.　独立の物であること</p>
           <p class="p6 ind1">一方が他方の構成部分となり、又は、合して単一の物として認められるだけになるときは、従物について別異の物としての地位を認めることはできない。</p>
-          <p class="p6 ind1"><img class="embed-img" src="A01-04-03_01.png" alt="A01-04-03_01.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/A01-04-03_01.png" alt="/_media/pu/A01-04-03_01.png"></p>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　効果</div>
+      <div class="outer-title" id="A01-04-03-0-04">４　効果</div>
       <p>従物は主物の処分に従う（87条２項）。ただし、本条は任意規定である。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">５　従たる権利</div>
+      <div class="outer-title" id="A01-04-03-0-05">５　従たる権利</div>
       <p>従たる権利についても87条２項を類推する。</p>
       <p>ex. 借地上の建物にとって、借地権は従たる権利である（最判昭40.５.４）。</p>
     </div>
@@ -1331,7 +1805,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-04-04">第４節　元物と果実<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　定義</div>
+      <div class="outer-title" id="A01-04-04-0-01">１　定義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　元物：果実を生ずる物</p>
@@ -1350,7 +1824,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　果実の帰属</div>
+      <div class="outer-title" id="A01-04-04-0-02">２　果実の帰属</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　天然果実</p>
@@ -1369,14 +1843,14 @@
     <div class="p-card sec-card">
       <h3 id="A01-05-01">第１節　法律行為の意義<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　定義</div>
+      <div class="outer-title" id="A01-05-01-0-01">１　定義</div>
       <p>：意思表示を要素とする私法上の法律要件</p>
       <p>意思表示とは、当事者が法律効果を欲し、かつ、そのことを発表する行為をいう。</p>
       <p>法律要件とは、権利・義務を発生させる一定の社会関係をいう。</p>
       <p>私権（権利・義務）は一定の事実を原因として変動（発生、変更、消滅）する。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　法律事実</div>
+      <div class="outer-title" id="A01-05-01-0-02">２　法律事実</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -1401,14 +1875,14 @@
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 事実行為：物を破壊し、果実を分離するというような、人の行為でなくとも同一の効果を生ずる行為</p>
-          <p class="p6 ind3"><img class="embed-img" src="A01-05-01_01.png" alt="A01-05-01_01.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/A01-05-01_01.png" alt="/_media/pu/A01-05-01_01.png"></p>
         </div>
         </div>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　準法律行為</div>
+      <div class="outer-title" id="A01-05-01-0-03">３　準法律行為</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -1444,7 +1918,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　法律行為の種類・態様</div>
+      <div class="outer-title" id="A01-05-01-0-04">４　法律行為の種類・態様</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意思表示の態様による分類</p>
@@ -1491,7 +1965,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-05-02">第２節　法律行為の解釈<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-05-02-0-01">１　意義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind3 nobold">①法律行為の意味を明らかにすること（狭義の法律行為の解釈）</p>
@@ -1502,7 +1976,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　解釈の基準</div>
+      <div class="outer-title" id="A01-05-02-0-02">２　解釈の基準</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　狭義の法律行為の解釈</p>
@@ -1537,7 +2011,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-05-03">第３節　法律行為の要件<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　法律行為の成立要件</div>
+      <div class="outer-title" id="A01-05-03-0-01">１　法律行為の成立要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則</p>
@@ -1551,7 +2025,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　有効要件</div>
+      <div class="outer-title" id="A01-05-03-0-02">２　有効要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　内容の確定性</p>
@@ -1591,12 +2065,12 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果帰属要件</div>
+      <div class="outer-title" id="A01-05-03-0-03">３　効果帰属要件</div>
       <p>例えば、他人の行った法律行為の効果が本人に帰属するためには、行為者が本人に対する関係で代理権を有することが必要である（後述、「代理」参照）。また、自己又は他人の物に対してなされた処分行為の効果がその物ないし他人に及ぶためには、処分者がその物について処分権を有することが必要である。</p>
       <p></p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　効力発生要件</div>
+      <div class="outer-title" id="A01-05-03-0-04">４　効力発生要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　法定条件</p>
@@ -1619,7 +2093,7 @@
     <div class="p-card rank4-card">
       <p id="A01-06-01-1" class="h6 ind0">Ⅰ　意思表示</p>
     <div class="blk outer">
-      <div class="outer-title">１　意思表示の意義・成立過程</div>
+      <div class="outer-title" id="A01-06-01-1-01">１　意思表示の意義・成立過程</div>
       <p>意思表示：当事者が法律効果を欲し、かつ、そのことを表示する行為</p>
       <p>意思表示を細かく分析すると、動機・（内心的）効果意思・表示意思・表示行為に分けられる。</p>
       <p>例えば、ある土地（甲地とする）を買う場合、以下の過程を辿る。</p>
@@ -1636,7 +2110,7 @@
     <div class="p-card rank4-card">
       <p id="A01-06-01-2" class="h6 ind0">Ⅱ　意思表示の到達と受領</p>
     <div class="blk outer">
-      <div class="outer-title">１　意思表示の効力発生時期</div>
+      <div class="outer-title" id="A01-06-01-2-01">１　意思表示の効力発生時期</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則－到達主義（97条１項）</p>
@@ -1649,19 +2123,19 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　発信後の表意者の死亡・能力喪失</div>
+      <div class="outer-title" id="A01-06-01-2-02">２　発信後の表意者の死亡・能力喪失</div>
       <p>表意者が発信した後に死亡したり、意思能力を喪失したり、制限行為能力者となっても、意思表示はそのまま効力がある（97条３項）。</p>
       <p>発信後の死亡・能力喪失は意思表示とは無関係な事実だからである。</p>
       <p>また、相手方が正当な理由なく意思表示の通知が到達することを妨げたときは、その通知は、通常到達すべきであった時に到達したものとみなされる（97条２項）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　公示による意思表示（98条1項）</div>
+      <div class="outer-title" id="A01-06-01-2-03">３　公示による意思表示（98条1項）</div>
       <p>相手方を知ることができず、又は所在不明の場合には、公示による意思表示が認められる（98条１項）。</p>
       <p>公示による意思表示は、最後に官報に掲載した日又はその掲載に代わる掲示を始めた日から2週間を経過した時に、相手方に到達したものとみなす（98条３項）。</p>
       <p>ただし、表意者が相手方を知らないこと又はその所在を知らないことにつき過失があったときは、到達の効力を生じない（98条３項ただし書）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　意思表示の受領能力</div>
+      <div class="outer-title" id="A01-06-01-2-04">４　意思表示の受領能力</div>
       <p>意思表示が到達により効力を生じるためには、受領者に受領能力が必要である。</p>
       <p>そこで、意思表示の相手方がその意思表示を受けたときに意思能力を有しなかったとき又は未成年者若しくは成年被後見人であったときは、その意思表示をもってその相手方に対抗することができない（98条の２本文）。対抗の問題であるから、受領者側から到達を主張することは妨げられない。</p>
       <p>ただし、①相手方の法定代理人②意思能力を回復し、又は行為能力者となった相手方がその意思表示を知った後は、この限りでない(98条の2ただし書)。</p>
@@ -1671,24 +2145,24 @@
     <div class="p-card sec-card">
       <h3 id="A01-06-02">第２節　意思表示と表示主義<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-02-0-01">１　意義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意思表示と表示主義の考え方</p>
           <p class="p6 ind1">法律行為において、（内心的）効果意思と表示行為とが一致していない場合に、どちらを重視して判断するか？</p>
           <p class="p6 ind1">※　効果意思と表示行為が一致していない：本人の意思表示に欠缺（意思と表示の不一致）や瑕疵（欠陥）があった場合</p>
-          <p class="p6 ind1"><img class="embed-img" src="A01-06-02_01.png" alt="A01-06-02_01.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/A01-06-02_01.png" alt="/_media/pu/A01-06-02_01.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　民法の態度</p>
           <p class="p6 ind1">意思表示のそもそもの出発点は個人の意思の尊重、私的自治の原則にあるが、取引の安全も重視する必要がある。そこで、民法は、意思主義、表示主義の両者を採用している（折衷主義）。</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 意思の欠缺</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-06-02_02.png" alt="A01-06-02_02.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-06-02_02.png" alt="/_media/pu/A01-06-02_02.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 瑕疵ある意思表示</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-06-02_03.png" alt="A01-06-02_03.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-06-02_03.png" alt="/_media/pu/A01-06-02_03.png"></p>
         </div>
         </div>
       </div>
@@ -1699,12 +2173,12 @@
     <div class="p-card rank4-card">
       <p id="A01-06-03-1" class="h6 ind0">Ⅰ　心裡留保（93条）</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-03-1-01">１　意義</div>
       <p>：表意者（表示行為をした者）が、そのなした表示行為に対応する真意のないことを知りながらする単独の意思表示</p>
       <p>ex.売る気もないのに「このパソコンを10万円で売ってやる」という場合</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-06-03-1-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　表示行為の存すること</p>
@@ -1719,7 +2193,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効力</div>
+      <div class="outer-title" id="A01-06-03-1-03">３　効力</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則－有効（表示主義）</p>
@@ -1743,13 +2217,13 @@
     <div class="p-card rank4-card">
       <p id="A01-06-03-2" class="h6 ind0">Ⅱ　（通謀）虚偽表示（94条）</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-03-2-01">１　意義</div>
       <p>：相手方と通じてした虚偽の意思表示</p>
       <p>ex. Ａが債権者からの差押えを免れる目的で、Ｂに土地を売却したような状況を作出した場合</p>
       <p>心裡留保との違いは、相手方との通謀の有無である。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-06-03-2-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意思表示の存すること</p>
@@ -1766,7 +2240,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効力</div>
+      <div class="outer-title" id="A01-06-03-2-03">３　効力</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則－無効（94条１項）</p>
@@ -1794,54 +2268,54 @@
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">①不動産の仮装譲受人からの譲受人（最判昭28.10.１）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_01.png" alt="A01-06-03-2_01.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_01.png" alt="/_media/pu/A01-06-03-2_01.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">②不動産の仮装譲受人から抵当権の設定を受けた者（大判大４.12.17）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_02.png" alt="A01-06-03-2_02.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_02.png" alt="/_media/pu/A01-06-03-2_02.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">③原抵当権が仮装であることにつき善意で転抵当権の設定を受けた者（最判昭55.９.11）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_03.png" alt="A01-06-03-2_03.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_03.png" alt="/_media/pu/A01-06-03-2_03.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">④虚偽表示の目的物を差し押えた仮装譲受人の債権者（最判昭48.６.28）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_04.png" alt="A01-06-03-2_04.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_04.png" alt="/_media/pu/A01-06-03-2_04.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">⑤仮装債権の譲受人（大判昭13.12.17）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_05.png" alt="A01-06-03-2_05.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_05.png" alt="/_media/pu/A01-06-03-2_05.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">ⅱ　「第三者」に当たらない例</p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">①債権の仮装譲受人から取立てのために債権を譲り受けた者（大決大９.10.18）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_06.png" alt="A01-06-03-2_06.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_06.png" alt="/_media/pu/A01-06-03-2_06.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">②仮装売買から生じる債務者の登記請求権を、それと直接関係のない債権に基づいて代位行使する債権者（大判昭18.12.22）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_07.png" alt="A01-06-03-2_07.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_07.png" alt="/_media/pu/A01-06-03-2_07.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">③土地の賃借人が借地上の建物を仮装譲渡した場合の土地賃貸人（最判昭38.11.28）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_08.png" alt="A01-06-03-2_08.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_08.png" alt="/_media/pu/A01-06-03-2_08.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">④土地の仮装譲受人からその土地上の建物を賃借した者（最判昭57.６.８）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_09.png" alt="A01-06-03-2_09.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_09.png" alt="/_media/pu/A01-06-03-2_09.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">⑤仮装譲受人の単なる債権者〔「第三者」に当たる例④との違いに注意〕</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_10.png" alt="A01-06-03-2_10.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_10.png" alt="/_media/pu/A01-06-03-2_10.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">⑥１番抵当権が仮装放棄され、順位上昇を誤信した２番抵当権者</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_11.png" alt="A01-06-03-2_11.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_11.png" alt="/_media/pu/A01-06-03-2_11.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">⑦代理人や法人の理事が虚偽表示した場合の本人や法人（大判大３.３.16〔法人に関する〕、大判昭16.８.30〔代理人に関する〕）</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-06-03-2_12.png" alt="A01-06-03-2_12.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/A01-06-03-2_12.png" alt="/_media/pu/A01-06-03-2_12.png"></p>
         </div>
         </div>
         <div class="p-card">
@@ -1892,7 +2366,7 @@
         <div class="p-card">
           <p class="h6 ind1">(4) 第三者は対抗要件を具備することを要するか。</p>
           <p class="p6 ind2">～「第三者」としての客観的要件の問題</p>
-          <p class="p6 ind2"><img class="embed-img" src="A01-06-03-2_13.png" alt="A01-06-03-2_13.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/A01-06-03-2_13.png" alt="/_media/pu/A01-06-03-2_13.png"></p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) Ａ－Ｃ間の対抗要件としての登記の要否</p>
           <p class="p6 ind3">→　不要（最判昭44.５.27）</p>
@@ -1924,7 +2398,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　94条2項の類推適用</div>
+      <div class="outer-title" id="A01-06-03-2-04">４　94条2項の類推適用</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　権利外観法理</p>
@@ -1992,7 +2466,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">５　94条2項類推適用の機能</div>
+      <div class="outer-title" id="A01-06-03-2-05">５　94条2項類推適用の機能</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　動産取引に対する適用の有無</p>
@@ -2012,13 +2486,13 @@
     <div class="p-card rank4-card">
       <p id="A01-06-04-1" class="h6 ind0">Ⅰ　錯誤（95条）</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-04-1-01">１　意義</div>
       <p>錯誤に基づく意思表示は、一定の場合に取り消すことができる（95条）。</p>
       <p>錯誤とは、表示に対応する意思が欠缺し、しかも意思の欠缺につき表意者の認識が欠けていることをいう（意思の無意識的欠缺・通説）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　態様</div>
-      <p><img class="embed-img" src="A01-06-04-1_01.png" alt="A01-06-04-1_01.png"></p>
+      <div class="outer-title" id="A01-06-04-1-02">２　態様</div>
+      <p><img class="embed-img" src="/_media/pu/A01-06-04-1_01.png" alt="/_media/pu/A01-06-04-1_01.png"></p>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　表示行為の錯誤－意思表示に対応する意思を欠く錯誤（95条１項１号）</p>
@@ -2060,7 +2534,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　要件</div>
+      <div class="outer-title" id="A01-06-04-1-03">３　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　要件</p>
@@ -2116,7 +2590,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　和解と錯誤との関係</div>
+      <div class="outer-title" id="A01-06-04-1-04">４　和解と錯誤との関係</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　和解の確定効</p>
@@ -2135,13 +2609,13 @@
     <div class="p-card rank4-card">
       <p id="A01-06-04-2" class="h6 ind0">Ⅱ　詐欺による意思表示（96条）</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-04-2-01">１　意義</div>
       <p>詐欺：欺くこと（欺罔）によって人を錯誤に陥れること</p>
       <p>詐欺による意思表示：相手方又は第三者に欺かれて、錯誤に陥り、その錯誤によってなされる意思表示</p>
       <p>詐欺による意思表示は、取り消すことができる（96条１項）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-06-04-2-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　故意</p>
@@ -2164,7 +2638,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-06-04-2-03">３　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則－取消し可</p>
@@ -2248,7 +2722,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　錯誤と詐欺</div>
+      <div class="outer-title" id="A01-06-04-2-04">４　錯誤と詐欺</div>
       <p>Ｑ　動機の錯誤が95条にいう「錯誤」に当たると解する立場から、また、判例の立場によっても動機が表示されていた場合には、詐欺によって生じた錯誤が「要素の錯誤」に該当するときには詐欺取消しと錯誤取消しの両方の要件をみたすことになる。そのような場合、表意者は詐欺取消しと錯誤取消しとの選択的主張をすることができるのか。</p>
       <p>→　二重効肯定説（通説）</p>
       <p>表意者はいずれかを選択して主張できる。</p>
@@ -2259,12 +2733,12 @@
     <div class="p-card rank4-card">
       <p id="A01-06-04-3" class="h6 ind0">Ⅲ　強迫による意思表示（96条）</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-06-04-3-01">１　意義</div>
       <p>強迫：他人に害意を告知し、恐怖を感じさせる行為</p>
       <p>強迫による意思表示：相手に畏怖を生じさせ、それによってなされる意思表示強迫による意思表示は、取り消すことができる（96条１項）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　要件</div>
+      <div class="outer-title" id="A01-06-04-3-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　故意</p>
@@ -2287,14 +2761,14 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-06-04-3-03">３　効果</div>
       <p>強迫による意思表示は常に取り消すことができる（96条１項）。</p>
       <p>第三者による強迫であっても取り消すことができる（96条２項の反対解釈）。</p>
       <p>善意無過失の第三者に対しても対抗することができる（96条３項の反対解釈）。</p>
       <p>※　詐欺に比べて、表意者保護の要請が強いために、意思主義が徹底されている。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　強度の強迫による意思表示</div>
+      <div class="outer-title" id="A01-06-04-3-04">４　強度の強迫による意思表示</div>
       <p>強度の強迫は意思が欠けることになるとして無効となる場合がある。</p>
       <p>【まとめ】</p>
       <table class="tbl">
@@ -2315,7 +2789,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-07-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　代理の意義</div>
+      <div class="outer-title" id="A01-07-01-0-01">１　代理の意義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -2381,7 +2855,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　代理と使者</div>
+      <div class="outer-title" id="A01-07-01-0-02">２　代理と使者</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　使者の意義</p>
@@ -2410,7 +2884,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　代理権の範囲</div>
+      <div class="outer-title" id="A01-07-01-0-03">３　代理権の範囲</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　法定代理権</p>
@@ -2464,7 +2938,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　代理権の消滅</div>
+      <div class="outer-title" id="A01-07-01-0-04">４　代理権の消滅</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　法定代理・任意代理共通の消滅原因</p>
@@ -2494,7 +2968,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-07-02">第２節　代理の効力が問題となる場合<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　顕名のない代理行為</div>
+      <div class="outer-title" id="A01-07-02-0-01">１　顕名のない代理行為</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　非顕名のときの効果（代理人が本人のためにすることを示さないでした意思表示の効果）</p>
@@ -2517,7 +2991,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　代理権の濫用</div>
+      <div class="outer-title" id="A01-07-02-0-02">２　代理権の濫用</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -2540,7 +3014,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　自己契約・双方代理</div>
+      <div class="outer-title" id="A01-07-02-0-03">３　自己契約・双方代理</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -2576,7 +3050,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　代理行為の瑕疵</div>
+      <div class="outer-title" id="A01-07-02-0-04">４　代理行為の瑕疵</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　代理行為の瑕疵</p>
@@ -2629,13 +3103,13 @@
     <div class="p-card sec-card">
       <h3 id="A01-07-03">第３節　復代理制度<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-07-03-0-01">１　意義</div>
       <p>復代理：代理人が、自分の権限内の行為を、自分の名でさらに代理人を選任して、その者に行わせること</p>
       <p>代理人によって選任された代理人を復代理人という。</p>
       <p>復代理人は、その権限内の行為について、本人を代表する（106条１項）。復代理人はあくまでも本人の代理人であり、代理人の代理人ではない。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　復任権</div>
+      <div class="outer-title" id="A01-07-03-0-02">２　復任権</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -2671,7 +3145,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　復代理人選任の効果</div>
+      <div class="outer-title" id="A01-07-03-0-03">３　復代理人選任の効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　復代理人の権限及び義務</p>
@@ -2694,11 +3168,11 @@
     <div class="p-card rank4-card">
       <p id="A01-07-04-1" class="h6 ind0">Ⅰ　狭義の無権代理</p>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-07-04-1-01">１　意義</div>
       <p>代理人として行為をした者に代理権がなかった場合を広義の無権代理といい、このうち表見代理が成立する場合を除いたものを狭義の無権代理という。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　効果</div>
+      <div class="outer-title" id="A01-07-04-1-02">２　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　原則</p>
@@ -2844,7 +3318,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　本人と無権代理人の地位の同一化</div>
+      <div class="outer-title" id="A01-07-04-1-03">３　本人と無権代理人の地位の同一化</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　無権代理人が本人を相続した場合（無権代理人相続型）</p>
@@ -2929,7 +3403,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　単独行為の無権代理（118条）</div>
+      <div class="outer-title" id="A01-07-04-1-04">４　単独行為の無権代理（118条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　単独行為</p>
@@ -2960,7 +3434,7 @@
     <div class="p-card rank4-card">
       <p id="A01-07-04-2" class="h6 ind0">Ⅱ　表見代理</p>
     <div class="blk outer">
-      <div class="outer-title">１　総説</div>
+      <div class="outer-title" id="A01-07-04-2-01">１　総説</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -2995,7 +3469,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　代理権授与の表示による表見代理（109条）</div>
+      <div class="outer-title" id="A01-07-04-2-02">２　代理権授与の表示による表見代理（109条）</div>
       <p>（代理権授与の表示による表見代理等）</p>
       <p>第109条　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間でした行為について、その責任を負う。ただし、第三者が、その他人が代理権を与えられていないことを知り、又は過失によって知らなかったときは、この限りでない。</p>
       <p>２　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
@@ -3035,7 +3509,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　権限外の行為の表見代理（110条）</div>
+      <div class="outer-title" id="A01-07-04-2-03">３　権限外の行為の表見代理（110条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　趣旨</p>
@@ -3125,7 +3599,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　代理権消滅後の表見代理（112条）</div>
+      <div class="outer-title" id="A01-07-04-2-04">４　代理権消滅後の表見代理（112条）</div>
       <p>（代理権消滅後の表見代理等）</p>
       <p>第112条　他人に代理権を与えた者は、代理権の消滅後にその代理権の範囲内においてその他人が第三者との間でした行為について、代理権の消滅の事実を知らなかった第三者に対してその責任を負う。ただし、第三者が過失によってその事実を知らなかったときは、この限りでない。</p>
       <p>２　他人に代理権を与えた者は、代理権の消滅後に、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
@@ -3170,7 +3644,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-08-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　法律行為の無効と取消しの意義</div>
+      <div class="outer-title" id="A01-08-01-0-01">１　法律行為の無効と取消しの意義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　無効</p>
@@ -3195,7 +3669,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　無効・取消しの効果</div>
+      <div class="outer-title" id="A01-08-01-0-02">２　無効・取消しの効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　効果</p>
@@ -3234,11 +3708,11 @@
     <div class="p-card sec-card">
       <h3 id="A01-08-02">第２節　無効<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-08-02-0-01">１　意義</div>
       <p>：法律行為の効力がはじめから生じないということ</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　効果</div>
+      <div class="outer-title" id="A01-08-02-0-02">２　効果</div>
       <p>無効の法律行為にあっては、当事者が意図した法律効果は初めから当然に発生しない。</p>
       <div class="blk inner">
         <div class="p-card">
@@ -3274,7 +3748,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　一部無効</div>
+      <div class="outer-title" id="A01-08-02-0-03">３　一部無効</div>
       <p>法律行為の一部に無効原因が存在する場合、残余の部分についても無効となるのか。</p>
       <div class="blk inner">
         <div class="p-card">
@@ -3303,7 +3777,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　無効行為の追認</div>
+      <div class="outer-title" id="A01-08-02-0-04">４　無効行為の追認</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -3339,7 +3813,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">５　無効行為の転換</div>
+      <div class="outer-title" id="A01-08-02-0-05">５　無効行為の転換</div>
       <p>無効行為の転換：ある法律行為が無効であっても、他の法律行為としての要件を実質的に充たしている場合に、後者の法律行為として有効とすること</p>
       <div class="blk inner">
         <div class="p-card">
@@ -3365,16 +3839,16 @@
     <div class="p-card sec-card">
       <h3 id="A01-08-03">第３節　取消し<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-08-03-0-01">１　意義</div>
       <p>：意思表示に瑕疵がある場合に、いったん発生した意思表示としての効力を廃棄する旨の表意者の意思表示、又は、制限行為能力者の行った法律行為の効果が一応制限行為能力者に帰属しているのを排除する旨の制限行為能力者側の意思表示</p>
       <p>cf. 撤回：完全に有効な行為の効力を将来に向かってのみ失わせるもの</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　方法</div>
+      <div class="outer-title" id="A01-08-03-0-02">２　方法</div>
       <p>相手方への意思表示による（単独行為。123条）。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　効果</div>
+      <div class="outer-title" id="A01-08-03-0-03">３　効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　遡及的無効（121条）</p>
@@ -3385,7 +3859,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　取り消すことができる法律行為の追認</div>
+      <div class="outer-title" id="A01-08-03-0-04">４　取り消すことができる法律行為の追認</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -3456,7 +3930,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">５　取消権の存続期間</div>
+      <div class="outer-title" id="A01-08-03-0-05">５　取消権の存続期間</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　存続期間</p>
@@ -3475,11 +3949,11 @@
     <div class="p-card sec-card">
       <h3 id="A01-09-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-09-01-0-01">１　意義</div>
       <p>将来において一定の事実が発生した場合に法律行為の効力を発生又は消滅させる旨の意思表示を、法律行為の付款という。条件及び期限はこれに当たる。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　両者の区別</div>
+      <div class="outer-title" id="A01-09-01-0-02">２　両者の区別</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　条件：成否が不確実であるもの</p>
@@ -3501,7 +3975,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-09-02">第２節　条件<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-09-02-0-01">１　意義</div>
       <p>：法律行為の効力の発生又は消滅を成否未定の事実にかからせる、法律行為の付款</p>
       <div class="blk inner">
         <div class="p-card">
@@ -3513,7 +3987,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　有効要件</div>
+      <div class="outer-title" id="A01-09-02-0-02">２　有効要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind3 nobold">①　成否不確定な将来の事実に関するものであること（ただし、既成条件については特則がある。131条参照）</p>
@@ -3559,7 +4033,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　条件付法律行為の効力</div>
+      <div class="outer-title" id="A01-09-02-0-03">３　条件付法律行為の効力</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　条件成就</p>
@@ -3653,7 +4127,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-09-03">第３節　期限<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-09-03-0-01">１　意義</div>
       <p>期限：法律行為の効力の発生・消滅又は債務の履行を、将来到来することの確実</p>
       <p>な事実の生起にかからせる法律行為の付款</p>
       <div class="blk inner">
@@ -3667,7 +4141,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　期限に親しまない行為</div>
+      <div class="outer-title" id="A01-09-03-0-02">２　期限に親しまない行為</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　親族法上の行為</p>
@@ -3680,7 +4154,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　期限付法律行為の効力</div>
+      <div class="outer-title" id="A01-09-03-0-03">３　期限付法律行為の効力</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　期限の到来の効果</p>
@@ -3734,11 +4208,11 @@
   <div class="p-card chap-card">
     <h2 id="A01-10">第１０章　期間<a class="toplink" href="#top">↑Top</a></h2>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-10-00-0-01">１　意義</div>
       <p>期間：ある時点からある時点に至る継続した時の区分</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　計算方法（139条～143条）</div>
+      <div class="outer-title" id="A01-10-00-0-02">２　計算方法（139条～143条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　時・分・秒を単位とする場合（139条）</p>
@@ -3765,7 +4239,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-11-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　意義</div>
+      <div class="outer-title" id="A01-11-01-0-01">１　意義</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　定義</p>
@@ -3839,7 +4313,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　時効の一般的要件</div>
+      <div class="outer-title" id="A01-11-01-0-02">２　時効の一般的要件</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　時効の完成（時効期間の経過）</p>
@@ -3910,7 +4384,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　時効の効果</div>
+      <div class="outer-title" id="A01-11-01-0-03">３　時効の効果</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　時効の遡及効</p>
@@ -3970,7 +4444,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　時効の完成猶予及び更新</div>
+      <div class="outer-title" id="A01-11-01-0-04">４　時効の完成猶予及び更新</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
@@ -4174,7 +4648,7 @@
     <div class="p-card sec-card">
       <h3 id="A01-11-02">第２節　取得時効<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　所有権の取得時効（162条）</div>
+      <div class="outer-title" id="A01-11-02-0-01">１　所有権の取得時効（162条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　要件(1)――占有の継続</p>
@@ -4256,7 +4730,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　所有権以外の財産権の取得時効（163条）</div>
+      <div class="outer-title" id="A01-11-02-0-02">２　所有権以外の財産権の取得時効（163条）</div>
       <p>ex. 用益物権、質権など</p>
       <div class="blk inner">
         <div class="p-card">
@@ -4291,11 +4765,11 @@
     <div class="p-card sec-card">
       <h3 id="A01-11-03">第３節　消滅時効<a class="toplink" href="#top">↑Top</a></h3>
     <div class="blk outer">
-      <div class="outer-title">１　総説</div>
+      <div class="outer-title" id="A01-11-03-0-01">１　総説</div>
       <p>消滅時効とは、権利不行使の事実状態を根拠として、権利の消滅を認めるものである。すべての権利が消滅時効にかかるわけではなく、また、時効期間も権利の種類によって異なる点に注意を要する。</p>
     </div>
     <div class="blk outer">
-      <div class="outer-title">２　消滅時効の対象</div>
+      <div class="outer-title" id="A01-11-03-0-02">２　消滅時効の対象</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　消滅時効にかかる権利</p>
@@ -4329,7 +4803,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">３　消滅時効の起算点</div>
+      <div class="outer-title" id="A01-11-03-0-03">３　消滅時効の起算点</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　総説</p>
@@ -4389,7 +4863,7 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title">４　時効期間の満了</div>
+      <div class="outer-title" id="A01-11-03-0-04">４　時効期間の満了</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　各権利の時効期間</p>

@@ -5,52 +5,61 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>民法1 Unit1</title>
   <style>
-    :root{ --bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626; }
-    body{ margin:0; font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif; background:var(--bg); color:var(--text); }
-    header{ position:sticky; top:0; background:rgba(247,248,251,.92); backdrop-filter: blur(8px); border-bottom:1px solid var(--line); z-index:10; }
-    header .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
-    header h1{ font-size:16px; margin:0; font-weight:700; }
-    header a{ color:var(--accent); text-decoration:none; font-size:13px; }
-    main{ max-width:1100px; margin:16px auto; padding:0 16px 40px; }
-    .list{ display:grid; gap:10px; }
-    .q{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:12px 14px;scroll-margin-top: 70px; }
-    .qhead{ display:flex; gap:10px; align-items:flex-start; justify-content:space-between; }
-    .left{ flex:1; min-width:0; }
-    .qid{ font-size:12px; color:var(--muted); white-space:nowrap; }
-    .qtext{ line-height:1.75; margin:6px 0 0; padding-left: 1.6em; text-indent: -1.6em;}
-    .meta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .pill{ display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:3px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; }
-    .pill a{ color:var(--accent); text-decoration:none; }
-    .btn{ appearance:none; border:1px solid var(--line); background:#fff; color:var(--text); padding:7px 10px; border-radius:10px; font-size:12px; cursor:pointer; white-space:nowrap; }
-    dialog{ width:min(820px, 92vw); border:none; border-radius:14px; padding:0; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
-    dialog::backdrop{ background: rgba(0,0,0,.35); }
-    .dlg-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line); background:#fff; }
-    .dlg-title{ font-weight:700; font-size:14px; }
-    .dlg-body{ padding:14px; background:#fff; }
-    .dlg-body p{ margin:0 0 10px; line-height:1.75; }
-    .dlg-foot{ padding:12px 14px; border-top:1px solid var(--line); background:#fff; display:flex; justify-content:flex-end; gap:10px; }
-    .badge{ display:inline-flex; align-items:center; font-size:12px; padding:3px 10px; border-radius:999px; border:1px solid var(--line); background:#fff; margin-bottom:10px; }
-    .badge.ok{ border-color:#bbf7d0; background:#f0fdf4; color:var(--ok); }
-    .badge.ng{ border-color:#fecaca; background:#fef2f2; color:var(--ng); }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace; }
-    .qcheck{display:flex; align-items:flex-start; gap:6px; margin-top:2px; flex:0 0 auto; user-select:none;}
-    .qcheck input{ width:18px; height:18px; margin:2px 0 0; cursor:pointer;}
-    .qcheck span{ font-size:12px; color:var(--muted); line-height:1.2;}
-    .htools{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-    .hprog{ font-size:12px; color:var(--muted); border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:999px; white-space:nowrap; }
-    .btn.small{ padding:6px 9px; border-radius:10px; font-size:12px; }
-    .qstep{ width:22px; height:22px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; }
-    .qstep[data-level="0"]{ color:var(--muted); }
-    .qstep[data-level="1"]{ border-color:#bbf7d0; background:#f0fdf4; color:var(--ok); font-weight:700; }
-    .qstep[data-level="2"]{ border-color:#bfdbfe; background:#eff6ff; color:var(--accent); font-weight:700; }
-    .qcheck span{ font-size:12px; color:var(--muted); line-height:1.2; }
-    .htools{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-    .hprog{ font-size:12px; color:var(--muted); border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:999px; white-space:nowrap; }
-    .btn.small{ padding:6px 9px; border-radius:10px; font-size:12px; }
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:6px 9px;border-radius:10px;font-size:12px;}
   </style>
 </head>
 <body>
-<header><div class="wrap"><h1>民法1 Unit1</h1><a href="pu_text_min01.html#top">テキストへ</a></div></header>
+<header><div class="wrap"><h1>民法1 Unit1</h1><a href="pu_text_min01q.html#top">テキストへ</a></div></header>
 <main><div class="list">
 
     <!-- 1 -->
@@ -537,11 +546,45 @@
   function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
   function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
   function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
-  function renderStep(btn, level){
-    btn.dataset.level = String(level);
-    btn.textContent = (level === 0) ? '' : String(level);
-    btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
-    btn.setAttribute('aria-label', `チェック段階 ${level}`);
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
   }
   function ensureHeaderTools(){
     const wrap = document.querySelector('header .wrap');
@@ -554,22 +597,47 @@
       existingLinks.forEach(a => tools.appendChild(a));
       wrap.appendChild(tools);
     }
-    if (!document.getElementById('prog')){
-      const prog = document.createElement('span');
-      prog.className = 'hprog';
-      prog.id = 'prog';
-      tools.prepend(prog);
-    }
     if (!document.getElementById('btn-clear')){
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'btn small';
       b.id = 'btn-clear';
-      b.textContent = '全解除';
+      b.textContent = 'reset';
       tools.prepend(b);
     }
-    if (!document.getElementById('btn-all1')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all1'; b.textContent = '全1'; tools.prepend(b); }
-    if (!document.getElementById('btn-all2')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all2'; b.textContent = '全2'; tools.prepend(b); }
+    if (!document.getElementById('btn-all1')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all1'; b.textContent = '全済'; tools.prepend(b); }
+    if (!document.getElementById('btn-all2')){ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.id = 'btn-all2'; b.textContent = '全再'; tools.prepend(b); }
+    ensureFontTools(tools);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
   }
   function updateProgress(){
     const all = getAllQuestionIds();
@@ -588,22 +656,24 @@
     document.querySelectorAll('section.q[id]').forEach(sec => {
       const qid = sec.id;
       const head = sec.querySelector('.qhead');
-      const left = sec.querySelector('.qhead .left');
+      const left = sec.querySelector('.left');
       if (!head || !left) return;
+      // 既に生成済みならスキップ
       if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
       const wrap = document.createElement('div');
       wrap.className = 'qcheck';
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'qstep';
       btn.setAttribute('data-qid', qid);
-      const lv = clampLevel(saved[qid]);
-      renderStep(btn, lv);
-      const txt = document.createElement('span');
-      txt.textContent = '';
       wrap.appendChild(btn);
-      wrap.appendChild(txt);
-      head.insertBefore(wrap, left);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
     });
     updateProgress();
   }
@@ -646,6 +716,7 @@
       if (a && a.blur) a.blur();
     })
   );
+  loadFont();
   ensureHeaderTools();
   ensureStepButtons();
   updateProgress();
