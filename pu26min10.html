@@ -1,0 +1,1001 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit10</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden header .toc{display:none;}
+    body.toc-hidden header .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit10</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min09.html">前へ</a>
+      <a href="pu26min11.html#top">次へ</a>
+      <a href="pu26min09q.html#top">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A01">第１編　総則</a>
+  <ul>
+    <li><a href="#A01-08">第８章　法律行為の無効及び取消し</a>
+      <ul>
+        <li><a href="#A01-08-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-08-01-0-01">１　法律行為の無効と取消しの意義</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-08-02">第２節　無効</a>
+          <ul>
+            <li><a href="#A01-08-02-0-01">１　意義</a></li>
+            <li><a href="#A01-08-02-0-02">２　効果</a></li>
+            <li><a href="#A01-08-02-0-03">３　一部無効</a></li>
+            <li><a href="#A01-08-02-0-04">４　無効行為の追認</a></li>
+            <li><a href="#A01-08-02-0-05">５　無効行為の転換</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-08-03">第３節　取消し</a>
+          <ul>
+            <li><a href="#A01-08-03-0-01">１　意義</a></li>
+            <li><a href="#A01-08-03-0-02">２　方法</a></li>
+            <li><a href="#A01-08-03-0-03">３　効果</a></li>
+            <li><a href="#A01-08-03-0-04">４　取り消すことができる法律行為の追認</a></li>
+            <li><a href="#A01-08-03-0-05">５　取消権の存続期間</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#A01-09">第９章　条件及び期限</a>
+      <ul>
+        <li><a href="#A01-09-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A01-09-01-0-01">１　意義</a></li>
+            <li><a href="#A01-09-01-0-02">２　両者の区別</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-09-02">第２節　条件</a>
+          <ul>
+            <li><a href="#A01-09-02-0-01">１　意義</a></li>
+            <li><a href="#A01-09-02-0-02">２　有効要件</a></li>
+            <li><a href="#A01-09-02-0-03">３　条件付法律行為の効力</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-09-03">第３節　期限</a>
+          <ul>
+            <li><a href="#A01-09-03-0-01">１　意義</a></li>
+            <li><a href="#A01-09-03-0-02">２　期限に親しまない行為</a></li>
+            <li><a href="#A01-09-03-0-03">３　期限付法律行為の効力</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#A01-10">第１０章　期間</a>
+      <ul>
+
+        <li><a href="#A01-10-00-0-01">１　意義</a></li>
+
+        <li><a href="#A01-10-00-0-02">２　計算方法（139条～143条）</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A01">
+  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A01-08">第８章　法律行為の無効及び取消し<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-01-0-01">１　法律行為の無効と取消しの意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　無効</p>
+          <p class="p6 ind1">無効：法律行為の効力がはじめから生じないこと</p>
+          <p class="p6 ind1">ex. 公序良俗違反（90条）、強行法規違反（91条）、虚偽表示（94条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　取消し</p>
+          <p class="p6 ind1">取消し：取消権者の意思によって法律行為を遡及的に無効にすること</p>
+          <p class="p6 ind1">ex. 制限行為能力者の行為（５条、９条、13条、17条）、錯誤に基づく意思表示（95条）、詐欺・強迫による行為（96条）</p>
+          <p class="p6 ind1">※　無効も取消しも、ともに、法律効果の発生が阻止される場合である点で共通する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　無効と取消しの差異</p>
+          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1">２　無効・取消しの効果</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">1.　効果</p>
+          <p class="p6 ind1">無効・取消しの結果、法律行為としての効力は失われる（121条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　原状回復義務の発生（121条の２第１項）</p>
+          <p class="p6 ind1">無効な行為又は取り消された行為に基づいて履行が既になされている場合には、その履行によって引き渡された物等の返還が必要になる（121条の２）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 返還義務の特則（121条の２第２項、３項）</p>
+          <p class="p6 ind2">原状回復は引き渡された物等の全部についてするのが原則だが、以下の場合には、「現に利益を受けている限度」において返還すれば足りる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①無効又は取消し可能な無償行為に基づく債務の履行を受けた給付受領者が給付を受けたときに善意であるとき（121条の２第２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②給付受領者が給付を受けたときに意思能力を欠く者であったとき（121条の２第３項前段）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③給付受領者が給付を受けたときに制限行為能力者であったとき（121条の２第３項後段）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">取消権行使を容易にして、給付原因が無効又は取消可能であることを知らない給付受領者、意思能力を欠く者、制限行為能力者を保護する趣旨である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「現に利益を受けている限度」（現存利益）の意義</p>
+          <p class="p6 ind2">現存利益とは、受けた利益がそのままの形で、又は形を変えて残っている場合をいう。</p>
+          <p class="p6 ind2">浪費してしまった場合には現存利益はないが、生活費や他の債務の弁済にあてた場合にはその分出費を免れたことになり、現存利益はあることになる（大判昭７.10.26）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-02">第２節　無効<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-02-0-01">１　意義</div>
+      <p>：法律行為の効力がはじめから生じないということ</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-02-0-02">２　効果</div>
+      <p>無効の法律行為にあっては、当事者が意図した法律効果は初めから当然に発生しない。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　当事者間</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 表見的に発生した債務は発生しなかったことになる－履行の拒絶</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 既に履行した場合－原状回復義務（121条の２）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　第三者に対する効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則としてすべての人に対して主張することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 第三者の保護</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①94条２項</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②取得時効（162条・163条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③即時取得（192条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④受領権者としての外観を有する者への弁済（478条）</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-02-0-03">３　一部無効</div>
+      <p>法律行為の一部に無効原因が存在する場合、残余の部分についても無効となるのか。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　明文規定があるときはそれに従う。</p>
+          <p class="p6 ind1">ex. 利息制限法１条</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　明文の規定がない場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">無効な部分を分離できるときは、できる限り残りの部分を有効な契約として存続させる。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">当事者の意思に沿う場合が多い。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外（全体として無効）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　残部のみでは当事者が欲しないだろうといえる場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　全部を無効にしないと強行規定の目的が達せられない場合</p>
+          <p class="p6 ind4">ex. 芸娼妓契約</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-02-0-04">４　無効行為の追認</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：無効な法律行為を有効にする意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">無効行為は当然かつ絶対的に効力のないものであるから、追認によってその行為を有効とすることはできないのが原則であるが（119条本文）、当事者が望むならばその行為に何らかの法律効果を認めてもよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　要件</p>
+          <p class="p6 ind1">強行規定違反や公序良俗違反による無効は、その状態が続く以上、追認は認められない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">遡及効は認められない（119条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外</p>
+          <p class="p6 ind2">当事者間の関係だけで、さかのぼって「無効」行為のときから有効だったような扱いをすることは認められる（116条類推）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 他人の権利の処分に対する本人の追認の効果</p>
+          <p class="p6 ind2">処分権のない者の処分行為は効果不帰属という意味で無効である。この場合、事後に処分権者が追認したら、この行為は、行為の時にさかのぼって有効となるのか。</p>
+          <p class="p6 ind2">→　116条類推適用説（最判昭37.８.10）</p>
+          <p class="p6 ind2">ある物件につき、何ら権利を有しない者が、これを自己の権利に属するものとして処分した場合において真実の権利者が後日これを追認したときは、無権代理行為の追認に関する民法116条の類推適用により、 処分の時にさかのぼって効力を生ずるものと解する。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">無権代理行為も非権利者の処分行為も処分権能を欠く場合で、効果帰属要件としての評価においては同様に扱うことができるものである。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-02-0-05">５　無効行為の転換</div>
+      <p>無効行為の転換：ある法律行為が無効であっても、他の法律行為としての要件を実質的に充たしている場合に、後者の法律行為として有効とすること</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　法律上認められている場合</p>
+          <p class="p6 ind1">971条、戸籍法62条</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　判例の態度</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 妾との間の子（非嫡出子）の嫡出子としての届出</p>
+          <p class="p6 ind2">→　認知としての効力を有する（大判大15.10.11）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 他人の子を自己の嫡出子とする届出</p>
+          <p class="p6 ind2">→　養子縁組としての効力も認められない（最判昭50.４.８）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">要式行為への転換は慎重になされるべきである。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-08-03">第３節　取消し<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-03-0-01">１　意義</div>
+      <p>：意思表示に瑕疵がある場合に、いったん発生した意思表示としての効力を廃棄する旨の表意者の意思表示、又は、制限行為能力者の行った法律行為の効果が一応制限行為能力者に帰属しているのを排除する旨の制限行為能力者側の意思表示</p>
+      <p>cf. 撤回：完全に有効な行為の効力を将来に向かってのみ失わせるもの</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-03-0-02">２　方法</div>
+      <p>相手方への意思表示による（単独行為。123条）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-03-0-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　遡及的無効（121条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　原状回復義務の発生（121条の２）</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-03-0-04">４　取り消すことができる法律行為の追認</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：一応有効に成立している法律行為を確定的に有効とする意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①取消しの原因である状況が消滅した後であること（124条１項前段）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②取消権を有することを知った後であること（124条１項後段）。</p>
+          <p class="p6 ind4">なお、法定代理人、保佐人又は補助人の追認及び成年被後見人を除く制限行為能力者が法定代理人、保佐人又は補助人の同意を得てする追認には上記①・②の要件はない（124条２項１号、２号）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+          <p class="p6 ind1">法律行為が確定的に有効になる。（122条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　催告（20条）</p>
+          <p class="p6 ind1">制限行為能力者の相手方には、一定の要件のもとに追認についての催告権が認められている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　法定追認</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">取り消すことができる行為について、社会一般に追認と認められるような一定の事実があった場合に、取消権者の意思を問わず、追認が擬制される（125条）。法律関係の安定を図る趣旨である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 取消権者が追認をすることができる時以後に125条１号から６号までの事実のいずれかがあること。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　「全部又は一部の履行」</p>
+          <p class="p6 ind4">取消権者自らが、債務者として履行する場合だけでなく、債権者として受領する場合も含む（大判昭８.４.28）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　「履行の請求」</p>
+          <p class="p6 ind4">相手方から請求を受けた場合は含まない（大判明39.５.17）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　「更改」</p>
+          <p class="p6 ind4">取消権者が債務者であると債権者であると問われない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　「担保の供与」</p>
+          <p class="p6 ind4">債権者として担保の供与を受けたときも含む。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤　「取り消すことができる行為によって取得した権利の全部又は一部の譲渡」</p>
+          <p class="p6 ind4">取消権者が譲渡した場合に限る。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑥　「強制執行」</p>
+          <p class="p6 ind4">債権者として執行した場合。問題は、債務者として執行を受けた場合であるが、判例はこの場合は含まないとしている（大判昭４.11.22）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 追認権者が異議を留めないこと（125条ただし書）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 効果</p>
+          <p class="p6 ind2">法律行為が確定的に有効になる。（122条）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-08-03-0-05">５　取消権の存続期間</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　存続期間</p>
+          <p class="p6 ind1">追認できるようになってから５年、又は行為の時から20年の経過により取消権は消滅する（126条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">取り消すことができる法律行為による不確定的無効の状態を長く放置しておくと相手方や第三者の地位を不安定にするから。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A01-09">第９章　条件及び期限<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-01-0-01">１　意義</div>
+      <p>将来において一定の事実が発生した場合に法律行為の効力を発生又は消滅させる旨の意思表示を、法律行為の付款という。条件及び期限はこれに当たる。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-01-0-02">２　両者の区別</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件：成否が不確実であるもの</p>
+          <p class="p6 ind1">ex. 試験に合格したら</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　期限：発生が明確であるもの</p>
+          <p class="p6 ind1">ex. 20歳になったら</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　出世払は条件か期限か。</p>
+          <p class="p6 ind1">→　期限（不確定期限）である（大判大４.３.24）。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">出世しなければ弁済しなくてよい、とするのは当事者の通常の意思に合致しない。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-02">第２節　条件<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-02-0-01">１　意義</div>
+      <p>：法律行為の効力の発生又は消滅を成否未定の事実にかからせる、法律行為の付款</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　停止条件：法律行為の効力の発生に関する条件</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　解除条件：法律行為の効力の消滅に関する条件</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-02-0-02">２　有効要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　成否不確定な将来の事実に関するものであること（ただし、既成条件については特則がある。131条参照）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　条件に親しむ行為であること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　条件として認められていない事柄でないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件に親しまない行為</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 身分行為－身分秩序の安定の見地から絶対に許されない。</p>
+          <p class="p6 ind2">もっとも、「就職したら結婚しよう」といった合意は、条件付の婚姻としてではなく、婚約としての効力が認められ、破棄されると慰謝料請求ができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 単独行為－相手方の地位の安定の見地から、原則的に許されない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不法条件</p>
+          <p class="p6 ind1">不法な条件をつけた法律行為は、その条件だけでなく、法律行為自体が無効になる（132条）。</p>
+          <p class="p6 ind1">ex. Ａを脅迫したら300万円贈与するという契約</p>
+          <p class="p6 ind1">不法行為をしないことを条件とする法律行為も同様である。</p>
+          <p class="p6 ind1">ex. Ａの息子を誘拐しなかったら300万円贈与するという契約</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　不能条件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 不能の停止条件－無効（133条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 不能の解除条件－無条件（133条２項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　純粋随意条件</p>
+          <p class="p6 ind1">債務者の意思だけにかかる停止条件（純粋随意条件）のついた法律行為は、当事者に法的拘束力を生じさせる意思があるとは考えられないため、無効とされる（134条）。</p>
+          <p class="p6 ind1">ex. 気がむいたら金をやる</p>
+          <p class="p6 ind1">※　債権者の意思だけにかかる停止条件のついた法律行為は有効である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-02-0-03">３　条件付法律行為の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　条件成就</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 条件成就の効果</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①原則：条件成就のときに発生する（127条１項、２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②例外：当事者の意思によって遡及効を与えたとき（127条３項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 既成条件（131条）</p>
+          <p class="p6 ind2">条件成就の成否が行為時に既に確定している場合（131条）</p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 条件の成就の妨害（130条１項）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①条件成就によって不利益を受ける当事者が</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②故意に条件成就を妨害したこと</p>
+          <p class="p6 ind4">※過失による条件成就の妨害は損害賠償（128条）の問題</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③妨害によって不成就になったこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④条件を不成就としたことが信義則に反すること</p>
+          <p class="p6 ind4">（信義則・クリーンハンズの原則という本条の趣旨から解釈上要件とされる）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">相手方は条件成就とみなす権利を取得する。</p>
+          <p class="p6 ind3">この権利は形成権であり、妨害者に対する意思表示によって行使する（通説）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 不正な条件成就（130条２項）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①条件成就によって利益を受ける当事者が</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②不正に条件を成就させたこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③条件を成就させたことが信義則に反すること</p>
+          <p class="p6 ind4">（信義則・クリーンハンズの原則という本条の趣旨から解釈上要件とされる）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">相手方は条件不成就とみなす権利を取得する。</p>
+          <p class="p6 ind3">この権利は形成権であり、妨害者に対する意思表示によって行使する（通説）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　条件付権利（期待権）の保護</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">条件成就により利益を受ける当事者の期待を期待権という。</p>
+          <p class="p6 ind2">条件の成否が不明の間でも、期待権を保護する必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 保護</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 条件付権利の侵害禁止（不可侵義務、128条）</p>
+          <p class="p6 ind3">条件付法律行為の各当事者は、条件の成否が未定の間は、条件成就により生じる相手方の利益を害することはできない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 条件付権利等の処分（129条）</p>
+          <p class="p6 ind3">条件の成否が未定の間でも、その権利義務は、処分・相続・保存又は担保に供することができる。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-09-03">第３節　期限<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-03-0-01">１　意義</div>
+      <p>期限：法律行為の効力の発生・消滅又は債務の履行を、将来到来することの確実</p>
+      <p>な事実の生起にかからせる法律行為の付款</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　確定期限：いつ到来するか確実なもの</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不確定期限：いつ到来するか不明なもの（到来することは確実である点で条件と異なる）</p>
+          <p class="p6 ind1">ex. 自分が死んだら、総理大臣が替わったら</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-03-0-02">２　期限に親しまない行為</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　親族法上の行為</p>
+          <p class="p6 ind1">婚姻、縁組、認知といった身分行為は、その行為の性質上、その効果が直ちに確定的に発生することを必要とするため、期限をつけることは原則認められていない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　遡及効のある行為</p>
+          <p class="p6 ind1">期限の意味がなくなるからである（ex. 相殺、506条１項後段）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-09-03-0-03">３　期限付法律行為の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　期限の到来の効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 履行期限の場合</p>
+          <p class="p6 ind2">履行期限の場合は債務の履行を請求することができる（135条１項）。</p>
+          <p class="p6 ind2">消滅時効はこのときから進行する（166条１項２号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 停止期限・終期の場合</p>
+          <p class="p6 ind2">停止期限の場合は、法律行為の効力が生じ、終期の場合は法律行為の効力が消滅する（135条２項）。</p>
+          <p class="p6 ind2">※条件とは異なり、遡及効は付すことができない（127条３項参照）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　期限付権利の保護</p>
+          <p class="p6 ind1">民法に規定はないが、128条、129条の類推適用で保護される（通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　期限の利益</p>
+          <p class="p6 ind1">：期限が付されていること（すなわち、期限が到来しないこと）によって、その間に当事者が受ける利益</p>
+          <p class="p6 ind1">法は、債務者の利益のために定めたものとする推定規定を設けている（136条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 期限の利益の放棄（136条２項）</p>
+          <p class="p6 ind2">期限の利益は放棄可能であるが（同条項本文）、相手方の利益を害してはならない（同条項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 期限の利益の喪失（137条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①債務者が破産手続開始の決定を受けた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②債務者が担保を滅失させ、損傷させ、又はこれを減少させた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③債務者が担保を供する義務を負う場合にこれを提供しない場合</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果</p>
+          <p class="p6 ind3">債権者は期限到来を主張し、直ちに債務履行を請求することができる（当然に遅滞になるわけではない）。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A01-10">第１０章　期間<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-10-00-0-01">１　意義</div>
+      <p>期間：ある時点からある時点に至る継続した時の区分</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-10-00-0-02">２　計算方法（139条～143条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　時・分・秒を単位とする場合（139条）</p>
+          <p class="p6 ind1">自然的計算方法（瞬間から瞬間まで）による。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　日・週・月・年を単位とする場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 起算点</p>
+          <p class="p6 ind2">日、週、月又は年によって期間を定めたときは、期間の初日は、算入しない（初日不算入の原則、140条本文）。初日はもはや完全な１日ではないからである。ただし、その期間が午前０時から始まるときは、この限りでない（民法140条ただし書）。時効期間の計算も同様である（大判大6.11.8）。</p>
+          <p class="p6 ind2">初日が完全な１日であるとき（ex. 来年の１月１日から１年と決めるような場合）には初日から計算する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 満了点</p>
+          <p class="p6 ind2">暦法的計算方法により、末日の終了により満了する（141条、143条）。</p>
+          <p class="p6 ind2">末日が、祝日・日曜その他の休日に当たり、その日に取引をしない慣習のあるときには、その翌日が末日となる（142条）。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+</script>
+</body>
+</html>

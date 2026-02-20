@@ -1,0 +1,598 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit8</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden header .toc{display:none;}
+    body.toc-hidden header .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit8</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min07.html">前へ</a>
+      <a href="pu26min09.html#top">次へ</a>
+      <a href="pu26min08q.html#top">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A01">第１編　総則</a>
+  <ul>
+    <li><a href="#A01-07">第７章　代理</a>
+      <ul>
+        <li><a href="#A01-07-03">第３節　復代理制度</a>
+          <ul>
+            <li><a href="#A01-07-03-0-01">１　意義</a></li>
+            <li><a href="#A01-07-03-0-02">２　復任権</a></li>
+            <li><a href="#A01-07-03-0-03">３　復代理人選任の効果</a></li>
+          </ul>
+        </li>
+        <li><a href="#A01-07-04">第４節　無権代理</a>
+          <ul>
+            <li><a href="#A01-07-04-1">Ⅰ　狭義の無権代理</a>
+              <ul>
+            <li><a href="#A01-07-04-1-01">１　意義</a></li>
+            <li><a href="#A01-07-04-1-02">２　効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A01">
+  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A01-07">第７章　代理<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-03">第３節　復代理制度<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-07-03-0-01">１　意義</div>
+      <p>復代理：代理人が、自分の権限内の行為を、自分の名でさらに代理人を選任して、その者に行わせること</p>
+      <p>代理人によって選任された代理人を復代理人という。</p>
+      <p>復代理人は、その権限内の行為について、本人を代表する（106条１項）。復代理人はあくまでも本人の代理人であり、代理人の代理人ではない。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-07-03-0-02">２　復任権</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">復任権：復代理人を選任する権限</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　選任</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意代理人の場合</p>
+          <p class="p6 ind2">本人の許諾を得た場合又はやむを得ない事由がある場合にのみ選任できる（104条）。</p>
+          <p class="p6 ind2">任意代理は、本人との信任関係が基礎にあることから、限られた範囲でのみ選任が許される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代理人の場合</p>
+          <p class="p6 ind2">いつでも自由に選任できる（105条前段）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①信任関係とは別個であり、②権限が広汎である一方、辞任が容易ではないことから、常に復任が認められる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　復代理人の過誤に対する代理人の責任</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意代理人の場合</p>
+          <p class="p6 ind2">本人・代理人間の関係を、通常の債権者・債務者間の関係と区別して、代理人の責任を一律に軽減する合理的理由はないとの理由から、復代理人を選任した任意代理人の本人に対する責任は、本人・代理人間の委任契約における債務不履行の一場面であり、任意代理人が責任を負うかどうかは債務不履行の一般原則に従って判断される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代理人の場合</p>
+          <p class="p6 ind2">原則として全責任を負う（105条前段）。</p>
+          <p class="p6 ind2">例外として、やむを得ない事由で復代理人を選任した場合には、選任及び監督について責任を負う（105条後段）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-07-03-0-03">３　復代理人選任の効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　復代理人の権限及び義務</p>
+          <p class="p6 ind1">復代理人は、本人及び第三者に対して、その権限の範囲内において、代理人と同一の権利を有し、義務を負う（106条２項）。</p>
+          <p class="p6 ind1">復代理人は、代理人の選任・監督に服し、その権限（復代理権）も代理人の権限内に限られる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　顕名</p>
+          <p class="p6 ind1">復代理人は、代理人の代理人ではなく、本人の代理人であるから（106条１項）、本人の名において代理行為をし、その効果は直接本人に帰属する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代理人の権限</p>
+          <p class="p6 ind1">復代理人選任後も代理人は代理権を失わない。代理人と本人との関係は従来通りであるが、前述のように責任関係が生じる。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A01-07-04">第４節　無権代理<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A01-07-04-1" class="h6 ind0">Ⅰ　狭義の無権代理</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-07-04-1-01">１　意義</div>
+      <p>代理人として行為をした者に代理権がなかった場合を広義の無権代理といい、このうち表見代理が成立する場合を除いたものを狭義の無権代理という。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-07-04-1-02">２　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則</p>
+          <p class="p6 ind1">代理権を有しない者が他人の代理人としてした契約は、本人がその追認をしなければ、本人に対してその効力を生じない（113条１項）。つまり、無効である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　例外－相手方の保護</p>
+          <p class="p6 ind1">取引の相手方保護を通じて代理制度の社会的信用を確保するため、民法は無権代理行為を無効なものとして固定せず、以下の効果を定めている。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 催告権（114条）</p>
+          <p class="p6 ind2">相手方から本人に対し追認をするか否かを迫る手段をいう。</p>
+          <p class="p6 ind2">放置すると追認拒絶とみなされる。悪意の相手方にも催告権が認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 取消権（115条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 定義</p>
+          <p class="p6 ind3">：無権代理行為の効果を無効なものとして確定するための、相手方による一方的意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相手方が、代理人に代理権がないことについて善意であること（115条ただし書）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　本人の追認がないこと（115条本文）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 効果</p>
+          <p class="p6 ind3">取消しによって代理行為は始めからなかったことになる。</p>
+          <p class="p6 ind3">相手方は、他の手段（催告、無権代理人の責任追及、表見代理）を採り得なくなる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 行使方法</p>
+          <p class="p6 ind3">この取消しの意思表示は、本人・無権代理人のいずれに対して行ってもよいと解されている。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 無権代理人への履行又は損害賠償請求（117条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">無権代理人が本人の追認（113条１項）を得られない場合、善意・無過失の相手方に対する無過失責任を認めたものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 趣旨</p>
+          <p class="p6 ind3">取引の安全を図り、代理制度の信用を維持することにある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　「他人の代理人として契約をした」こと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　代理権の存在を証明できなかったこと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　本人の追認がないこと（117条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　相手方が取消権（115条）を行使していないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤　相手方が無権代理であることにつき、善意であること（117条２項１号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑥　相手方が無権代理であることにつき、無過失であること（117条２項２号本文）</p>
+          <p class="p6 ind4">なお、自己に代理権がないことについて悪意の無権代理人が、相手方の過失を証明して無権代理人の責任を免れることは信義に反するので、相手方が無権代理であることにつき、過失がある場合であっても、無権代理人が自己に代理権がないことを知っていたときは、無権代理人の責任を追求することができる（117条２項２号ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑦　無権代理人が制限行為能力者でないこと（117条２項３号）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 表見代理が成立する場合にも無権代理人の責任を追及できるか</p>
+          <p class="p6 ind3">Ａ　否定説</p>
+          <p class="p6 ind3">表見代理が成立する場合には、117条の責任追及は認められない。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　表見代理が成立する場合には、相手方は予定していた効果をおさめることができるから、取引の安全のための117条の責任を生じさせる必要はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　有権代理の場合でさえ本人が責任を負うだけなのに、表見代理の場合には本人、無権代理人のいずれにも責任を追及できるのは不当である。</p>
+          <p class="p6 ind4">（批判）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　相手方が予定の効果をおさめることができるのは、まさに表見代理が認められた場合であって、その主張がなされていない場合にまでこれを理由とすることはできない。だとすれば、無権代理であるはずの表見代理を117条の適用からはずす根拠はなく、むしろ、113条、115条の適用が是認されていることと不均衡が生じる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　表見代理の立証は一般に困難であり、無権代理人への責任追及も本人のすばやい追認で切り落とされる危険にさらされていることを考慮すれば、本人、表見代理人のいずれに対しても責任追及ができるとしても、相手方の保護は過大にならない。</p>
+          <p class="p6 ind4">Ｂ　肯定説（最判昭62.７.７）</p>
+          <p class="p6 ind4">表見代理が成立し得る場合にも、表見代理の成立と無権代理人への責任追及の主張が選択的に認められる。</p>
+          <p class="p6 ind4">（理由）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　表見代理と無権代理人の責任とは別個独立の制度であり、無権代理人の責任は表見代理が成立しない場合における補充的な責任ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　無権代理人が表見代理の成立を理由にその責任を免れるとするのは妥当でない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(e) 117条２項の善意・無過失の立証責任</p>
+          <p class="p6 ind3">相手方が無権代理であることにつき悪意有過失であることの立証責任は、無権代理人側にある(上記要件⑤)（通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(f) 責任の内容</p>
+          <p class="p6 ind3">相手方の選択に従って、①履行又は②損害賠償の責任を負う（117条１項）。</p>
+          <p class="p6 ind3">【まとめ】</p>
+          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　本人の追認・追認拒絶権（113条、116条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 追認（113条、116条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 定義</p>
+          <p class="p6 ind3">：代理権のない代理行為について、代理権があったのと同じに扱うという本人の意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 効果（116条）</p>
+          <p class="p6 ind3">特約のない限り、代理行為の効果は契約の時にさかのぼって有効となる（116条本文）。</p>
+          <p class="p6 ind3">ただし、第三者の権利を害することはできない（116条ただし書。もっとも、これは対抗要件の問題となることがほとんどで、116条ただし書が適用されることはまれである）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 追認拒絶（113条）</p>
+          <p class="p6 ind2">追認拒絶とは、この追認を拒絶することである。</p>
+          <p class="p6 ind2">代理行為の効果は本人に帰属しないことに確定する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 追認・追認拒絶の方法（113条２項）</p>
+          <p class="p6 ind2">相手方に対する意思表示による。無権代理人に対してすることもできるが、その場合、相手方が知るまではその効力を主張できない（相手方からの、追認があったことの主張は可能）。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+</script>
+</body>
+</html>

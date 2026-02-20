@@ -1,0 +1,649 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit5</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden header .toc{display:none;}
+    body.toc-hidden header .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit5</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min04.html">前へ</a>
+      <a href="pu26min06.html#top">次へ</a>
+      <a href="pu26min05q.html#top">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A01">第１編　総則</a>
+  <ul>
+    <li><a href="#A01-06">第６章　意思表示</a>
+      <ul>
+        <li><a href="#A01-06-03">第３節　意思の欠缺</a>
+          <ul>
+            <li><a href="#A01-06-03-1">Ⅱ　（通謀）虚偽表示（94条）</a>
+              <ul>
+            <li><a href="#A01-06-03-1-01">１　意義</a></li>
+            <li><a href="#A01-06-03-1-02">２　要件</a></li>
+            <li><a href="#A01-06-03-1-03">３　効力</a></li>
+            <li><a href="#A01-06-03-1-04">４　94条2項の類推適用</a></li>
+            <li><a href="#A01-06-03-1-05">５　94条2項類推適用の機能</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A01">
+  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A01-06">第６章　意思表示<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A01-06-03">第３節　意思の欠缺<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A01-06-03-1" class="h6 ind0">Ⅱ　（通謀）虚偽表示（94条）</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-06-03-1-01">１　意義</div>
+      <p>：相手方と通じてした虚偽の意思表示</p>
+      <p>ex. Ａが債権者からの差押えを免れる目的で、Ｂに土地を売却したような状況を作出した場合</p>
+      <p>心裡留保との違いは、相手方との通謀の有無である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-06-03-1-02">２　要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意思表示の存すること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　表示上の効果意思と内心的効果意思が符合しないこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　表意者が自分でそのことを知っていること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　真意と異なる意思表示をすることについて相手方と通謀すること</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-06-03-1-03">３　効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則－無効（94条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　例外</p>
+          <p class="p6 ind1">無効は「善意の第三者」に対抗することができない（同条２項）。</p>
+          <p class="p6 ind1">「対抗することができない」とは、善意の第三者からは、無効を主張することも有効を主張することも許されるが、善意の第三者に対して無効を主張することは、当事者のみならず他の第三者も許されないということである。本条項は、第三者保護のための規定であるからである。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 趣旨</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意思表示の外形を信じて取引関係に入った者を保護する必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 虚偽の意思表示をして真実を伴わない外形を作り出した者が、その権利を失う結果になってもやむを得ない（保護に値しない）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 「第三者」の範囲</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">本条項にいう「第三者」とは、当事者及びその包括承継人以外の者で、虚偽表示に基づいて新たにその当事者から独立した利益を有する法律関係に入ったために、虚偽表示の有効・無効について法律上の利害関係を有するに至った者をいう。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　「第三者」に当たる例</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①不動産の仮装譲受人からの譲受人（最判昭28.10.１）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②不動産の仮装譲受人から抵当権の設定を受けた者（大判大４.12.17）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③原抵当権が仮装であることにつき善意で転抵当権の設定を受けた者（最判昭55.９.11）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④虚偽表示の目的物を差し押えた仮装譲受人の債権者（最判昭48.６.28）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤仮装債権の譲受人（大判昭13.12.17）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　「第三者」に当たらない例</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①債権の仮装譲受人から取立てのために債権を譲り受けた者（大決大９.10.18）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②仮装売買から生じる債務者の登記請求権を、それと直接関係のない債権に基づいて代位行使する債権者（大判昭18.12.22）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③土地の賃借人が借地上の建物を仮装譲渡した場合の土地賃貸人（最判昭38.11.28）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④土地の仮装譲受人からその土地上の建物を賃借した者（最判昭57.６.８）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑤仮装譲受人の単なる債権者〔「第三者」に当たる例④との違いに注意〕</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑥１番抵当権が仮装放棄され、順位上昇を誤信した２番抵当権者</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">⑦代理人や法人の理事が虚偽表示した場合の本人や法人（大判大３.３.16〔法人に関する〕、大判昭16.８.30〔代理人に関する〕）</p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 「第三者」には転得者も含まれるか。</p>
+          <p class="p6 ind3">Ｑ　悪意の第三者から譲り受けた善意者は「第三者」に含まれるか。</p>
+          <p class="p6 ind3">→　含まれる（最判昭45.７.24・通説）。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①転得者も虚偽表示を含む一連の法律行為に基づいて新たな法律関係に入ったといえる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②外観信頼の点で直接の第三者とかわりがない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③本人の帰責の点も何ら異ならない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 善意の第三者からの転得者は悪意でも保護されるか。</p>
+          <p class="p6 ind3">失踪宣告で扱った「絶対的構成・相対的構成」と同一の問題である。</p>
+          <p class="p6 ind3">Ａ　絶対的構成説（大判昭６.10.24・通説）</p>
+          <p class="p6 ind3">悪意の転得者も保護される。</p>
+          <p class="p6 ind3">ただし、善意の第三者を傀儡として介在させたにすぎない場合は権利濫用として保護されない。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①取引の安全のために法律関係の早期安定を図る必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②虚偽表示者は、善意の第三者に渡った時点で一時はあきらめており、酷ではない。</p>
+          <p class="p6 ind4">Ｂ　相対的構成説</p>
+          <p class="p6 ind4">「第三者」か否かは、その者ごとに相対的に判断する。すなわち、善意の第三者が出現しても、転得者が悪意であれば保護されない。</p>
+          <p class="p6 ind4">（批判）</p>
+          <p class="p6 ind4">善意の第三者が契約不適合責任（565条）を負うのは、94条２項の保護の趣旨を没却する。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「善意」</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 判断時期</p>
+          <p class="p6 ind3">第三者が法律上利害関係を有するに至った時</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 無過失の要否</p>
+          <p class="p6 ind3">第三者は「善意」で足り、無過失までは要求されない（大判昭12.８.10・通説）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 第三者は対抗要件を具備することを要するか。</p>
+          <p class="p6 ind2">～「第三者」としての客観的要件の問題</p>
+          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) Ａ－Ｃ間の対抗要件としての登記の要否</p>
+          <p class="p6 ind3">→　不要（最判昭44.５.27）</p>
+          <p class="p6 ind3">Ｃは、Ｂに対してはもちろん、Ａに対しても登記なくして自分が権利取得者であることを主張できる。</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="p6 ind3">Ａ・Ｃ間は対抗関係（177条）にはない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 第三者（Ｃ）vs. 真の権利者からの譲受人（Ｄ）</p>
+          <p class="p6 ind3">Ａ　177条説（最判昭42.10.31・通説）</p>
+          <p class="p6 ind3">Ｃ・Ｄ間は対抗関係に立ち、先に登記を備えた者が優先する。</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="p6 ind3">94条２項は、Ａとの関係で第三者を保護する規定であって、それ以外の者との関係では、原則どおり177条によって優劣を決すべきである。</p>
+          <p class="p6 ind3">Ｂ　94条２項説（有力説）</p>
+          <p class="p6 ind3">Ｃは登記なくしてＤに対して権利を主張することができる。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①Ｄに対する関係では、Ａ→Ｂ→Ｃの譲渡は有効であり、Ｂに登記がある以上、ＤはＢに対抗できず、その承継人たるＣはＤに優先する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②Ｃを優先させることが94条２項の趣旨に合致する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③登記をもたない者（Ａ）から譲り受けたＤよりも、登記をもつ者（Ｂ）から譲り受けたＣの方が保護に値する。</p>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-06-03-1-04">４　94条2項の類推適用</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　権利外観法理</p>
+          <p class="p6 ind1">：権利は不存在であるが、外観上それが存在しているかのようにみえる場合に、その存在を信じて取引関係に立った者はその信頼において保護されるべきであり、自ら虚偽の外観を作出した者は権利を失ってもやむを得ないとする法理</p>
+          <p class="p6 ind1">94条２項は権利外観法理の現れと見られるために、本来の虚偽表示の事案以外でも、権利外観法理を適用すべきだと考えられる場面では、同条を類推適用して取引の安全を図る考え方が、判例・学説上展開されている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+          <p class="p6 ind1">抽象的には、以下の３つに要約できる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 虚偽の外観の存在</p>
+          <p class="p6 ind2">「意思表示」に基づくものではなくとも権利者らしい外観が存在すること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 権利者の帰責性（意思的関与）</p>
+          <p class="p6 ind2">「通謀」はなくとも外観作出につき真の権利者に帰責事由があること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 第三者の正当な信頼</p>
+          <p class="p6 ind2">その外観を第三者が正当に信頼したこと</p>
+          <p class="p6 ind2">Ｑ　第三者の信頼の要件としてどの程度を要求するか。</p>
+          <p class="p6 ind2">→　真実の権利者の帰責性に応じて利益衡量による。</p>
+          <p class="p6 ind2">帰責性が大きければ、保護要件は軽く（善意で足りる）、帰責性が小さければ、保護要件を重くする（無過失まで要求）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　虚偽の外形作出の類型と判例</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意思外形対応型（真実の権利者の意思と第三者の信頼の基礎となった外形が一致している場合）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 外形自己作出型（真実の権利者が自ら外観を作出した場合）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　Ａが建物を新築したが、新築にあたりＢ名義で資金を借り入れていた関係からＢ名義で保存登記をしたところ、ＢがＣに当該建物を売却してしまった、というケースで、94条２項の類推適用を肯定し善意のＣを保護した（最判昭41.３.18）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず前主からＢ名義への所有権移転登記を経由したところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭29.８.20）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　Ｂを代理人として不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず、契約書上買主名義がＢになっていたことからＢに所有権移転登記を受けさせたところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭37.９.14）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　ＡはＢより不動産を譲り受けたが、所有権移転登記を経由せずにＢから抵当権の設定を受けた旨の登記をしていたところ、Ｂが当該不動産をＣに譲渡してしまったというケースで、善意無過失のＣを保護した（最判昭45.11.19）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 外形他人作出型（外観は他人によって作出されたものだが、後に真実の権利者が明示又は黙示の承認をした場合）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　未登記建物の所有者Ａが、Ｂにその名義で登記することを許容したところ、ＢがＣ名義で登記してしまい、Ａがそれを承認したというケースで、Ｃからの善意の譲受人Ｄを94条２項の類推適用により保護した（最判昭45.４.16）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　不動産所有者Ａが、Ｂがその不動産の登記名義を勝手に自己へ移転したのを知りながら、Ｂと結婚するなどの事情によりこれを放置し、その間にＢ名義で根抵当権設定登記がなされたというケースで、Ｂからの善意の譲受人Ｃにつき同旨（最判昭45.９.22）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　未登記建物の所有者Ａが、その建物が誤って固定資産課税台帳に夫たるＢ名義で登記されたのを知りながら、Ｂ名義で固定資産税を納入していたところ、Ｂの債権者Ｃがその建物に強制執行してきたというケースにつき同旨（最判昭48.６.28）。</p>
+          <p class="p6 ind4">なお、この判決に対しては、固定資産課税台帳の記載のみで権利者らしい外観ありと言えるのか、Ｂ名義の登録の放置・Ｂ名義での納税が権利を失ってもやむを得ないといえるほどの帰責事由に当たるのか、という疑問が呈されている。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 意思外形非対応型（真実の権利者の意思と第三者の信頼の基礎となった外形とが対応を欠く場合）</p>
+          <p class="p6 ind2">不動産所有者Ａが、Ｂの信用を外観上増大させる目的でその不動産につきＢ名義の仮登記を与えたところ、ＢがＡの印鑑を無断使用して本登記に改めＣに処分した、というケースにおいて、94条２項・110条の法意に照らして善意無過失のＣを保護した（最判昭43.10.17）。</p>
+          <p class="p6 ind2">※　意思外形対応型に比し真の権利者側の帰責性が低いため、それとの相関から第三者側の主観的要件を加重した（無過失まで要求している）ものと解される。また、判例は、一般的に94条２項は善意のみを要求しているという立場であるため、第三者に無過失を要求する意思外形非対応型では、同条項のみならず110条（同条が適用されるには無過失まで必要とされる）をも援用したのではないかと思われる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A01-06-03-1-05">５　94条2項類推適用の機能</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　動産取引に対する適用の有無</p>
+          <p class="p6 ind1">動産について94条２項は不要である。即時取得制度（192条）が存在し、不動産以上に取引の安全が保障されているからである。これを、占有に公信力がある、という。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　不動産についての公信力の有無</p>
+          <p class="p6 ind1">不動産については、登記に公信力はない。しかし、94条２項の類推適用により、公信力を認めたのと同じ機能を果たす。</p>
+          <p class="p6 ind1">ただし、本人の帰責性を要求する点で、動産についての192条とは異なる。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+</script>
+</body>
+</html>

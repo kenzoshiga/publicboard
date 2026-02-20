@@ -1,0 +1,753 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit13</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden header .toc{display:none;}
+    body.toc-hidden header .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit13</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min12.html">前へ</a>
+      <a href="pu26min14.html#top">次へ</a>
+      <a href="pu26min13q.html#top">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A02">第２編　物権</a>
+  <ul>
+    <li><a href="#A02-01">第１章　総論</a>
+      <ul>
+        <li><a href="#A02-01-01">第１節　物権制度の内容</a>
+          <ul>
+            <li><a href="#A02-01-01-1">Ⅰ　物権の意義・性質</a>
+              <ul>
+            <li><a href="#A02-01-01-1-01">１　物権の意義</a></li>
+            <li><a href="#A02-01-01-1-02">２　物権の性質</a></li>
+            <li><a href="#A02-01-01-1-03">３　物権の客体</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-01-2">Ⅱ　物権の種類</a>
+              <ul>
+            <li><a href="#A02-01-01-2-01">１　物権法定主義</a></li>
+            <li><a href="#A02-01-01-2-02">２　物権の分類</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A02-01-02">第２節　物権の効力</a>
+          <ul>
+            <li><a href="#A02-01-02-1">Ⅰ　総説</a>
+              <ul>
+            <li><a href="#A02-01-02-1-01">１　物権の一般的効力</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-02-2">Ⅱ　優先的効力</a>
+              <ul>
+            <li><a href="#A02-01-02-2-01">１　物権相互間の優先的効力</a></li>
+            <li><a href="#A02-01-02-2-02">２　物権の債権に対する優先的効力</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-02-3">Ⅲ　妨害排除的効力・物権的請求権</a>
+              <ul>
+            <li><a href="#A02-01-02-3-01">１　意義</a></li>
+            <li><a href="#A02-01-02-3-02">２　要件</a></li>
+            <li><a href="#A02-01-02-3-03">３　効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A02-01-03">第３節　物権変動</a>
+          <ul>
+            <li><a href="#A02-01-03-1">Ⅰ　序説</a>
+              <ul>
+            <li><a href="#A02-01-03-1-01">１　意義</a></li>
+            <li><a href="#A02-01-03-1-02">２　物権変動の公示と公信</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-03-2">Ⅱ　物権変動の一般理論</a>
+              <ul>
+            <li><a href="#A02-01-03-2-01">１　物権変動の基本的問題点</a></li>
+            <li><a href="#A02-01-03-2-02">２　所有権の移転時期</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A02">
+  <h2>第２編　物権<a class="toplink" href="#top">↑Top</a></h2>
+  <div class="p-card chap-card">
+    <h2 id="A02-01">第１章　総論<a class="toplink" href="#top">↑Top</a></h2>
+    <div class="p-card sec-card">
+      <h3 id="A02-01-01">第１節　物権制度の内容<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A02-01-01-1" class="h6 ind0">Ⅰ　物権の意義・性質</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-01-1-01">１　物権の意義</div>
+      <p>：一定の物を直接に支配し、排他的にその利益を受けることができる権利</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-01-1-02">２　物権の性質</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　目的物を直接に支配する権利</p>
+          <p class="p6 ind1">内容の実現に他人の行為の介在は不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　排他的な権利</p>
+          <p class="p6 ind1">同一物の上に両立しない同一内容を有する物権が重ねて成立することはない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　債権との相違</p>
+          <p class="p6 ind1">債権では、債権者が満足を得るために、債務者の行為を必要とするが、物権では、実現のために他人の行為を必要としない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-01-1-03">３　物権の客体</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　特定・独立・現存の有体物</p>
+          <p class="p6 ind1">物権の客体は、原則として「物」（206条等）であることを要し、物とは有体物をいう（85条）。ただし、担保物権には例外的に有体物以外のものを客体とするものもある（306条、362条、369条２項）。</p>
+          <p class="p6 ind1">また、物権の客体は、現存・特定のものでなければならない。物権は、絶対的支配的権利であるから、どの物について誰のどのような支配が及んでいるかが明確にされないと権利関係が混乱してしまい、また、現存していない物の上に物権を認めることには実益がないからである。同様の理由から、物権の客体は、一個の独立した物でなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　一物一権主義</p>
+          <p class="p6 ind1">：１個の物権の目的物は一個の独立した物でなければならず、また、一個の物には一個の所有権のみが成立する、という原則</p>
+          <p class="p6 ind1">物権の基本的性格である支配権の排他性から導かれるものであり、「物」の特定性・独立性を確実にして公示主義を全うするための原則である。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 物の一部分に物権は成立しない。</p>
+          <p class="p6 ind2">例外として、以下のものが挙げられる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　地役権は、土地の一部に設定することができる（282条２項ただし書参照）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　１筆の土地の一部につき、所有権の成立は可能。</p>
+          <p class="p6 ind4">１筆の土地の一部の譲渡は可能であり、また、時効取得も可能である（大連判大13.10.７）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 数個の物の上に一つの物権は成立しない。</p>
+          <p class="p6 ind2">例外として、以下のものが挙げられる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　抵当権の効力は、設定時に目的物の上に存在する従物にも及ぶ。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　立木法上の立木と認められる樹木の集団は、不動産とみなされ（立木法２条１項）、 一括して所有権及び抵当権の目的となり得る（立木法２条２項）｡</p>
+          <p class="p6 ind4">※　「立木」とは、１筆の土地又は１筆の土地の一部分に生立する樹木の集団で、所有者が立木ニ関スル法律（立木法）に基づき所有権保存の登記を受けたものをいう（立木法１条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　動産の集合体であるいわゆる「集合動産」は、１個の「物」と認められ、譲渡担保の目的となり得る。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-01-2" class="h6 ind0">Ⅱ　物権の種類</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-01-2-01">１　物権法定主義</div>
+      <p>物権は、民法その他の法律に定められたもののほかは、創設することができない（175条）。</p>
+      <p>具体的には、次のような意味をもつ。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①民法及びその他の法律で定めている以外の種類の物権を創設できない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②民法及びその他の法律で定めている種類の物権につき、それらの規定に定めるのとは異なった内容を与えることはできない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-01-2-02">２　物権の分類</div>
+      <p>※　①～⑩は民法典に規定のある10種類の物権</p>
+      <p><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-01-02">第２節　物権の効力<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A02-01-02-1" class="h6 ind0">Ⅰ　総説</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-1-01">１　物権の一般的効力</div>
+      <p>物権一般に認められる効力としては、以下のものが挙げられる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　優先的効力</p>
+          <p class="p6 ind1">：物権の客体にかかわる諸権利との関係でそれらに優先する効力</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　物権的請求権</p>
+          <p class="p6 ind1">：権利内容の実現過程において直接客体に追随して他人の干渉を排除する効</p>
+          <p class="p6 ind1">力</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-02-2" class="h6 ind0">Ⅱ　優先的効力</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-2-01">１　物権相互間の優先的効力</div>
+      <p>内容の衝突する物権相互間においては、その効力は物権成立の順序に従う。</p>
+      <p>例外として、以下のものが挙げられる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　公示方法ないし対抗要件制度の備わる物権については、それを先に具備した方が優先する（177条、178条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　占有権は、排他性を有しないので、優先的効力はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　先取特権は、先取特権相互間及び他の担保物権との関係についても優劣関係が民法に規定されている。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-2-02">２　物権の債権に対する優先的効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則</p>
+          <p class="p6 ind1">債権の目的となっているものに物権が成立するときは、物権が優先する。</p>
+          <p class="p6 ind1">例えば、ＡがＢに賃借している物をＣに売却した場合、賃借人Ｂは買受人Ｃに賃借権に基づいて当該物を使用できることを主張できない（「売買は賃貸借を破る」）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　例外</p>
+          <p class="p6 ind1">例外として、以下の場合が挙げられる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 対抗要件を備えた不動産賃借権（605条、借地借家法10条１項、同法31条１項）</p>
+          <p class="p6 ind2">不動産賃借権は、対抗要件〔登記（605条）、建物の登記（土地賃貸借の場合、借地借家法10条１項）、引渡し（建物賃貸借の場合、借地借家法31条１項）〕を備えることにより物権と対等の地位に立ち、両者の優劣は対抗要件の先後により決せられる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 仮登記制度</p>
+          <p class="p6 ind2">仮登記による順位を保全することのできる不動産の物権変動を目的とする請求権〔債権〕（不登法105条２号）は、仮登記に基づく本登記がなされれば、その順位は仮登記の順位によるので、結果的に物権に優先することになる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-02-3" class="h6 ind0">Ⅲ　妨害排除的効力・物権的請求権</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-3-01">１　意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　物権的請求権とは</p>
+          <p class="p6 ind1">物に対する直接的・排他的な支配が妨害されている（又は妨害されるおそれのある）場合に、その妨害の除去（又は予防）を請求し又は受忍させる権利</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　法的性質</p>
+          <p class="p6 ind1">物権効力説（通説）</p>
+          <p class="p6 ind1">物権の作用・効力であって独立の権利ではない。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">物権的請求権は、物権の支配権という性質から発生する請求権であるから、物権そのものの内容とは考えにくい。他方、物権に基づいて発生する請求権であるから、物権を離れて独自の存在をもつものでもない。</p>
+          <p class="p6 ind1">※　物権的請求権は、物権とは独立に消滅時効にかからない（大判大５.６.23、大判大11.８.21・通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　態様</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 物権的返還請求権</p>
+          <p class="p6 ind2">：物権の目的物を他人が占有するために物権者が占有を失っている場合に、目的物の返還を求める権利</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 物権的妨害排除請求権</p>
+          <p class="p6 ind2">：占有侵奪以外の方法で物権の内容の実現が妨害されている場合に、妨害物の除去ないし妨害行為の停止を求める権利</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 物権的妨害予防請求権</p>
+          <p class="p6 ind2">：物権に対する妨害状態が生じるおそれが強い場合に、その原因を除去して妨害を未然に防ぐ措置を講ずるよう請求する権利</p>
+          <p class="p6 ind2">なお、占有訴権参照。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-3-02">２　要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　発生要件－物権の「侵害」</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 物権的返還請求権－占有を全面的に排除されたこと</p>
+          <p class="p6 ind2">詐取・遺失であっても認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 物権的妨害排除請求権－物権の内容の実現に妨害があること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 物権的妨害予防請求権－物権が将来妨害されるおそれがあること</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　当事者</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 主体－侵害を受け、又は侵害を受けるおそれのある物権を有する者</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 請求の相手方</p>
+          <p class="p6 ind2">現に他人の物権を客観的に侵害し、又は侵害の危険を生じさせている者である。</p>
+          <p class="p6 ind2">Ｑ　土地に権原なく建物が建っている場合、建物収去土地明渡請求は登記名義人に対してするべきか、建物の実質的所有者に対してするべきか。特に建物が譲渡された場合に問題となる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-02-3-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　物権的請求権の内容（費用負担）</p>
+          <p class="p6 ind1">Ａ　行為請求権説（大判昭５.10.31）</p>
+          <p class="p6 ind1">物権的請求権とは相手方の労力と費用で妨害排除、妨害予防措置を講ずることを請求する権利である。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">本来、物に対する直接支配を内容とする物権も、他人との関係を生ずることによって、その他人の行為を要求する権利に変更し、相手方に対して物権の直接的支配に対する障害の排除を請求できる。</p>
+          <p class="p6 ind1">（批判）</p>
+          <p class="p6 ind1">返還請求権と妨害排除請求権が競合する場合、先に訴えて勝訴判決を得て強制執行に踏み切った方が相手方に費用を負担させることになり、不合理である。</p>
+          <p class="p6 ind1">※　行為請求権説に立ちながら、侵害状態ないしその危険が人為によらないものであったり、不可抗力によるものである時には相手方に積極的な行為義務はないとする判例（大判昭７.11.９、大判昭12.11.19）もある（ただし、学説の判例についての評価は分かれる）。</p>
+          <p class="p6 ind1">Ｂ　忍容請求権説</p>
+          <p class="p6 ind1">物権の効力としては、物権侵害状態を自ら除去することを相手方に受忍させる権利にとどまり、費用も原則として請求者が負担する。</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="p6 ind1">物権的請求権は純粋に物に対する追及権であり、人に対する権利ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　物権的請求権の拡張</p>
+          <p class="p6 ind1">債権たる不動産賃借権においても、それが登記又は借地借家法上の対抗要件を備えた場合には、妨害停止請求権、返還請求権を認めている(605条の４第１号、２号)。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-01-03">第３節　物権変動<a class="toplink" href="#top">↑Top</a></h3>
+    <div class="p-card rank4-card">
+      <p id="A02-01-03-1" class="h6 ind0">Ⅰ　序説</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-1-01">１　意義</div>
+      <p>物権変動とは、物権の発生・変更・消滅のことである（なお、物権をもつ側からみれば、物権の得喪（取得・喪失）・変更のことである）。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　（物権をもつ主体の側からみた）物権変動の種類</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 物権の取得：物権が特定の主体に帰属すること</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 承継取得：前主の物権上に成立していた権利や負担・瑕疵等もあわせて承継するもの</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　移転的承継：前主の物権をそのまま後主が譲り受けること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　設定的承継：既存の物権を基礎として内容の制限された別個の物権を設定すること</p>
+          <p class="p6 ind4">ex. 地上権・永小作権・抵当権の設定</p>
+          <p class="p6 ind4">従来の主体（物権設定者）は依然権利を有するが、新たな物権により制限を受けることになる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 原始取得：前主の権利とは無関係に物権を取得すること</p>
+          <p class="p6 ind3">ex. 無主物先占（239条１項）、遺失物拾得（240条）、埋蔵物発見（241条）、添付（242条以下）、時効取得（162条以下）、即時取得（192条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 物権の喪失（消滅）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①物権の絶対的喪失：目的物の滅失により物権自体が存在を失うような場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②物権の相対的消滅：物権の主体の変更（前主は目的物の所有権を失うが、所有権そのものは後主のもとで存続する場合）</p>
+          <p class="p6 ind4">「承継取得」を前主からみたものである。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 物権の変更：物権の同一性を害しない範囲で、物権の客体・内容が変わること</p>
+          <p class="p6 ind2">ex. 所有建物の床面積の増減、地上権の存続期間の延長</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　物権変動の原因</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 法律行為</p>
+          <p class="p6 ind2">契約・単独行為</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) その他</p>
+          <p class="p6 ind2">時効・先占・遺失物拾得・埋蔵物発見・付合・混和・加工・混同・公用徴収・没収</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-1-02">２　物権変動の公示と公信</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　物権変動についての公示の原則</p>
+          <p class="p6 ind1">：物権変動が生じたならば、外部から認識できるように一定の表象を必要とするという原則</p>
+          <p class="p6 ind1">物権は直接性・排他性を有する強力な権利であるので、取引の安全のため、その変動を公示する必要がある。</p>
+          <p class="p6 ind1">公示方法</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　物権の存在についての公信の原則</p>
+          <p class="p6 ind1">：真実の権利関係と異なった公示が存在しても、それを信頼した者が保護されるとの原則</p>
+          <p class="p6 ind1">不動産登記に公信の原則は採用されていない。</p>
+          <p class="p6 ind1">なお、動産については、公信の原則の現れである即時取得制度（192条）が採用されている。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-03-2" class="h6 ind0">Ⅱ　物権変動の一般理論</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-2-01">１　物権変動の基本的問題点</div>
+      <p>物権の変動を生じさせる原因の中でも特に重要なのが、不動産の売買契約のような法律行為（意思表示）である。</p>
+      <p>176条は、物権の変動は「当事者の意思表示のみによって、その効力を生ずる」と規定することから、物権の変動は、ほかに何らの形式を必要とせずに、当事者の意思表示、すなわち、合意のみによって生じるということを表していると解される。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-2-02">２　所有権の移転時期</div>
+      <p>Ｑ　物権変動が効力を生じる時期はいつか。</p>
+      <p>→　契約成立時説（最判昭33.６.20・通説）</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①原則として契約成立時、②直ちに物権変動の効果を生じるのに支障があるときは、その支障がなくなった時、③当事者が特別の定めをしていればそれに従う。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+</script>
+</body>
+</html>
