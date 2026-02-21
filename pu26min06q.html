@@ -1,0 +1,1121 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit6</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit6</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min05q.html">前へ</a>
+        <a href="pu_min07q.html">次へ</a>
+        <a href="pu26min06.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h23-05-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-05-ウ)</div>
+          <p class="qtext">1　Aは、Bが営む骨董屋の店内に陳列されていた彫刻甲を著名な彫刻家Cの真作であると信じて購入した。ところが、実際には、甲は、Cの真作ではなかった。店内に陳列されていた甲を買う意思で、その旨の意思表示をしたAの錯誤は、動機の錯誤であるといえる。(H23-05-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-05-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h23-05-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-05-エ)</div>
+          <p class="qtext">2　動機の錯誤に基づいて錯誤取消しを主張するにつき、判例は、動機の表示は黙示的にされたのでは不十分であり、明示的にされ、意思表示の内容となった場合に初めて法律行為の要素となり得るとしている。(H23-05-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-05-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-r03-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-05-イ)</div>
+          <p class="qtext">3　AのBに対する意思表示が、法律行為の基礎とした事情についてのその認識が真実に反する錯誤によるものであり、それが法律行為の目的及び取引上の社会通念に照らして重要なものである場合には、Aは、その事情が法律行為の基礎とされていることが表示されていたときでなければ、錯誤を理由としてその意思表示を取り消すことができない。(R03-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h03-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-21-ア)(改)</div>
+          <p class="qtext">4　甲と乙との間に売買契約が締結されたが、甲の意思表示は要素の錯誤に基づくものであった。甲の錯誤が重大な過失によるものである場合には、甲は売買契約の取消しを主張することができないが、乙はこれを主張することができる。(H03-21-ア)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r03-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-05-ア)</div>
+          <p class="qtext">5　AのBに対する意思表示が錯誤に基づくものであって、その錯誤が法律行為の目的及び取引上の社会通念に照らして重要なものであり、かつ、Aの重大な過失によるものであった場合には、Aは、BがAに錯誤があることを知り、又は重大な過失によって知らなかったときであっても、錯誤を理由としてその意思表示を取り消すことができない。(R03-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h30-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-04-エ)(改)</div>
+          <p class="qtext">6　Aは、その所有する甲土地を錯誤によりBに売却した。その錯誤がAの重大な過失によるものであった場合であっても、BがAの錯誤を認識していたときは、Aは、錯誤を理由として、Bとの間の甲土地の売買契約の取消しを主張することができる。(H30-04-エ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h23-05-oh06-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-05-オ)(H06-05-イ)(改)</div>
+          <p class="qtext">7　詐欺による取消しについては、AB間の売買契約を前提として新たに法律関係に入った善意無過失の第三者を保護する規定や取消権の行使についての期間の制限の規定があるのに対して、錯誤については、このような明文の規定がない。(H23-05-オ)(H06-05-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-05-oh06-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h17-04-uh03-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-04-ウ)(H03-21-ウ)(改)</div>
+          <p class="qtext">8　錯誤による意思表示をした者に重大な過失があった場合には、その表意者は、取消しを主張することができないが、その意思表示の相手方は、取り消すことができる。(H17-04-ウ)(H03-21-ウ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-04-uh03-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r03-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-05-オ)</div>
+          <p class="qtext">9　AのBに対する意思表示を錯誤により取り消すことができる場合であっても、その意思表示によって生じた契約上の地位をAから承継したCは、錯誤を理由としてその意思表示を取り消すことができない。(R03-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-r03-05-uh06-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-05-ウ)(H06-05-オ)</div>
+          <p class="qtext">10　AのBに対する意思表示がされ、その意思表示によって生じた法律関係について、Bの包括承継人ではないCが新たに法律上の利害関係を有するに至った後に、その意思表示がAの錯誤を理由に取り消された場合において、錯誤による意思表示であることをCが過失により知らなかったときは、Aは、Cに対し、その取消しを対抗することができる。(R03-05-ウ)(H06-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-05-uh06-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h29-05-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-05-ウ)</div>
+          <p class="qtext">11　当事者が和解契約によって争いをやめることを約した場合には、その争いの目的である事項につき錯誤があったときでも、錯誤の規定の適用はない。(H29-05-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-05-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h23-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-05-ア)</div>
+          <p class="qtext">12　詐欺を行った者の故意につき、判例は、他人を欺いて錯誤に陥らせる故意のみならず、その錯誤によって意思表示をさせる故意まで必要としている。(H23-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h13-01-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-01-イ)(改)</div>
+          <p class="qtext">13　Bは、C社の従業員から甲薬品はガンの予防に抜群の効果があるとの虚偽の説明を受け、これを信じてAに同様の説明をし、Aもこれを信じてBから甲薬品を購入した場合、Aは、Bの詐欺を理由としてBとの間の売買契約を取り消すことができる。(H13-01-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-01-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r05-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-05-ア)</div>
+          <p class="qtext">14　AがBに対して甲土地を売却してその旨の所有権の移転の登記がされ、その後、BがCに対して甲土地を転売した。この事例に関して。BがAに対して虚偽の事実を告げてAB間の売買契約が締結された場合には、Aが当該事実を告げられたことによって錯誤に陥っていなくても、Aは、Bの詐欺を理由としてAB間の売買契約を取り消すことができる。(R05-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h23-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-05-イ)</div>
+          <p class="qtext">15　当事者に一定の事実について相手方に告知する義務があり、これを黙秘して善意の相手方と売買契約を締結した場合であっても、詐欺にはならない。(H23-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h18-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-06-オ)</div>
+          <p class="qtext">16　AがBに欺罔されてA所有の土地を善意のCに売却した場合、Aは、AC間の売買契約を詐欺を理由として取り消すことはできない。(H18-06-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h13-01-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-01-ウ)</div>
+          <p class="qtext">17　Aが、C社の従業員から甲薬品はガンの予防に抜群の効果があるとの虚偽の説明を受け、これを信じてBから甲薬品を購入した場合、Bがその事情を知り得なかったときでも、Aは、Bとの間の売買契約を取り消すことができる。(H13-01-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-01-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r05-05-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-05-エ)</div>
+          <p class="qtext">18　AがBに対して甲土地を売却してその旨の所有権の移転の登記がされ、その後、BがCに対して甲土地を転売した。この事例に関して。AがBC間の売買契約の締結後に、Bの詐欺を理由としてAB間の売買契約を取り消した場合において、当該詐欺の事実を知らなかったことについてCに過失があるときは、Aは、Cに対し、甲土地の所有権を主張することができる。(R05-05-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-05-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-r02-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-07-オ)</div>
+          <p class="qtext">19　Aがその所有する甲土地をBの詐欺によりBに売却してその旨の登記がされ、Bが詐欺の事実について善意無過失のCに甲土地を売却してその旨の登記がされた後、AがBとの間の売買契約を取り消したときは、Aは、Cに対し、甲土地の所有権のAへの復帰を対抗することができない。(R02-07-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h18-06-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-06-ア)(改)</div>
+          <p class="qtext">20　A所有の土地にBの1番抵当権、Cの2番抵当権が設定されており、BがAに欺罔されてその1番抵当権を放棄した後、その放棄を詐欺を理由として取り消した場合、Bは、詐欺の事実につき善意無過失のCに対してその取消しを対抗することができる。(H18-06-ア)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-06-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h18-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-06-エ)(改)</div>
+          <p class="qtext">21　AがBに欺罔されてA所有の土地をBに売却した後、欺罔の事実につき善意無過失のCがBからこの土地を買い受けた場合、Aは、詐欺を理由としてAB間の売買契約を取り消すことはできない。(H18-06-エ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h10-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-04-エ)</div>
+          <p class="qtext">22　AがBの詐欺により、Bとの間で、A所有の甲土地を売り渡す契約を締結した。Aは、詐欺の事実に気付いて売買契約の意思表示を取り消した場合において、Bへの所有権移転登記を経由していたときは、Bが第三者に転売した後であっても、Bに対し、その登記の抹消を請求することができる。(H10-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-r05-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-07-エ)</div>
+          <p class="qtext">23　Aがその所有する甲土地をBの詐欺によりBに売却してその旨の登記をし、AがBとの間の売買契約を詐欺を理由として取り消した後、Bがその取消しにつき善意のCに甲土地を売却してその旨の登記をした場合であっても、Cにその善意であることにつき過失があるときは、Aは、Cに対し、甲土地の所有権のAへの復帰を対抗することができる。(R05-07-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h27-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-07-イ)</div>
+          <p class="qtext">24　Aがその所有する甲建物をBに売り渡し、その旨の所有権の移転の登記をした後、Aは、Bの詐欺を理由にAB間の売買契約を取り消したが、所有権の移転の登記の抹消をする前に、Bが甲建物をCに売り渡してその旨の所有権の移転の登記をした。この場合、Cは、Aに対し、甲建物の所有権を主張することができる。(H27-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h17-08-ah18-06-ih04-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-08-ア)(H18-06-イ)(H04-15-ア)</div>
+          <p class="qtext">25　Aは、甲土地をBに売却してその旨の所有権の移転の登記をした。その後、Aは、Bの詐欺を理由にその売買契約を取り消したが、その取消し後、これを原因とする所有権の移転の登記の抹消をする前に、Bが甲土地をCに譲渡してその旨の所有権の移転の登記をした。この場合、Aは、Cに対し、甲土地の所有権の自己への復帰を対抗することができない。(H17-08-ア)(H18-06-イ)(H04-15-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-08-ah18-06-ih04-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h06-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-05-ア)(改)</div>
+          <p class="qtext">26　売買契約における当事者の一方Aの意思表示について、錯誤の場合と詐欺の場合とが競合するときは、Aは、錯誤による取消しの主張のみをすることができる。(H06-05-ア)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h03-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-21-イ)(改)</div>
+          <p class="qtext">27　甲と乙との間に売買契約が締結されたが、甲の意思表示は要素の錯誤に基づくものであった。甲の錯誤が乙の欺罔によるものである場合には、甲は錯誤による取消しを主張することも、詐欺による取消しを主張することもできる。(H03-21-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r05-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-05-イ)</div>
+          <p class="qtext">28　AがBに対して甲土地を売却してその旨の所有権の移転の登記がされ、その後、BがCに対して甲土地を転売した。この事例に関して。Aが第三者による強迫によってAB間の売買契約を締結した場合には、Bが当該強迫の事実を知り、又は知ることができたときに限り、Aは、AB間の売買契約を取り消すことができる。(R05-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r04-07-ah30-04-uh18-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-07-ア)(H30-04-ウ)(H18-06-ウ)</div>
+          <p class="qtext">29　Aがその所有する甲土地をBの強迫によりBに売却してその旨の登記をし、Bが強迫につき善意無過失のCに甲土地を売却してその旨の登記をした場合であっても、その後、AがBとの間の売買契約を強迫を理由として取り消したときは、Aは、Cに対し、甲土地の所有権を主張することができる。(R04-07-ア)(H30-04-ウ)(H18-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-07-ah30-04-uh18-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h27-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-07-ア)</div>
+          <p class="qtext">30　Aがその所有する甲建物をBに売り渡し、その旨の所有権の移転の登記をした後、Bは、甲建物をCに転売してその旨の所有権の移転の登記をした。その後、AがBの強迫を理由にAB間の売買契約を取り消した場合、Aは、Cに対し、甲建物の所有権を主張することができる。(H27-07-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h13-01-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-01-ア)</div>
+          <p class="qtext">31　AがBから甲薬品を100箱以上購入しないと店から出さないと脅されて、これを購入した場合でも、BがAB間の売買代金債権をDに譲渡し、その旨の通知をAにしたときは、Aは、Bとの間の売買契約を取り消すことができない。(H13-01-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-01-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h10-14-uh03-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-14-ウ)(H03-08-ウ)</div>
+          <p class="qtext">32　Aがその所有する甲土地をBに売却し、さらにBが当該土地をCとDに二重に売却した。Bが甲土地をCとDに二重に売却した後、AがBの強迫を理由に売買の意思表示を取り消した場合には、Cが所有権移転登記を経由し、かつ、Bの強迫について善意・無過失であっても、Aは、C及びDに対し、自己の所有権を対抗することができる。(H10-14-ウ)(H03-08-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min6.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-14-uh03-08-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h23-05-u">
+  <div class="dlg-head"><div class="dlg-title">(H23-05-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>表示行為に至らない以前の、意思の形成過程において生じた錯誤を動機の錯誤という。店内に陳列されていた甲を買う意思でその旨の意思表示をしたＡの錯誤は意思と表示との間の不一致ではなく、意思形成上の錯誤、即ち動機の錯誤となる（民法<span class="mono">95条</span>1項2号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-05-e">
+  <div class="dlg-head"><div class="dlg-title">(H23-05-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動機の錯誤による意思表示の取消しは、その事情が法律行為の基礎とされていることが表示されていたときに限り、することができる（民法<span class="mono">95条</span>2項）。当該表示は、黙示の表示でもよい（最判平元.9.14）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-05-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">95条</span>1項柱書、同条項2号によれば、表意者が法律行為の基礎とした事情についてのその認識が真実に反する錯誤であって、それが法律行為の目的及び取引上の社会通念に照らして重要なものである場合には意思表示を取り消すことができる。もっとも、認識が真実に反する錯誤は、認識した事情が法律行為の基礎とされていることが表示されていなければ錯誤による取消しを主張できない（民法<span class="mono">95条</span>2項）。意思表示に対応する意思を欠く錯誤(民法<span class="mono">95条</span>1項1号)と要件が異なるのは、相手方の利益をより配慮する必要性などのためである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-21-a">
+  <div class="dlg-head"><div class="dlg-title">(H03-21-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>表意者甲の錯誤が重大な過失によるものである場合、表意者甲は、自らその取消しを主張することはできない（民法<span class="mono">95条</span>3項）。また、錯誤による取消しができる者は、意思表示をした者又はその代理人若しくは承継人である（民法<span class="mono">120条</span>2項）。よって、相手方乙は錯誤による取消しを主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-05-a">
+  <div class="dlg-head"><div class="dlg-title">(R03-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">95条</span>3項柱書は、「錯誤が表意者の重大な過失によるものであった場合には、次に掲げる場合を除き、第1項の規定による意思表示の取消しをすることができない。」と規定し、同項1号は、「相手方が表意者に錯誤があることを知り、又は重大な過失によって知らなかったとき。」と規定している。すなわち、表意者の錯誤が重過失による場合であっても、相手方が錯誤を知り、又は重過失により知らないときには、相手方を保護する必要がないから、表意者は、錯誤による意思表示の取消しを主張できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H30-04-エ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>錯誤が表意者の重大な過失による場合、錯誤による取消しを主張できない（民法<span class="mono">95条</span>3項）。ただし、①相手方が錯誤を知り、又は重大な過失によって知らなかったとき、②相手方が表意者と同一の錯誤に陥っていたときは、表意者に重大な過失があっても、錯誤による取消しを主張できる（民法<span class="mono">95条</span>3項1号、2号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-05-oh06-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H23-05-オ)(H06-05-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>錯誤による意思表示の取消しは、善意無過失の第三者に対抗できない（民法<span class="mono">95条</span>4項）。また、民法<span class="mono">126条</span>は「取消権は、追認をすることができる時から5年間行使しないときは、時効によって消滅する。行為の時から20年を経過したときも、同様とする。」と規定している。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-04-uh03-21-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-04-ウ)(H03-21-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>錯誤が表意者の重大な過失による場合、錯誤による取消しを主張できない（民法<span class="mono">95条</span>3項）。また、錯誤による取消しができる者は、意思表示をした者又はその代理人若しくは承継人である（民法<span class="mono">120条</span>2項）。よって、相手方は錯誤による取消しを主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-05-o">
+  <div class="dlg-head"><div class="dlg-title">(R03-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">120条</span>2項。錯誤、詐欺又は強迫によって取り消すことができる行為は、瑕疵ある意思表示をした者又はその代理人若しくは承継人に限り、取り消すことができる。契約上の地位の移転を受けた者は、本条にいう承継人に当たる。よって、本記述においては、Ａの意思表示によって生じた契約上の地位をＡから承継したＣは本条の承継人に当たるため、錯誤を理由としてその意思表示を取り消すことができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-05-uh06-05-o">
+  <div class="dlg-head"><div class="dlg-title">(R03-05-ウ)(H06-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">95条</span>1項〔注：錯誤〕の規定による意思表示の取消しは、善意無過失の第三者に対抗することができない（民法<span class="mono">95条</span>4項）。本条は錯誤による意思表示を信頼して新たに法律関係に入った第三者の保護を図ったものであるが、信頼保護の基本は無過失の信頼保護にあるため、第三者の主観的要件として善意に加え無過失まで要求されている。よって、本記述において、「第三者」ＣはＡの意思表示が錯誤によるものであることを過失により知らなかったのであるから、民法<span class="mono">95条</span>4項は適用されず、ＡはＣに対し、取消しを主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-05-u">
+  <div class="dlg-head"><div class="dlg-title">(H29-05-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>争いの目的である事項につき錯誤があったときでも、錯誤の規定の適用はない（最判昭43.7.9）。判例の結論に賛成する学説は、その理由として、和解は、たとえ真実と異なっていても合意した内容で当事者間の法律関係を確定するという趣旨のものであるから、錯誤取消しを全面的に認めたのでは、和解と矛盾する結果をもたらすということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H23-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>大判大11.2.6。詐欺者の故意について、判例は、①他人を欺いて錯誤に陥らせる故意のみならず、②その錯誤によって意思表示をさせる故意（いわゆる二段の故意）まで必要としている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-01-i">
+  <div class="dlg-head"><div class="dlg-title">(H13-01-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>詐欺は、①他人を欺いて錯誤に陥らせ、②その錯誤によって意思を表示させる行為をいい、かつ、詐欺者に①及び②に対応する故意がなければならない。本肢のＢは、Ｃ社の従業員の虚偽の説明を信じて、Ａに同様の説明を行っているにすぎないため、①②に対応する故意が存在しない。よって、詐欺は成立せず、Ａは売買契約を取り消すことはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-05-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>詐欺を理由とする取消しが認められるためには、①詐欺者の故意、②違法な欺罔行為、③欺罔行為による錯誤、④錯誤に基づく意思表示が必要である（民法<span class="mono">96条</span>1項）。本記述において、ＡはＢから告げられた虚偽の事実によって錯誤に陥っておらず、③、④の要件を満たさない。よって、Ａは、Ｂの詐欺を理由としてＡＢ間の売買契約を取り消すことはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H23-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本肢では、事実を告げず沈黙していたに過ぎない場合でも詐欺と認められるかが問題となる。判例は、信義則上、当事者に一定の事実につき、相手方に告知する義務があり、これを黙秘して善意の相手方と売買契約を締結した以上、詐欺になるとしている（大判昭16.11.18）。よって、Ｂにつき、甲がＣの真作ではないことをＡに告げる信義則上の義務が認められれば、Ａは詐欺を理由として売買契約を取り消し得ることとなる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-06-o">
+  <div class="dlg-head"><div class="dlg-title">(H18-06-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>第三者が詐欺を行った場合、相手方がその詐欺の事実を知り、又は知ることができたときに限り意思表示を取り消すことができる（民法<span class="mono">96条</span>2項）。本記述のＣは詐欺の事実について善意であるが、過失の有無が問題文からは判明しないため、取り消すことができないとは言い切れない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-01-u">
+  <div class="dlg-head"><div class="dlg-title">(H13-01-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>ＡはＣ社の従業員の虚偽の説明を受けてＢから薬品を購入しており、これが第三者の詐欺として取り消せるかが問題となる。この点、第三者の詐欺として取り消し得るためには、相手方が悪意であるか、相手方に過失がなければならない（民法<span class="mono">96条</span>2項）。本肢のＢは、Ａ・Ｃ間の事情を知り得なかったというのであるから善意無過失である。よって、Ａは売買契約を取り消すことはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-05-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-05-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>詐欺による意思表示の取消しは、善意でかつ過失がない第三者に対抗することができない（民法<span class="mono">96条</span>3項）。本記述のＡは、ＡＢ間の売買契約をＢの詐欺を理由として取り消している。そして、取消し前の第三者Ｃは、当該詐欺の事実を知らなかったことについて過失がある。よって、ＡはＣに対し、甲土地の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-07-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">96条</span>3項は、取消しの遡及効（民法<span class="mono">121条</span>）を制限して第三者を保護する規定であることから、「第三者」とは、取消前に新たに法律上の利害関係を有するに至った者に限られる（大判昭17.9.30）。よって、Ｂが甲土地を善意無過失のＣに譲渡した後、ＡがＢとの間の売買契約を取り消したときは、Ａは、取消前の第三者であるＣに対し、甲土地の所有権のＡへの復帰を対抗することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-06-a">
+  <div class="dlg-head"><div class="dlg-title">(H18-06-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>詐欺による意思表示の結果、反射的に利益を取得した者は民法<span class="mono">96条</span>3項で保護される「第三者」には当たらない。Ｃは反射的な利益として1番抵当権の順位を得たにすぎず、「第三者」には当たらない（大判明33.5.7）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-06-エ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>詐欺取消しは、善意無過失の第三者には対抗できないが、当事者間では取消しの効果を生ずる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H10-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>詐欺による意思表示の取消しは善意無過失の第三者に対抗することができないので、第三者が善意無過失であれば、Ａは当該第三者に対して取消しを主張できない（民法<span class="mono">96条</span>3項）。しかし、相手方Ｂに対して取消しを主張することはできる。そして、取り消された行為は初めから無効であったものとみなされる（民法<span class="mono">121条</span>本文）ため、ＡからＢに、所有権移転登記を経由していたときは、Ｂに対し、その登記の抹消を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-07-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、Ａは、Ｃに対し、甲土地の所有権のＡへの復帰を対抗することができるとしている点で、誤っている。判例は、取消後の第三者との関係では、取消しによる遡及的消滅による物権変動につき、民法<span class="mono">177条</span>を適用するとしている（大判昭17.9.30）。よって、詐欺取消し後に出現した第三者であるＣは、甲土地の所有権移転登記を有していることから、Ａは、Ｃに対し、甲土地の所有権の復帰を対抗することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>詐欺による意思表示を取り消した者と詐欺取消後の第三者との関係については民法<span class="mono">177条</span>が適用される（大判昭17.9.30）。よって、Ａの詐欺取消後に甲建物の所有権の移転登記を具備したＣはＡに対抗できる（民法<span class="mono">177条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-08-ah18-06-ih04-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H17-08-ア)(H18-06-イ)(H04-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>土地の売買契約が詐欺により取り消された場合、土地所有権は売主に復帰し、初めから買主に移転しなかったことになるが、この物権変動を取消後の第三者に対抗するためには登記が必要である（大判昭17.9.30）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H06-05-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>詐欺の要件は、表意者が相手方又は第三者から欺罔行為を受け、錯誤に陥り、その錯誤によって意思表示をすることである。錯誤と詐欺の要件が競合する場合、表意者はそのいずれをも主張できると解されている（大判大11.3.22参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-21-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>表意者の錯誤が相手方の詐欺によるものである場合、表意者は、錯誤による取消し又は詐欺による取消しのいずれかを選択して主張できる（通説）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-05-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>強迫による意思表示は常に取り消すことができる（民法<span class="mono">96条</span>1項）。第三者による強迫であっても、相手方の善意悪意を問わず取り消すことができる（民法<span class="mono">96条</span>2項の反対解釈）。よって、Ｂが当該強迫の事実を知り、又は知ることができたときでなくても、Ａは、ＡＢ間の売買契約を取り消すことができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-07-ah30-04-uh18-06-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-07-ア)(H30-04-ウ)(H18-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>強迫を理由とする取消しの効果は善意無過失の第三者にも対抗することができる（民法<span class="mono">96条</span>3項反対解釈）。民法が強迫された者を詐欺された者よりも手厚く保護しているのは、詐欺にかかった者は落度があるが、強迫された者はそのような軽微な帰責事由すら認められないからである。よって、ＡがＢの強迫を理由にＡＢ間の売買契約を取り消した場合、ＡはＣに対し、甲土地の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">96条</span>3項の反対解釈により、強迫を理由とする取消の効果は善意無過失の第三者にも対抗することができる。よって、ＡがＢの強迫を理由にＡＢ間の売買契約を取り消した場合、ＡはＣに対し、甲建物の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-01-a">
+  <div class="dlg-head"><div class="dlg-title">(H13-01-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>Ａ・Ｂ間では薬品の売買契約が成立しているが、これはＢの強迫によるものである。そのため、Ａは当該契約を取り消すことができる（民法<span class="mono">96条</span>1項）。取り消すことができる行為は、追認若しくは法定追認がなされると、以後、取り消すことができなくなる（民法<span class="mono">122条</span>、<span class="mono">125条</span>）。相手方たるＢの債権譲渡はそのいずれにも当たらない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-14-uh03-08-u">
+  <div class="dlg-head"><div class="dlg-title">(H10-14-ウ)(H03-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>強迫による取消しは、取消し前に善意無過失で権利を取得した第三者に対してであっても、主張することができる（民法<span class="mono">96条</span>3項の反対解釈）。強迫の場合は、詐欺の場合に比べて、表意者を保護する要請が強いためである。また、この場合、当該第三者が登記を経由しているか否かを問わない。よって、Ａは、Ｃ及びＤに対して、自己の所有権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

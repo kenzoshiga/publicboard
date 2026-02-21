@@ -1,0 +1,871 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit5</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit5</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min04q.html">前へ</a>
+        <a href="pu_min06q.html">次へ</a>
+        <a href="pu26min05.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h03-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-08-イ)</div>
+          <p class="qtext">1　甲乙間で、甲の所有する土地を乙に売り渡す旨を仮装した後、乙が事情を知らない丙に転売した場合には、甲は、乙から請求されれば、その土地を乙に引き渡さなければならない。(H03-08-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h02-05-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-05-5)</div>
+          <p class="qtext">2　AはBに対し、BはCに対し、それぞれ債権を有している。不動産をCがBに対し虚偽表示により贈与した後、Bが善意のAに売却した場合、AがBを代位してCに所有権移転登記を請求したとき、CはAに対し、虚偽表示による無効を主張できない。(H02-05-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-05-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h24-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-04-エ)</div>
+          <p class="qtext">3　相手方と通じて債権の譲渡を仮装した場合において、仮装譲渡人が債務者に譲渡の通知をしたときは、仮装譲渡人は、当該債権につき弁済その他の債務の消滅に関する行為がされていない場合でも、当該債権譲渡が虚偽であることを知らない債務者に対して当該債権譲渡が無効であることを主張することができない。(H24-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h30-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-04-オ)</div>
+          <p class="qtext">4　Aは、その所有する甲土地のBへの売却をBとの間で仮装した。その後、Bが当該仮装の事実について善意無過失のCに甲土地を譲渡した場合において、Aは、Cに対し、虚偽表示を理由に、甲土地の返還を請求することができない。(H30-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h02-22-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-22-5)</div>
+          <p class="qtext">5　虚偽仮装の原抵当権につき、善意で転抵当権の設定を受け、その旨を登記した者は、原抵当権の被担保債権の債務者に転抵当の通知をし又はその承諾を受けていないときは、その原抵当権の設定の無効を理由とする原抵当権設定の登記の抹消につき、その承諾の義務を負う。(H02-22-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-22-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h27-05-uh15-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-05-ウ)(H15-05-オ)</div>
+          <p class="qtext">6　A所有の甲建物について、AB間の仮装の売買契約に基づきAからBへの所有権の移転の登記がされた後に、Bの債権者Cが、AB間の売買契約が仮装のものであることを知らずに甲建物を差し押さえた場合であっても、CのBに対する債権がAB間の仮装の売買契約の前に発生したものであるときは、Aは、Cに対し、AB間の売買契約が無効である旨を主張することができる。(H27-05-ウ)(H15-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-05-uh15-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h19-07-eh11-03-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-07-エ)(H11-03-ウ)(改)</div>
+          <p class="qtext">7　AとBとが通謀して、A所有の甲土地の売買契約を仮装し、Bへの所有権の移転の登記をした後、Bの債権者である善意のCが甲土地を差し押さえた場合に、Cは、民法第94条第2項によって保護される。(H19-07-エ)(H11-03-ウ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-07-eh11-03-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h15-05-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-05-エ)</div>
+          <p class="qtext">8　AとBとが通謀して、A所有の土地をBに売却したかのように仮装したところ、Aは、売買代金債権を善意のCに譲渡した。Bは、土地の売買契約が無効であるとして、Cからの代金支払請求を拒むことはできない。(H15-05-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-05-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h27-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-05-オ)</div>
+          <p class="qtext">9　Aから土地を賃借したBがその土地上に甲建物を建築し、その所有権の保存の登記がされた後に、甲建物についてBC間の仮装の売買契約に基づきBからCへの所有権の移転の登記がされた場合において、BC間の売買契約が仮装のものであることを知らなかったAが賃借権の無断譲渡を理由としてAB間の土地賃貸借契約を解除する旨の意思表示をしたときは、Bは、Aに対し、BC間の売買契約は無効であり、賃借権の無断譲渡には当たらない旨を主張することができる。(H27-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h15-05-ah11-03-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-05-ア)(H11-03-イ)</div>
+          <p class="qtext">10　AとBとが通謀して、A所有の土地をBに売却したかのように仮装したところ、Bは、その土地上に建物を建築してその建物を善意のCに賃貸した。この場合、Aは、Cに対し、土地の売却が無効であるとして建物からの退去による土地の明渡しを求めることはできない。(H15-05-ア)(H11-03-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-05-ah11-03-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h11-03-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-03-ア)</div>
+          <p class="qtext">11　Aは、Bと協議の上、譲渡の意思がないにもかかわらず、その所有する甲土地をBに売り渡す旨の仮装の売買契約を締結した。Bに対して金銭債権を有する債権者Cが、A・B間の協議の内容を知らずに、その債権を保全するため、Bに代位して、Bへの所有権移転登記をAに請求した。そこで、Aは、Cに対し、A・B間の売買契約の無効を主張した。Aによる売買契約の無効の主張が認められる。(H11-03-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-03-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h09-02-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-02-オ)</div>
+          <p class="qtext">12　Aの代理人Bの代理行為が相手方Cとの通謀虚偽表示に基づくものであった場合において、Aがそのことを知らなかったときは、Cは、Aに対し、その行為について無効の主張をすることができない。(H09-02-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-02-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r05-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-05-オ)</div>
+          <p class="qtext">13　AがBに対して甲土地を売却してその旨の所有権の移転の登記がされ、その後、BがCに対して甲土地を転売した。この事例に関して。AB間の売買契約がAとBの通謀により仮装されたものであり、その後、BがCに対して甲土地を売却し、更にCがDに対して甲土地を売却した場合において、CがAB間の売買契約が仮装されたものであることを知っていたときは、Dがこれを知らなかったとしても、Dは、Aに対し、甲土地の所有権を主張することはできない。(R05-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h27-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-05-イ)</div>
+          <p class="qtext">14　A所有の甲建物について、AB間の仮装の売買契約に基づきAからBへの所有権の移転の登記がされた後に、BがCに対して甲建物を譲渡し、更にCがDに対して甲建物を譲渡した場合において、CがAB間の売買契約が仮装のものであることを知っていたときは、Dがこれを知らなかったときであっても、Dは、Aに対し、甲建物の所有権を主張することができない。(H27-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h19-07-uh15-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-07-ウ)(H15-05-イ)(改)</div>
+          <p class="qtext">15　AとBとが通謀して、A所有の甲土地の売買契約を仮装し、Bへの所有権の移転の登記をした後、悪意のCがBから甲土地を譲り受けた。その後Cから善意のEが甲土地を譲り受けた場合に、Eは民法第94条第2項によって保護される。(H19-07-ウ)(H15-05-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-07-uh15-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h11-03-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-03-エ)</div>
+          <p class="qtext">16　Aは、Bと協議の上、譲渡の意思がないにもかかわらず、その所有する甲土地をBに売り渡す旨の仮装の売買契約を締結した。Bは、A・B間の協議の内容を知っているFに甲土地を転売し、さらに、Fは、その協議の内容を知らないGに甲土地を転売した。そこで、Aは、Gに対し、A・B間の売買契約の無効を主張した。Aによる売買契約の無効の主張が認められる。(H11-03-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-03-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h11-03-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-03-オ)</div>
+          <p class="qtext">17　Aは、Bと協議の上、譲渡の意思がないにもかかわらず、その所有する甲土地をBに売り渡す旨の仮装の売買契約を締結した。Bは、A・B間の協議の内容を知らないHに甲土地を転売し、さらに、Hは、その協議の内容を知っているIに甲土地を転売した。そこで、Aは、Iに対し、A・B間の売買契約の無効を主張した。Aによる売買契約の無効の主張が認められる。(H11-03-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-03-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h27-07-oh19-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-07-オ)(H19-07-ア)</div>
+          <p class="qtext">18　AがBと通謀してAの所有する甲建物をBに売り渡した旨仮装し、AからBへの所有権の移転の登記をした後、Bは、Aに無断で、AB間の売買契約が仮装のものであることを知らないCに甲建物を売り渡した。この場合、Cは、Bから所有権の移転の登記を受けていなくても、Aに対し、甲建物の所有権を主張することができる。(H27-07-オ)(H19-07-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-07-oh19-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h27-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-05-ア)</div>
+          <p class="qtext">19　A所有の甲建物について、AB間の仮装の売買契約に基づきAからBへの所有権の移転の登記がされた後に、BがCに対して甲建物を譲渡し、AがDに対して甲建物を譲渡した場合には、Cは、AB間の売買契約が仮装のものであることを知らなかったときであっても、BからCへの所有権の移転の登記をしなければ、Dに対し、甲建物の所有権を主張することができない。(H27-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h19-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-07-イ)</div>
+          <p class="qtext">20　AとBとが通謀して、A所有の甲土地の売買契約を仮装し、Bへの所有権の移転の登記をした後、善意のCがBから甲土地を譲り受けた。Cが登記をする前に、AがDに甲土地を譲渡していた場合、BとDとは対抗関係に立つが、BがDよりも先に自己への所有権の移転の登記を経由したことでBがDに優先することになり、Bから甲土地を譲り受けたCは、登記なくしてDに対して甲土地の所有権の取得を対抗することができる。(H19-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h09-10-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-10-2)</div>
+          <p class="qtext">21　甲不動産はAとBの共有であるが、登記簿上はAの単独所有とされていたところ、Aは、Cとの間で甲不動産の売買契約を締結し、Cへの所有権移転登記を経由した。AとBの合意に基づいてA単独所有の登記が経由されたものであり、甲不動産がAとBの共有であることをCが知らなかったときは、Bは、Cに対し、自己の持分を主張することができない。(H09-10-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-10-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h09-10-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-10-4)</div>
+          <p class="qtext">22　甲不動産はAとBの共有であるが、登記簿上はAの単独所有とされていたところ、Aは、Cとの間で甲不動産の売買契約を締結し、Cへの所有権移転登記を経由した。AはBに無断でA単独所有の登記を経由し、Bがその事実を知りながら長期間これを放置していたものであり、甲不動産がAとBの共有であることをCが知らなかったときは、Bは、Cに対し、自己の持分を主張することができない。(H09-10-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min5.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-10-4">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h03-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相手方と通じてした虚偽の意思表示は無効であるが（民法<span class="mono">94条</span>1項）、意思表示の無効を善意の第三者に対抗することができない（民法<span class="mono">94条</span>2項）。当事者間では、無効であることを主張することができるため、相手方から履行請求されれば、拒絶することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-05-5">
+  <div class="dlg-head"><div class="dlg-title">(H02-05-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>通謀虚偽表示による意思表示の無効は、善意の第三者に対抗することができない（民法<span class="mono">94条</span>2項）。本肢では、ＢとＣの虚偽表示による贈与につき、Ａは第三者にあたり、ＣはＡの所有権移転登記請求に対し、虚偽表示による無効を主張できない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H24-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">94条</span>2項の「第三者」とは、虚偽表示の当事者又はその一般承継人以外の者で、その表示の目的について新たな法律上の利害関係を有するに至った者をいう。債権の仮装譲渡における債務者は、虚偽表示の目的について新たな法律上の利害関係を有するに至ったとはいえないから、民法<span class="mono">94条</span>2項の「第三者」には当たらない（大判昭8.6.16）。よって、債権の仮装譲渡人は債務者に対して債権譲渡の無効を主張できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-04-o">
+  <div class="dlg-head"><div class="dlg-title">(H30-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>虚偽表示による意思表示の無効は、善意の第三者に対抗することができない（民法<span class="mono">94条</span>2項）。判例（大判大5.11.17）は、同条項の「第三者」とは、虚偽表示の当事者及びその包括承継人以外の者であって、その表示の目的について法律上利害関係を有するに至った者をいうとしている。そして、判例（最判昭28.10.1）は、仮装譲受人との間で目的物を譲り受ける契約を結んだ者は同条項における「第三者」に含まれるとし、Ｃは仮装譲受人Ｂとの間で甲土地の売買契約を結んだのであるから、Ｃは「第三者」に含まれる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-22-5">
+  <div class="dlg-head"><div class="dlg-title">(H02-22-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>通謀虚偽表示の無効は、その外形を信頼し、新たに権利関係を有するに至った善意の第三者に対抗することができない（民法<span class="mono">94条</span>2項）。虚偽仮装の抵当権につき善意で転抵当権の設定を受けた者は、保護すべき第三者に当たるので、原抵当権の主たる債務者、設定者等への対抗要件たる通知又は承諾の欠缺があったとしても、通謀虚偽表示による無効を理由とする原抵当権設定の登記の抹消につき、転抵当権者は承諾の義務を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-05-uh15-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-05-ウ)(H15-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、差押債権者が「第三者」に含まれるとしている（最判昭48.6.28）。判例に賛成する学説は、この場合の差押債権者は目的物の所有権の所在と債権回収の可能性との関係が密接化するからであるとしている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-07-eh11-03-u">
+  <div class="dlg-head"><div class="dlg-title">(H19-07-エ)(H11-03-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>仮装譲渡の譲受人名義となった不動産について、差押えをした一般債権者が民法<span class="mono">94条</span>2項の第三者に当たるかにつき、判例は第三者に当たるとしている（最判昭48.6.28）。よって、Ｃは民法<span class="mono">94条</span>2項によって保護される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-05-e">
+  <div class="dlg-head"><div class="dlg-title">(H15-05-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>仮装債権を譲り受けた者について判例は、「第三者」（民法<span class="mono">94条</span>2項）に当たるとした（大判昭13.12.17）。よって、Ｂは、土地の売買契約が無効であるとして、Ｃからの代金債権の支払請求を拒むことはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、土地の賃借人が土地上の建物を仮装譲渡した場合、土地の賃貸人は「第三者」に含まれないとしている（最判昭38.11.28）。判例に賛成する学説は、この場合の土地の賃貸人は虚偽の外形を前提に利害関係に新たに入ったとはいえないからだとしている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-05-ah11-03-i">
+  <div class="dlg-head"><div class="dlg-title">(H15-05-ア)(H11-03-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地の仮装譲受人がその土地上に建物を建築してこれを他人に賃貸した場合、その建物賃借人は、仮装譲渡された土地については法律上の利害関係を有するものとは認められないから、「第三者」（民法<span class="mono">94条</span>2項）に当たらない（最判昭57.6.8）。よって、Ａは、Ｃに対し、土地の売却が無効であるとして建物からの退去による土地の明渡しを求めることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-03-a">
+  <div class="dlg-head"><div class="dlg-title">(H11-03-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>仮装譲渡の譲受人に対する債権を有する者であっても、その者が目的物に対して差押えをしていない単なる一般債権者であれば民法<span class="mono">94条</span>2項の「第三者」には該当しない（大判昭18.12.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-02-o">
+  <div class="dlg-head"><div class="dlg-title">(H09-02-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相手方と通謀して虚偽の意思表示をした場合、その意思表示は無効である（民法<span class="mono">94条</span>1項）が、この無効は善意の第三者に対抗することはできない（民法<span class="mono">94条</span>2項）。この「第三者」とは当事者又はその一般承継人以外で、意思表示の目的につき法律上の利害関係を有するに至った者であるとされており（最判昭45.7.24）、本肢のように代理人と相手方が通謀虚偽表示を行った場合の本人は、これには当たらない。判例も、本人の善意悪意にかかわらず、この場合の法律行為は無効であるとしている（大判昭16.8.30）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-05-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、Ｄがこれを知らなかったとしても、Ｄは、Ａに対し、甲土地の所有権を主張することはできないとしている点で、誤っている。民法<span class="mono">94条</span>2項の「第三者」には、直接の第三者だけでなく転得者も含まれる（最判昭45.7.24）。本記述のＤは、Ｂから甲土地を譲り受けたＣから甲土地を譲り受けており、転得者であるため、「第三者」に当たる。そして、Ｄは、ＡＢ間の売買契約が通謀に基づくことを知らなかったのであるから、「善意」（民法<span class="mono">94条</span>2項）である。よって、Ｄは、Ａに対し、甲土地の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>「第三者」からの転得者が<span class="mono">94条</span>2項の「第三者」に含まれるかにつき、判例は、転得者も「第三者」に含まれるとしている（最判昭45.7.24）。判例に賛成する学説は、第三者が悪意であって転得者が善意の場合、両者を一体としてみて、転得者も「第三者」に含まれるとする。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-07-uh15-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-07-ウ)(H15-05-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>悪意の第三者からの善意の転得者が民法<span class="mono">94条</span>2項の第三者に含まれるかにつき、判例は、民法<span class="mono">94条</span>2項にいう第三者とは、虚偽表示の当事者又はその一般承継人以外の者であって、その表示の目的につき法律上利害関係を有するに至った者をいい、虚偽表示の相手方との間で当該表示の目的につき直接取引関係に立った者が悪意の場合でも、当該悪意者からの転得者が善意であるときは、転得者は民法<span class="mono">94条</span>2項の善意の第三者として保護されるとしている（最判昭45.7.24）。よって、悪意のＣから甲土地を譲り受けたＥは、民法<span class="mono">94条</span>2項の第三者として保護される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-03-e">
+  <div class="dlg-head"><div class="dlg-title">(H11-03-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">94条</span>2項の第三者として保護されるのは、当該第三者が善意である場合のみである。しかし、本肢のように第三者が悪意でその第三者からさらに権利を取得した転得者が善意である場合には、当該転得者は民法<span class="mono">94条</span>2項の「第三者」として保護されるとされている（最判昭45.7.24）。仮装譲渡の譲受人と当該譲受人から目的物を譲り受けた悪意の第三者とは、いわば同一の地位にあり、一体として扱うべきだからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-03-o">
+  <div class="dlg-head"><div class="dlg-title">(H11-03-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本肢のように、第三者が善意、転得者が悪意の場合については学説が分かれているが、判例は、善意者が出現し、当該善意者に虚偽表示の無効を対抗できなくなることにより、法律関係は確定し、善意者からの転得者が悪意であっても、当該転得者は有効に権利を取得するとしている（絶対的構成、大判昭6.10.24等）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-07-oh19-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-07-オ)(H19-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">94条</span>2項の「第三者」として保護されるにつき登記の具備が必要かが争われた事案で判例は、登記の具備は不要であるとしている（最判昭44.5.27）。判例に賛成する学説は、善意の第三者に対抗できない虚偽表示者は、善意の第三者との関係では無権利者であるため民法<span class="mono">177条</span>の関係に立たないことを理由とする。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、本人からの取得者と通謀虚偽表示における第三者との関係を対抗関係で処理している（最判昭42.10.31）。判例に賛成する学説は、通謀虚偽表示を行った当事者間を一体として扱い、本人からの取得者と通謀虚偽表示における第三者との関係を対抗関係で処理すべきものとしている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>ＡＢ間の虚偽表示によりＡ所有の甲土地の登記名義がＢとされ、善意の第三者ＣがＢより甲土地を譲り受けたが未登記であったところ、Ａがその不動産をＤに譲渡した事例につき、判例は善意の第三者Ｃと本人からの取得者Ｄとが対抗関係にあるとみて、いずれか登記を先に取得した者が優先するとしている（最判昭42.10.31）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-10-2">
+  <div class="dlg-head"><div class="dlg-title">(H09-10-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>自ら仮装行為をした者が、作出した外形を除去しない間に、善意の第三者がその外形を信頼して取引関係に入った場合においては、その取引から生じる物権変動について、登記が第三者に対する対抗要件とされているときでも、仮装行為者としては、当該第三者の登記の欠缺を主張して、物権変動の効果を否定することはできない（民法<span class="mono">94条</span>2項の類推適用、最判昭44.5.27）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-10-4">
+  <div class="dlg-head"><div class="dlg-title">(H09-10-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の所有者が、真実その所有権を移転する意思はないのに、他人と通謀してその者に対する虚偽の所有権移転登記を経由したときは、当該所有者は、民法<span class="mono">94条</span>2項により、登記名義人にこの不動産の所有権を移転していないことをもって、善意の第三者に対抗することができないが、本肢のように不実の所有権移転登記の経由が所有者の知らない間に、他人の専断によってされた場合でも、このような登記がされていることを知りながら、放置することで、明示又は黙示的に承認していたときは、民法<span class="mono">94条</span>2項を類推適用して、上記の場合と同じく、不動産の所有者は当該不動産について法律上利害関係を有するに至った善意の第三者に対し、登記名義人が所有権を取得していないことをもって、対抗することができない（最判昭45.9.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

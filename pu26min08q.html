@@ -1,0 +1,1171 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit8</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit8</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min07q.html">前へ</a>
+        <a href="pu_min09q.html">次へ</a>
+        <a href="pu26min08.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h19-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-05-ア)</div>
+          <p class="qtext">1　復代理人の選任行為は、代理人の代理行為の一環として行われるものであり、代理人は、復代理人を選任する際、本人のためにすることを示して行うことを要する。(H19-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r04-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-05-ア)</div>
+          <p class="qtext">2　委任による代理人は、自己の責任で復代理人を選任することができる。(R04-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h14-04-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-04-2)</div>
+          <p class="qtext">3　Aは、Bの任意代理人であるが、Bから受任した事務をCを利用して履行しようとしている。AがBから代理人を選任するための代理権を授与されている場合にも、AがBのためにすることを示してCを代理人として選任するためには、Bの許諾又はやむを得ない事情が存することが必要である。(H14-04-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-04-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h04-02-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-02-ア)</div>
+          <p class="qtext">4　代理人は、やむを得ない事由があるときは、本人の許諾を得なくても、復代理人を選任することができる。(H04-02-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-02-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h05-04-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-04-3)</div>
+          <p class="qtext">5　法定代理人は、やむを得ない事由で復代理人を選任した場合には、本人に対して責任を負うことはない。(H05-04-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-04-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h14-04-5h04-02-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-04-5)(H04-02-イ)</div>
+          <p class="qtext">6　Aは、Bの任意代理人であるが、Bから受任した事務をCを利用して履行しようとしている。Aから復代理人として適法に選任されたCの法律行為の効果がBに帰属するためには、CがAのためにすることを示して当該法律行為をすることが必要である。(H14-04-5)(H04-02-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-04-5h04-02-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h05-04-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-04-5)</div>
+          <p class="qtext">7　復代理人は、代理人を代理するものであって、本人を代理するものではない。(H05-04-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-04-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h30-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-05-イ)</div>
+          <p class="qtext">8　AとBとの間で、Aの代理人としてAの所有する甲不動産をCに売り渡す契約を締結する権限をBに与える委任契約を締結した。Bが、Aの許諾を得て復代理人Dを選任した場合において、その後、Bの代理権が消滅したときは、Dの代理権は消滅する。(H30-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h19-05-ih04-02-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-05-イ)(H04-02-ウ)</div>
+          <p class="qtext">9　復代理人は、代理人の権限の範囲内で直接本人を代理するので、代理人の権限と復代理人の権限が重複することとなる。そこで、復代理人が選任されると、代理人の代理権は停止し、復代理人の任務が終了すると、代理人の代理権は復活する。(H19-05-イ)(H04-02-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-05-ih04-02-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h19-05-oh04-02-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-05-オ)(H04-02-オ)</div>
+          <p class="qtext">10　復代理人の代理権は、代理人の代理権を前提としているので、代理人が死亡してその代理権が消滅した場合には、復代理人の代理権も消滅する。このことは、復代理人が本人の指名に従って選任された場合も同様である。(H19-05-オ)(H04-02-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-05-oh04-02-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h14-04-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-04-4)</div>
+          <p class="qtext">11　Aは、Bの任意代理人であるが、Bから受任した事務をCを利用して履行しようとしている。Aがやむを得ない事情によりBの許諾を得ることなくCを復代理人として選任した場合には、Cの復代理人としての権限は、保存行為又は代理の目的たる権利の性質を変更しない範囲における利用若しくは改良行為に限られる。(H14-04-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-04-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r05-06-ah09-03-3h04-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-06-ア)(H09-03-3)(H04-07-ウ)</div>
+          <p class="qtext">12　Aが、Bの代理人と称して、Cとの間で、Bの所有する不動産を売却する旨の契約(以下｢本件売買契約｣という｡)を締結したが、実際にはAは代理権を有しておらず、また、CはAが代理権を有していないことを知らなかった。この事例に関して。Cは、Bに対し、相当の期間を定めて、その期間内に本件売買契約を追認するかどうかを確答すべき旨の催告をすることができ、Bがその期間内に確答しないときは、追認したものとみなされる。(R05-06-ア)(H09-03-3)(H04-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-06-ah09-03-3h04-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h28-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-05-イ)</div>
+          <p class="qtext">13　Aは、Bから代理権を授与されていないにもかかわらず、Bの代理人と称して、Cとの間でB所有の甲土地の売買契約を締結した。本件売買契約の締結後にCがBに対し相当の期間内に追認をするかどうかを確答すべき旨の催告をした場合において、Bがその期間内に確答をしないときは、Bは、本件売買契約に基づく責任を負う。(H28-05-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h03-01-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-01-3)</div>
+          <p class="qtext">14　甲からコピ-機の賃借に関する代理権を与えられた乙は、その代理権限の範囲を超えて、甲の代理人として丙との間でコピ-機を買い受ける旨の契約を締結した。丙が乙に売買契約締結の代理権がないことを知っていたときは、丙は、甲に対して売買契約を追認するかどうかを確答するように催告することができない。(H03-01-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-01-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h26-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-05-オ)</div>
+          <p class="qtext">15　AがBから代理権を授与されていないにもかかわらず、Bの代理人として、Cとの間でB所有の甲建物の売買契約を締結し、Cが、AがBから代理権を授与されていないことを知らず、また、知らないことについて過失はあったものの、それが重大な過失でなかった場合に、Aの無権代理について善意であるCは、Bが無権代理の追認をしない間は、売買契約を取り消すことができる。(H26-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h23-06-ah14-02-eh03-01-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-06-ア)(H14-02-エ)(H03-01-2)</div>
+          <p class="qtext">16　Aの代理人であると称するBが、Cとの間で、Aが所有する甲建物の売買契約を締結したところ、Bが代理権を有していなかった。この場合、Cは、Aに対して本件売買契約を追認するか否かの催告を行うことができ、また、Aの追認がない間は、Bが代理権を有しないことについてCが善意か悪意かを問わず、契約を取り消すことができる。(H23-06-ア)(H14-02-エ)(H03-01-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-06-ah14-02-eh03-01-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h07-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-04-エ)</div>
+          <p class="qtext">17　Aは、何らの権限もないのに、Bの代理人と称して、Cとの間にB所有の不動産を売り渡す契約を締結した。AC間の売買の合意がされた時にAの無権限を知らなかったCがこれを取り消した後においては、Bは、追認をすることができない。(H07-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h28-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-05-オ)</div>
+          <p class="qtext">18　Aは、Bから代理権を授与されていないにもかかわらず、Bの代理人と称して、Cとの間でB所有の甲土地の売買契約を締結した。本件売買契約の締結後にAがBから甲土地の譲渡を受けた場合においても、Cは、その選択に従い、Aに対し、履行の請求又は損害賠償の請求をすることができる。(H28-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h26-05-eh09-02-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-05-エ)(H09-02-ウ)</div>
+          <p class="qtext">19　AがBから代理権を授与されていないにもかかわらず、Bの代理人として、Cとの間でB所有の甲建物の売買契約を締結し、Cが、AがBから代理権を授与されていないことを知らず、また、知らないことについて過失はあったものの、それが重大な過失でなかった場合に、Cは、Aに対し、無権代理人の責任を追及することができる。(H26-05-エ)(H09-02-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-05-eh09-02-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h23-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-06-オ)</div>
+          <p class="qtext">20　Aの代理人であると称するBが、Cとの間で、Aが所有する甲建物の売買契約を締結したところ、Bが代理権を有していなかった。Aが追認を拒絶した場合、Cが民法第117条第1項に基づいてBに対して損害賠償を請求するためには、Bに故意又は過失があることを立証することを要しない。(H23-06-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h14-02-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-02-イ)</div>
+          <p class="qtext">21　Aは、代理権がないにもかかわらず、Bのためにすることを示して、Cとの間でB所有の甲土地を売却する旨の契約(以下「本件売買契約」という。)を締結した。Cは、Bに対し、本件売買契約を取り消すとの意思表示をした。この場合、Cは、Aに対し、無権代理人としての責任を追及して本件売買契約の履行を求めることができる。(H14-02-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-02-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h03-01-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-01-4)</div>
+          <p class="qtext">22　甲からコピ-機の賃借に関する代理権を与えられた乙は、その代理権限の範囲を超えて、甲の代理人として丙との間でコピ-機を買い受ける旨の契約を締結した。丙が乙に売買契約締結の代理権がないことを知っていた場合において、甲が売買契約の追認を拒絶するときは、丙は、甲、乙のいずれに対しても売買代金の支払を請求することができない。(H03-01-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-01-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-r05-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-06-オ)</div>
+          <p class="qtext">23　Aが、Bの代理人と称して、Cとの間で、Bの所有する不動産を売却する旨の契約(以下｢本件売買契約｣という｡)を締結したが、実際にはAは代理権を有しておらず、また、CはAが代理権を有していないことを知らなかった。この事例に関して。Aが、自己に代理権がないことを知りながら、本件売買契約を締結した場合であっても、Aが代理権を有しないことをCが過失によって知らなかったときは、Aは、Cに対して民法第117条第1項による無権代理人の責任を負わない。(R05-06-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-r05-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-06-ウ)</div>
+          <p class="qtext">24　本件売買契約の締結時において、Aが成年被後見人であったときは、Aは、Cに対して民法第117条第1項による無権代理人の責任を負わない。(R05-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h03-01-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-01-5)</div>
+          <p class="qtext">25　甲からコピ-機の賃借に関する代理権を与えられた乙は、その代理権限の範囲を超えて、甲の代理人として丙との間でコピ-機を買い受ける旨の契約を締結した。乙が未成年者であるときは、丙がその事実を知っていたか否かにかかわらず、丙は、乙に対して履行又は損害賠償を請求することができない。(H03-01-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-01-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h14-02-uh06-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-02-ウ)(H06-04-イ)</div>
+          <p class="qtext">26　Aは、代理権がないにもかかわらず、Bのためにすることを示して、Cとの間でB所有の甲土地を売却する旨の契約(以下「本件売買契約」という。)を締結した。CがAに対し、無権代理人としての責任を追及した。この場合、Aは、自己の代理行為につき表見代理が成立することを主張して無権代理人としての責任を免れることができる。(H14-02-ウ)(H06-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-02-uh06-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h14-02-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-02-ア)</div>
+          <p class="qtext">27　Aは、代理権がないにもかかわらず、Bのためにすることを示して、Cとの間でB所有の甲土地を売却する旨の契約(以下「本件売買契約」という。)を締結した。Bは、Aから甲土地の売買代金の一部を受領した。この場合、Bは、Aの無権代理行為を追認したものとみなされる。(H14-02-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-02-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h09-03-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-03-2)</div>
+          <p class="qtext">28　無権代理人がした契約の追認に関して。本人は、無権代理人が本人の利益を図る意思で契約した場合に限り、契約を追認することができる。(H09-03-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-03-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h07-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-04-イ)(改)</div>
+          <p class="qtext">29　Aは、何らの権限もないのに、Bの代理人と称して、Cとの間にB所有の不動産を売り渡す契約を締結した。AC間の売買の合意がAの錯誤によるものであるときは、Bは、Aの無権代理行為を追認することができない。(H07-04-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-r05-06-ih07-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-06-イ)(H07-04-オ)</div>
+          <p class="qtext">30　Aが、Bの代理人と称して、Cとの間で、Bの所有する不動産を売却する旨の契約(以下｢本件売買契約｣という｡)を締結したが、実際にはAは代理権を有しておらず、また、CはAが代理権を有していないことを知らなかった。この事例に関して。Bが本件売買契約を追認した場合において、別段の意思表示がないときは、本件売買契約は、その追認の時から効力を生ずる。(R05-06-イ)(H07-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-06-ih07-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h09-03-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-03-4)</div>
+          <p class="qtext">31　無権代理人がした契約の追認に関して。本人は、契約を遡及的に有効とするか、将来に向かってのみ有効とするかを選択して、契約を追認することができる。(H09-03-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-03-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h09-03-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-03-5)</div>
+          <p class="qtext">32　無権代理人がした契約の追認に関して。本人は、契約の追認を拒絶した後でも、改めて契約を追認することができる。(H09-03-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-03-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-r05-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-06-エ)</div>
+          <p class="qtext">33　Aが、Bの代理人と称して、Cとの間で、Bの所有する不動産を売却する旨の契約(以下｢本件売買契約｣という｡)を締結したが、実際にはAは代理権を有しておらず、また、CはAが代理権を有していないことを知らなかった。この事例に関して。Bが、Aに対して、本件売買契約を追認した場合であっても、Cが当該追認の事実を知らないときは、Cは本件売買契約を取り消すことができる。(R05-06-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h28-05-ah09-03-1h07-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-05-ア)(H09-03-1)(H07-04-ウ)</div>
+          <p class="qtext">34　Aは、Bから代理権を授与されていないにもかかわらず、Bの代理人と称して、Cとの間でB所有の甲土地の売買契約を締結した。本件売買契約の締結後にBがAに対して追認をした場合において、追認の事実をCが知らないときは、これをCに対抗することができない。(H28-05-ア)(H09-03-1)(H07-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min8.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-05-ah09-03-1h07-04-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h19-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H19-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>復代理人を選任する権限を復任権という。復任権は、当然には代理権の一部ではなく、別個の権限であり、復代理人を選任することは代理行為ではない。よって、代理人は、自分の名で復代理人を選任する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-05-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>委任による代理人は、本人の許諾を得たとき、又はやむを得ない事由があるときでなければ、復代理人を選任することができない（民法<span class="mono">104条</span>）。その趣旨は、代理人は本人から特に選ばれて代理行為の委託を受けたのであるから、自分で行為をするのが原則であるという点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-04-2">
+  <div class="dlg-head"><div class="dlg-title">(H14-04-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>任意代理人は、本人の許諾を得た場合と、やむを得ない事由がある場合にのみ復代理が認められる（民法<span class="mono">104条</span>）が、代理人を選任するための代理権が授与されているならば、代理行為として代理人を選任することができ、民法<span class="mono">104条</span>の事情の存在は不要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-02-a">
+  <div class="dlg-head"><div class="dlg-title">(H04-02-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>委任による代理人は、本人の許諾を得たとき、又はやむを得ない事由があるときでなければ、復代理人を選任することができない（民法<span class="mono">104条</span>）。よって、やむを得ない事由があるときは、本人の許諾を得なくても、復代理人を選任することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-04-3">
+  <div class="dlg-head"><div class="dlg-title">(H05-04-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>法定代理人が、やむを得ない事由により復代理人を選任した場合、選任及び監督について責任を負う（民法<span class="mono">105条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-04-5h04-02-i">
+  <div class="dlg-head"><div class="dlg-title">(H14-04-5)(H04-02-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>復代理人は代理人の代理人ではなく、本人の代理人であるから（民法<span class="mono">106条</span>1項）、本人のためにすることを示して代理行為をすれば足り（民法<span class="mono">99条</span>1項）、原代理人の名を示す必要はない。そして、復代理人の代理行為の効果は、直接、本人に帰属する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-04-5">
+  <div class="dlg-head"><div class="dlg-title">(H05-04-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>復代理人は、代理人を代理するものではなく、本人を代理するものである（民法<span class="mono">106条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>復代理人の代理権は代理人の代理権に依存するため、代理人の代理権が消滅すれば原則として復代理権も消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-05-ih04-02-u">
+  <div class="dlg-head"><div class="dlg-title">(H19-05-イ)(H04-02-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>復代理人選任後も、代理人は代理権を失わず、代理人・復代理人は同等の立場でともに本人を代理する。従って、復代理人が選任されても、代理人の代理権は停止しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-05-oh04-02-o">
+  <div class="dlg-head"><div class="dlg-title">(H19-05-オ)(H04-02-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>復代理人の代理権（復代理権）は、代理人の代理権（原代理権）に基づくものであるから、原代理人の代理権が消滅すれば、原則として復代理人の代理権も消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-04-4">
+  <div class="dlg-head"><div class="dlg-title">(H14-04-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>権限の定めのない代理人の権限は、保存行為又は代理の目的たる権利の性質を変更しない範囲における利用又は改良行為に限られる（民法<span class="mono">103条</span>）が、この規定は、代理権の範囲が不明な場合や、特に範囲を定めていない場合の補充規定である。そして復代理人の代理権の範囲は代理人の権限の範囲で認められるものであり（民法<span class="mono">106条</span>2項）、本肢の代理人Ａは、Ｂから事務を受任しているため、代理権の範囲は決まっており、復代理人Ｃの権限もその範囲内で認められるため、民法<span class="mono">103条</span>は適用されない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-06-ah09-03-3h04-07-u">
+  <div class="dlg-head"><div class="dlg-title">(R05-06-ア)(H09-03-3)(H04-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理の相手方による催告に対して、本人が期間内に確答をしないときは、追認を拒絶したものとみなされる（民法<span class="mono">114条</span>）。よって、本人Ｂが、相手方Ｃから催告を受けた後、期間内に確答しない場合には、追認を拒絶したものとみなされる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為について、相手方は本人に対して催告をすることができ、確答がなかった場合、追認を拒絶したものとみなされる（民法<span class="mono">114条</span>）。本肢のＢは確答をしていないため追認を拒絶したものとみなされ、本件売買契約に基づく責任を負うことはない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-01-3">
+  <div class="dlg-head"><div class="dlg-title">(H03-01-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為についての相手方の催告権は、相手方が無権代理について悪意の場合でも認められる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H26-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理の相手方は、契約の時において代理権を有しないことを知っていたときを除き、本人が追認をしない間は、代理権を有しない者がした契約を取り消すことができる（民法<span class="mono">115条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-06-ah14-02-eh03-01-2">
+  <div class="dlg-head"><div class="dlg-title">(H23-06-ア)(H14-02-エ)(H03-01-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理の相手方は、本人に対し、相当の期間を定めて、その期間内に追認をするかどうかを確答すべき旨の催告をすることができる（民法<span class="mono">114条</span>）。しかし、無権代理について悪意の相手方には、取消権は認められない（民法<span class="mono">115条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H07-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理人の行った契約は、本人が追認をしない間は、その契約の当時代理権のないことを知らない相手方において取り消すことができる（民法<span class="mono">115条</span>）。当該取消権が行使された場合、契約の効果が本人に帰属しないことが確定し、その後本人は追認をすることができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H28-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理人が無権代理による売買の目的不動産を取得した場合においても、相手方は、無権代理人に対して民法<span class="mono">117条</span>の履行又は損害賠償請求をすることができる（最判昭41.4.26）。この場合において、相手方が民法<span class="mono">117条</span>の履行を選択したときは、無権代理人と相手方との間に目的不動産の売買契約が成立したと同様の効果が生ずる（最判昭41.4.26）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-05-eh09-02-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-05-エ)(H09-02-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理について、善意無過失の相手方は、無権代理人に対して履行又は損害賠償を請求することができる（民法<span class="mono">117条</span>）。本肢のＣは無権代理であることを知らなかったことに過失があるため、責任追及は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-06-o">
+  <div class="dlg-head"><div class="dlg-title">(H23-06-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">117条</span>の無権代理人の責任は、法律が特別に認めた無過失責任であるため、無権代理人の故意・過失を要しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-02-i">
+  <div class="dlg-head"><div class="dlg-title">(H14-02-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理人の責任（民法<span class="mono">117条</span>）を追及するためには、自らが取消権を行使していないことが要件である。取り消すと無権代理人による契約がなかったことになるからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-01-4">
+  <div class="dlg-head"><div class="dlg-title">(H03-01-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理権を有しない者が他人の代理人として行った契約は、本人がその追認をしなければ、本人に対してその効力を生じない（民法<span class="mono">113条</span>1項）。また、無権代理人は悪意の相手方に対しては、責任を負わない（民法<span class="mono">117条</span>2項）。よって、悪意の丙は、本人甲、無権代理人乙のいずれに対しても売買代金の支払を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-06-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-06-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、無権代理人の責任を負わないとしている点で、誤っている。民法<span class="mono">117条</span>2項2号本文は、「他人の代理人として契約をした者が代理権を有しないことを相手方が過失によって知らなかったとき」は、原則として、無権代理人は無権代理人の責任を負わない旨を規定する一方で、同号ただし書は、「ただし、他人の代理人として契約をした者が自己に代理権がないことを知っていたときは、この限りでない。」として、例外的に無権代理人が責任を負う旨を規定している。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-06-u">
+  <div class="dlg-head"><div class="dlg-title">(R05-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">117条</span>2項は、同条1項に規定される無権代理人の責任を負わない場合について規定しているところ、同条2項3号は、無権代理人が「行為能力の制限を受けていた」場合には無権代理人の責任を負わないとしている。本記述では、無権代理人Ａが成年被後見人として「行為能力の制限を受けていた」場合に当たることから、Ａは無権代理人の責任を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-01-5">
+  <div class="dlg-head"><div class="dlg-title">(H03-01-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>制限行為能力者は、相手方の善意・悪意を問わず、無権代理人の責任を負わない（民法<span class="mono">117条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-02-uh06-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H14-02-ウ)(H06-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>表見代理が成立する場合にも、相手方は無権代理人としての責任（民法<span class="mono">117条</span>）を追及できる。すなわち、表見代理と無権代理人との責任を選択的に主張でき、無権代理人は、表見代理の成立を主張して、無権代理人の責任を免れることはできない（最判昭62．7.7）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-02-a">
+  <div class="dlg-head"><div class="dlg-title">(H14-02-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">113条</span>1項の追認には黙示の追認も含まれる。例えば、本人が無権代理人の締結した契約の履行を相手方に対して請求する場合である（大判大3.10.3）。本肢のように、Ｂが甲土地の売買代金の一部を受領する場合も黙示の追認とみてよい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-03-2">
+  <div class="dlg-head"><div class="dlg-title">(H09-03-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為の本人は、無権代理人が本人の利益を図る意思を有して契約をしたか否かにかかわらず、契約を追認（民法<span class="mono">113条</span>）することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-04-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>追認とは、本人が無効な代理行為の効果を自己に帰属させる意思表示であり、無権代理人が締結した契約が錯誤によるものである場合においても、追認の妨げにはならず、追認によって契約が本人に有効に帰属した場合における代理行為の瑕疵（民法<span class="mono">101条</span>）の問題となるにすぎない。よって、Ｂは、Ａの無権代理行為を追認することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-06-ih07-04-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-06-イ)(H07-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、追認の時からその効力を生ずるとしている点で、誤っている。民法<span class="mono">116条</span>本文は、無権代理行為の追認の効果について、「追認は、別段の意思表示がないときは、契約の時にさかのぼってその効力を生ずる。」と規定している。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-03-4">
+  <div class="dlg-head"><div class="dlg-title">(H09-03-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>追認は、別段の意思表示がないときは、契約の時にさかのぼって効力を生じる（民法<span class="mono">116条</span>本文）。この「別段の意思表示」とは、本人及び相手方双方の合意であり、本人が一方的に契約を遡及的に有効とするか、将来に向かってのみ有効とするかを選択して追認できるわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-03-5">
+  <div class="dlg-head"><div class="dlg-title">(H09-03-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為について、本人が追認を拒絶すると、無権代理行為の効果が本人に及ばないことが確定するので、契約を追認することはできない（最判平10.7.17参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-06-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">113条</span>1項は、「本人がその追認」をしなければならないとして、追認権者を定めるとともに、同条2項において、「追認…は、相手方に対してしなければ、その相手方に対抗することができない。ただし、相手方がその事実を知ったときは、この限りでない。」として、追認の方法を規定している。本記述では、追認権者Ｂが追認をしているものの、相手方Ｃに対して追認がなされておらず、また、Ｃは追認の事実を知らないのであるから、追認をＣに対抗することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-05-ah09-03-1h07-04-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-05-ア)(H09-03-1)(H07-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>追認又はその拒絶は、相手方に対してしなければ、その相手方に対抗することができない（民法<span class="mono">113条</span>2項本文）。本肢では、相手方Ｃが本人Ｂの追認の事実を知らない以上、追認の事実をＣに対抗することはできない。この場合、Ｃによる取消し（民法<span class="mono">115条</span>）も可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

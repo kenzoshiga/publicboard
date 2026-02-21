@@ -1,0 +1,1046 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit12</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit12</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min11q.html">前へ</a>
+        <a href="pu_min13q.html">次へ</a>
+        <a href="pu26min12.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h27-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-06-イ)</div>
+          <p class="qtext">38　Aが、B所有の甲土地について、Bとの間で使用貸借契約を締結し、その引渡しを受けたが、内心においては、当初から甲土地を時効により取得する意思を有していた場合、Aは、甲土地の占有を20年間継続したとしても、甲土地の所有権を時効により取得することはできない。(H27-06-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h21-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-07-オ)</div>
+          <p class="qtext">39　AがB所有の甲土地を借りて乙建物を建て、甲土地を15年間占有していたところ、Aが死亡し、Aの単独相続人であるCが甲土地及び乙建物がAの遺産であり自己がこれらを取得したと信じて5年間甲土地を占有した場合、Cは甲土地の所有権を取得する。なお、占有について、平穏及び公然の要件は満たしているものとする。(H21-07-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h10-03-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-03-5)</div>
+          <p class="qtext">40　Aは、Bに対し、自己所有の甲土地を売却し、代金と引換えに甲土地を引き渡したが、その後、Cに対しても甲土地を売却し、代金と引換えに甲土地の所有権移転登記を経由した。Bが引渡しを受けた後に甲土地を第三者に賃貸した場合には、Bは、直接占有を失うので、取得時効は成立しない。(H10-03-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-03-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h10-03-1r06-06-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-03-1)(R06-06-ア)</div>
+          <p class="qtext">41　Aは、Bに対し、自己所有の甲土地を売却し、代金と引換えに甲土地を引き渡したが、その後、Cに対しても甲土地を売却し、代金と引換えに甲土地の所有権移転登記を経由した。Bは、A所有の甲土地を買い受けた時点で甲土地の所有権を取得しており、その引渡しを受けた時点で「他人の物の占有」を開始したとはいえないので、この時点から時効期間を起算することはできない。(H10-03-1)(R06-06-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-03-1r06-06-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h08-04-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-04-イ)</div>
+          <p class="qtext">42　Xは、Aから昭和50年1月にA所有の一筆の土地の一部を買い受け、引渡しも受けたが、未登記のまま放置していた。その後、Xは、昭和55年ころ、買い受けた土地上に樹木を植えた。しかし、昭和58年2月になって、Aは、同土地の全部がいまだ自己名義に登記されているのを幸いに、Yに対して同土地の全部及びXの植えた樹木を自分のものであると偽って売却し、登記もすませた。この場合、XA間の売買は有効であるから、Xは、自分の土地を占有していることになり、その土地を時効取得することはできない。(H08-04-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-04-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h31-06-ah08-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-06-ア)(H08-04-ウ)</div>
+          <p class="qtext">43　土地の所有権は、一筆の土地の一部のものであっても、時効により取得することができる。(H31-06-ア)(H08-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-06-ah08-04-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h21-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-07-ア)</div>
+          <p class="qtext">44　AがB所有の甲土地に無権原で自宅として乙建物を建て、所有の意思をもって甲土地を15年間占有した後、Aが死亡し、その直後からAの単独相続人であるCが自宅として乙建物に住むようになり、5年間所有の意思をもって甲土地を占有した場合、Cは甲土地の所有権を取得する。なお、占有について、平穏及び公然の要件は満たしているものとする。(H21-07-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h21-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-07-イ)</div>
+          <p class="qtext">45　AがB所有の甲土地を所有者と称するCから買い受け、これにより甲土地が自己の所有となったものと誤信し、かつ、そう信じたことに過失なく3年間占有した後、甲土地をBの所有であることを知っているDに売却し、Dが7年間甲土地を占有した場合、Dは甲土地の所有権を取得する。なお、占有について、平穏及び公然の要件は満たしているものとする。(H21-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h21-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-07-ウ)</div>
+          <p class="qtext">46　AがB所有の甲土地に無権原で自宅として乙建物を建て、所有の意思をもって甲土地を10年間占有した後、Aが甲土地及び乙建物をCに売却し、Cが5年間占有した。その後、Cが甲土地及び乙建物をDに売却し、Dが5年間甲土地を占有した場合、Dは甲土地の所有権を取得する。(H21-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h16-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-04-オ)</div>
+          <p class="qtext">47　占有の承継に関して定めた民法第187条第1項の規定は、権利能力なき社団の占有する不動産を法人格を取得した以後当該法人が引き続いて占有している場合にも適用される。(H16-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h12-11-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-11-2)</div>
+          <p class="qtext">48　甲建物に居住して悪意の自主占有を3年間続けたAは、甲建物をBに賃貸して引き渡した。Aは、その5年後に、甲建物を善意・無過失のCに譲渡し、Cの承諾を得て、Bに譲渡の事実を通知し、その後、更に10年間が経過した。Cは、甲建物について取得時効を主張することができる。なお、取得時効の要件のうち、「平穏かつ公然」の要件は満たされているものとする。(H12-11-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-11-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h27-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-06-ウ)</div>
+          <p class="qtext">49　甲土地を10年間占有したことを理由として甲土地の所有権を時効により取得したことを主張する者は、法律上、その占有の開始の時に善意であったことだけでなく、無過失であったことも推定される。(H27-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h21-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-07-エ)</div>
+          <p class="qtext">50　AがB所有の甲土地を所有者と称するCから買い受け、これにより甲土地が自己の所有となったものと誤信し、かつ、そう信じたことに過失なく8年間占有した後に、甲土地がB所有の土地であることに気付いた場合、その後2年間甲土地を占有したときであっても、Aは甲土地の所有権を取得しない。なお、占有について、平穏及び公然の要件は満たしているものとする。(H21-07-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h12-11-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-11-1)</div>
+          <p class="qtext">51　甲建物に居住して善意・無過失の自主占有を8年間続けたAから甲建物を買い受けた善意・無過失のBは、その買受けと同時に甲建物をAに賃貸し、Aが甲建物に引き続き居住して更に2年間が経過した。Bは、甲建物について取得時効を主張することができる。なお、取得時効の要件のうち、「平穏かつ公然」の要件は満たされているものとする。(H12-11-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-11-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h10-03-2h09-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-03-2)(H09-11-イ)</div>
+          <p class="qtext">52　Aは、Bに対し、自己所有の甲土地を売却し、代金と引換えに甲土地を引き渡したが、その後、Cに対しても甲土地を売却し、代金と引換えに甲土地の所有権移転登記を経由した。Bは、甲土地の引渡しを受けた時点で善意・無過失であったとしても、AC間の売買及び登記の経由があったことを知ったときは、その時点で悪意となるので、10年間の占有による取得時効は成立しない。(H10-03-2)(H09-11-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-03-2h09-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h25-10-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-10-オ)(改)</div>
+          <p class="qtext">53　AがB所有の甲土地の利用権として地上権又は賃借権を有する場合に関して。当該利用権が地上権・賃借権のいずれであっても、時効により取得することができる。(H25-10-オ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-10-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h18-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-07-イ)</div>
+          <p class="qtext">54　地上権及び永小作権は、時効によって取得することができるが、地役権は、時効によって取得することができない。(H18-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h31-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-06-ウ)</div>
+          <p class="qtext">55　賃借権は、時効により取得することができる。(H31-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h18-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-07-エ)</div>
+          <p class="qtext">56　債権は、時効によって消滅するが、時効によって取得できる債権はない。(H18-07-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h26-07-oh01-05-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-07-オ)(H01-05-1)</div>
+          <p class="qtext">57　A所有の甲土地上に、Bが乙建物をAに無断で建築して所有している場合に、AがBに対して有する甲土地の所有権に基づく物権的請求権は、時効によって消滅することはない。(H26-07-オ)(H01-05-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-07-oh01-05-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h08-15-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-15-2)</div>
+          <p class="qtext">58　A所有の建物についてBが抵当権を設定した後に、Aがその建物をCに賃貸して引き渡した。賃貸借契約終了後、AがCに建物の返還を請求しないまま10年を経過しても、Aは、Cに対し、所有権に基づき建物の返還を請求することができる。(H08-15-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-15-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r03-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-06-イ)</div>
+          <p class="qtext">59　債権は、債権者が権利を行使することができることを知った時から10年間行使しないときは、時効によって消滅する。(R03-06-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h28-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-06-イ)</div>
+          <p class="qtext">60　AとBとは、A所有の中古自動車(以下｢本件自動車」という。)をBに対して代金150万円で売り、Bが代金のうち50万円を直ちに支払い、残代金をその2週間後に本件自動車の引渡しと引換えに支払う旨の合意をした。Bは、約定の履行期が経過してもAが本件自動車の引渡しをしないため、売買契約に基づいて本件自動車の引渡しを請求することを考えている。この引渡請求権の消滅時効は、BがAに対して残代金に係る弁済の提供をした時から進行する。(H28-06-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h16-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-07-イ)(改)</div>
+          <p class="qtext">61　債務不履行によって生ずる損害賠償請求権の消滅時効の客観的起算点は、本来の債務の履行を請求し得る時である。(H16-07-イ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h16-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-07-ウ)(改)</div>
+          <p class="qtext">62　契約の解除による原状回復請求権は、解除によって新たに発生するものであるから、その消滅時効の客観的起算点は、解除の時である。(H16-07-ウ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h16-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-07-エ)(改)</div>
+          <p class="qtext">63　割賦払債務について、債務者が割賦金の支払を怠ったときは債権者の請求により直ちに残債務全額を弁済すべき旨の約定がある場合には、残債務全額についての消滅時効は、債務者が割賦金の支払を怠った時から進行する。(H16-07-エ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-r03-06-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-06-ア)</div>
+          <p class="qtext">64　不法行為に基づく損害賠償請求権は、不法行為の時から20年間行使しないときは、時効によって消滅する。(R03-06-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-06-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r03-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-06-エ)</div>
+          <p class="qtext">65　人の生命又は身体を害する不法行為に基づく損害賠償請求権は、被害者又はその法定代理人が損害及び加害者を知った時から3年間行使しないときは、時効によって消滅する。(R03-06-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r03-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-06-ウ)</div>
+          <p class="qtext">66　確定判決によって確定した権利であって、確定の時に弁済期の到来している債権については、10年より短い時効期間の定めがあるものであっても、その時効期間は、10年となる。(R03-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min12.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-06-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h27-06-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有における所有の意思の有無は、占有取得の原因たる事実によつて外形的客観的に定められるべきものである（最判昭45.6.18）。そして、Ａの使用貸借契約に基づく甲土地の占有は他主占有であるため、Ａが内心において当初から時効により取得する意思を有していたとしても、取得時効は成立しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-07-o">
+  <div class="dlg-head"><div class="dlg-title">(H21-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有権の取得時効を援用することができる者は、「所有の意思をもって」占有した者であることが必要である（民法<span class="mono">162条</span>）。そして、賃借人が賃借物を占有する場合には、所有の意思がないので、賃借人を相続した者も賃借物を時効取得することはできない。本肢の被相続人Ａの占有は他主占有であるので、相続人Ｃは賃借物である甲土地を時効取得することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-03-5">
+  <div class="dlg-head"><div class="dlg-title">(H10-03-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効取得の要件の1つである所有の意思をもってする占有は、自ら占有をするものである必要はなく、他人を通して占有をするものであってもよい。よって、Ｂが引渡しを受けた後に甲土地を第三者に賃貸した場合であっても、Ｂは、自主占有を有しており、取得時効が成立し得る。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-03-1r06-06-a">
+  <div class="dlg-head"><div class="dlg-title">(H10-03-1)(R06-06-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>例えば係争物の所有権が誰にあるか明確ではない場合等、自己の所有物であることを証明する手段のない場合には時効制度が有用であり、このような場合には、自己に所有権のある物であっても、有効に取得時効を主張することができる（最判昭42.7.21、最判昭44.12.18）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-04-i">
+  <div class="dlg-head"><div class="dlg-title">(H08-04-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">162条</span>に規定する占有者には、権利なくして占有をした者のほか、所有権に基づいて占有した者をも含むため（最判昭42.7.21）、自分の土地を占有している者も自己の土地を時効取得できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-06-ah08-04-u">
+  <div class="dlg-head"><div class="dlg-title">(H31-06-ア)(H08-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本記述は、大判大13.10.7 により正しい。判例は、一筆の土地の一部について取得時効を認めている（大判大13.10.7）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H21-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者の承継人は、その選択に従い、自己の占有のみを主張し、又は自己の占有に前の占有者の占有を併せて主張することができる（民法<span class="mono">187条</span>1項）。本肢においては、Ｃは、被相続人Ａの占有（15年間）と自己の占有（5年間）とを併せて主張することができ、20年の取得時効を援用することができる（民法<span class="mono">162条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H21-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有の承継人が前者の占有を併せて主張する場合には、占有者の善意・無過失は、その主張に係る最初の占有者につきその占有開始の時点において判断することになる（最判昭53.3.6）。本肢のＤは、前者Ｃの占有（3年間）と自己の占有（7年間）とを併せて主張することができ、前者Ｃは、占有開始時点において善意・無過失であるので、10年の取得時効を援用することができる（民法<span class="mono">162条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H21-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>前主が複数人いる場合においては、自己の直接の前主の占有だけでなく、全ての前主の占有をも併せて主張することができる（大判大6.11.8）。本肢のＤは、Ａの占有（10年間）とＣの占有（5年間）と自己の占有（5年間）とを併せて主張することができ、20年の取得時効を援用することができる（民法<span class="mono">162条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-04-o">
+  <div class="dlg-head"><div class="dlg-title">(H16-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">187条</span>1項の規定は、権利能力なき社団の占有する不動産を法人格を取得した以後当該法人が引き続いて占有している場合にも適用される（最判平元.12.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-11-2">
+  <div class="dlg-head"><div class="dlg-title">(H12-11-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>Ｃは、悪意占有者であるＡから、指図による占有移転によって（民法<span class="mono">184条</span>）、占有を取得している。もっとも、占有者の承継人は、自己の占有のみを主張することができる（民法<span class="mono">187条</span>1項）ので、Ｃは、占有開始時に善意無過失であったことを主張することができる。よって、Ｃは甲建物について取得時効を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-06-u">
+  <div class="dlg-head"><div class="dlg-title">(H27-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>善意については<span class="mono">186条</span>1項によって推定されるが、無過失は推定されないため、時効取得を主張する者は、無過失を立証しなければならない（最判昭46.11.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-07-e">
+  <div class="dlg-head"><div class="dlg-title">(H21-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>取得時効における占有者の善意・無過失については、占有の開始時において問題とされ、当初善意・無過失であった占有者がその後に悪意となっても、時効期間には影響を与えない。本肢においては、Ａは、その占有の開始時において、善意・無過失であることから、10年の取得時効を援用することができる（民法<span class="mono">162条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-11-1">
+  <div class="dlg-head"><div class="dlg-title">(H12-11-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有権は、代理人によっても取得することができる（民法<span class="mono">181条</span>）ので、賃貸人にも占有はある。また、他人から占有を承継した者は自己の占有に前主の占有を合算した占有のうちの最初の占有の開始時において善意・無過失であればよい（最判昭53.3.6）。よって、Ｂは甲建物について取得時効を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-03-2h09-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H10-03-2)(H09-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者の善意及び無過失については、占有を開始した時点において備えていれば足りるため（大判明44.4.7）、その後に自分に所有権がないことを知ったとしても時効取得できる。本肢のＢは、甲土地の引渡しを受けた時点で善意無過失であるため、10年間の占有による取得時効が成立し得る。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-10-o">
+  <div class="dlg-head"><div class="dlg-title">(H25-10-オ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>時効取得の認められる財産権には、地上権、地役権等の用益物権が含まれると解されている。一方、賃借権の場合、土地の継続的な用益という外形的事実が存在し、かつ、それが賃借の意思に基づくことが客観的に表現されているときは、土地賃借権の時効取得が可能である（最判昭43.10.8）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H18-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>地上権、永小作権、地役権も時効取得の対象となる。地役権については要件が加重されているが（民法<span class="mono">283条</span>）、時効取得できないものではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-06-u">
+  <div class="dlg-head"><div class="dlg-title">(H31-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>原則として、賃借権は債権であるため、時効取得ができない。しかし、判例は、「土地の継続的な用益という外形的事実が存在し、かつ、その用益が賃借の意思に基づくものであることが客観的に表現されているときは、民法163 条により、土地の賃借権を時効取得する」とし、例外的に不動産賃借権の時効取得を認めている（最判昭62.6.5）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-07-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃金債権などの通常の債権は、債権者が権利を行使することができることを知った時から5年間行使しないとき、及び権利を行使することができる時から１０年間行使しないときには、時効によって消滅する（民法<span class="mono">166条</span>1項）。また、債権である賃借権に時効取得が認められている（最判昭45.12.15）。よって、後段は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-07-oh01-05-1">
+  <div class="dlg-head"><div class="dlg-title">(H26-07-オ)(H01-05-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>所有権に基づく物権的請求権は時効によって消滅することはない。所有権自体消滅時効にかからないからである（民法<span class="mono">167条</span>2項参照、大判大5.6.23参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-15-2">
+  <div class="dlg-head"><div class="dlg-title">(H08-15-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>所有権に基づく物の返還請求権は、所有権自体と同じく（民法<span class="mono">167条</span>2項）消滅時効によっては消滅しない（大判大5.6.23）。よって、賃貸借契約終了後、ＡがＣに建物の返還を請求しないまま10年を経過しても、返還請求権が時効により消滅することはない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-06-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">166条</span>1項1号。同条項柱書は「債権は、次に掲げる場合には、時効によって消滅する」と規定し、同項1号は「債権者が権利を行使することができることを知った時から5年間行使しないとき」と規定している（主観的起算点）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-06-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権は、債権者が権利を行使することができることを知った時から5年間行使しないとき（主観的起算点）、及び権利を行使することができる時から10年間行使しないとき（客観的起算点）には、時効によって消滅する（民法<span class="mono">166条</span>1項）。そして、客観的起算点の「権利を行使することができる時」とは、権利を行使するのに法律上の障害がなくなった時であり、同時履行の抗弁権（民法<span class="mono">533条</span>）は、この場合に当たらない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H16-07-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務不履行によって生ずる損害賠償請求権は、本来の債務が変更したものであり債務の同一性には変わりがないから、その消滅時効は、本来の債務の履行を請求し得る時から進行する（最判昭35.11.1）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H16-07-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>契約の解除による原状回復請求権は、解除によって発生した債権だから、その消滅時効は、解除の時から進行する（大判大7.4.13）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-07-e">
+  <div class="dlg-head"><div class="dlg-title">(H16-07-エ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>割賦払債務について、債務者が割賦金の支払を怠ったときは債権者の請求により直ちに残債務全額を弁済すべき旨の約定がある場合には、1回の不履行があっても、各割賦金債務について約定弁済期の到来ごとに順次消滅時効が進行し、残債務全額についての消滅時効は、債権者が特に残債務全額の弁済を求める旨の意思表示をした時から進行する（最判昭42.6.23）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-06-a">
+  <div class="dlg-head"><div class="dlg-title">(R03-06-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">724条</span>2号により、本記述は正しい。同条柱書は「不法行為による損害賠償の請求権は、次に掲げる場合には、時効によって消滅する」と規定し、同条2号において「不法行為の時から20年間行使しないとき」と規定している。かつての判例は20年間という期間を除斥期間と解していたが、平成29年の民法改正により時効期間であることが明記された。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-06-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、3年間行使しないときは、時効によって消滅するとしている点で、誤っている。民法<span class="mono">724条の2</span>。人の生命又は身体を害する不法行為による損害賠償請求権の消滅時効についての前条〔民法<span class="mono">724条</span>〕第1号の規定の適用については、同号中「3年間」とあるのは、「5年間」とする。不法行為による損害賠償請求権は、被害者又はその法定代理人が損害及び加害者を知った時から3年間行使しないときは時効によって消滅する（民法<span class="mono">724条</span>1号）が、それが生命・身体を害する場合には時効期間は5年間とされる。これは、生命・身体の法益の重要性から、消滅時効期間を長くしたものである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-06-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">169条</span>1項により、本記述は正しい。確定判決又は確定判決と同一の効力を有するものによって確定した権利については、10年より短い時効期間の定めがあるものであっても、その時効期間は、10年とする。確定判決があれば、短期の消滅時効を定める理由の大半は消滅することから、このような規定が設けられた。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

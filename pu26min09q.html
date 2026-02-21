@@ -1,0 +1,896 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit9</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit9</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min08q.html">前へ</a>
+        <a href="pu_min10q.html">次へ</a>
+        <a href="pu26min11.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r02-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-05-ア)</div>
+          <p class="qtext">1　Aが、父親Bから代理権を授与されていないのに、Bの代理人として、第三者との間で、B所有の甲建物を売る契約(以下｢本件売買契約｣という｡)を締結した。この事例に関して。なお、本件売買契約の締結は、商行為に当たらないものとする。本件売買契約の締結後にBが追認も追認拒絶もしないまま死亡し、AがBを単独で相続した場合には、本件売買契約の効果は、当然にAに帰属する。(R02-05-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h20-06-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-06-ア)(改)</div>
+          <p class="qtext">2　無権代理人Aが、父親Bを代理して、第三者Cに対し、B所有の不動産を売り渡したという事例に関して。Bが追認も追認拒絶もしないまま死亡し、AがBを単独相続した場合、BC間の売買契約は当然に有効となる。(H20-06-ア)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-06-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h13-03-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-03-ア)</div>
+          <p class="qtext">3　Aが、実父Bを代理する権限がないのに、Bの代理人と称してCから金員を借り受けた。Bが死亡し、AがBを単独で相続した場合、Aに代理権がないことを知らなかったことに過失があるCは、Aに対し、貸金の返還を請求することができる。(H13-03-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-03-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h11-16-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-16-ウ)</div>
+          <p class="qtext">4　Bは、所有者Dから賃借している土地上に建物を所有していたが、Cがこの建物を競売により取得した。この場合において、Dの無権代理人Aが賃借権の譲渡を承諾した後、Dが死亡し、AがDの地位を単独で相続した。AからCに対する返還請求又は妨害排除請求が認められる。(H11-16-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-16-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h09-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-21-イ)</div>
+          <p class="qtext">5　Aを被相続人とし、Bを唯一の相続人とする相続に関して。Bが、権限がないのに、Aの代理人としてA所有の土地をCに売り渡した後にAが死亡した場合、Bは、Cに対する当該土地の所有権移転登記の申請義務を負わない。(H09-21-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h04-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-07-オ)</div>
+          <p class="qtext">6　Aの子であるBがAから何ら代理権を与えられていないのにAの代理人と称してA所有の不動産をCに売却する契約を締結した場合において、Aが死亡し、Bが相続したときは、Bは、追認を拒絶することができる。(H04-07-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h13-03-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-03-エ)</div>
+          <p class="qtext">7　Aが、実父Bを代理する権限がないのに、Bの代理人と称してCから金員を借り受けた。Bが死亡し、AがBの子Dと共にBを相続した場合、Dが無権代理行為を追認したときは、Aに代理権がないことを知らなかったことに過失があるCは、A及びDに対し、貸金の返還を請求することができる。(H13-03-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-03-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-r02-05-ih20-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-05-イ)(H20-06-ウ)</div>
+          <p class="qtext">8　Aが、父親Bから代理権を授与されていないのに、Bの代理人として、第三者との間で、B所有の甲建物を売る契約(以下｢本件売買契約｣という｡)を締結した。この事例に関して。なお、本件売買契約の締結は、商行為に当たらないものとする。本件売買契約の締結後にBが追認も追認拒絶もしないまま死亡し、Aが他の相続人Cと共にBを相続した場合には、Cが追認しない限り、本件売買契約は、Aの相続分に相当する部分においても、当然には有効とならない。(R02-05-イ)(H20-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-05-ih20-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h28-05-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-05-エ)</div>
+          <p class="qtext">9　Aは、Bから代理権を授与されていないにもかかわらず、Bの代理人と称して、Cとの間でB所有の甲土地の売買契約を締結した。 本件売買契約の締結後にAが他の相続人と共にBを共同相続した場合には、当該他の相続人が追認を拒絶したとしても、Aの相続分に相当する部分において、本件売買契約は有効になる。(H28-05-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-05-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h13-03-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-03-ウ)</div>
+          <p class="qtext">10　Aが、実父Bを代理する権限がないのに、Bの代理人と称してCから金員を借り受けた。Bが死亡し、AがBの子Dと共にBを相続した場合、Dが無権代理行為の追認を拒絶しているとしても、Aに代理権がないことを知らなかったことに過失があるCは、Aに対し、Aの相続分の限度で貸金の返還を請求することができる。(H13-03-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-03-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h28-05-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-05-ウ)</div>
+          <p class="qtext">11　Aは、Bから代理権を授与されていないにもかかわらず、Bの代理人と称して、Cとの間でB所有の甲土地の売買契約を締結した。 本件売買契約の締結後にBが追認を拒絶した場合には、その後にAがBを単独で相続したとしても、本件売買契約は有効にならない。(H28-05-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-05-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h23-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-06-エ)</div>
+          <p class="qtext">12　Aの代理人であると称するBが、Cとの間で、Aが所有する甲建物の売買契約を締結したところ、Bが代理権を有していなかったという事例について。教授:BがAの子であり、AがBの無権代理行為の追認を拒絶した後に死亡し、BがAを単独相続した場合は、どうなりますか。学生:Aが追認を拒絶することにより、Bの無権代理による売買契約の効力がAに及ばないことが確定しますので、その後にBがAを相続しても、Bは、追認拒絶の効果を主張することができます。(H23-06-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h21-23-eh20-06-ih13-03-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-23-エ)(H20-06-イ)(H13-03-オ)</div>
+          <p class="qtext">13　Aの子Bは、代理権がないのにAの代理人であると称して、自らが経営する会社の債務の担保としてCのためにA所有の建物に抵当権を設定する契約を締結した。AがBの無権代理行為の追認を拒絶した後死亡し、BがAを相続した場合には、無権代理行為は有効になる。(H21-23-エ)(H20-06-イ)(H13-03-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-23-eh20-06-ih13-03-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r02-05-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-05-ウ)</div>
+          <p class="qtext">14　Aが、父親Bから代理権を授与されていないのに、Bの代理人として、第三者との間で、B所有の甲建物を売る契約(以下｢本件売買契約｣という｡)を締結した。この事例に関して。なお、本件売買契約の締結は、商行為に当たらないものとする。本件売買契約の締結後にAが死亡し、BがAを単独で相続した場合であっても、本件売買契約は当然には有効とならない。(R02-05-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-05-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h13-03-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-03-イ)</div>
+          <p class="qtext">15　Aが、実父Bを代理する権限がないのに、Bの代理人と称してCから金員を借り受けた。Aが死亡し、BがAを単独で相続した場合、Aに代理権がないことを知らなかったことに過失があるCは、Bに対し、貸金の返還を請求することができる。(H13-03-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-03-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h02-18-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-18-3)</div>
+          <p class="qtext">16　無権代理人の地位を本人が相続した場合、本人は、無権代理人の行為の追認を拒絶することができる。(H02-18-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-18-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r02-05-eh20-06-eh06-04-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-05-エ)(H20-06-エ)(H06-04-オ)</div>
+          <p class="qtext">17　Aが、父親Bから代理権を授与されていないのに、Bの代理人として、第三者との間で、B所有の甲建物を売る契約(以下｢本件売買契約｣という｡)を締結した。この事例に関して。なお、本件売買契約の締結は、商行為に当たらないものとする。本件売買契約の締結後にAが死亡し、BがAを単独で相続した場合であっても、Bは、民法第117条第1項による無権代理人の責任を負わない。(R02-05-エ)(H20-06-エ)(H06-04-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-05-eh20-06-eh06-04-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r02-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-05-オ)</div>
+          <p class="qtext">18　Aが、父親Bから代理権を授与されていないのに、Bの代理人として、第三者との間で、B所有の甲建物を売る契約(以下｢本件売買契約｣という｡)を締結した。この事例に関して。なお、本件売買契約の締結は、商行為に当たらないものとする。本件売買契約の締結後にAが死亡し、Bが他の相続人Cと共にAを相続し、その後、CがBを単独で相続した場合には、Cは、本件売買契約の追認を拒絶することができる。(R02-05-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h20-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-06-オ)(改)</div>
+          <p class="qtext">19　無権代理人Aが、父親Bを代理して、第三者Cに対し、B所有の不動産を売り渡した。Aが死亡し、B及びAの母親Fが共同相続した後、Bが追認も追認拒絶もしないまま死亡し、FがBを単独相続した場合、BC間の売買契約は当然に有効となるものではない。(H20-06-オ)(改)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h12-03-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-03-2)</div>
+          <p class="qtext">20　Aは、Bの代理人として、Cとの間で金銭消費貸借契約及びB所有の甲土地に抵当権を設定する旨の契約(以下両契約を合わせて「本契約」という。)を締結した。BがAに対し、代理人として金銭消費貸借契約を締結する権限は与えていたが、甲土地に抵当権を設定する権限は与えておらず、Cもこれを知っていた場合、Bが追認をしない限り、設定した抵当権は無効である。(H12-03-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-03-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h03-01-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-01-1)</div>
+          <p class="qtext">21　甲からコピ-機の賃借に関する代理権を与えられた乙は、その代理権限の範囲を超えて、甲の代理人として丙との間でコピ-機を買い受ける旨の契約を締結した。丙が乙に売買契約締結の代理権があると信ずべき正当の理由があれば、甲は、丙からの売買代金の請求を拒むことができない。(H03-01-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-01-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h18-04-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-04-エ)</div>
+          <p class="qtext">22　Bの妻Aは、Bの実印を無断で使用して、Aを代理人とする旨のB名義の委任状を作成した上で、Bの代理人としてB所有の土地をCに売却した。この場合、Aに売却の権限がなかったことにつきCが善意無過失であったときは、Cは、当該土地の所有権を取得することができる。なお、A、B及びCは、いずれも商人でないものとする。(H18-04-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-04-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h06-04-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-04-ウ)</div>
+          <p class="qtext">23　妻が夫の代理人として第三者とした法律行為は、妻が夫から特に代理権を与えられておらず、かつ、その法律行為が日常の家事に関するものでない場合であっても、第三者においてその行為がその夫婦の日常の家事に関する法律行為に属すると信ずるにつき正当の理由があるときは、夫に対して効力を生ずる。(H06-04-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min9.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-04-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r02-05-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「無権代理人が本人を相続し本人と代理人との資格が同一人に帰するにいたつた場合においては、本人が自ら法律行為をしたのと同様な法律上の地位を生じたものと解するのが相当であ」るとしている（最判昭40.6.18）。よって、本件売買契約の締結後に本人たるＢが追認も追認拒絶もしないまま死亡し、無権代理人ＡがＢを単独で相続した場合には、本件売買契約の効果は、当然にＡに帰属する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-06-a">
+  <div class="dlg-head"><div class="dlg-title">(H20-06-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理人が本人を単独相続した場合、本人が自ら法律行為をしたのと同じことになり、無権代理人と相手方の法律行為は当然に有効となる（最判昭40.6.18）。よって、ＢＣ間の売買契約は当然に有効になる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-03-a">
+  <div class="dlg-head"><div class="dlg-title">(H13-03-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理人が本人を単独相続した場合、本人が自ら法律行為をしたのと同じことになるので、Ａの無権代理行為は、当然に有効となる（最判昭40.6.18）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-16-u">
+  <div class="dlg-head"><div class="dlg-title">(H11-16-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>建物が譲渡されると、賃借権も従たる権利として譲受人に承継される。しかし、賃借権の譲渡は賃貸人の承諾を得なければ、これを有効にすることができない（民法<span class="mono">612条</span>1項）。借地上の建物の所有権を競売によって取得した場合も同様である（大判昭7.3.7）。本肢では、無権代理人Ａが賃借権の譲渡を承諾しているが、無権代理人が本人を単独相続した場合、本人が自ら法律行為をしたのと同じことになり、無権代理行為は当然に有効となる（最判昭40.6.18）。よって、本肢における承諾は有効となり、Ｃは適法に建物及び借地権を取得しているといえるので、ＡからＣに対する本肢の請求は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H09-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理人が本人を単独相続した場合、本人が自ら法律行為をしたのと同じことになり、無権代理人と相手方の法律行為は当然に有効となる（最判昭40.6.18）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-07-o">
+  <div class="dlg-head"><div class="dlg-title">(H04-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理人Ｂが本人Ａを単独相続した場合、無権代理行為は当然に有効となり、無権代理人は本人の資格で追認拒絶できない（最判昭40.6.18）。また、無権代理人が他の相続人と共同相続した場合でも、無権代理人が本人の地位において追認拒絶することは信義則上許されない（最判平5.1.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-03-e">
+  <div class="dlg-head"><div class="dlg-title">(H13-03-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理人が他の相続人と共に本人を相続した場合、無権代理行為は当然には有効にならない。しかし、無権代理人が本人の地位を承継しながら、追認拒絶権を行使するのは信義則に反する（最判平5.1.21）。本肢では、Ｄが無権代理行為を追認しているので、無権代理人Ａは信義則上、追認を拒絶することは許されない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-05-ih20-06-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-05-イ)(H20-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>無権代理行為の追認権は不可分であり、共同相続人全員が共同して追認しない限り、無権代理行為は有効とならないので、他の共同相続人全員の追認がない限り、無権代理行為は、無権代理人の相続分に相当する部分においても当然に有効となるものではない（最判平5.1.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-05-e">
+  <div class="dlg-head"><div class="dlg-title">(H28-05-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為の追認権は不可分であり、共同相続の場合は共同相続人全員が共同して行使しなければ無権代理行為は有効とならないので、共同相続人の一人が追認を拒絶した場合、無権代理行為は、無権代理人の相続分に相当する部分においても有効にならない（最判平5.1.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-03-u">
+  <div class="dlg-head"><div class="dlg-title">(H13-03-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理行為の追認権は不可分であり、共同相続人全員が共同して追認しない限り、無権代理行為は有効とならず、共同相続人の一人が追認を拒絶した場合、無権代理行為は、無権代理人の相続分に相当する部分においても有効にならない（最判平5.1.21）。本肢では、Ｄが追認を拒絶しているので、当該無権代理行為は有効にはならず、ＣはＡに対してＡの相続分を限度としても貸金の返還を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-05-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-05-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本人の無権代理行為の追認拒絶後に無権代理人が本人を相続した場合、追認拒絶により無権代理の効力は本人に及ばないことが確定しているので、無権代理行為は有効にならない（最判平10.7.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H23-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本人が無権代理行為の追認を拒絶した場合、その後に無権代理人が本人を相続したとしても、無権代理行為は有効にならない（最判平10.7.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-23-eh20-06-ih13-03-o">
+  <div class="dlg-head"><div class="dlg-title">(H21-23-エ)(H20-06-イ)(H13-03-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本人が無権代理行為の追認を拒絶した場合には、無権代理行為の効力が本人に及ばないことが確定し、その後に無権代理人が本人を相続したとしても、無権代理行為は有効にならない（最判平10.7.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-05-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-05-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、本人が無権代理人を相続した場合において、「相続人たる本人が被相続人の無権代理行為の追認を拒絶しても、何ら信義に反するところはないから、被相続人の無権代理行為は一般に本人の相続により当然有効となるものではない」としている（最判昭37.4.20）。よって、本件売買契約の締結後に無権代理人たるＡが死亡し、本人ＢがＡを単独で相続した場合であっても、本件売買契約は当然には有効とならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-03-i">
+  <div class="dlg-head"><div class="dlg-title">(H13-03-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本人が無権代理人を相続した場合、無権代理行為は当然に有効とはならない（最判昭37.4.20）。よって、Ｂは追認を拒絶することができる。また、Ｃには、Ａに代理権がないことを知らなかったことに過失があるが、この場合でも、Ａが自己に代理権がないと知っていたときは、Ａには無権代理人の責任が発生し（民法<span class="mono">117条</span>2項2号但書）、Ｂはこれを相続することになる。しかし、Ａが悪意であったかは本肢ではわからないため、Ｂが無権代理人の責任を相続しているとは言い切れない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-18-3">
+  <div class="dlg-head"><div class="dlg-title">(H02-18-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本人が無権代理人を相続した場合、相続人たる本人が被相続人の無権代理行為の追認を拒絶したとしても、何ら信義則に反しない（最判昭37.4.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-05-eh20-06-eh06-04-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-05-エ)(H20-06-エ)(H06-04-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、「民法<span class="mono">117条</span>による無権代理人の債務が相続の対象となることは明らかであつて、このことは本人が無権代理人を相続した場合でも異ならないから、本人は相続により無権代理人の右債務を承継するのであり、本人として無権代理行為の追認を拒絶できる地位にあつたからといつて右債務を免れることはできない」としている（最判昭48.7.3）。よって、本件売買契約の締結後にＡが死亡し、ＢがＡを単独で相続した場合には、Ｂは民法<span class="mono">117条</span>1項による無権代理人の責任を免れることはできない。したがって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-05-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理人を本人と他の共同相続人が相続した後に、本人が死亡した場合、当該他の共同相続人は本人の資格で無権代理行為の追認を拒絶する余地はなく、本人が自ら法律行為をしたのと同様の法律上の効果が生じる（最判昭63.3.1）。この場合、無権代理人を相続した者は、無権代理人の法律上の地位を包括的に相続したと解するからである。よって、本件売買契約の締結後にＡが死亡し、Ｂが他の相続人Ｃと共にＡを相続し、その後、ＣがＢを単独で相続した場合には、Ｃは、本件売買契約の追認を拒絶することはできない。したがって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-06-o">
+  <div class="dlg-head"><div class="dlg-title">(H20-06-オ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権代理人を本人と他の共同相続人が相続した後に、本人が死亡した場合、当該他の共同相続人は本人の資格で無権代理行為の追認を拒絶する余地はなく、本人が自ら法律行為をしたのと同様の法律上の効果が生じる（最判昭63.3.1）。この場合、無権代理人を相続した者は、無権代理人の法律上の地位を包括的に相続したと解するからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-03-2">
+  <div class="dlg-head"><div class="dlg-title">(H12-03-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人がその権限外の行為をした場合、本人がその追認をしなければ、本人に対してその効力を生じない（民法<span class="mono">113条</span>1項）。この場合において、第三者が、代理人に権限があると信ずべき正当な理由があるときは、本人に責任が生ずる（民法<span class="mono">110条</span>）が、本肢のように第三者が権限外の行為であることを知っていたときは、本人は責任を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-01-1">
+  <div class="dlg-head"><div class="dlg-title">(H03-01-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人がその権限外の行為をした場合において、第三者に代理人の権限があると信ずべき正当な理由があるときは、代理人が第三者との間でした行為について本人が責任を負う（民法<span class="mono">110条</span>）。代理人と第三者との行為が有効になり、有権代理となるものではないが、有効な場合と同様、本人は履行責任を負うことになる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-04-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-04-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>夫婦の日常家事に関する相互の代理権を基礎として、民法<span class="mono">110条</span>の表見代理が成立するものではないが、相手方においてその行為が当該夫婦の日常の家事に関する法律行為の範囲内に属すると信ずるにつき正当の理由のあるときに限り、民法<span class="mono">110条</span>の趣旨が類推適用される（最判昭44.12.18）。本肢の相手方Ｃは、「Ａに売却権限がないことにつき善意無過失」であるので、民法<span class="mono">110条</span>を類推適用できるとは言えない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-04-u">
+  <div class="dlg-head"><div class="dlg-title">(H06-04-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>夫婦の日常家事に関する相互の代理権を基礎として、民法<span class="mono">110条</span>の表見代理が成立するものではないが、相手方においてその行為が当該夫婦の日常の家事に関する法律行為の範囲内に属すると信ずるにつき正当の理由のあるときに限り、民法<span class="mono">110条</span>の趣旨が類推適用される（最判昭44.12.18）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

@@ -1,0 +1,1246 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit14</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit14</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min13q.html">前へ</a>
+        <a href="pu_min15q.html">次へ</a>
+        <a href="pu26min14.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h19-09-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-09-2)</div>
+          <p class="qtext">1　物権でない権利は、登記をすることができない。(H19-09-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-09-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h19-09-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-09-4)</div>
+          <p class="qtext">2　民法に定められている物権は、いずれも登記をすることができる。(H19-09-4)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-09-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h31-08-uh26-08-ih06-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-08-ウ)(H26-08-イ)(H06-09-イ)</div>
+          <p class="qtext">3　Aが、Bの所有する甲土地の占有を継続し、取得時効が完成した後、Bが死亡し、Bの相続人であるCが甲土地を単独で相続してその旨の登記がされたときは、Aは、取得時効を援用しても、Cに対して甲土地の所有権の取得を対抗することができない。(H31-08-ウ)(H26-08-イ)(H06-09-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-08-uh26-08-ih06-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h20-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-09-ア)</div>
+          <p class="qtext">4　Aが所有する土地をBに売却した。AがBとの間の売買契約をBの詐欺を理由に取り消した後、AがCにこの土地を売却し、その後、Cが死亡し、Dが単独で相続したとき、Dは、登記をしていなくても、所有権の取得をAに対抗することができる。(H20-09-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h28-07-eh24-07-ah16-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-07-エ)(H24-07-ア)(H16-11-ア)</div>
+          <p class="qtext">5　AとBが共有する甲建物について、Bが自己の持分をCに売り渡したが、その旨の所有権の移転の登記がされていない場合には、Cは、Aに対し、自己の持分の取得を主張することができない。(H28-07-エ)(H24-07-ア)(H16-11-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-07-eh24-07-ah16-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h29-08-eh20-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-08-エ)(H20-09-ウ)</div>
+          <p class="qtext">6　Aがその所有する甲土地をBに賃貸し、Bが甲土地上に登記されている建物を所有している場合において、Aが甲土地をCに売り渡したときは、Cは、甲土地の所有権の移転の登記を経由しなければ、Bに対し、賃貸人たる地位を主張することができない。(H29-08-エ)(H20-09-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-08-eh20-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h24-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-07-エ)</div>
+          <p class="qtext">7　賃貸借の目的である甲建物の所有者Aからその所有権を譲り受け、賃貸人の地位の移転を受けたBと甲建物の賃借人Cとの間で賃貸借契約が合意解除された場合において、Bから甲建物の明渡しを求められたCは、Bが甲建物の所有権の移転の登記をしていないことを理由として、甲建物の明渡しを拒むことができる。(H24-07-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h08-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-09-ア)</div>
+          <p class="qtext">8　未成年者Aは、その所有土地をBに賃貸し、Bはその土地上に登記した建物を所有していたところ、Aは、法定代理人の同意を得ないでその土地をCに売却して所有権の移転登記をした。Cは、さらにその土地をDに売却した。この事例に関して。Dは、所有権移転登記がなくても、Bに賃料を請求することができる。(H08-09-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h08-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-09-イ)</div>
+          <p class="qtext">9　Dは、所有権移転登記がなくても、Bとの間の賃貸借契約を賃料不払いを理由として解除することができる。(H08-09-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h04-15-eh02-02-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-15-エ)(H02-02-エ)</div>
+          <p class="qtext">10　Aがその所有する土地をBに売り渡したが、その登記がされない間に、Aの債権者Cがその土地を仮差押えした場合であっても、Cが一般債権者にすぎないときは、Bは土地の所有権をCに主張することができる。(H04-15-エ)(H02-02-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-15-eh02-02-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-r02-07-ah07-16-eh02-02">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-07-ア)(H07-16-エ)(H02-02-カ)</div>
+          <p class="qtext">11　Aがその所有する甲土地をBに売却したものの、その旨の登記がされない間に、Bが甲土地をCに売却したときは、Cは、Aに対し、甲土地の所有権の取得を対抗することができる。(R02-07-ア)(H07-16-エ)(H02-02-カ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-07-ah07-16-eh02-02">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r05-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-07-イ)</div>
+          <p class="qtext">12　Aがその所有する甲土地をBに売却した後、Cが甲土地を正当な権原なく占有している場合には、Bは、所有権の移転の登記をしなくても、Cに対し、甲土地の所有権の取得を対抗することができる。(R05-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h26-07-eh14-06-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-07-エ)(H14-06-ウ)</div>
+          <p class="qtext">13　A所有の甲土地上に、Bが乙建物をAに無断で建築して所有している場合において、Aが甲土地の所有権の登記名義人でないときは、Aは、Bに対し、甲土地の所有権に基づき、乙建物の収去及び甲土地の明渡しを請求することができない。(H26-07-エ)(H14-06-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-07-eh14-06-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h20-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-09-オ)</div>
+          <p class="qtext">14　Aが所有する土地をBに売却した。AからBに売却された後もAの子Cがその土地を権原なく占拠しているときは、Bは、登記をしなければ、Cに損害賠償を請求することはできるものの、土地の明渡しを求めることはできない。(H20-09-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h16-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-11-ウ)</div>
+          <p class="qtext">15　Aは、B所有の甲不動産を買い受けたが、その旨の所有権移転登記をしていない。Cは、甲不動産をBから買い受けて占有しているが、その売買契約は、詐欺によるものとして取り消された。この場合において、Aは、Cに対し、甲不動産の所有権の取得を対抗することができる。(H16-11-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r03-08-eh09-10-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-08-エ)(H09-10-5)</div>
+          <p class="qtext">16　Aが、B所有の甲土地につき、売買契約を締結していないのに、書類を偽造してAへの所有権の移転の登記をした上で、甲土地をCに売却してその旨の登記をした場合において、その後、BがDに甲土地を売却したときは、Dは、Cに対し、甲土地の所有権を主張することができない。(R03-08-エ)(H09-10-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-08-eh09-10-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h16-11-eh07-16-ah02-02-ah07-16-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-11-エ)(H07-16-ア)(H02-02-ア)(H07-16-ア)</div>
+          <p class="qtext">17　Aはその所有する甲土地をBに売り渡したが、その旨の所有権の移転の登記がされない間に、AがCと通謀して甲土地をCに売り渡した旨を仮装し、AからCへの所有権の移転の登記がされた。その後、Cが死亡してその相続人であるDがCの財産を単独で相続し、CからDへの所有権の移転の登記がされた場合には、Bは、Dに対し、甲土地の所有権を主張することができる。(H28-07-ア)(H16-11-エ)(H07-16-ア)(H02-02-ア)(H07-16-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-11-eh07-16-ah02-02-ah07-16-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h26-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-08-エ)</div>
+          <p class="qtext">18　A所有の甲土地の所有権についてBの取得時効が完成した。 当該取得時効が完成した後にCがAから甲土地を買い受け、その旨の所有権の移転の登記がされた場合には、Bが多年にわたり甲土地を占有している事実をCが甲土地の買受け時に認識しており、Bの登記の欠缺を主張することが信義に反すると認められる事情があっても、Bは、Cに対し、時効により甲土地の所有権を取得したことを主張することはできない。(H26-08-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h20-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-09-イ)</div>
+          <p class="qtext">19　Aが所有する土地をBに売却した。AからBへの所有権の移転の登記を申請すべき義務を負っているCがAからその土地について地上権の設定を受けたときは、Bは、先に登記をしなければ、所有権の取得をCに対抗することができない。(H20-09-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-r02-07-uh17-08-uh16-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-07-ウ)(H17-08-ウ)(H16-11-イ)</div>
+          <p class="qtext">20　Aがその所有する甲土地をBに売却したが、CがBを害する目的でAから甲土地を購入してその旨の登記がされた後、事情を知らないDがCから甲土地を購入してその旨の登記がされたときは、Bは、Dに対し、甲土地の所有権の取得を対抗することができない。(R02-07-ウ)(H17-08-ウ)(H16-11-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-07-uh17-08-uh16-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h28-07-ih24-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-07-イ)(H24-07-ウ)</div>
+          <p class="qtext">21　Aはその所有する甲土地をBに売り渡したが、その旨の所有権の移転の登記がされない間に、Aが甲土地をCに売り渡してその旨の所有権の移転の登記がされ、さらに、Cが甲土地をDに売り渡してその旨の所有権の移転の登記がされた。この場合には、Cが背信的悪意者に当たるときでも、Dは、Bとの関係でD自身が背信的悪意者と評価されない限り、Bに対し、甲土地の所有権を主張することができる。(H28-07-イ)(H24-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-07-ih24-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r04-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-07-オ)</div>
+          <p class="qtext">22　Aがその所有する甲土地をBに遺贈する旨の遺言を残して死亡し、Bが遺贈の承認をした場合において、その後、Aを単独で相続したCに対して債権を有するDが、Cが甲土地を相続したものとして代位による所有権の移転の登記をした上で甲土地を差し押さえ、その旨の登記がされたときは、Bは、Dに対し、甲土地の所有権を主張することができない。(R04-07-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h29-08-ih08-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-08-イ)(H08-09-エ)</div>
+          <p class="qtext">23　Aがその所有する甲土地についてBとの間で締結した売買契約をBの強迫を理由に取り消した後、Bが甲土地をCに売り渡した場合において、AからBへの所有権の移転の登記が抹消されていないときは、Aは、Cに対し、甲土地の所有権の復帰を主張することはできない。(H29-08-イ)(H08-09-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-08-ih08-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h31-08-oh27-07-uh08-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-08-オ)(H27-07-ウ)(H08-09-オ)</div>
+          <p class="qtext">24　Aが、その所有する甲土地をBに売却してその旨の登記がされた後、BがCに甲土地を売却したが、その旨の登記がされない間に、AB間の甲土地の売買契約が契約の時に遡って合意解除されたときは、Cは、Aに対して甲土地の所有権の取得を対抗することができない。(H31-08-オ)(H27-07-ウ)(H08-09-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-08-oh27-07-uh08-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h17-08-ih10-14-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-08-イ)(H10-14-エ)</div>
+          <p class="qtext">25　甲土地が、AからB、BからCへと順次譲渡され、それぞれその旨の所有権の移転の登記がされた。その後、Aは、Bの債務不履行を理由にAB間の売買契約を解除した。この場合、Aは、Cに対し、甲土地の所有権の自己への復帰を対抗することができる。(H17-08-イ)(H10-14-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-08-ih10-14-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-r04-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-07-ウ)</div>
+          <p class="qtext">26　Aがその所有する甲土地をBに売却し、その旨の登記をした後、Bの債務不履行により当該売買契約を解除した場合において、その後、BがCに甲土地を売却し、その旨の登記をしたときは、Aは、Cに対し、甲土地の所有権を主張することができない。(R04-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h27-07-eh04-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-07-エ)(H04-15-ウ)</div>
+          <p class="qtext">27　Aがその所有する甲建物をBに売り渡し、その旨の所有権の移転の登記をした後、Aは、Bの債務不履行を理由にAB間の売買契約を解除した。その後、Bが甲建物をCに転売し、その旨の所有権の移転の登記をした場合、Aは、Cに対し、甲建物の所有権を主張することができる。(H27-07-エ)(H04-15-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-07-eh04-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r04-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-07-イ)</div>
+          <p class="qtext">28　Aの所有する甲土地を時効により取得したBは、その時効の完成前にAから甲土地を購入してその旨の登記をしたCに対し、甲土地の所有権を主張することができない。(R04-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h26-08-oh08-04-eh07-16-ih04-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-08-オ)(H08-04-エ)(H07-16-イ)(H04-15-オ)</div>
+          <p class="qtext">29　A所有の甲土地の所有権についてBの取得時効が完成した。CがAから甲土地を買い受けた後に当該取得時効が完成し、その後に甲土地についてAからCへの所有権の移転の登記がされた場合には、Bは、Cに対し、時効により甲土地の所有権を取得したことを主張することはできない。(H26-08-オ)(H08-04-エ)(H07-16-イ)(H04-15-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-08-oh08-04-eh07-16-ih04-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h18-10-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-10-イ)</div>
+          <p class="qtext">30　Aは、B名義で登記されているB所有の甲土地につき、平成元年4月1日、所有の意思をもって、善意で、過失なく、平穏に、かつ、公然と占有を開始し、その後も、その占有を継続している。平成5年4月1日にBから甲土地を買い受けて同日所有権の移転の登記をしたCは、平成12年5月1日、Aに対し、所有権に基づき甲土地の明渡しを請求した。この場合、Cの請求は認められる。(H18-10-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-10-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h18-10-uh18-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-10-ウ)(H18-10-エ)</div>
+          <p class="qtext">31　Aは、B名義で登記されているB所有の甲土地につき、平成元年4月1日、所有の意思をもって、善意で、過失なく、平穏に、かつ、公然と占有を開始し、その後も、その占有を継続している。平成11年11月1日にBから甲土地の贈与を受けて同日所有権の移転の登記をしたCは、平成12年5月1日、Aに対し、所有権に基づき甲土地の明渡しを請求した。この場合、Cの請求は認められる。(H18-10-ウ)(H18-10-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-10-uh18-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h02-02-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-02-ウ)</div>
+          <p class="qtext">32　XがYから甲土地を買受けるに先立って、Zが20年間占有していたことにより甲土地を時効取得した。この場合、Zは、「Xの登記の欠缺を主張するにつき正当な利益を有する第三者」に当たる。(H02-02-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-02-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h26-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-08-ア)</div>
+          <p class="qtext">33　A所有の甲土地の所有権についてBの取得時効が完成した。 当該取得時効が完成した後にCがAから甲土地を買い受け、その旨の所有権の移転の登記がされた場合には、Bは、Cに対し、甲土地の占有を開始した時点より後の時点を時効期間の起算点として選択し、時効完成の時期を遅らせることにより、甲土地の所有権を取得したことを主張することはできない。(H26-08-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-r05-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-07-オ)</div>
+          <p class="qtext">34　AがB所有の甲土地を占有し、取得時効が完成した後、BがCに対し甲土地につき抵当権の設定をしてその旨の登記をした場合において、Aがその抵当権の設定の事実を知らずにその登記後引き続き時効取得に必要な期間甲土地を占有し、その期間経過後に取得時効を援用したときは、Aは、Cに対し、抵当権の消滅を主張することができる。(R05-07-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h31-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-14-イ)</div>
+          <p class="qtext">35　AがB所有の甲不動産を占有して取得時効が完成した後、CがBから抵当権の設定を受けて抵当権の設定の登記がされた。その後、Aが、Cの抵当権の存在を知らずに再度時効取得に必要な期間甲不動産の占有を継続し、取得時効の援用をしたとしても、Cの抵当権は消滅しない。(H31-14-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h26-08-uh06-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-08-ウ)(H06-09-オ)</div>
+          <p class="qtext">36　A所有の甲土地の所有権についてBの取得時効が完成した。当該取得時効が完成した後にCがAから甲土地を買い受け、その旨の所有権の移転の登記がされた場合には、Bは、当該登記後に引き続き甲土地について取得時効の完成に必要な期間占有を続けても、Cに対し、時効により甲土地の所有権を取得したことを主張することはできない。(H26-08-ウ)(H06-09-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-08-uh06-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-h18-10-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-10-オ)</div>
+          <p class="qtext">37　Aは、B名義で登記されているB所有の甲土地につき、平成元年4月1日、所有の意思をもって、善意で、過失なく、平穏に、かつ、公然と占有を開始し、その後も、その占有を継続している。平成11年11月1日にBから甲土地の贈与を受けて同日所有権の移転の登記をしたCは、平成22年5月1日、Aに対し、所有権に基づき甲土地の明渡しを請求した。この場合、Cの請求は認められる。(H18-10-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min14.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-10-o">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h19-09-2">
+  <div class="dlg-head"><div class="dlg-title">(H19-09-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権である賃借権についても、登記ができる（民法<span class="mono">605条</span>、不登法<span class="mono">3条</span>8号）。また、配偶者居住権についても登記ができる（民法<span class="mono">1031条</span>2項、民法<span class="mono">605条</span>、不登法<span class="mono">3条</span>9号、<span class="mono">81条の2</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-09-4">
+  <div class="dlg-head"><div class="dlg-title">(H19-09-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法に定められている物権であっても、占有権、留置権、入会権については登記することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-08-uh26-08-ih06-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-08-ウ)(H26-08-イ)(H06-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効完成時における所有者は、時効取得者と当事者の関係にあるため、時効取得者は、登記なくして時効取得を対抗することができる（大判大7.3.2）。また、包括承継人である相続人は民法<span class="mono">177条</span>の「第三者」に該当しない。よって、ＡとＢの相続人Ｃは物権変動の当事者の関係に立つため、民法177 条の適用はなく、Ａは、時効を援用すれば、Ｃに対して甲土地の所有権の取得を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H20-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">177条</span>の第三者とは、当事者及びその包括承継人以外の者のことである。よって、買主は、売買契約の当事者である売主に対し、登記なくしてその権利を対抗できる。そして、買主の相続人は被相続人の財産的地位を承継するから（民法<span class="mono">896条</span>本文）、当該相続人は、被相続人に対し不動産を売却した者に、登記なくして対抗できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-07-eh24-07-ah16-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-07-エ)(H24-07-ア)(H16-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">177条</span>にいう「第三者」とは、当事者及びその包括承継人以外の者で登記の欠缺を主張する正当な利益を有する者をいう。共有持分の譲渡における他の共有者は、登記の欠缺を主張することができる第三者に該当する（大判大5.12.27）。よって、持分の譲渡につき登記をしなければ、譲受人Ｃは、持分の取得を他の共有者Ａに対抗できない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-08-eh20-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H29-08-エ)(H20-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>賃貸人たる地位の移転は、賃貸物である不動産について所有権移転の登記をしなければ、賃借人に対抗することができない（民法<span class="mono">605条の2</span>第3項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-07-e">
+  <div class="dlg-head"><div class="dlg-title">(H24-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃貸人たる地位の移転は、賃貸物である不動産について所有権移転の登記をしなければ、賃借人に対抗することができない（民法<span class="mono">605条の2</span>第3項）。しかし、賃借人の方から、登記の欠缼を主張する利益を放棄し、未登記の新所有者を新賃貸人と認めて行動することは妨げられない（最判昭46.12.3参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H08-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃貸人たる地位の移転は、所有権移転の登記をしなければ、賃借人に対抗することができない（民法<span class="mono">605条の2</span>第3項）。よって、Ｄは、登記をしなければ、Ｂに対して賃貸人たる地位を主張できず、賃料請求もできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H08-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃貸人たる地位の移転は、所有権移転の登記をしなければ、賃借人に対抗することができない（民法<span class="mono">605条の2</span>第3項）。よって、Ｄは、登記をしなければ、賃貸人としてＢとの賃貸借契約を解除することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-15-eh02-02-e">
+  <div class="dlg-head"><div class="dlg-title">(H04-15-エ)(H02-02-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の差押債権者は、民法<span class="mono">177条</span>の第三者に当たる（最判昭31.4.24）。本肢においてＣが単なる一般債権者であれば、Ｂは登記なくして所有権を主張することができるが、Ｃは仮差押権者であるため、Ｂは登記なくしてＣに所有権を主張することはできない（最判昭38.3.28）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-07-ah07-16-eh02-02">
+  <div class="dlg-head"><div class="dlg-title">(R02-07-ア)(H07-16-エ)(H02-02-カ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>順次不動産を譲渡した各当事者は、それぞれ前主・後主という当事者の関係に立つので、民法<span class="mono">177条</span>の対抗関係には立たない。よって、Ｃは、Ａに対し、甲土地の所有権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-07-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、民法<span class="mono">177条</span>の「第三者」の意義について、当事者及びその包括承継人以外の者で、不動産に関する物権の得喪及び変更の登記欠缺を主張する正当の利益を有する者と解しているところ（大連判明41.12.15）、権原なくして他人所有の不動産を占有する不法占有者は、「正当の利益」を有する者ではなく、「第三者」に含まれない（最判昭25.12.19）。本記述において、Ｃは甲土地について正当な権原なく占有している不法占有者であり、「第三者」に当たらない。よって、Ｂは所有権の移転の登記をしなくても、Ｃに対し、甲土地の所有権の取得を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-07-eh14-06-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-07-エ)(H14-06-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不法占拠者のような無権利者に対しては、対抗要件を備えなくとも、物権の取得を対抗することができる（最判昭25.12.19）ので、本肢のＢに対しては、対抗要件を備えなくとも物権的請求権を行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H20-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不法占拠者は無権利者であるため、民法<span class="mono">177条</span>の第三者には当たらず、所有者は登記なくしてこの者に対して物権を主張することができ、不法行為に基づく損害賠償請求のほか、土地の明渡しを求めることもできる。よって、Ｂは、登記をしなくても、Ｃに土地の明渡しを求めることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-11-u">
+  <div class="dlg-head"><div class="dlg-title">(H16-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>ＢＣ間の売買契約は詐欺によるものとして取り消されており、初めから無効であったものとみなされる（民法<span class="mono">121条</span>本文）。従って、Ｃは何らの権限なくして甲不動産を占有する者であるから、民法<span class="mono">177条</span>の第三者に該当しない（最判昭25.12.19参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-08-eh09-10-5">
+  <div class="dlg-head"><div class="dlg-title">(R03-08-エ)(H09-10-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、Ｄは、Ｃに対し、甲土地の所有権を主張することができないとしている点で、誤っている。無効登記の名義人であって実体的権利を有しない者からの承継人は、「第三者」（民法<span class="mono">177条</span>）に当たらない（大判明32.6.7）。本記述において、Ａは、甲土地につき、売買契約を締結していないのに、書類を偽造してＡへの所有権の移転の登記をしている。そのため、無効登記の名義人であって実体的権利を有しない者といえる。Ｃは、無権利者Ａから甲土地を買い受けた承継人にすぎず、「第三者」に当たらない。よって、Ｄは、Ｃに対し、甲土地の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-11-eh07-16-ah02-02-ah07-16-a">
+  <div class="dlg-head"><div class="dlg-title">(H16-11-エ)(H07-16-ア)(H02-02-ア)(H07-16-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">94条</span>2項の「第三者」とは、当事者及びその包括承継人以外の者であって、その表示の目的につき法律上の利害関係を有する者をいう。本肢のＤは、Ａと通謀したＣの相続人であり、当事者の包括承継人であるため、民法<span class="mono">94条</span>2項にいう「第三者」に該当しない。よって、Ｄは無権利者である。そして、無権利者は民法<span class="mono">177条</span>の「第三者」に該当しないため、ＢはＤに甲土地の所有権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-08-e">
+  <div class="dlg-head"><div class="dlg-title">(H26-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>背信的悪意者は、民法<span class="mono">177条</span>の第三者に当たらない。不動産の買受時に、時効取得者が多年にわたり当該不動産を占有している事実を認識しており、時効取得者の登記の欠缺を主張することが信義に反するものと認められる事情が存在するときは、買受人は背信的悪意者に当たる（最判平18.1.17）。よって、ＢはＣに対し、時効により甲土地の所有権を取得したことを主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H20-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人のために登記を申請する義務を負う第三者は、その登記がないことを主張することができない（不登法<span class="mono">5条</span>2項）。そして、本肢のＣは、ＡからＢへの所有権の移転の登記を申請すべき義務を負っている。よって、Ｂは、先に登記をしなくても、所有権の取得をＣに対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-07-uh17-08-uh16-11-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-07-ウ)(H17-08-ウ)(H16-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>ＣはＢとの関係では背信的悪意者に当たり、「第三者」（民法<span class="mono">177条</span>）には含まれない。しかし、Ｃは無権利者ではなく権利を承継取得しているので、Ｄに権利を譲渡することができ、かつ、背信性は相対的に判断される（最判平8.10.29）。よって、事情を知らないＤがＣから甲土地を購入してその旨の登記がされたときは、Ｂは、Ｄに対し、甲土地の所有権の取得を対抗することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-07-ih24-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-07-イ)(H24-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>背信的悪意者からの転得者であっても、転得者が背信的悪意者でなければ、転得者は所有権を主張することができ、登記をすれば第三者に対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-07-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">177条</span>が広く物権の得喪変更について登記をもって対抗要件としているところからみれば、特定財産の遺贈をもってその例外とする理由はないから、特定財産の遺贈の場合においても不動産の二重譲渡等における場合と同様、登記をもって物権変動の対抗要件とするものと解されている（最判昭39.3.6）。本記述の場合、Ｄが先に登記手続をしているため、ＢはＤに対し遺贈による所有権取得を対抗することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-08-ih08-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H29-08-イ)(H08-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>取消した者と取消し後の第三者との関係は民法<span class="mono">177条</span>の対抗問題となる。不動産の売主が取消し後、取消しによる抹消登記をしない間に第三者が買主から当該不動産について権利を取得した場合、売主が第三者に取消しの効果を対抗するには、第三者の権利取得登記前に取消しによる抹消登記をすることを要する（大判昭17.9.30）。よって、ＡからＢへの所有権の移転の登記が抹消されていないときは、Ａは、Ｃに対し、甲土地の所有権の復帰を主張することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-08-oh27-07-uh08-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H31-08-オ)(H27-07-ウ)(H08-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、本記述類似の事案において、不動産売買契約が契約時に遡って合意解除された場合において、既に当該不動産を買い受けていた者は、登記を得ていなければ保護されないとしている（最判昭33.6.14）。よって、Ｃは、Ａに対して甲土地の所有権の取得を対抗することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-08-ih10-14-e">
+  <div class="dlg-head"><div class="dlg-title">(H17-08-イ)(H10-14-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>解除前の第三者が保護されるには登記が必要である（民法<span class="mono">545条</span>1項ただし書、最判昭33.6.14）。本肢のＣは解除前の第三者に当たり、既に登記を備えているので、民法<span class="mono">545条</span>1項ただし書によって保護される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-07-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>解除がなされた後に当事者から目的物を譲り受けた者と解除権者の関係は、対抗関係の問題として処理する（大判昭14.7.7）。よって、Ａは、目的物を譲り受けて登記をしたＣに対し、甲土地の所有権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-07-eh04-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H27-07-エ)(H04-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>解除した者と解除後に当事者から目的物を譲り受けた者との関係は、対抗関係の問題として処理する（大判昭14.7.7）。本肢のＡは、甲建物について登記を備えておらず、登記を備えたＣに対して甲建物の所有権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-07-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効完成前の第三者に対しては、登記を経由しなくても時効取得をもってこれに対抗することができる（最判昭41.11.22）。時効完成前の第三者と時効取得者は、当事者の関係に当たると考えられるためである。よって、Ｂは、時効の完成前にＡから甲土地を購入してその旨の登記をしたＣに対し、登記なくして甲土地の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-08-oh08-04-eh07-16-ih04-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H26-08-オ)(H08-04-エ)(H07-16-イ)(H04-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効完成前の第三者に対しては、登記なくして時効による所有権取得を対抗できる（最判昭41.11.22）。このことは、時効完成後に第三者への所有権移転の登記がされた場合についても同様である（最判昭42.7.21）。よって、ＢはＣに対し、時効により甲土地の所有権を取得したことを主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-10-i">
+  <div class="dlg-head"><div class="dlg-title">(H18-10-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地所有者が時効完成前にその土地を第三者に譲渡し、その後時効が完成した場合、占有者は登記なくして時効による所有権取得を主張し得る（最判昭41.11.22）。従って、Ｃの請求は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-10-uh18-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-10-ウ)(H18-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>時効完成後に、所有者が第三者に不動産を譲渡した場合は、二重譲渡があったのと同じように考えて、占有者は登記がなければ第三者に対抗できない（大連判大14.7.8）。従って、Ｃの請求は認められる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-02-u">
+  <div class="dlg-head"><div class="dlg-title">(H02-02-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>時効取得者と時効完成後に原所有者から土地の所有権を取得した者とは、対抗関係に立つので（最判昭33.8.28）、時効取得者は、民法<span class="mono">177条</span>の第三者に当たる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-08-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>取得時効完成の時期を定めるにあたっては、必ず時効の基礎たる事実の開始した時を起算点として時効完成の時期を決定すべきものであって、取得時効を援用する者において任意にその起算点を選択し、時効完成の時期を或いは早め或いは遅らせることはできない（最判昭35.7.27）。よって、Ｂは甲土地の占有を開始した時点より後の時点を時効期間の起算点として選択することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-07-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「不動産の取得時効の完成後、所有権移転登記がされることのないまま、第三者が原所有者から抵当権の設定を受けて抵当権設定登記を了した場合において、上記不動産の時効取得者である占有者が、その後引き続き時効取得に必要な期間占有を継続したときは、上記占有者が上記抵当権の存在を容認していたなど抵当権の消滅を妨げる特段の事情がない限り、上記占有者は、上記不動産を時効取得し、その結果、上記抵当権は消滅すると解するのが相当である」としている（最判平24.3.16）。本記述のＡは、抵当権の設定の事実を知らずにＣによる抵当権設定登記後、引き続き時効取得に必要な期間甲土地を占有し、取得時効を援用したのであるから、抵当権の消滅を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、「不動産の取得時効の完成後、所有権移転登記がされることのないまま、第三者が原所有者から抵当権の設定を受けて抵当権設定登記を了した場合において、上記不動産の時効取得者である占有者が、その後引き続き時効取得に必要な期間占有を継続し、その期間の経過後に時効取得を援用したときは、上記占有者が上記抵当権の存在を容認していたなど抵当権の消滅を妨げる特段の事情がない限り、上記占有者が上記不動産を時効取得する結果、抵当権は消滅する」とする（最判平24.3.16）。よって、Ａが、Ｃの抵当権の存在を知らずに再度時効取得に必要な期間甲不動産の占有を継続し、取得時効の援用をした場合には、Ｃの抵当権は消滅する。したがって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-08-uh06-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H26-08-ウ)(H06-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効完成後に登記を備えた者に対し、新たな時効期間の経過により対抗することができる（最判昭36.7.20）。よって、ＢはＣに対し、時効により甲土地の所有権を取得したことを主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-10-o">
+  <div class="dlg-head"><div class="dlg-title">(H18-10-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効完成後の第三者が登記を経たとしても、その後さらに取得時効に必要な期間占有をすれば、占有者は、再び時効を主張できる（最判昭36.7.20）。従って、Ｃの請求は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

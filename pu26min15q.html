@@ -1,0 +1,896 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit15</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit15</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min14q.html">前へ</a>
+        <a href="pu_min16q.html">次へ</a>
+        <a href="pu26min15.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h28-22-5h14-06-ih04-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-22-5)(H14-06-�I)(H04-14-�A)</div>
+          <p class="qtext">1　A�����S������AC�́AB�ɖ��f�ŁAA�̈�Y�ł���b�y�n�ɂ�C���P�Ƃő��������|�̓o�L����A�b�y�n��D�ɔ��p���Ă��̎|�̏��L���̈ړ]�̓o�L������B���̏ꍇ�ɁAB�́AD�ɑ΂��A�o�L�Ȃ����čb�y�n��2����1�̎����̎擾��΍R���邱�Ƃ��ł��Ȃ��BA�����S���������AA�ɂ́A�S�ȂƂ̊Ԃ̎q�ł���B�y��C���������A���ɐe���͂��Ȃ�������̂Ƃ���B(H28-22-5)(H14-06-�I)(H04-14-�A)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-22-5h14-06-ih04-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h09-10-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-10-1)</div>
+          <p class="qtext">2　�b�s���Y��A��B�̋��L�ł��邪�A�o�L����A�̒P�Ə��L�Ƃ���Ă����Ƃ���AA�́AC�Ƃ̊Ԃōb�s���Y�̔����_���������AC�ւ̏��L���ړ]�o�L��o�R�����B�b�s���Y��A��B�������ɂ��擾�����ꍇ�ɂ����āAA��B�ɖ��f�ŒP�Ə��L�̓o�L��o�R�����Ƃ��́A�b�s���Y��A��B�̋��L�ł��邱�Ƃ�C���m��Ȃ������ꍇ�ł�AB�́AC�ɑ΂��A�����ɂ���Ď擾�������Ȃ̎�����咣���邱�Ƃ��ł���B(H09-10-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-10-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h13-06-1h17-24-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-06-1)(H17-24-�A)</div>
+          <p class="qtext">3　A��B��C�̎q�ł���AC�����S�����ꍇ(A��B�ȊO�ɑ����l�͂��Ȃ��B)�ɂ�����C�����l���`�̍b�y�n��L���Ă����Ƃ�������Ɋւ��āBB���b�y�n�ɂ�����ɒP�Ƒ����̓o�L����A�����D�ɔ��p���ď��L���ړ]�o�L�������AA��B���b�y�n��A�̒P�Ə��L�Ƃ����Y�������c������ꍇ�AA�́AD�ɑ΂��A���̏��L���ړ]�o�L�̑S���̖����𐿋����邱�Ƃ��ł���B(H13-06-1)(H17-24-�A)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-06-1h17-24-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h13-06-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-06-2)</div>
+          <p class="qtext">4　B���b�y�n�ɂ�AB�e����2����1�̋��������̓o�L����A���Ȃ̎�����D�ɔ��p���Ď����ړ]�o�L�������AA��B���b�y�n��A�̒P�Ə��L�Ƃ����Y�������c������ꍇ�AA�́AD�ɑ΂��A���̎����ړ]�o�L�̖����𐿋����邱�Ƃ��ł���B(H13-06-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-06-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r05-07-ah06-18-ih04-14-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-07-�A)(H06-18-�I)(H04-14-�E)</div>
+          <p class="qtext">5　�b�y�n����L����A�����S���A���̎qB�y��C��A��������������ꍇ�ɂ����āABC�Ԃ�B���b�y�n��P�ƂŎ擾����|�̈�Y�������c�������������AC���b�y�n���������������̂Ƃ��ď��L���̈ړ]�̓o�L�������ŁA���Ȃ̖@�葊�����ɑ������鎝����D�ɔ��p���Ă��̎|�̓o�L������Ƃ��́AB�́AD�ɑ΂��A�P�Ƃł̍b�y�n�̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B(R05-07-�A)(H06-18-�I)(H04-14-�E)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-07-ah06-18-ih04-14-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h28-22-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-22-2)</div>
+          <p class="qtext">6　A�����S������AB�y��C�́A��Y�������c�ɂ����āAB��A�̈�Y�ł���b�y�n�̏��L����擾���邱�Ƃɍ��ӂ����B���̌�AC�́AD�ɑ΂��A�b�y�n��2����1�̎����𔄋p���A���̎|�̏��L���̈ړ]�̓o�L������B���̏ꍇ�ɁAB�́AD�ɑ΂��A�o�L�Ȃ����čb�y�n�S���̏��L���̎擾��΍R���邱�Ƃ��ł���BA�����S���������AA�ɂ́A�S�ȂƂ̊Ԃ̎q�ł���B�y��C���������A���ɐe���͂��Ȃ�������̂Ƃ���B(H28-22-2)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-22-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h25-07-eh13-06-03h09-10-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-07-�E)(H13-06-03)(H09-10-3)</div>
+          <p class="qtext">7　�b�y�n����L����A�����S���A���̎q�ł���B�y��C�̂��߂ɑ����̊J�n���������BB���b�y�n��P�Ƃŏ��L����|�̈�Y�������c�������������AC�́AB�ɖ��f�ŁA���Ȃ��b�y�n��P�Ƃŏ��L����|�̏��L���̈ړ]�̓o�L�������ŁA�b�y�n��D�ɏ��n���A���̎|�̏��L���̈ړ]�̓o�L������B���̏ꍇ�ɂ����āAB�́AD�ɑ΂��A�b�y�n��P�Ƃŏ��L���Ă���|��咣���邱�Ƃ��ł���B(H25-07-�E)(H13-06-03)(H09-10-3)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-07-eh13-06-03h09-10-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h17-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-08-�I)</div>
+          <p class="qtext">8　�b�y�n�̏��L��A�����S���A���̋��������l�ł���B�y��C�́A��Y�������c�ɂ��b�y�n��B���P�Ƃő������邱�ƂƂ������A�o�L���`��A�̂܂܂ł������B���̌�A��Y�������c�̑��݂�m��Ȃ�C�̍���D�́AC�ɑ�ʂ��čb�y�n�ɂ��đ���������Ƃ��鏊�L���̈ړ]�̓o�L�������ŁAC�̎���(�@�葊����)�ɂ��č������̓o�L������B���̏ꍇ�AB�́AD�ɑ΂��AC�̖@�葊�����ɑ�������b�y�n�̎����̎擾��΍R���邱�Ƃ��ł���B(H17-08-�I)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h28-22-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-22-1)</div>
+          <p class="qtext">9　A�́A���̏��L����b�y�n��B�ɑ���������|�̈⌾������BA�����S������AC�̍��҂ł���D�́A�b�y�n�ɂ�B�y��C���e2����1�̎�����L����|�̑����o�L��������C�̎�����������������B���̏ꍇ�ɁAB�́AD�ɑ΂��A�o�L�Ȃ����čb�y�n�S���̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B�Ȃ��AA�����S���������AA�ɂ͎q�ł���B�y��C���������A���ɐe���͂��Ȃ�������̂Ƃ���B(H28-22-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-22-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h25-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-07-�I)</div>
+          <p class="qtext">10　�b�y�n����L����A�����S���A���̎q�ł���B�y��C�̂��߂ɑ����̊J�n���������BA�́A�b�y�n�ɂ��āAB�̎�����4����3�AC�̎�����4����1�Ƃ��đ���������|�̈⌾��������AC���A�b�y�n�ɂ��āA���Ȃ̎�����2����1�Ƃ��鑊��������Ƃ��鏊�L���̈ړ]�̓o�L������Ƃ���AC�̍��҂ł���D�����Y�o�L�ɌW��C�̎�����������������B���̏ꍇ�ɂ����āAD�́AB�ɑ΂��A�b�y�n��2����1�̎�����������������|��咣���邱�Ƃ��ł���B(H25-07-�I)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-r02-07-g">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-07-�G)</div>
+          <p class="qtext">11　�b�y�n����L����A�����S���A���̑����l���qB�y��C�ł���ꍇ�ɂ����āAB�̍���D���AB�y��C���b�y�n���������������̂Ƃ��đ�ʂɂ�鏊�L���̈ړ]�̓o�L�������ŁAB�̎���������������Ă��̎|�̓o�L�����ꂽ��AB�������̕���������Ƃ��́AC�́AD�ɑ΂��A�P�Ƃł̍b�y�n�̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B(R02-07-�G)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-07-g">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h28-22-3h06-18-ah04-14-c">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-22-3)(H06-18-�A)(H04-14-�C)</div>
+          <p class="qtext">12　A�����S������AC�������̕���������BC�̍��҂ł���D�́AA�̈�Y�ł���b�y�n�ɂ�B�y��C���e2����1�̎�����L����|�̑����o�L��������C�̎�����������������B���̏ꍇ�ɁAB�́AD�ɑ΂��A�o�L�Ȃ����čb�y�n�S���̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B�Ȃ��AA�����S���������AA�ɂ́A�q�ł���B�y��C���������A���ɐe���͂��Ȃ�������̂Ƃ���B(H28-22-3)(H06-18-�A)(H04-14-�C)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-22-3h06-18-ah04-14-c">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h25-07-ah17-08-g">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-07-�A)(H17-08-�G)</div>
+          <p class="qtext">13　�b�y�n����L����A�����S���A���̎q�ł���B�y��C�̂��߂ɑ����̊J�n���������B�b�y�n�ɂ��Ă̑���������Ƃ��鏊�L���̈ړ]�̓o�L������Ȃ��܂܂ł������Ƃ���AB�������̕�����������AB�̍��҂ł���D�́A��ʂɂ��b�y�n�ɂ��Ă̑���������Ƃ��鏊�L���̈ړ]�̓o�L����A�b�y�n��B�̎�����������������B���̏ꍇ�ɂ����āAC�́A�b�y�n��B���`�̎����ɂ��ēo�L����Ă��Ȃ��Ă�AD�ɑ΂��A�b�y�n��P�Ƃŏ��L���Ă���|��咣���邱�Ƃ��ł���B(H25-07-�A)(H17-08-�G)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-07-ah17-08-g">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h07-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-15-�A)</div>
+          <p class="qtext">14　A���L�̓y�n��A����B�ցAB����C�ւƏ������p���ꂽ�ꍇ�ɂ�����o�L�̐������Ɋւ��鎟�̋L�q�̂����A����̎�|�ɏƂ炵�Đ�������̂͂ǂꂩ�B(H07-15)�A A����B�ցAB����C�ցA���ꂼ�ꏊ�L���ړ]�̓o�L�����ꂽ�ꍇ�ɂ����āAA����B�ւ̔����������ł���Ƃ��́AB����C�ւ̔����������ł����Ă�AB�́AC�ɑ΂��A���̓o�L�̖����𐿋����邱�Ƃ��ł��Ȃ��B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h07-15-c">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-15-�C)</div>
+          <p class="qtext">15　�C ���L���̓o�L���`���ˑR�Ƃ���A�ɂ���ꍇ�ɂ́AC�́AB�̓��ӂ��Ȃ��Ă�AB�ɑ�ʂ�A�ɑ΂��AB�ւ̏��L���ړ]�o�L�葱�𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-15-c">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h07-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-15-�E)</div>
+          <p class="qtext">16　�E ���L���̓o�L���`���ˑR�Ƃ���A�ɂ���ꍇ�ł����Ă�AC�́AB�ɑ΂��AB����C�ւ̏��L���ړ]�o�L�葱�𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h07-15-g">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-15-�G)</div>
+          <p class="qtext">17　�G ���L���̓o�L���`���ˑR�Ƃ���A�ɂ���ꍇ�ɂ́AC�́AB�̓��ӂ𓾂�΁AA�ɑ΂��AA����C�ւ̏��L���ړ]�o�L�葱�𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-15-g">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h07-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-15-�I)</div>
+          <p class="qtext">18　�I ���L���̓o�L���`���ˑR�Ƃ���A�ɂ���ꍇ�ɂ́AB�́AB����C�ւ̔����������̂Ƃ��Ɍ���AA�ɑ΂��AB�ւ̏��L���ړ]�o�L�葱�𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h06-16-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-16-1)</div>
+          <p class="qtext">19　�o�L�������Ɋւ��鎟�̋L�q���A����Ă����̂͂ǂꂩ�B(H06-16)1 B���炻�̏��L����y�n�𔃂��󂯂�A���A���̓y�n��C�ɓ]�������ꍇ�ɂ́AA�́AB�ɑ΂��AB����A�ւ̏��L���ړ]�o�L�𐿋����邱�Ƃ��ł��Ȃ��B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-16-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h06-16-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-16-2)</div>
+          <p class="qtext">20　2 A���L�̓y�n�ɂ��āAB���`�̏��L���ۑ��o�L������Ă���Ƃ��́AA�́AB�ɑ΂��AB���`�̏��L���ۑ��o�L�̖����𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-16-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h06-16-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-16-3)</div>
+          <p class="qtext">21　3 B�����̏��L����y�n��A�ɔ���n���ď��L���ړ]�o�L������ꍇ�ɂ����āA�����_�񂪍��Ӊ�����ꂽ�Ƃ��́AA�́AB�ɑ΂��AB����A�ւ̏��L���ړ]�o�L�̖����𐿋����邱�Ƃ��ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-16-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h06-16-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-16-4)</div>
+          <p class="qtext">22　4 B���L�̓y�n����؂���A�́A���،��̓o�L�����������Ă��Ȃ���΁AB�ɑ΂��A���،��ݒ�o�L�𐿋����邱�Ƃ͂ł��Ȃ��B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-16-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h06-16-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-16-5)</div>
+          <p class="qtext">23　5 A���L�̓y�n���AA����B�AB����C�ɏ�����������ď��L���ړ]�o�L�����ꂽ��AA�EB�Ԃ̔����_�񂪋����𗝗R�Ɏ������ꂽ�Ƃ��́AA�́AB�ɑ΂��AA����B�ւ̈ړ]�o�L�̖����𐿋��ł���ق��AC�ɑ΂��AB����C�ւ̈ړ]�o�L�̖����𐿋����邱�Ƃ�ł���B</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min15.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-16-5">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h28-22-5h14-06-ih04-14-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-22-5)(H14-06-�I)(H04-14-�A) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B���������l��1�l���s���Y�ɂ�����ɒP�Ƃő���������|�̓o�L����A����Ɋ�Â��ĕs���Y���O�҂ɏ��n�����ꍇ�A���̋��������l�͎��Ȃ̎����ɂ��A�o�L�Ȃ����đ�O�҂ɑ΍R���邱�Ƃ��ł���i�Ŕ���38.2.22�j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-10-1">
+  <div class="dlg-head"><div class="dlg-title">(H09-10-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B���������l��1�l���s���Y�ɂ�����ɒP�Ƃő���������|�̓o�L����A����Ɋ�Â��ĕs���Y���O�҂ɏ��n�����ꍇ�A���̋��������l�͎��Ȃ̎����ɂ��A�o�L�Ȃ����đ�O�҂ɑ΍R���邱�Ƃ��ł���i�Ŕ���38.2.22�j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-06-1h17-24-a">
+  <div class="dlg-head"><div class="dlg-title">(H13-06-1)(H17-24-�A) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�a�̒P�Ƒ����̓o�L�͂`�̎����Ɋւ�����薳�����̓o�L�ł���A�o�L�Ɍ��M�͂̂Ȃ����ʁA�c��`�̎����Ɋւ��Ă͌�����擾�ł��Ȃ��B����āA���̋��������l�`�͎��Ȃ̎�����o�L�Ȃ����đ΍R�������̂Ɖ�����i�Ŕ���38.2.22�j�B�]���āA�S���̖����𐿋��ł���Ƃ���_�ŁA�{���͌���Ă���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-06-2">
+  <div class="dlg-head"><div class="dlg-title">(H13-06-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B��Y�����ɂ��`�͑k�y�I�ɍb�y�n�̏��L����擾���邪�i���@909��{���j�A��O�҂̌�����Q���邱�Ƃ͂ł��Ȃ��i���@909����������j�B����āA��Y�����O�ɂa�̎�����擾�����c�ɑ΂��āA��Y�����ɂ�錠���擾��΍R�ł��Ȃ��B�Ȃ��A���̍ۂ̂c�Ɋւ��Ă͓o�L��K�v�Ƃ���̂��ʐ�ł���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-07-ah06-18-ih04-14-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-07-�A)(H06-18-�I)(H04-14-�E) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�����ɂ�錠���̏��p�́A��Y�̕����ɂ���̂��ǂ����ɂ�����炸�A����k���F���@900��l�y�ё�901��̋K��ɂ��Z�肵���������𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B�{�L�q�̂a���A�b�y�n��P�ƂŎ擾�������Ƃ��O�҂c�ɑ΍R����ɂ́A�o�L���K�v�ƂȂ�Ƃ���A�a�͓o�L����Ă��Ȃ��B����āA�a�́A�c�ɑ΂��A�P�Ƃł̍b�y�n�̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-22-2">
+  <div class="dlg-head"><div class="dlg-title">(H28-22-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�����ɂ�錠���̏��p�́A��Y�̕����ɂ���̂��ǂ����ɂ�����炸�A�@�葊�����𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B����āA�a�́A�o�L�Ȃ����čb�y�n�S���̏��L���̎擾��΍R���邱�Ƃ��ł��Ȃ��B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-07-eh13-06-03h09-10-3">
+  <div class="dlg-head"><div class="dlg-title">(H25-07-�E)(H13-06-03)(H09-10-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�����ɂ�錠���̏��p�́A��Y�̕����ɂ���̂��ǂ����ɂ�����炸�A�@�葊�����𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B����āA�����ɂ�萶�����������ƈقȂ錠����擾�����a�́A���̎|�̓o�L���Ȃ���΁A������ɍb�y�n�ɂ�������擾�����c�ɑ΂��A���Ȃ̌����̎擾��咣���邱�Ƃ͂ł��Ȃ��B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-08-�I) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�����ɂ�錠���̏��p�́A��Y�̕����ɂ���̂��ǂ����ɂ�����炸�A�@�葊�����𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-22-1">
+  <div class="dlg-head"><div class="dlg-title">(H28-22-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�����ɂ�錠���̏��p�́A�@�葊�����𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B����āA�o�L����Ă��Ȃ��a�́A�b�y�n�S���̏��L���̎擾��΍R�ł��Ȃ��B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-07-�I) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�����ɂ�錠���̏��p�́A�@�葊�����𒴂��镔���ɂ��ẮA�o�L�A�o�^���̑��̑΍R�v��������Ȃ���΁A��O�҂ɑ΍R���邱�Ƃ��ł��Ȃ��i���@899���2��1���j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-07-g">
+  <div class="dlg-head"><div class="dlg-title">(R02-07-�G) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B���������̌��́i���@939��j�͐�ΓI�ł���A�����̕����������Ɓi���@938��j�A���l�ɑ΂��Ă�A�o�L���Ȃ����đ��������̌��͂𐶂���i�Ŕ���42.1.20�j�B����āA�a�̍��҂c���a�̎���������������Ă��̎|�o�L���ꂽ��ł����Ă�A�a����������������Ƃ��́A�b�́A�c�ɑ΂��A�o�L�Ȃ����ĒP�Ƃł̍b�y�n�̏��L���̎擾��΍R���邱�Ƃ��ł���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-22-3h06-18-ah04-14-c">
+  <div class="dlg-head"><div class="dlg-title">(H28-22-3)(H06-18-�A)(H04-14-�C) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B���������ɂ���āA�����l�͑����J�n���ɑk���đ����J�n���Ȃ��������ƂƂȂ�A���̌��͂͐�ΓI�ŁA�o�L���Ȃ����Ă��̌��͂𐶂���i�Ŕ���42.1.20�j�B�{���ł́A�`�̑����l�ł���b�͑�����������Ă���A�`�̈�Y�ł���b�y�n�́A���߂���a���P�Ƃő����������ƂɂȂ�A���̌��͓͂o�L�Ȃ����đ�O�҂ł���c�ɑ΍R���邱�Ƃ��ł���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-07-ah17-08-g">
+  <div class="dlg-head"><div class="dlg-title">(H25-07-�A)(H17-08-�G) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B���������ɂ���āA�����l�͑����J�n���ɑk���đ����J�n���Ȃ��������ƂƂȂ�A���̌��͂͐�ΓI�ŁA�o�L���Ȃ����Ă��̌��͂𐶂���i�Ŕ���42.1.20�j�B�{���̂a�͑�����������Ă���A���@177��̓K�p�͂Ȃ��A�a�ɑ΂��鍷�����͖����ł��邽�߁A�b�́A�b�y�n�̂a���`�̎����ɂ��o�L���Ă��Ȃ��Ƃ�A�c�ɑ΂��A�b�y�n��P�Ƃŏ��L���Ă���|��咣���邱�Ƃ��ł���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H07-15-�A) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�����ϓ��̓����҂ƂȂ����҂͂��̌����ϓ��̉ߒ��ɂ����Đ^���ƕ������Ȃ������̓o�L������Ƃ��́A���Ƃ����ɕ����𑼂Ɉړ]���A�s���Y�̎����I�����҂łȂ��Ƃ��Ă�A���̓o�L�̐����ɂ��ēo�L���`�l�ɋ��͂���߂邢����o�L��������L����B�����āA���Ɍ����ϓ��̌�������@���s�ׂ���A�o�L�L�^��@���s�ׂ̓����҂Ƃ��ĕ\�����ꂽ�҂́A���̖@���s�ׂ����܂��ܖ����ł������ꍇ�ɂ����Ă��L�̓o�L��������L�����̂Ɖ����Ă���i�Ŕ���36.4.28�j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-15-c">
+  <div class="dlg-head"><div class="dlg-title">(H07-15-�C) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�唻��43.7.6�B�a�b�Ԃ̔����ɂ��o�L�͕s���Y�o�L�@��A�`�a�Ԃ̔����ɂ��o�L��o�R������łȂ���΂��邱�Ƃ��ł��Ȃ����߁A�`����a�ւ̓o�L�ɂa�����͂��Ȃ��ꍇ�́A�b�͖��@423��̋K��ɂ��A�a�ɑ΂���o�L��������ۑS���邽�߁A�a�ɑ�ʂ��Ăa�̂`�ɑ΂���o�L��������s�g���邱�Ƃ��ł���Ɖ����Ă���i�唻��43.7.6�j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H07-15-�E) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�o�L�������̖@�I�����ɂ��ẮA�ꌳ�I�ɐ�����邱�Ƃ�����ł��邽�߁A����́A�e�ꍇ�ɉ����đ����I�Ȑ������Ă���B����ɂ��ƁA�o�L�������̔��������͇@���̓I�ȕ����ϓ�������ꍇ�A�A�����ҊԂɓo�L�����|�̓��񂪂���ꍇ�A�B�o�L�����̓I�Ȍ����֌W�ƈ�v���Ȃ��ꍇ��3�ɕ��ނ��邱�Ƃ��ł���B�a���甄���ɂ���ď��L����擾���Ă���b�́A��L�̂����A�@�y�чA�̊ϓ_����a�ɑ΂���o�L��������L���Ă���Ƃ�����B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-15-g">
+  <div class="dlg-head"><div class="dlg-title">(H07-15-�G) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B���̓I�Ȍ����ϓ��̉ߒ��ƈقȂ�ړ]�o�L�𐿋����錠���́A���R�ɂ͔������Ȃ��Ɖ���ׂ��ł��邩��A�`�a�b�Ə����ɏ��L�����ړ]�����̂ɓo�L���`�͈ˑR�Ƃ��Ă`�ɂ���ꍇ�ɁA���ɏ��L����L����b�͂`�ɑ΂����ڎ��ȂɈړ]�o�L���ׂ��|�𐿋����邱�Ƃ͌����Ƃ��ċ�����Ȃ��B����Ƃ�A���ɒ��ԏȗ��o�L���Ȃ��ꂽ���Ƃɂ��ẮA����́A����𖳌��ƂȂ��̂Ƃ͂��Ă��Ȃ��i�Ŕ���35.4.21�j�B���̓_�A�{�L�q�ɂ����Ăb�́A�`�a�o���̓��ӂ𓾂Ȃ���Β��ԏȗ��o�L����邱�Ƃ��ł��Ȃ��Ƃ���A�`�̓��ӂ��������|�͎�����Ă��Ȃ��B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-15-�I) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�s���Y�̔���́A�����]�����ď��L�����������ł����Ă�A�܂��A���Ȃ̏��L���̎擾�o�L����āA���̎擾����S�Ȃ炵�߁A���̌�œ]���҂ɑ΂����L���ړ]�o�L�̋`���𗚍s����ׂ���̂ł��邽�߁A�]���ɂ���Ă���Ȃ̓o�L�������������̂ł͂Ȃ��i�唻��5.4.1�j�B���̂��Ƃ́A�]���������ł������Ƃ��ł�A���l�ł���i�Ŕ���36.4.28�j�B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-16-1">
+  <div class="dlg-head"><div class="dlg-title">(H06-16-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F���B�s���Y�̔���́A�����]�����ď��L����r��������ł����Ă�A�܂��A���Ȃ̏��L���̎���̓o�L����A���̎擾����S�Ȃ�̂Ƃ�����ŁA���̌�A�]���҂ɑ΂��ď��L���ړ]�o�L�̋`���𗚍s���Ȃ���΂Ȃ�Ȃ��̂ŁA�]���ɂ��A���Ȃ̓o�L�������������̂ł͂Ȃ��Ƃ���Ă���i�唻��5.4.1�j�B����āA�`�͂a�ɑ΂��A���L���ړ]�o�L�𐿋����邱�Ƃ��ł���B�]���āA�{���͌���Ă���B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-16-2">
+  <div class="dlg-head"><div class="dlg-title">(H06-16-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�唻��43.5.24�B�s���Y�o�L�́A�s���Y�Ɋւ��镨���̓��r�E�ύX�̌������@�ł��邽�߁A���̕����̓��r�E�ύX���Ȃ��ɂ������炸�A�`����A�o�L�̂ݑ�����悤�ȏ�Ԃ͕s�K�@�ł���A���̂��߂Ɍ�����N�Q����邨����̂��镨���҂͂��̓o�L�̖����𐿋����邱�Ƃ��ł���i�唻��43.5.24�j�B����āA�`�͂a���`�̏��L���ۑ��o�L�̖����𐿋����邱�Ƃ��ł���B�]���āA�{���͐������B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-16-3">
+  <div class="dlg-head"><div class="dlg-title">(H06-16-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�Ŕ���36.11.24�B�^���̌����֌W�ɍ��v���Ȃ��o�L������Ƃ��́A���̓o�L�̓����҂̈���͑��̓����҂ɑ΂��A���ꂼ��o�L����Đ^���ɍ��v�����߂邱�Ƃ��e�Ƃ���o�L��������L����ƂƂ�ɁA���̓����҂͂��̓o�L�����ɉ����ēo�L��^���ɍ��v�����߂邱�Ƃɋ��͂���`���𕉂���̂Ƃ���A�y�n�̔����_�񂪍��Ӊ�����ꂽ�ꍇ�A����́A���L���ړ]�o�L�̖����o�L�ɋ��͂���`��������Ƃ���Ă���i�Ŕ���36.11.24�j�B�]���āA�{���͐������B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-16-4">
+  <div class="dlg-head"><div class="dlg-title">(H06-16-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B�唻��10.7.11�B�s���Y�̒��ؐl�͒��ݎ؂̓o�L�����|�̓��񂪂Ȃ��ꍇ�́A���ݐl�ɑ΂��Ē��،��ݒ�o�L�𐿋����邱�Ƃ͂ł��Ȃ��i�唻��10.7.11�j�B�]���āA�{���͐������B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-16-5">
+  <div class="dlg-head"><div class="dlg-title">(H06-16-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：不明</div>
+    <p>�𓚁F�������B��������������Č_�񂪎��������i���@96��1���j�Ƃ��̌_��͏��߂��疳���ł��������ƂɂȂ�i���@121��j�B�����āA�^���̌����֌W�ɍ��v���Ȃ��o�L������Ƃ��́A���̓o�L�̓����҂̈���͑��̓����҂ɑ΂��A���ꂼ��o�L����Đ^���ɍ��v�����߂邱�Ƃ��e�Ƃ���o�L��������L����ƂƂ�ɁA���̓����҂͂��̓o�L�����ɉ����ēo�L��^���ɍ��v�����߂邱�Ƃɋ��͂���`���𕉂��i�Ŕ���36.11.24�B�j����āA�`�́A�a�ɑ΂��āA�����o�L�𐿋����邱�Ƃ��ł���B�܂��A�`�a�Ԃ̌_�񂪋����𗝗R�Ƃ��Ď��������Ƃa�b�Ԃ̔�����ے肳��邱�Ƃ���A�`�͂b�ɑ΂��Ă�o�L�̖����𐿋����邱�Ƃ��ł���B�]���āA�{���͐������B</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>

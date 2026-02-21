@@ -1,0 +1,721 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit13</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+      <h1>民法 Unit13</h1>
+      <div class="hnav">
+        <a href="pu_index.html">トップへ</a>
+        <a href="pu_min12q.html">前へ</a>
+        <a href="pu_min14q.html">次へ</a>
+        <a href="pu26min13.html#top">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h26-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-07-ウ)</div>
+          <p class="qtext">1　A所有の甲土地に隣接する乙土地がその所有者Bにより掘り下げられたため、甲土地の一部が乙土地に崩落する危険が生じた場合において、当該危険が生じたことについてBに故意又は過失がないときは、Aは、Bに対し、甲土地の所有権に基づき、甲土地の崩落を予防するための設備の設置を請求することができない。(H26-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r03-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-07-ウ)</div>
+          <p class="qtext">2　Aの所有する甲土地を賃借しているBが、Cの所有する乙動産を賃借して甲土地に置いている場合において、その後、AB間の賃貸借契約が終了したが、Bが乙動産を甲土地に放置しているときは、Aは、Cに対し、甲土地の所有権に基づき、乙動産の撤去を請求することができる。(R03-07-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h24-08-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-08-5)</div>
+          <p class="qtext">3　Aがその所有する甲土地を深く掘り下げたために隣接するB所有の乙土地との間で段差が生じて乙土地の一部が甲土地に崩れ落ちる危険が発生した場合には、Aが甲土地をCに譲渡し、所有権の移転の登記をしたときであっても、Bは、Aに対し、乙土地の所有権に基づく妨害予防請求権を行使することができる。(H24-08-5)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-08-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h18-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-11-ウ)</div>
+          <p class="qtext">4　A所有の甲土地上に乙建物が存在する。乙建物は、Bが建築して所有しているが、C名義で所有権の保存登記がされており、Cは、これまで乙建物の所有権を取得したことがない。Bは乙建物の実質的所有者であるため、Aは、Bを相手方として建物収去土地明渡請求をすることができる。(H18-11-ウ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h18-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-11-ア)</div>
+          <p class="qtext">5　A所有の甲土地上に乙建物が存在し、乙建物の所有者Bが、未登記のままこれをCに譲渡した。Aが、所有権に基づく物権的請求権を行使して、乙建物を収去して甲土地を明け渡すよう請求する場合、Aは、BとCのいずれをも相手方とすることができる。(H18-11-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h18-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-11-オ)</div>
+          <p class="qtext">6　A所有の甲土地上にBが乙建物を所有し、かつ所有権の登記名義を有している。また、乙建物に賃借人Dが居住している。Aが建物収去土地明渡請求をする場合、建物所有者であるBを相手方としなければならない。(H18-11-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h30-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-07-ア)</div>
+          <p class="qtext">7　Aの所有する甲土地の上にBが無権原で自己所有の乙建物を建てた後、乙建物につきBの妻であるCの承諾を得てC名義で所有権の保存の登記がされたときは、Aは、Cに対し、甲土地の所有権に基づき、建物収去土地明渡しを請求することができない。(H30-07-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h26-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-07-ア)</div>
+          <p class="qtext">8　A所有の甲土地上に、Bが乙建物をAに無断で建築して所有しているが、Bとの合意によりCが乙建物の所有権の登記名義人となっているにすぎない場合には、Aは、Cに対し、甲土地の所有権に基づき、乙建物の収去及び甲土地の明渡しを請求することができる。(H26-07-ア)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h18-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-11-エ)</div>
+          <p class="qtext">9　A所有の甲土地上に乙建物が存在する。乙建物は、Bが建築して所有しているが、C名義で所有権の保存登記がされており、Cは、これまで乙建物の所有権を取得したことがない。乙建物の実質的な所有者が誰であるかをAが自ら調べるのは困難であるという問題があるため、Aは、乙建物の実質的な所有者であるBのほか、登記名義人であるCをも建物収去土地明渡請求の相手方とすることができる。(H18-11-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h30-07-eh24-08-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-07-エ)(H24-08-1)</div>
+          <p class="qtext">10　Aの所有する甲土地から、Bの所有する乙土地に土砂が流れ込むおそれがある場合には、Aが自己の行為の責任を弁識する能力を欠く状態にあっても、Bは、Aに対し、乙土地の所有権に基づき、予防措置を請求することができる。(H30-07-エ)(H24-08-1)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-07-eh24-08-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h29-08-oh24-08-04h14-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-08-オ)(H24-08-04)(H14-08-エ)</div>
+          <p class="qtext">11　A所有の甲土地上にBがAの承諾を得ずに無権原で乙建物を建築し、乙建物について自らの意思に基づいてB名義の所有権の保存の登記をした場合には、その後Bが乙建物をCに売り渡したときであっても、引き続きBが乙建物の登記名義を保有する限り、Bは、Aに対し、建物を収去して土地を明け渡す義務を免れることができない。(H29-08-オ)(H24-08-04)(H14-08-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-08-oh24-08-04h14-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r03-07-ah18-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-07-ア)(H18-11-イ)</div>
+          <p class="qtext">12　Aの所有する甲土地の上にAに無断で乙建物を築造したBが、乙建物につきB名義で所有権の保存の登記をした後に、乙建物をCに売却したが、その旨の登記をしていないときは、Aは、Bに対し、甲土地の所有権に基づき、乙建物を収去して甲土地を明け渡すことを求めることができない。(R03-07-ア)(H18-11-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-07-ah18-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h30-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-07-イ)</div>
+          <p class="qtext">13　Aの所有する甲土地の上にBが無権原で自己所有の乙建物を建てた後、その所有権の保存の登記をしないまま、Cに乙建物を譲渡した場合において、乙建物につき、Aの申立てにより処分禁止の仮処分命令がされ、裁判所書記官の嘱託によるB名義の所有権の保存の登記がされたときは、Aは、Bに対し、甲土地の所有権に基づき、建物収去土地明渡しを請求することができる。(H30-07-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h29-07-ih14-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-07-イ)(H14-08-イ)</div>
+          <p class="qtext">14　Aがその所有する甲土地をBに賃貸し、その旨の登記がされた後、Cが甲土地上に不法に乙建物を建ててこれを使用している場合には、Bは、Cに対し、甲土地の賃借権に基づき乙建物を収去して甲土地を明け渡すことを求めることができる。(H29-07-イ)(H14-08-イ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-07-ih14-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h04-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-10-エ)</div>
+          <p class="qtext">15　売買の目的物が動産である場合には、その所有権が買主に移転するのは、その引渡しのときである。(H04-10-エ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h04-10-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-10-オ)</div>
+          <p class="qtext">16　買主が売買代金の支払の提供をするまでは、売買の目的物の所有権は、買主に移転しない。(H04-10-オ)</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min13.html#A01-01">***</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-10-o">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h26-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>物権的請求権の行使に、相手方の故意又は過失は不要である。よって、Ａは、Ｂに対し、甲土地の所有権に基づき、甲土地の崩落を予防するための設備の設置を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-07-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>物権的請求権の相手方は現在の妨害者であり、自ら妨害を生じさせたことを必要としない。よって、Ｃ所有の乙動産が甲土地上に放置されている場合には、所有者たるＣはその撤去義務を負う。したがって、本記述は正しい。なお、妨害を正当化する事由があれば撤去の請求はできないが、本記述においてはＡＢ間の賃貸借契約は既に終了しているため、乙動産による妨害を正当化することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-08-5">
+  <div class="dlg-head"><div class="dlg-title">(H24-08-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>物権的請求権の相手方につき、当初の侵害者がその妨害物を第三者に譲渡したときは、その者に対する物権的請求権は消滅する（大判大6.3.23、大判大9.7.15、大判昭5.10.29など）。従って、本肢のＢは、甲土地の所有者でなくなったＡに対して、乙土地の所有権に基づく妨害予防請求権を行使することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-11-u">
+  <div class="dlg-head"><div class="dlg-title">(H18-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>建物収去土地明渡請求の相手方は、所有権を侵害している現在の建物所有者であるから（最判昭35.6.17）、実質的な所有者Ｂに対してＡは請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H18-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>Ａの所有権を侵害しているのは現在の建物所有者Ｃであるから、ＡはＣを相手方として建物収去土地明渡請求をすることになる。Ｂを相手方にすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H18-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>賃借人Ｄは建物の使用収益権を有するが建物を収去する権利はない。よって、Ａは建物の収去権限を有する所有者Ｂを相手方にすべきである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H30-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>建物の所有権を有しない者は、たとえ、所有者との合意により、建物につき自己のための所有権保存登記をしていたとしても、建物を収去する権能を有しないから、建物の敷地所有者の所有権に基づく請求に対し、建物収去義務を負うものではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>建物の所有権者との合意により登記名義人になっているにすぎない者は、敷地所有権者に対して建物収去義務を負わない（最判昭47.12.7）。乙建物の所有者はＢであり、Ｃは乙建物について無権利者である。よって、ＡはＣに対して建物収去土地明渡請求をすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-11-e">
+  <div class="dlg-head"><div class="dlg-title">(H18-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>Ｃ名義の登記は不実の登記であり、Ｃは無権利者にすぎない。よって、Ａは何ら乙建物に権利関係を有しないＣに対して建物収去土地明渡請求をすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-07-eh24-08-1">
+  <div class="dlg-head"><div class="dlg-title">(H30-07-エ)(H24-08-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相手方が責任を弁識する能力を欠く場合であっても、物権的請求権の行使は認められる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-08-oh24-08-04h14-08-e">
+  <div class="dlg-head"><div class="dlg-title">(H29-08-オ)(H24-08-04)(H14-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>他人の土地上の建物の所有権を取得した者が自らの意思に基づいて所有権取得の登記を経由した場合には、たとえ建物を他に譲渡したとしても、引き続き登記名義を保有する限り、土地所有者に対し、右譲渡による建物所有権の喪失を主張して建物収去・土地明渡しの義務を免れることはできない（最判平6.2.8）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-07-ah18-11-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-07-ア)(H18-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人の土地上の建物の所有権を取得した者が、自らの意思に基づき自己名義の所有権取得の登記をした場合には、建物を譲渡した後であっても、なお、登記名義を保有する限り、土地所有者に対し、建物所有権の喪失を主張して建物収去・土地明渡しの義務を免れることはできない（最判平6.2.8）。本記述では、Ｂは、Ｃに乙建物を売却しても、その旨の登記をしていない。よって、Ａは、Ｂに対し、甲土地の所有権に基づき、乙建物を収去して甲土地を明け渡すことを求めることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地に権限なく建物が建っている場合、建物収去土地明渡請求は、原則として、建物の所有者に対してするべきである（最判昭35.6.17）。建物につき管理、処分権能がなければ建物収去請求の相手方になり得ないからである。また、建物譲渡人が自らの意思で所有権の登記を経由した場合は、当該登記名義人も相手方となり得るが、本肢のＢ名義の登記は嘱託によるものであるため、Ｂに対する建物収去土地明渡請求は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-07-ih14-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H29-07-イ)(H14-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の賃借人は、対抗要件を備えた場合には、①不動産の占有を妨害する第三者に対する妨害の停止の請求、②不動産を占有する第三者に対する返還の請求をすることができる（民法<span class="mono">605条の4</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H04-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>物権の設定及び移転は、当事者の意思表示のみによって、その効力を生ずる（民法<span class="mono">176条</span>）。よって、売買による所有権の移転の効果は意思表示のときに生じる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-10-o">
+  <div class="dlg-head"><div class="dlg-title">(H04-10-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>特定物を目的とする売買において、所有権の移転の効果が代金の支払いと同時に生じるべき特約等、別段の定めがされていない場合は、買主に対し直ちに所有権移転の効力を生ずる（最判昭33.6.20）。目的物の引渡し義務と代金支払義務は同時履行の関係にあるが（民法<span class="mono">533条</span>）、所有権自体の移転の効力は、当事者の意思表示のみによって、その効力を生ずる（民法<span class="mono">176条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+  loadFont();
+  ensureHeaderTools();
+  ensureStepButtons();
+  updateProgress();
+</script>
+</body></html>
