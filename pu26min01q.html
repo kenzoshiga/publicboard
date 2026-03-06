@@ -788,7 +788,29 @@
       if (a && a.blur) a.blur();
     })
   );
+  function bindFontButtons(){
+    const dec = document.getElementById('btn-font-dec');
+    const std = document.getElementById('btn-font-std');
+    const inc = document.getElementById('btn-font-inc');
+  
+    if (dec) {
+      dec.addEventListener('click', () => {
+        applyFont(getCurrentFont() - FONT_STEP, true);
+      });
+    }
+    if (std) {
+      std.addEventListener('click', () => {
+        applyFont(FONT_DEFAULT, true);
+      });
+    }
+    if (inc) {
+      inc.addEventListener('click', () => {
+        applyFont(getCurrentFont() + FONT_STEP, true);
+      });
+    }
+  }
   loadFont();
+  bindFontButtons();
   ensureHeaderTools();
   ensureStepButtons();
   updateProgress();
