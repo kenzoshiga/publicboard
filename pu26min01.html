@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -106,10 +122,10 @@
   <div class="wrap hrow1">
     <h1>民法 Unit1</h1>
     <div class="hnav">
-      <a href="pu_index.html">トップへ</a>
-      <a href="pu_index.html">前へ</a>
-      <a href="pu26min02.html#top">次へ</a>
-      <a href="pu26min01q.html#top">肢別へ</a>
+      <a href="pu_index.html" >トップへ</a>
+      <a href="pu_index.html" >前へ</a>
+      <a href="pu26min02.html" >次へ</a>
+      <a href="pu26min01q.html" >肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -117,13 +133,10 @@
       <div class="toc" id="toc">
         <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
         <ul>
-<li><a href="#A00">第０編　序　論</a>
+<li><a href="#A00">序　論</a>
   <ul>
-
     <li><a href="#A00-00-00-0-01">１　民法とは</a></li>
-
     <li><a href="#A00-00-00-0-02">２　民法の性格</a></li>
-
     <li><a href="#A00-00-00-0-03">３　民法の指導原理</a></li>
   </ul>
 </li>
@@ -131,11 +144,8 @@
   <ul>
     <li><a href="#A01-01">第１章　私権についての基本原理</a>
       <ul>
-
         <li><a href="#A01-01-00-0-01">１　公共の福祉（１条１項）</a></li>
-
         <li><a href="#A01-01-00-0-02">２　信義誠実の原則（信義則。１条２項）</a></li>
-
         <li><a href="#A01-01-00-0-03">３　権利濫用の禁止（１条３項）</a></li>
       </ul>
     </li>
@@ -341,7 +351,7 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A00">
-  <h2>第０編　序　論<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>序　論</h2>
     <div class="blk outer">
       <div class="outer-title" id="A00-00-00-0-01">１　民法とは</div>
       <p>私人の日常生活（社会生活）を規律する最も基本的な法であり、主として私人の財産関係と家族関係を規律する。</p>
@@ -386,10 +396,11 @@
         </div>
       </div>
     </div>
+</section>
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-01">第１章　私権についての基本原理<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-01">第１章　私権についての基本原理</h2>
     <div class="blk outer">
       <div class="outer-title" id="A01-01-00-0-01">１　公共の福祉（１条１項）</div>
       <p>私権の行使については、社会的共同生活の利益に反してはならない（憲法29条２項参照）。</p>
@@ -406,11 +417,7 @@
           <p class="h6 ind0">2.　機能</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①法律解釈の基準となる（最判昭32.７.５）。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②社会的接触関係にある者同士の規範関係を具体化する。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">③制定法の規定の存しない部分を補充し、又は制定法の形式的適用による不都合を克服する。</p>
         </div>
         </div>
@@ -451,9 +458,9 @@
     </div>
   </div>
   <div class="p-card chap-card">
-    <h2 id="A01-02">第２章　人<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-02">第２章　人</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-02-01">第１節　権利能力<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-02-01">第１節　権利能力</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-02-01-0-01">１　意義</div>
       <p>：権利義務の主体となることのできる資格</p>
@@ -483,7 +490,7 @@
           <p class="p6 ind4">胎児でいる間は原則どおり権利能力はないが、胎児が生きて生まれた時に、問題の時点（不法行為や相続時など）に生まれていたものとみなし、さかのぼって権利能力を取得する。</p>
           <p class="p6 ind4">（理由）</p>
           <p class="p6 ind4">現行法上、胎児の財産を管理する法定代理制度が存在しない。</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_01.png" alt="A01-02-01_01.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/min01-01.png" alt="/_media/pu/min01-01.png"></p>
           <p class="p6 ind4">Ｂ　解除条件説</p>
           <p class="p6 ind4">胎児であっても生まれたものとみなされる範囲（損害賠償、相続など）では権利能力を有し、ただ、死産である場合には遡及的に権利能力が消滅する。</p>
           <p class="p6 ind4">（理由）</p>
@@ -493,9 +500,9 @@
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">②特に相続をめぐる法律関係を速やかに確定できる。</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_02.png" alt="A01-02-01_02.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/min01-02.png" alt="/_media/pu/min01-02.png"></p>
           <p class="p6 ind4">胎児に対する代理の可否</p>
-          <p class="p6 ind4"><img class="embed-img" src="A01-02-01_03.png" alt="A01-02-01_03.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/min01-03.png" alt="/_media/pu/min01-03.png"></p>
           <p class="p6 ind4">※　解除条件説は胎児の権利能力を肯定することができる点に特徴があるが、その場合でも、代理が認められるのは上記例外の３つの範囲に限られる点に注意する必要がある（母が胎児を代理して売買契約を結ぶことは認められない）。</p>
         </div>
         </div>
@@ -534,11 +541,7 @@
           <p class="p6 ind2">次のような場合に適用がある。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①共に同一の危難に遭遇し、死亡の先後関係が不明である場合。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②別々の危難に遭遇したが、いずれの死亡時期も不明である場合。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">③一方の死亡時期は明確であるが、他方の死亡時期が不明である場合。</p>
         </div>
         </div>
@@ -546,11 +549,7 @@
           <p class="h6 ind1">(4) 効果</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①同時死亡の推定が及ぶ者相互の間では相続が生じない。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②同時死亡の推定が及ぶ者相互の間では遺贈も効力を生じない（994条１項）。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">③代襲相続は生じる（887条２項）。</p>
         </div>
         </div>
@@ -559,11 +558,10 @@
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-02-02">第２節　意思能力と行為能力<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-02-02">第２節　意思能力と行為能力</h3>
     <div class="p-card rank4-card">
       <p id="A01-02-02-1" class="h6 ind0">Ⅰ　意思能力</p>
     <div class="blk outer">
-      <div class="outer-title">本文</div>
       <p>：自己の法律行為の結果を弁識するに足るだけの精神能力</p>
       <p>法律行為の当事者が意思表示をした時に意思能力を有しなかったときは、その法律行為は、無効とする(民法3条の2)。私的自治の原則により、私人の法律行為は自己の意思に基づいてのみ行われなければならないことから、当然の前提とされている。</p>
     </div>
@@ -584,20 +582,18 @@
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　意思能力と行為能力との関係</p>
-          <p class="p6 ind1">Ｑ　制限行為能力者が同時に意思能力を欠いていた場合の行為の効力は認められるか。</p>
+          <p class="p6 ind1">Ｑ　制限行為能力者が同時に意思能力を欠いていた場合の行為の効力は認められるか。</p><br>
           <p class="p6 ind1">Ａ　二重効肯定説（判例・通説）</p>
           <p class="p6 ind1">取り消すことができると同時に無効主張もできる。</p>
           <p class="p6 ind1">（理由）</p>
-          <p class="p6 ind1">制限行為能力者制度は、意思無能力者に与えられたプラスアルファの保護であり、本来の保護である意思能力を欠くことを理由とする無効主張は当然に可能である。</p>
+          <p class="p6 ind1">制限行為能力者制度は、意思無能力者に与えられたプラスアルファの保護であり、本来の保護である意思能力を欠くことを理由とする無効主張は当然に可能である。</p><br>
           <p class="p6 ind1">Ｂ　二重効否定説</p>
           <p class="p6 ind1">取消しのみ可能とする。</p>
           <p class="p6 ind1">（理由）</p>
           <p class="p6 ind1">意思能力の制度は行為能力の制度に客観的画一的に転化してしまっている。</p>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q1"><span>
           <p class="h6 ind0">4.　制限行為能力者の行為が取り消された場合の効果</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-r02-07-i">R2-7-イ他</a></div>
         <div class="p-card">
           <p class="h6 ind1">(1) 行為の効力</p>
           <p class="p6 ind2">取消しがなされると、当該行為は初めから無効であったことになる（121条）。制限行為能力者の保護を優先するため、善意無過失の第三者の保護規定（96条３項参照）はない。よって、すべての第三者に取消しの効果を主張することができる。</p>
@@ -605,11 +601,10 @@
           <p class="p6 ind2">なお、取引の相手方の保護の制度（20条、21条）や、取消権の行使期間の制限（126条）の規定の適用はある。また、動産の場合は192条、不動産の場合は94条２項の類推適用によって転得者は保護され得る（通説）。</p>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q2"><span>
           <p class="h6 ind1">(2) 制限行為能力者の返還義務</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-h19-06-a">H19-6-ア他</a></div>
           <p class="p6 ind2">行為の時に制限行為能力者であった者は、現存利益の範囲でのみ返還義務を負う（121条の２第３項）。無効な行為又は取り消された行為に基づく履行が既になされている場合には、当事者は原状回復義務を負うのが原則であるが（121条の２第１項）、制限行為能力者等一定の場合には当該義務が軽減されている。取消権の行使を容易にする趣旨である。</p>
         </div>
+<div class="kakomon"><a href="pu26min01q.html#q-r02-07-i" title="R7-2-イ他(No.2-9)">過去問</a></div>
         </div>
       </div>
     </div>
@@ -628,36 +623,26 @@
         <div class="p-card">
           <p class="h6 ind0">3.　未成年者の行為能力</p>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q3"><span>
           <p class="h6 ind1">(1) 原則</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-r06-04-u">R6-4-ウ</a></div>
           <p class="p6 ind2">未成年者が法律行為をするには、原則として法定代理人の「同意」を得なければならず、その同意を得ないでした法律行為は「取り消す」ことができる（５条１項本文、２項）。</p>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q4"><span>
           <p class="h6 ind1">(2) 例外</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-h27-04-o">H27-4-オ他</a></div>
           <p class="p6 ind2">例外的に未成年者が単独でできる行為が法定されている。</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 「単に権利を得、又は義務を免れる法律行為」（５条１項ただし書）</p>
           <p class="p6 ind3">ex. 負担付きでない贈与を受ける。債務の免除を受ける。</p>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q5"><span>
           <p class="h6 ind2 nobold">(b) 法定代理人が処分を許した財産の処分（５条３項）</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-r06-04-ah31-04-a">R6-4-ア他</a></div>
           <p class="p6 ind3">本条項の財産については法定代理人の包括的同意があると解されるため、５条１項本文の同意を不要とした。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①「目的を定めて処分を許した財産」（学費、下宿代等）は、その目的の範囲内でのみ処分できる。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②「目的を定めないで処分を許した財産」（小遣い等）は、任意に処分できる。</p>
         </div>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q6"><span>
           <p class="h6 ind2 nobold">(c) 許可された営業に関する行為（６条１項）</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-r04-04-e">R4-4-エ</a></div>
           <p class="p6 ind3">営業の許可がある以上これに関する行為ができなければ営業できないから、許可された営業の範囲内で未成年者の行為能力に加えられた制限を解放するものである。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①「営業」：営利を目的にして同種の行為を反復継続して行うこと</p>
@@ -674,29 +659,27 @@
         </div>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q7"><span>
           <p class="h6 ind2 nobold">(d) 法定代理人の同意を得ないでした行為の取消し（５条２項、120条１項）</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-r04-04-u">R4-4-ウ他</a></div>
           <p class="p6 ind3">取り消すことによって元の状態に戻るだけであり、未成年者に不利益はない。また、取消しにも同意がいるとすると、同意のない取消しを取り消せることになって面倒だからである。</p>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(e) 身分行為</p>
           <p class="p6 ind3">ex. 認知（780条）、遺言（961条。ただし、15歳に達した者のみがすることができる。）</p>
         </div>
+<div class="kakomon"><a href="pu26min01q.html#q-r06-04-u" title="R6-4-ウ他別No.10-18">過去問</a></div>
         </div>
         </div>
         <div class="p-card">
-          <p class="h6 ind0">4.　保護者－法定代理人</p>
+          <p class="h6 ind0" id="t-h27-04-i">4.　保護者－法定代理人</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 法定代理人の意義</p>
           <p class="p6 ind2">未成年者の法定代理人は、未成年者が法律行為をする場合にその「同意」を与え（５条１項本文）、また、未成年者に代わってその法律行為を行う（824条、859条）。</p>
         </div>
         <div class="p-card">
-          <div style="display:flex; align-items:center;" id="q8"><span>
           <p class="h6 ind1">(2) 法定代理人となる者</p>
-          </span> <a style="margin-left:auto;" href="pu26min01q.html#q-h27-04-i">H27-4-イ</a></div>
           <p class="p6 ind2">第１次的に親権者（818条）、第２次的に未成年後見人（838条１号）である。</p>
           <p class="p6 ind2">親権者は、実親であることが多いが、養子縁組をしている場合には養親が親権者となる。</p>
+<div class="kakomon"><a href="pu26min01q.html#q-h27-04-i" title="H27-4-イNo.19">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(3) 権限</p>
@@ -728,6 +711,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -781,6 +773,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>
