@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min07.html">前へ</a>
-      <a href="pu26min09.html#top">次へ</a>
-      <a href="pu26min08q.html#top">肢別へ</a>
+      <a href="pu26min09.html">次へ</a>
+      <a href="pu26min08q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -317,16 +333,17 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-07">第７章　代理<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-07">第７章　代理</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-07-03">第３節　復代理制度<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-07-03">第３節　復代理制度</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-07-03-0-01">１　意義</div>
       <p>復代理：代理人が、自分の権限内の行為を、自分の名でさらに代理人を選任して、その者に行わせること</p>
       <p>代理人によって選任された代理人を復代理人という。</p>
       <p>復代理人は、その権限内の行為について、本人を代表する（106条１項）。復代理人はあくまでも本人の代理人であり、代理人の代理人ではない。</p>
+<div class="kakomon"><a href="pu26min08q.html#q-h19-05-a" title="H19-5-ア">過去問</a></div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A01-07-03-0-02">２　復任権</div>
@@ -346,11 +363,12 @@
           <p class="h6 ind1">(2) 法定代理人の場合</p>
           <p class="p6 ind2">いつでも自由に選任できる（105条前段）。</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①信任関係とは別個であり、②権限が広汎である一方、辞任が容易ではないことから、常に復任が認められる。</p>
+          <p class="h6 ind3 nobold">① 信任関係とは別個であり、② 権限が広汎である一方、辞任が容易ではないことから、常に復任が認められる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min08q.html#q-r07-06-uh04-02-a" title="R7-6-ウ">過去問</a></div>
         </div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min08-q5">
           <p class="h6 ind0">3.　復代理人の過誤に対する代理人の責任</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 任意代理人の場合</p>
@@ -361,6 +379,7 @@
           <p class="p6 ind2">原則として全責任を負う（105条前段）。</p>
           <p class="p6 ind2">例外として、やむを得ない事由で復代理人を選任した場合には、選任及び監督について責任を負う（105条後段）。</p>
         </div>
+<div class="kakomon"><a href="pu26min08q.html#q-h05-04-3" title="H5-4-3">過去問</a></div>
         </div>
       </div>
     </div>
@@ -380,11 +399,12 @@
           <p class="h6 ind0">3.　代理人の権限</p>
           <p class="p6 ind1">復代理人選任後も代理人は代理権を失わない。代理人と本人との関係は従来通りであるが、前述のように責任関係が生じる。</p>
         </div>
+<div class="kakomon"><a href="pu26min08q.html#q-h05-04-5" title="H5-4-5">過去問</a></div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-07-04">第４節　無権代理<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-07-04">第４節　無権代理</h3>
     <div class="p-card rank4-card">
       <p id="A01-07-04-1" class="h6 ind0">Ⅰ　狭義の無権代理</p>
     <div class="blk outer">
@@ -401,12 +421,13 @@
         <div class="p-card">
           <p class="h6 ind0">2.　例外－相手方の保護</p>
           <p class="p6 ind1">取引の相手方保護を通じて代理制度の社会的信用を確保するため、民法は無権代理行為を無効なものとして固定せず、以下の効果を定めている。</p>
-        <div class="p-card">
+        <div class="p-card" id="min08-q12">
           <p class="h6 ind1">(1) 催告権（114条）</p>
           <p class="p6 ind2">相手方から本人に対し追認をするか否かを迫る手段をいう。</p>
           <p class="p6 ind2">放置すると追認拒絶とみなされる。悪意の相手方にも催告権が認められる。</p>
+<div class="kakomon"><a href="pu26min08q.html#q-r05-06-ah09-03-3h04-07-u" title="R5-6-ア">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min08-q15">
           <p class="h6 ind1">(2) 取消権（115条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 定義</p>
@@ -415,23 +436,24 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 要件</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　相手方が、代理人に代理権がないことについて善意であること（115条ただし書）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　本人の追認がないこと（115条本文）</p>
+          <p class="h6 ind3 nobold">① 相手方が、代理人に代理権がないことについて善意であること（115条ただし書）</p>
+          <p class="h6 ind3 nobold">② 本人の追認がないこと（115条本文）</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 効果</p>
+        <div class="p-card">
           <p class="p6 ind3">取消しによって代理行為は始めからなかったことになる。</p>
           <p class="p6 ind3">相手方は、他の手段（催告、無権代理人の責任追及、表見代理）を採り得なくなる。</p>
+        </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(d) 行使方法</p>
           <p class="p6 ind3">この取消しの意思表示は、本人・無権代理人のいずれに対して行ってもよいと解されている。</p>
         </div>
+<div class="kakomon"><a href="pu26min08q.html#q-h26-05-o" title="H26-5-オ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min08-q18">
           <p class="h6 ind1">(3) 無権代理人への履行又は損害賠償請求（117条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 意義</p>
@@ -443,70 +465,46 @@
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 要件</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　「他人の代理人として契約をした」こと（117条１項）</p>
+          <p class="h6 ind3 nobold">　① 「他人の代理人として契約をした」こと（117条１項）</p>
+          <p class="h6 ind3 nobold">　② 代理権の存在を証明できなかったこと（117条１項）</p>
+          <p class="h6 ind3 nobold">　③ 本人の追認がないこと（117条１項）</p>
+          <p class="h6 ind3 nobold">　④ 相手方が取消権（115条）を行使していないこと</p>
+          <p class="h6 ind3 nobold">　⑤ 相手方が無権代理であることにつき、善意であること（117条２項１号）</p>
+          <p class="h6 ind3 nobold">　⑥ 相手方が無権代理であることにつき、無過失であること（117条２項２号本文）</p>
+          <p class="p6 ind4">　なお、自己に代理権がないことについて悪意の無権代理人が、相手方の過失を証明して無権代理人の責任を免れることは信義に反するので、相手方が無権代理であることにつき、過失がある場合であっても、無権代理人が自己に代理権がないことを知っていたときは、無権代理人の責任を追求することができる（117条２項２号ただし書）。</p>
+          <p class="h6 ind3 nobold">　⑦ 無権代理人が制限行為能力者でないこと（117条２項３号）</p>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　代理権の存在を証明できなかったこと（117条１項）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　本人の追認がないこと（117条１項）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④　相手方が取消権（115条）を行使していないこと</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">⑤　相手方が無権代理であることにつき、善意であること（117条２項１号）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">⑥　相手方が無権代理であることにつき、無過失であること（117条２項２号本文）</p>
-          <p class="p6 ind4">なお、自己に代理権がないことについて悪意の無権代理人が、相手方の過失を証明して無権代理人の責任を免れることは信義に反するので、相手方が無権代理であることにつき、過失がある場合であっても、無権代理人が自己に代理権がないことを知っていたときは、無権代理人の責任を追求することができる（117条２項２号ただし書）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">⑦　無権代理人が制限行為能力者でないこと（117条２項３号）</p>
-        </div>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind2 nobold">(d) 表見代理が成立する場合にも無権代理人の責任を追及できるか</p>
+<div class="kakomon"><a href="pu26min08q.html#q-h28-05-o" title="H28-5-オ">過去問</a></div>
+        <div class="p-card" id="min08-q25">
+          <p class="h6 ind2 nobold">(d) 表見代理が成立する場合にも無権代理人の責任を追及できるか</p><br>
           <p class="p6 ind3">Ａ　否定説</p>
-          <p class="p6 ind3">表見代理が成立する場合には、117条の責任追及は認められない。</p>
+          <p class="p6 ind3">　表見代理が成立する場合には、117条の責任追及は認められない。</p><br>
           <p class="p6 ind3">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　表見代理が成立する場合には、相手方は予定していた効果をおさめることができるから、取引の安全のための117条の責任を生じさせる必要はない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　有権代理の場合でさえ本人が責任を負うだけなのに、表見代理の場合には本人、無権代理人のいずれにも責任を追及できるのは不当である。</p>
+          <p class="h6 ind3 nobold">① 表見代理が成立する場合には、相手方は予定していた効果をおさめることができるから、取引の安全のための117条の責任を生じさせる必要はない。</p>
+          <p class="h6 ind3 nobold">② 有権代理の場合でさえ本人が責任を負うだけなのに、表見代理の場合には本人、無権代理人のいずれにも責任を追及できるのは不当である。</p><br>
           <p class="p6 ind4">（批判）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　相手方が予定の効果をおさめることができるのは、まさに表見代理が認められた場合であって、その主張がなされていない場合にまでこれを理由とすることはできない。だとすれば、無権代理であるはずの表見代理を117条の適用からはずす根拠はなく、むしろ、113条、115条の適用が是認されていることと不均衡が生じる。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　表見代理の立証は一般に困難であり、無権代理人への責任追及も本人のすばやい追認で切り落とされる危険にさらされていることを考慮すれば、本人、表見代理人のいずれに対しても責任追及ができるとしても、相手方の保護は過大にならない。</p>
+          <p class="h6 ind3 nobold">① 相手方が予定の効果をおさめることができるのは、まさに表見代理が認められた場合であって、その主張がなされていない場合にまでこれを理由とすることはできない。だとすれば、無権代理であるはずの表見代理を117条の適用からはずす根拠はなく、むしろ、113条、115条の適用が是認されていることと不均衡が生じる。</p>
+          <p class="h6 ind3 nobold">② 表見代理の立証は一般に困難であり、無権代理人への責任追及も本人のすばやい追認で切り落とされる危険にさらされていることを考慮すれば、本人、表見代理人のいずれに対しても責任追及ができるとしても、相手方の保護は過大にならない。</p><br>
           <p class="p6 ind4">Ｂ　肯定説（最判昭62.７.７）</p>
-          <p class="p6 ind4">表見代理が成立し得る場合にも、表見代理の成立と無権代理人への責任追及の主張が選択的に認められる。</p>
+          <p class="p6 ind4">　表見代理が成立し得る場合にも、表見代理の成立と無権代理人への責任追及の主張が選択的に認められる。</p><br>
           <p class="p6 ind4">（理由）</p>
+          <p class="h6 ind3 nobold">① 表見代理と無権代理人の責任とは別個独立の制度であり、無権代理人の責任は表見代理が成立しない場合における補充的な責任ではない。</p>
+          <p class="h6 ind3 nobold">② 無権代理人が表見代理の成立を理由にその責任を免れるとするのは妥当でない。</p>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　表見代理と無権代理人の責任とは別個独立の制度であり、無権代理人の責任は表見代理が成立しない場合における補充的な責任ではない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　無権代理人が表見代理の成立を理由にその責任を免れるとするのは妥当でない。</p>
-        </div>
-        </div>
+<div class="kakomon"><a href="pu26min08q.html#q-h14-02-uh06-04-i" title="H14-2-ウ">過去問</a></div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(e) 117条２項の善意・無過失の立証責任</p>
           <p class="p6 ind3">相手方が無権代理であることにつき悪意有過失であることの立証責任は、無権代理人側にある(上記要件⑤)（通説）。</p>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(f) 責任の内容</p>
-          <p class="p6 ind3">相手方の選択に従って、①履行又は②損害賠償の責任を負う（117条１項）。</p>
+          <p class="p6 ind3">相手方の選択に従って、①履行又は②損害賠償の責任を負う（117条１項）。</p><br>
           <p class="p6 ind3">【まとめ】</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min08-01.png" alt="min08-01.png"></p>
         </div>
         </div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min08-q26">
           <p class="h6 ind0">3.　本人の追認・追認拒絶権（113条、116条）</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 追認（113条、116条）</p>
@@ -530,6 +528,7 @@
           <p class="p6 ind2">相手方に対する意思表示による。無権代理人に対してすることもできるが、その場合、相手方が知るまではその効力を主張できない（相手方からの、追認があったことの主張は可能）。</p>
           <div class="sp"></div>
         </div>
+<div class="kakomon"><a href="pu26min08q.html#q-h14-02-a" title="H14-2-ア">過去問</a></div>
         </div>
       </div>
     </div>
@@ -539,6 +538,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -592,6 +600,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

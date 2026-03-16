@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min05.html">前へ</a>
-      <a href="pu26min07.html#top">次へ</a>
-      <a href="pu26min06q.html#top">肢別へ</a>
+      <a href="pu26min07.html">次へ</a>
+      <a href="pu26min06q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -328,11 +344,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-06">第６章　意思表示<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-06">第６章　意思表示</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-06-04">第４節　瑕疵ある意思表示<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-06-04">第４節　瑕疵ある意思表示</h3>
     <div class="p-card rank4-card">
       <p id="A01-06-04-1" class="h6 ind0">Ⅰ　錯誤（95条）</p>
     <div class="blk outer">
@@ -342,7 +358,7 @@
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A01-06-04-1-02">２　態様</div>
-      <p><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+      <p><img class="embed-img" src="min06-01.png" alt="min06-01.png"></p>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　表示行為の錯誤－意思表示に対応する意思を欠く錯誤（95条１項１号）</p>
@@ -368,6 +384,7 @@
           <p class="h6 ind1">(2) 95条の適用の有無</p>
           <p class="p6 ind2">動機の錯誤（表意者が法律行為の基礎とした事情についてのその認識が真実に反する錯誤（95条１項２号））は、「その事情が法律行為の基礎とされていることが表示されていたときに限り」、取消しの対象となる（95条２項）。</p>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h23-05-u" title="H23-5-ウ他">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　共通錯誤</p>
@@ -393,26 +410,21 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 表示行為の錯誤の場合</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　意思表示に対応する意思を欠く錯誤に基づく意思表示があること（95条１項１号）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　その錯誤が法律行為の目的及び取引上の社会通念に照らして重要なものであること（95条１項柱書）</p>
+          <p class="h6 ind3 nobold">① 意思表示に対応する意思を欠く錯誤に基づく意思表示があること（95条１項１号）</p>
+          <p class="h6 ind3 nobold">② その錯誤が法律行為の目的及び取引上の社会通念に照らして重要なものであること（95条１項柱書）</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 動機の錯誤の場合</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　表意者が法律行為の基礎とした事情についてのその認識が真実に反する錯誤に基づく意思表示があること（95条１項２号）</p>
+          <p class="h6 ind3 nobold">① 表意者が法律行為の基礎とした事情についてのその認識が真実に反する錯誤に基づく意思表示があること（95条１項２号）</p>
+          <p class="h6 ind3 nobold">② その事情が法律行為の基礎とされていることが表示されていること（95条２項）</p>
+          <p class="h6 ind3 nobold">③ その錯誤が法律行為の目的及び取引上の社会通念に照らして重要なものであること（95条１項柱書）</p>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　その事情が法律行為の基礎とされていることが表示されていること（95条２項）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　その錯誤が法律行為の目的及び取引上の社会通念に照らして重要なものであること（95条１項柱書）</p>
+<div class="kakomon"><a href="pu26min06q.html#q-r03-05-i" title="R3-5-イ">過去問</a></div>
         </div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min06-q4">
           <p class="h6 ind1">(2) 表意者に重大な過失がないこと（95条３項）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 原則</p>
@@ -420,11 +432,12 @@
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 例外</p>
-          <p class="p6 ind3">しかし、①相手方が表意者に錯誤があることを知り、又は重大な過失によって知らなかったとき（95条３項１号）、②相手方が表意者と同一の錯誤に陥っていたとき（95条３項２号）には、表意者に重大な過失があったとしても、錯誤に基づく意思表示の取消しを主張することができる。</p>
+          <p class="p6 ind3">しかし、① 相手方が表意者に錯誤があることを知り、又は重大な過失によって知らなかったとき（95条３項１号）、② 相手方が表意者と同一の錯誤に陥っていたとき（95条３項２号）には、表意者に重大な過失があったとしても、錯誤に基づく意思表示の取消しを主張することができる。</p>
         </div>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h03-21-a" title="H3-21-ア他">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min06-q7">
           <p class="h6 ind0">2.　効果</p>
           <p class="p6 ind1">取消しが可能となる。取消しによって、法律行為は初めから無効となる（取消しの遡及効。121条）。</p>
         <div class="p-card">
@@ -436,6 +449,7 @@
           <p class="p6 ind2">錯誤に基づく意思表示の取消しは、善意でかつ過失がない第三者に対抗することができない（95条４項）。</p>
         </div>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h23-05-oh06-05-i" title="H23-5-オ他">過去問</a></div>
       </div>
     </div>
     <div class="blk outer">
@@ -452,6 +466,7 @@
           <p class="p6 ind1">（理由）</p>
           <p class="p6 ind1">錯誤が法律関係確定の合意のなされた事項自体に関するときは、それがたとえ真実と違っても、この点の法律関係を確定しようというのが和解契約の目的だから、和解契約の確定効（696条）からして、95条の適用は排除される。</p>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h29-05-u" title="H29-5-ウ">過去問</a></div>
       </div>
     </div>
     </div>
@@ -469,7 +484,7 @@
         <div class="p-card">
           <p class="h6 ind0">1.　故意</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①相手方を欺いて錯誤に陥れようとする意思と、②錯誤によって意思表示をさせようとする意思との二重の故意があること</p>
+          <p class="h6 ind3 nobold">① 相手方を欺いて錯誤に陥れようとする意思と、② 錯誤によって意思表示をさせようとする意思との二重の故意があること</p>
         </div>
         </div>
         <div class="p-card">
@@ -484,6 +499,7 @@
           <p class="p6 ind1">社会生活上、多少の欺く行為は放任されるべきだから、違法性のあるものでなければ詐欺とはならない。</p>
           <p class="p6 ind1">この点で、沈黙・意見の陳述などは詐欺とならないことが多いが、例えば、不動産の所有者が、抵当権が設定され登記されていることを秘して高価に売却した場合は詐欺となる（大判昭４.３.７）。</p>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h23-05-a" title="H23-5-ア他">過去問</a></div>
       </div>
     </div>
     <div class="blk outer">
@@ -501,10 +517,12 @@
           <p class="h6 ind1">(2) 第三者による詐欺の場合</p>
           <p class="p6 ind2">第三者による詐欺の場合、相手方が詐欺の事実を知り、又は知ることができた場合のみ取り消すことができる（96条２項）。</p>
         </div>
+<div class="kakomon"><a href="pu26min06q.html#q-h18-06-o" title="H18-6-オ他">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min06-q18">
           <p class="h6 ind0">2.　例外－第三者保護</p>
           <p class="p6 ind1">取消しの効果は善意無過失の第三者に対抗することができない（96条３項）。</p>
+<div class="kakomon"><a href="pu26min06q.html#q-r05-05-e" title="R5-5-エ他">過去問</a></div>
         <div class="p-card">
           <p class="h6 ind1">(1) 第三者の意義</p>
           <p class="p6 ind2">善意無過失の第三者とは、詐欺の事実を知らないで、詐欺による法律行為に基づいて取得された権利関係について新たな利害関係に入った者で、詐欺の事実を知らないことに過失のない者をいう。</p>
@@ -514,58 +532,39 @@
           <p class="p6 ind3">（理由）</p>
           <p class="p6 ind3">同条項は取消しの遡及効を制限して取引の安全を図る趣旨であるから、取消しによって影響を受くべき者に限られると解すべきである。</p>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min06-q23">
           <p class="h6 ind2 nobold">(b) 取消し後の第三者の保護</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
-          <p class="p6 ind3">本来、取消しによってＡＢ間の売買は遡及的に無効となり、ＢＣ間の売買は他人物売買であってＣは土地所有権を取得できないとも思える（561条参照）。また、この場合、Ｃは取消し後に利害関係に入った第三者であるから、96条３項で保護することはできない。</p>
-          <p class="p6 ind3">Ｑ　では、Ｃは一切保護されないのか。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min06-02.png" alt="min06-02.png"></p>
+          <p class="p6 ind3">本来、取消しによってＡＢ間の売買は遡及的に無効となり、ＢＣ間の売買は他人物売買であってＣは土地所有権を取得できないとも思える（561条参照）。また、この場合、Ｃは取消し後に利害関係に入った第三者であるから、96条３項で保護することはできない。</p><br>
+          <p class="p6 ind3">Ｑ　では、Ｃは一切保護されないのか。</p><br>
           <p class="p6 ind3">Ａ　177条説（大判昭17.９.30・通説）</p>
-          <p class="p6 ind3">ＡとＣは対抗関係に立ち、ＣはＡに先んじて登記を備えれば保護される。</p>
+          <p class="p6 ind3">　ＡとＣは対抗関係に立ち、ＣはＡに先んじて登記を備えれば保護される。</p>
           <p class="p6 ind3">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　取消しによる遡及的無効という効果は、契約の効果を否定するための擬制にすぎず、現実には取消しまでは有効であり、取消しにより物権が復帰すると考えるべきである（上記の例でいえば、ＢからＡへの復帰的物権変動が生じ、これとＢからＣへの譲渡とが二重譲渡類似の関係に立つといえる）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　いったん取り消した以上、迅速に登記を回復して権利変動を公示すべきであるので、これを怠った者が権利を失うのはやむを得ない。</p>
+          <p class="h6 ind3 nobold">　① 取消しによる遡及的無効という効果は、契約の効果を否定するための擬制にすぎず、現実には取消しまでは有効であり、取消しにより物権が復帰すると考えるべきである（上記の例でいえば、ＢからＡへの復帰的物権変動が生じ、これとＢからＣへの譲渡とが二重譲渡類似の関係に立つといえる）。</p>
+          <p class="h6 ind3 nobold">　② いったん取り消した以上、迅速に登記を回復して権利変動を公示すべきであるので、これを怠った者が権利を失うのはやむを得ない。</p>
           <p class="p6 ind4">（批判）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　取消し前の第三者については遡及的無効が生ずることを前提にしながら、取消し後の第三者についてはこれを無視しているが、矛盾である。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　悪意の第三者であっても登記を了しさえすれば保護されることになり不都合である（特に、取消し前の第三者が一切保護されない強迫の場合、取消し前の第三者は善意無過失であっても保護されないのに、取消し後の第三者は悪意であっても保護されることになる）。</p>
+          <p class="h6 ind3 nobold">　① 取消し前の第三者については遡及的無効が生ずることを前提にしながら、取消し後の第三者についてはこれを無視しているが、矛盾である。</p>
+          <p class="h6 ind3 nobold">　② 悪意の第三者であっても登記を了しさえすれば保護されることになり不都合である（特に、取消し前の第三者が一切保護されない強迫の場合、取消し前の第三者は善意無過失であっても保護されないのに、取消し後の第三者は悪意であっても保護されることになる）。</p><br>
+<div class="kakomon"><a href="pu26min06q.html#q-r05-07-e" title="R5-7-エ他">過去問</a></div>
           <p class="p6 ind4">Ｂ　94条２項類推適用説（有力説）</p>
-          <p class="p6 ind4">取消し一般につき取消し時を基準として、取消し後は94条２項類推適用により第三者を保護すべきであるとする。</p>
+          <p class="p6 ind4">　取消し一般につき取消し時を基準として、取消し後は94条２項類推適用により第三者を保護すべきであるとする。</p>
           <p class="p6 ind4">（理由）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　取消しの遡及効に適合的である（取消し前と後とで取消しの効果を同一に扱うことができる）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　第三者の善意・悪意、過失の有無を考慮したきめ細やかな調整が可能である。</p>
+          <p class="h6 ind3 nobold">　① 取消しの遡及効に適合的である（取消し前と後とで取消しの効果を同一に扱うことができる）。</p>
+          <p class="h6 ind3 nobold">　② 第三者の善意・悪意、過失の有無を考慮したきめ細やかな調整が可能である。</p>
           <p class="p6 ind4">（批判）</p>
-          <p class="p6 ind4">被欺罔者には、虚偽の外観を作出した者ほどの帰責性はなく、94条２項類推適用の基礎を欠く。</p>
-        </div>
+          <p class="p6 ind4">　被欺罔者には、虚偽の外観を作出した者ほどの帰責性はなく、94条２項類推適用の基礎を欠く。</p>
         </div>
         </div>
         <div class="p-card">
-          <p class="h6 ind1">(2) 第三者の対抗要件の要否</p>
+          <p class="h6 ind1">(2) 第三者の対抗要件の要否</p><br>
           <p class="p6 ind2">Ａ　不要説（最判昭49.９.26）</p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　第三者との関係では詐欺による意思表示も完全に有効と扱われるから、被欺罔者と第三者は前主・後主の関係に立ち、対抗関係に立たない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　第三者は物権の取得者に限らない。</p>
+          <p class="h6 ind3 nobold">　① 第三者との関係では詐欺による意思表示も完全に有効と扱われるから、被欺罔者と第三者は前主・後主の関係に立ち、対抗関係に立たない。</p>
+          <p class="h6 ind3 nobold">　② 第三者は物権の取得者に限らない。</p><br>
           <p class="p6 ind4">Ｂ　必要説</p>
           <p class="p6 ind4">（理由）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　第三者は、その取得した権利を誰に対しても主張することができるようにしておくべきである（公示制度の重視）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　第三者への不動産の譲渡時期が被欺罔者による取消しの前後を問わず、同様の扱いをすべきである。</p>
-        </div>
+          <p class="h6 ind3 nobold">　① 第三者は、その取得した権利を誰に対しても主張することができるようにしておくべきである（公示制度の重視）。</p>
+          <p class="h6 ind3 nobold">　② 第三者への不動産の譲渡時期が被欺罔者による取消しの前後を問わず、同様の扱いをすべきである。</p>
         </div>
         </div>
       </div>
@@ -577,6 +576,7 @@
       <p>表意者はいずれかを選択して主張できる。</p>
       <p>（理由）</p>
       <p>詐欺取消しも錯誤取消しも、表意者保護のために法律行為（意思表示）の効力を否定する理論構成の一つにすぎない。</p>
+<div class="kakomon"><a href="pu26min06q.html#q-h06-05-a" title="H6-5-ア他">過去問</a></div>
     </div>
     </div>
     <div class="p-card rank4-card">
@@ -592,7 +592,7 @@
         <div class="p-card">
           <p class="h6 ind0">1.　故意</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①相手方に畏怖を生じさせようとする意思と、②畏怖によって意思表示をさせようとする意思との二重の故意があること</p>
+          <p class="h6 ind3 nobold">① 相手方に畏怖を生じさせようとする意思と、②畏怖によって意思表示をさせようとする意思との二重の故意があること</p>
         </div>
         </div>
         <div class="p-card">
@@ -615,12 +615,13 @@
       <p>第三者による強迫であっても取り消すことができる（96条２項の反対解釈）。</p>
       <p>善意無過失の第三者に対しても対抗することができる（96条３項の反対解釈）。</p>
       <p>※　詐欺に比べて、表意者保護の要請が強いために、意思主義が徹底されている。</p>
+<div class="kakomon"><a href="pu26min06q.html#q-r05-05-i" title="R5-5-イ他">過去問</a></div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A01-06-04-3-04">４　強度の強迫による意思表示</div>
       <p>強度の強迫は意思が欠けることになるとして無効となる場合がある。</p>
       <p>【まとめ】</p>
-      <p><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+      <p><img class="embed-img" src="min06-03.png" alt="min06-03.png"></p>
       <p></p>
     </div>
     </div>
@@ -629,6 +630,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -682,6 +692,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

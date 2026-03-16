@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min08.html">前へ</a>
-      <a href="pu26min10.html#top">次へ</a>
-      <a href="pu26min09q.html#top">肢別へ</a>
+      <a href="pu26min10.html">次へ</a>
+      <a href="pu26min09q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -123,18 +139,14 @@
       <ul>
         <li><a href="#A01-07-04">第４節　無権代理</a>
           <ul>
-            <li><a href="#A01-07-04-1">Ⅰ　狭義の無権代理</a>
+            <li><a href="#A01-07-04-0-03">３　本人と無権代理人の地位の同一化</a></li>
+            <li><a href="#A01-07-04-0-04">４　単独行為の無権代理（118条）</a></li>
+            <li><a href="#A01-07-04-1">Ⅱ　表見代理</a>
               <ul>
-            <li><a href="#A01-07-04-1-03">３　本人と無権代理人の地位の同一化</a></li>
-            <li><a href="#A01-07-04-1-04">４　単独行為の無権代理（118条）</a></li>
-            </ul>
-          </li>
-            <li><a href="#A01-07-04-2">Ⅱ　表見代理</a>
-              <ul>
-            <li><a href="#A01-07-04-2-01">１　総説</a></li>
-            <li><a href="#A01-07-04-2-02">２　代理権授与の表示による表見代理（109条）</a></li>
-            <li><a href="#A01-07-04-2-03">３　権限外の行為の表見代理（110条）</a></li>
-            <li><a href="#A01-07-04-2-04">４　代理権消滅後の表見代理（112条）</a></li>
+            <li><a href="#A01-07-04-1-01">１　総説</a></li>
+            <li><a href="#A01-07-04-1-02">２　代理権授与の表示による表見代理（109条）</a></li>
+            <li><a href="#A01-07-04-1-03">３　権限外の行為の表見代理（110条）</a></li>
+            <li><a href="#A01-07-04-1-04">４　代理権消滅後の表見代理（112条）</a></li>
             </ul>
           </li>
           </ul>
@@ -318,88 +330,80 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-07">第７章　代理<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-07">第７章　代理</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-07-04">第４節　無権代理<a class="toplink" href="#top">↑Top</a></h3>
-    <div class="p-card rank4-card">
-      <p id="A01-07-04-1" class="h6 ind0">Ⅰ　狭義の無権代理</p>
+      <h3 id="A01-07-04">第４節　無権代理</h3>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-1-03">３　本人と無権代理人の地位の同一化</div>
+      <div class="outer-title" id="A01-07-04-0-03">３　本人と無権代理人の地位の同一化</div>
       <div class="blk inner">
-        <div class="p-card">
+        <div class="p-card" id="min09-q1">
           <p class="h6 ind0">1.　無権代理人が本人を相続した場合（無権代理人相続型）</p>
           <p class="p6 ind1">無権代理人が本人を相続した場合の処理については以下の問題点がある。</p>
         <div class="p-card">
-          <p class="h6 ind1">(1) 本人と無権代理人の地位は融合するか、それとも併存するか。</p>
+          <p class="h6 ind1">(1) 本人と無権代理人の地位は融合するか、それとも併存するか。</p><br>
           <p class="p6 ind2">Ａ　地位融合説（総合的立場。最判昭40.６.18〔単独相続の事案〕）</p>
           <p class="p6 ind2">相続によって、本人としての地位と無権代理人としての地位が融合し、追認があったのと同様に無権代理が治癒される。</p>
           <p class="p6 ind2">（批判）</p>
-          <p class="p6 ind2">共同相続人がいる場合、他の者の追認拒絶権を無視することになる。</p>
+          <p class="p6 ind2">共同相続人がいる場合、他の者の追認拒絶権を無視することになる。</p><br>
           <p class="p6 ind2">Ｂ　地位併存説（分析的立場。最判平５.１.21〔共同相続の事案〕はこれを前提としていると解される）</p>
           <p class="p6 ind2">無権代理行為は、相続によって当然に有効とはならず、無権代理人において本人の地位と無権代理人の地位が併存する。</p>
           <p class="p6 ind2">そして、この場合、相手方は、相続開始前と同様に取消権の行使や無権代理人の責任追及ができる。</p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　相続は、被相続人が生存しているのと同じ法律関係を、相続の前後を通じて維持しようとするものである。相続という偶然的事実で、利益や不利益を生じさせるべきではない。</p>
+          <p class="h6 ind3 nobold">① 相続は、被相続人が生存しているのと同じ法律関係を、相続の前後を通じて維持しようとするものである。相続という偶然的事実で、利益や不利益を生じさせるべきではない。</p>
+          <p class="h6 ind3 nobold">② 相手方が取消権（115条）や無権代理人の責任追及（117条）を選択することが可能となり、相手方の利益保護の点でも妥当である。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-r02-05-a" title="R2-5-ア">過去問</a></div>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　相手方が取消権（115条）や無権代理人の責任追及（117条）を選択することが可能となり、相手方の利益保護の点でも妥当である。</p>
-        </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q7">
           <p class="h6 ind1">(2) 地位が併存するとして、無権代理人は本人の地位において追認拒絶できるか。</p>
           <p class="p6 ind2">→　信義則説（最判平５.１.21〔共同相続の事案〕）</p>
           <p class="p6 ind2">無権代理人は、信義則上、追認拒絶できない。</p>
           <p class="p6 ind2">（理由）</p>
           <p class="p6 ind2">追認拒絶は先行する無権代理行為と相容れない矛盾する行為である。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-h13-03-e" title="H13-3-エ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q8">
           <p class="h6 ind1">(3) 共同相続の場合、他の共同相続人が追認拒絶しても追認の効力が生じ無権代理行為が有効となるのか、追認権の帰属態様が問題となる。</p>
           <p class="p6 ind2">→　追認不可分説（最判平５.１.21）</p>
           <p class="p6 ind2">追認するかどうかを選択できる地位は性質上すべての相続人に承継される。従って、共同相続人全員がそろって追認しない限り、無権代理行為は、無権代理人の相続分に相当する部分についても有効にならない。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-r02-05-ih20-06-u" title="R2-5-イ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q11">
           <p class="h6 ind1">(4) 本人が追認拒絶後に死亡し、無権代理人が本人を相続した場合の無権代理行為の効力はどうか。前述と同様に、無権代理人の追認拒絶は許されないとして有効になるのか。</p>
           <p class="p6 ind2">→　有効にはならない（最判平10.７.17）。</p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　本人が追認を拒絶すれば無権代理の効力が本人に及ばないことが確定し、追認拒絶の後は本人であっても追認によって無権代理行為を有効にすることができない。追認拒絶の後に無権代理人が本人を相続したとしても、このような追認拒絶の効果に何ら影響はない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　この場合、相続した無権代理人が本人の追認拒絶の効果を主張することがそれ自体信義則に反するものであるということはできない。</p>
-        </div>
+          <p class="h6 ind3 nobold">① 本人が追認を拒絶すれば無権代理の効力が本人に及ばないことが確定し、追認拒絶の後は本人であっても追認によって無権代理行為を有効にすることができない。追認拒絶の後に無権代理人が本人を相続したとしても、このような追認拒絶の効果に何ら影響はない。</p>
+          <p class="h6 ind3 nobold">② この場合、相続した無権代理人が本人の追認拒絶の効果を主張することがそれ自体信義則に反するものであるということはできない。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-h28-05-u" title="H28-5-ウ">過去問</a></div>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　本人が無権代理人を相続した場合（本人相続型）</p>
           <p class="p6 ind1">本人が無権代理人を相続した場合の処理については以下の問題点がある。</p>
-        <div class="p-card">
+        <div class="p-card" id="min09-q14">
           <p class="h6 ind1">(1) 両者の地位は併存するのか。</p>
           <p class="p6 ind2">無権代理人が本人を相続した場合と同様の議論である。</p>
           <p class="p6 ind2">→　地位併存説（最判昭37.４.20）</p>
           <p class="p6 ind2">両者の地位は併存し、さらにこの場合、本人の地位で追認を拒絶することは何ら信義に反するものではないから、本人は追認拒絶できる。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-r02-05-u" title="R2-5-ウ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q17">
           <p class="h6 ind1">(2) 無権代理人の責任の取扱い</p>
-          <p class="p6 ind2">Ｑ　地位併存説を前提とした場合、無権代理人の責任（117条の義務）は本人に承継されるか。</p>
+          <p class="p6 ind2">Ｑ　地位併存説を前提とした場合、無権代理人の責任（117条の義務）は本人に承継されるか。</p><br>
           <p class="p6 ind2">Ａ　無権代理人の責任は本人に承継されない。</p>
           <p class="p6 ind2">（理由）</p>
           <p class="p6 ind2">117条の責任を負わせたのでは、本人に追認拒絶権の行使を認めたことが無意味になる。</p>
           <p class="p6 ind2">（批判）</p>
-          <p class="p6 ind2">他の共同相続人がいる場合、本人のみが責任を免れることになり不公平である。</p>
+          <p class="p6 ind2">他の共同相続人がいる場合、本人のみが責任を免れることになり不公平である。</p><br>
           <p class="p6 ind2">Ｂ　本人は無権代理人の責任を、履行責任を含めて全面的に負う（最判昭48.７.３。ただし、本来の債務が金銭の支払である場合）。</p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　取引安全（相手方保護）のためにはこの責任を認める必要がある。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　117条の責任を認めるためには相手方が善意・無過失であることが必要であるから、これを認めても、本人に追認拒絶権を認めた意味は失われない。</p>
+          <p class="h6 ind3 nobold">① 取引安全（相手方保護）のためにはこの責任を認める必要がある。</p>
+          <p class="h6 ind3 nobold">② 117条の責任を認めるためには相手方が善意・無過失であることが必要であるから、これを認めても、本人に追認拒絶権を認めた意味は失われない。</p>
+<div class="kakomon"><a href="pu26min09q.html#q-r02-05-eh20-06-eh06-04-o" title="R2-5-エ">過去問</a></div>
         </div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q18">
           <p class="h6 ind0">3.　双方相続の場合</p>
           <p class="p6 ind1">Ｑ　本人とともに無権代理人の地位を相続した者が、さらに本人の地位を相続した場合の処理</p>
           <p class="p6 ind1">→　相続人は本人の資格で無権代理行為の追認を拒絶する余地はない（最判昭63.３.１）。</p>
@@ -408,10 +412,11 @@
           <p class="p6 ind1">（批判）</p>
           <p class="p6 ind1">相続の先後関係は偶然に決まるものであり、相続人は何ら非難されるべき行為をしていないのだから、むしろ、本人が無権代理人を相続した場合と同様に扱うべきである。</p>
         </div>
+<div class="kakomon"><a href="pu26min09q.html#q-r02-05-o" title="R2-5-オ">過去問</a></div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-1-04">４　単独行為の無権代理（118条）</div>
+      <div class="outer-title" id="A01-07-04-0-04">４　単独行為の無権代理（118条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　単独行為</p>
@@ -429,8 +434,6 @@
           <p class="p6 ind2">原則として無効であるが、以下の場合には契約に関する無権代理の規定を準用する。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①　代理権なしに行為することに相手方が同意し、又は代理権を争わなかったとき</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②　無権代理人が同意して相手方の意思表示を受領したとき</p>
           <p class="p6 ind4">ex. 契約の解除、債務の免除</p>
         </div>
@@ -438,17 +441,16 @@
         </div>
       </div>
     </div>
-    </div>
     <div class="p-card rank4-card">
-      <p id="A01-07-04-2" class="h6 ind0">Ⅱ　表見代理</p>
+      <p id="A01-07-04-1" class="h6 ind0">Ⅱ　表見代理</p>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-2-01">１　総説</div>
+      <div class="outer-title" id="A01-07-04-1-01">１　総説</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　意義</p>
           <p class="p6 ind1">無権代理の中にも、無権代理人と本人との間に代理権の存在を推測させるような客観的事情が存在し、相手方がそれを信頼して取引関係に入る場合がある。このような場合に、有権代理と同様の効果を生じさせる制度を表見代理という。すなわち、表見代理が成立する場合、本人は無権代理を理由として自分への効果帰属を拒否することができない。</p>
           <p class="p6 ind1">民法は、表見代理について３種に分けて規定している（109条、110条、112条）。</p>
-          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="min09-01.png" alt="min09-01.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　趣旨</p>
@@ -463,10 +465,8 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-2-02">２　代理権授与の表示による表見代理（109条）</div>
-      <p>（代理権授与の表示による表見代理等）</p>
-      <p>第109条　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間でした行為について、その責任を負う。ただし、第三者が、その他人が代理権を与えられていないことを知り、又は過失によって知らなかったときは、この限りでない。</p>
-      <p>２　第三者に対して他人に代理権を与えた旨を表示した者は、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
+      <div class="outer-title" id="A01-07-04-1-02">２　代理権授与の表示による表見代理（109条）</div>
+      <p><img class="embed-img" src="min09-02.png" alt="min09-02.png"></p>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　趣旨</p>
@@ -478,32 +478,24 @@
         <div class="p-card">
           <p class="h6 ind1">(1) 表見代理人が表示された代理権の範囲内で代理行為をした場合（109条１項）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　代理権の授与がないこと</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　相手方が、表見代理人に代理権がないことにつき善意無過失であること</p>
+          <p class="h6 ind3 nobold">① 代理権の授与がないこと</p>
+          <p class="h6 ind3 nobold">② 第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
+          <p class="h6 ind3 nobold">③ 相手方が、表見代理人に代理権がないことにつき善意無過失であること</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 表見代理人が表示された代理権の範囲外で代理行為をした場合（109条２項）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　代理権の授与がないこと</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　第三者がその行為についてその他人の代理権があると信ずべき正当な理由があること</p>
+          <p class="h6 ind3 nobold">① 代理権の授与がないこと</p>
+          <p class="h6 ind3 nobold">② 第三者に対して他人に代理権を与えた旨を表示したこと（代理権授与表示（授権表示））</p>
+          <p class="h6 ind3 nobold">③ 第三者がその行為についてその他人の代理権があると信ずべき正当な理由があること</p>
         </div>
         </div>
         </div>
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-2-03">３　権限外の行為の表見代理（110条）</div>
+      <div class="outer-title" id="A01-07-04-1-03">３　権限外の行為の表見代理（110条）</div>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　趣旨</p>
@@ -512,14 +504,11 @@
         <div class="p-card">
           <p class="h6 ind0">2.　要件</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　基本代理権の存在（「その権限」110条）</p>
+          <p class="h6 ind3 nobold">① 基本代理権の存在（「その権限」110条）</p>
+          <p class="h6 ind3 nobold">② 基本代理権を逸脱して代理行為をしたこと（「その権限外の行為をした場合」、110条）</p>
+          <p class="h6 ind3 nobold">③ 相手方の善意無過失（「代理人の権限があると信ずべき正当な理由」、110条）</p>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　基本代理権を逸脱して代理行為をしたこと（「その権限外の行為をした場合」、110条）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　相手方の善意無過失（「代理人の権限があると信ずべき正当な理由」、110条）</p>
-        </div>
+<div class="kakomon"><a href="pu26min09q.html#q-h12-03-2" title="H12-3-2">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　基本代理権の意義</p>
@@ -527,26 +516,21 @@
         <div class="p-card">
           <p class="h6 ind1">(1) 公法上の行為</p>
           <p class="p6 ind2">原則：公法上の行為は基本代理権にあたらない</p>
-          <p class="p6 ind2">ｅｘ．印鑑証明書下付申請の代理権（最判昭39.４.２）</p>
+          <p class="p6 ind2">　ex. 印鑑証明書下付申請の代理権（最判昭39.４.２）</p>
           <p class="p6 ind2">例外：当該行為が「特定の私法上の取引行為の一環としてなされるものであるとき」は表見代理の成立を認め得る（最判昭46.６.３）</p>
-          <p class="p6 ind2">ｅｘ．所有権移転登記申請の代理権（最判昭46.６.３）</p>
+          <p class="p6 ind2">　ex. 所有権移転登記申請の代理権（最判昭46.６.３）</p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①表見代理制度は取引の安全を目的としているから、基本代理権は私法上の代理権であることを要する。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②しかし、当該行為と私法取引との関連性が強く、対外的にみて基本代理権授与とみられるような場合には、代理人の外観を信頼した第三者の保護を図る必要がある。</p>
-        </div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 法定代理権も基本代理権となるか</p>
           <p class="p6 ind2">Ｑ　法定代理権も基本代理権となり得るか、法定代理の場合、代理権の内容は法定されており本人の関与はないのであるから、表見代理を成立させるべきではないようにも思えるので問題となる。</p>
           <p class="p6 ind2">→　法定代理にも110条は適用される（大連判昭17.５.20）。</p>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min09-q22">
           <p class="h6 ind1">(3) 夫婦間の日常家事（761条）と110条</p>
-          <p class="p6 ind2">（日常の家事に関する債務の連帯責任）</p>
-          <p class="p6 ind2">第７６１条　夫婦の一方が日常の家事に関して第三者と法律行為をしたときは、他の一方は、これによって生じた債務について、連帯してその責任を負う。ただし、第三者に対し責任を負わない旨を予告した場合は、この限りでない。</p>
+          <p class="p6 ind2"><img class="embed-img" src="min09-03.png" alt="min09-03.png"></p>
           <p class="p6 ind2">例えば、妻が、夫から代理権を与えられているわけではないのに、夫の所有する土地を第三者に無断で譲渡したような場合、相手方を110条で保護し得るか。この点については以下のような問題が生じる。</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 761条を根拠に夫婦相互の代理権を認めることができるか。</p>
@@ -560,6 +544,7 @@
           <p class="p6 ind3">→　110条の趣旨類推適用説（最判昭44.12.18）</p>
           <p class="p6 ind3">第三者が、当該行為を日常家事の範囲内と信ずるにつき正当な理由がある場合には、110条の趣旨を類推適用して、第三者を保護する。</p>
         </div>
+<div class="kakomon"><a href="pu26min09q.html#q-h18-04-e" title="H18-4-エ">過去問</a></div>
         </div>
         </div>
         <div class="p-card">
@@ -593,10 +578,8 @@
       </div>
     </div>
     <div class="blk outer">
-      <div class="outer-title" id="A01-07-04-2-04">４　代理権消滅後の表見代理（112条）</div>
-      <p>（代理権消滅後の表見代理等）</p>
-      <p>第112条　他人に代理権を与えた者は、代理権の消滅後にその代理権の範囲内においてその他人が第三者との間でした行為について、代理権の消滅の事実を知らなかった第三者に対してその責任を負う。ただし、第三者が過失によってその事実を知らなかったときは、この限りでない。</p>
-      <p>２　他人に代理権を与えた者は、代理権の消滅後に、その代理権の範囲内においてその他人が第三者との間で行為をしたとすれば前項の規定によりその責任を負うべき場合において、その他人が第三者との間でその代理権の範囲外の行為をしたときは、第三者がその行為についてその他人の代理権があると信ずべき正当な理由があるときに限り、その行為についての責任を負う。</p>
+      <div class="outer-title" id="A01-07-04-1-04">４　代理権消滅後の表見代理（112条）</div>
+      <p><img class="embed-img" src="min09-04.png" alt="min09-04.png"></p>
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　趣旨</p>
@@ -607,20 +590,16 @@
         <div class="p-card">
           <p class="h6 ind1">(1) 代理人として行為した者がその代理権の範囲内で代理行為をした場合（112条１項）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　代理人として行為した者がかつて代理権を有していたこと</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　相手方の善意・無過失</p>
-          <p class="p6 ind4">相手方が、「過去に存在した代理権が代理行為の前に消滅したことを知らなかったこと」が必要である。</p>
+          <p class="h6 ind3 nobold">① 代理人として行為した者がかつて代理権を有していたこと</p>
+          <p class="h6 ind3 nobold">② 相手方の善意・無過失</p>
+          <p class="p6 ind4">　相手方が、「過去に存在した代理権が代理行為の前に消滅したことを知らなかったこと」が必要である。</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 代理人として行為した者がその代理権の範囲外で代理行為をした場合（112条２項）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　代理人として行為した者がかつて代理権を有していたこと</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　相手方がその行為についてその他人の代理権があると信ずべき正当な理　由があること</p>
+          <p class="h6 ind3 nobold">① 代理人として行為した者がかつて代理権を有していたこと</p>
+          <p class="h6 ind3 nobold">② 相手方がその行為についてその他人の代理権があると信ずべき正当な理　由があること</p>
         </div>
         </div>
         </div>
@@ -637,6 +616,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -690,6 +678,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>
