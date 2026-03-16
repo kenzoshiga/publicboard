@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min04.html">前へ</a>
-      <a href="pu26min06.html#top">次へ</a>
-      <a href="pu26min05q.html#top">肢別へ</a>
+      <a href="pu26min06.html">次へ</a>
+      <a href="pu26min05q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -313,11 +329,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-06">第６章　意思表示<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-06">第６章　意思表示</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-06-03">第３節　意思の欠缺<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-06-03">第３節　意思の欠缺</h3>
     <div class="p-card rank4-card">
       <p id="A01-06-03-1" class="h6 ind0">Ⅱ　（通謀）虚偽表示（94条）</p>
     <div class="blk outer">
@@ -357,104 +373,98 @@
           <p class="h6 ind1">(1) 趣旨</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 意思表示の外形を信じて取引関係に入った者を保護する必要がある。</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind2 nobold">(b) 虚偽の意思表示をして真実を伴わない外形を作り出した者が、その権利を失う結果になってもやむを得ない（保護に値しない）。</p>
         </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h03-08-i" title="H3-8-イ他">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min05-q3">
           <p class="h6 ind1">(2) 「第三者」の範囲</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 意義</p>
           <p class="p6 ind3">本条項にいう「第三者」とは、当事者及びその包括承継人以外の者で、虚偽表示に基づいて新たにその当事者から独立した利益を有する法律関係に入ったために、虚偽表示の有効・無効について法律上の利害関係を有するに至った者をいう。</p>
-        <div class="p-card">
+<div class="kakomon"><a href="pu26min05q.html#q-h24-04-e" title="H24-4-エ">過去問</a></div>
+        <div class="p-card" id="min05-q4">
           <p class="h6 ind3 nobold">ⅰ　「第三者」に当たる例</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①不動産の仮装譲受人からの譲受人（最判昭28.10.１）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">① 不動産の仮装譲受人からの譲受人（最判昭28.10.１）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-01.png" alt="min05-01.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②不動産の仮装譲受人から抵当権の設定を受けた者（大判大４.12.17）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">② 不動産の仮装譲受人から抵当権の設定を受けた者（大判大４.12.17）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-02.png" alt="min05-02.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">③原抵当権が仮装であることにつき善意で転抵当権の設定を受けた者（最判昭55.９.11）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">③ 原抵当権が仮装であることにつき善意で転抵当権の設定を受けた者（最判昭55.９.11）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-03.png" alt="min05-03.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">④虚偽表示の目的物を差し押えた仮装譲受人の債権者（最判昭48.６.28）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">④ 虚偽表示の目的物を差し押えた仮装譲受人の債権者（最判昭48.６.28）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-04.png" alt="min05-04.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">⑤仮装債権の譲受人（大判昭13.12.17）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">⑤ 仮装債権の譲受人（大判昭13.12.17）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-05.png" alt="min05-05.png"></p>
         </div>
-        <div class="p-card">
+<div class="kakomon"><a href="pu26min05q.html#q-h30-04-o" title="H30-4-オ他">過去問</a></div>
+        <div class="p-card" id="min05-q9">
           <p class="h6 ind3 nobold">ⅱ　「第三者」に当たらない例</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①債権の仮装譲受人から取立てのために債権を譲り受けた者（大決大９.10.18）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">① 債権の仮装譲受人から取立てのために債権を譲り受けた者（大決大９.10.18）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-06.png" alt="min05-06.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②仮装売買から生じる債務者の登記請求権を、それと直接関係のない債権に基づいて代位行使する債権者（大判昭18.12.22）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">② 仮装売買から生じる債務者の登記請求権を、それと直接関係のない債権に基づいて代位行使する債権者（大判昭18.12.22）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-07.png" alt="min05-07.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">③土地の賃借人が借地上の建物を仮装譲渡した場合の土地賃貸人（最判昭38.11.28）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">③ 土地の賃借人が借地上の建物を仮装譲渡した場合の土地賃貸人（最判昭38.11.28）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-08.png" alt="min05-08.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">④土地の仮装譲受人からその土地上の建物を賃借した者（最判昭57.６.８）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">④ 土地の仮装譲受人からその土地上の建物を賃借した者（最判昭57.６.８）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-09.png" alt="min05-09.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">⑤仮装譲受人の単なる債権者〔「第三者」に当たる例④との違いに注意〕</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">⑤ 仮装譲受人の単なる債権者〔「第三者」に当たる例④との違いに注意〕</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-10.png" alt="min05-10.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind3 nobold">⑥１番抵当権が仮装放棄され、順位上昇を誤信した２番抵当権者</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-11.png" alt="min05-11.png"></p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">⑦代理人や法人の理事が虚偽表示した場合の本人や法人（大判大３.３.16〔法人に関する〕、大判昭16.８.30〔代理人に関する〕）</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="h6 ind3 nobold">⑦ 代理人や法人の理事が虚偽表示した場合の本人や法人（大判大３.３.16〔法人に関する〕、大判昭16.８.30〔代理人に関する〕）</p>
+          <p class="p6 ind4"><img class="embed-img" src="min05-12.png" alt="min05-12.png"></p>
         </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h27-05-o" title="H27-5-オ他">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min05-q13">
           <p class="h6 ind2 nobold">(b) 「第三者」には転得者も含まれるか。</p>
-          <p class="p6 ind3">Ｑ　悪意の第三者から譲り受けた善意者は「第三者」に含まれるか。</p>
-          <p class="p6 ind3">→　含まれる（最判昭45.７.24・通説）。</p>
+          <p class="p6 ind3">　Ｑ　悪意の第三者から譲り受けた善意者は「第三者」に含まれるか。</p>
+          <p class="p6 ind3">　→　含まれる（最判昭45.７.24・通説）。</p>
           <p class="p6 ind3">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①転得者も虚偽表示を含む一連の法律行為に基づいて新たな法律関係に入ったといえる。</p>
+          <p class="h6 ind3 nobold">　① 転得者も虚偽表示を含む一連の法律行為に基づいて新たな法律関係に入ったといえる。</p>
+          <p class="h6 ind3 nobold">　② 外観信頼の点で直接の第三者とかわりがない。</p>
+          <p class="h6 ind3 nobold">　③ 本人の帰責の点も何ら異ならない。</p>
+<div class="kakomon"><a href="pu26min05q.html#q-r05-05-o" title="R5-5-オ他">過去問</a></div>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②外観信頼の点で直接の第三者とかわりがない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③本人の帰責の点も何ら異ならない。</p>
-        </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min05-q17">
           <p class="h6 ind2 nobold">(c) 善意の第三者からの転得者は悪意でも保護されるか。</p>
-          <p class="p6 ind3">失踪宣告で扱った「絶対的構成・相対的構成」と同一の問題である。</p>
+          <p class="p6 ind3">　失踪宣告で扱った「絶対的構成・相対的構成」と同一の問題である。</p><br>
           <p class="p6 ind3">Ａ　絶対的構成説（大判昭６.10.24・通説）</p>
-          <p class="p6 ind3">悪意の転得者も保護される。</p>
-          <p class="p6 ind3">ただし、善意の第三者を傀儡として介在させたにすぎない場合は権利濫用として保護されない。</p>
+          <p class="p6 ind3">　悪意の転得者も保護される。</p>
+          <p class="p6 ind3">　ただし、善意の第三者を傀儡として介在させたにすぎない場合は権利濫用として保護されない。</p>
           <p class="p6 ind3">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①取引の安全のために法律関係の早期安定を図る必要がある。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②虚偽表示者は、善意の第三者に渡った時点で一時はあきらめており、酷ではない。</p>
+          <p class="h6 ind3 nobold">　① 取引の安全のために法律関係の早期安定を図る必要がある。</p>
+          <p class="h6 ind3 nobold">　② 虚偽表示者は、善意の第三者に渡った時点で一時はあきらめており、酷ではない。</p><br>
           <p class="p6 ind4">Ｂ　相対的構成説</p>
-          <p class="p6 ind4">「第三者」か否かは、その者ごとに相対的に判断する。すなわち、善意の第三者が出現しても、転得者が悪意であれば保護されない。</p>
+          <p class="p6 ind4">　「第三者」か否かは、その者ごとに相対的に判断する。すなわち、善意の第三者が出現しても、転得者が悪意であれば保護されない。</p>
           <p class="p6 ind4">（批判）</p>
-          <p class="p6 ind4">善意の第三者が契約不適合責任（565条）を負うのは、94条２項の保護の趣旨を没却する。</p>
+          <p class="p6 ind4">　善意の第三者が契約不適合責任（565条）を負うのは、94条２項の保護の趣旨を没却する。</p>
         </div>
-        </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h11-03-o" title="H11-3-オ他">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(3) 「善意」</p>
@@ -467,37 +477,32 @@
           <p class="p6 ind3">第三者は「善意」で足り、無過失までは要求されない（大判昭12.８.10・通説）。</p>
         </div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min05-q18">
           <p class="h6 ind1">(4) 第三者は対抗要件を具備することを要するか。</p>
           <p class="p6 ind2">～「第三者」としての客観的要件の問題</p>
-          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="min05-13.png" alt="min05-13.png"></p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) Ａ－Ｃ間の対抗要件としての登記の要否</p>
-          <p class="p6 ind3">→　不要（最判昭44.５.27）</p>
-          <p class="p6 ind3">Ｃは、Ｂに対してはもちろん、Ａに対しても登記なくして自分が権利取得者であることを主張できる。</p>
+          <p class="p6 ind3">　→　不要（最判昭44.５.27）</p>
+          <p class="p6 ind3">　Ｃは、Ｂに対してはもちろん、Ａに対しても登記なくして自分が権利取得者であることを主張できる。</p>
           <p class="p6 ind3">（理由）</p>
-          <p class="p6 ind3">Ａ・Ｃ間は対抗関係（177条）にはない。</p>
+          <p class="p6 ind3">　Ａ・Ｃ間は対抗関係（177条）にはない。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind2 nobold">(b) 第三者（Ｃ）vs. 真の権利者からの譲受人（Ｄ）</p>
+          <p class="h6 ind2 nobold">(b) 第三者（Ｃ）vs. 真の権利者からの譲受人（Ｄ）</p><br>
           <p class="p6 ind3">Ａ　177条説（最判昭42.10.31・通説）</p>
-          <p class="p6 ind3">Ｃ・Ｄ間は対抗関係に立ち、先に登記を備えた者が優先する。</p>
+          <p class="p6 ind3">　Ｃ・Ｄ間は対抗関係に立ち、先に登記を備えた者が優先する。</p>
           <p class="p6 ind3">（理由）</p>
-          <p class="p6 ind3">94条２項は、Ａとの関係で第三者を保護する規定であって、それ以外の者との関係では、原則どおり177条によって優劣を決すべきである。</p>
+          <p class="p6 ind3">　94条２項は、Ａとの関係で第三者を保護する規定であって、それ以外の者との関係では、原則どおり177条によって優劣を決すべきである。</p><br>
           <p class="p6 ind3">Ｂ　94条２項説（有力説）</p>
-          <p class="p6 ind3">Ｃは登記なくしてＤに対して権利を主張することができる。</p>
+          <p class="p6 ind3">　Ｃは登記なくしてＤに対して権利を主張することができる。</p>
           <p class="p6 ind3">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①Ｄに対する関係では、Ａ→Ｂ→Ｃの譲渡は有効であり、Ｂに登記がある以上、ＤはＢに対抗できず、その承継人たるＣはＤに優先する。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②Ｃを優先させることが94条２項の趣旨に合致する。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③登記をもたない者（Ａ）から譲り受けたＤよりも、登記をもつ者（Ｂ）から譲り受けたＣの方が保護に値する。</p>
+          <p class="h6 ind3 nobold">　① Ｄに対する関係では、Ａ→Ｂ→Ｃの譲渡は有効であり、Ｂに登記がある以上、ＤはＢに対抗できず、その承継人たるＣはＤに優先する。</p>
+          <p class="h6 ind3 nobold">　② Ｃを優先させることが94条２項の趣旨に合致する。</p>
+          <p class="h6 ind3 nobold">　③ 登記をもたない者（Ａ）から譲り受けたＤよりも、登記をもつ者（Ｂ）から譲り受けたＣの方が保護に値する。</p>
         </div>
         </div>
-        </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h27-07-oh19-07-a" title="H27-7-オ他">過去問</a></div>
         </div>
       </div>
     </div>
@@ -522,43 +527,45 @@
         </div>
         <div class="p-card">
           <p class="h6 ind1">(3) 第三者の正当な信頼</p>
-          <p class="p6 ind2">その外観を第三者が正当に信頼したこと</p>
+          <p class="p6 ind2">その外観を第三者が正当に信頼したこと</p><br>
           <p class="p6 ind2">Ｑ　第三者の信頼の要件としてどの程度を要求するか。</p>
-          <p class="p6 ind2">→　真実の権利者の帰責性に応じて利益衡量による。</p>
-          <p class="p6 ind2">帰責性が大きければ、保護要件は軽く（善意で足りる）、帰責性が小さければ、保護要件を重くする（無過失まで要求）。</p>
+          <p class="p6 ind2">　→　真実の権利者の帰責性に応じて利益衡量による。</p>
+          <p class="p6 ind2">　帰責性が大きければ、保護要件は軽く（善意で足りる）、帰責性が小さければ、保護要件を重くする（無過失まで要求）。</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　虚偽の外形作出の類型と判例</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 意思外形対応型（真実の権利者の意思と第三者の信頼の基礎となった外形が一致している場合）</p>
-        <div class="p-card">
+        <div class="p-card" id="min05-q21">
           <p class="h6 ind2 nobold">(a) 外形自己作出型（真実の権利者が自ら外観を作出した場合）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　Ａが建物を新築したが、新築にあたりＢ名義で資金を借り入れていた関係からＢ名義で保存登記をしたところ、ＢがＣに当該建物を売却してしまった、というケースで、94条２項の類推適用を肯定し善意のＣを保護した（最判昭41.３.18）。</p>
+          <p class="h6 ind3 nobold">　① Ａが建物を新築したが、新築にあたりＢ名義で資金を借り入れていた関係からＢ名義で保存登記をしたところ、ＢがＣに当該建物を売却してしまった、というケースで、94条２項の類推適用を肯定し善意のＣを保護した（最判昭41.３.18）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②　不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず前主からＢ名義への所有権移転登記を経由したところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭29.８.20）。</p>
+          <p class="h6 ind3 nobold">　② 不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず前主からＢ名義への所有権移転登記を経由したところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭29.８.20）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">③　Ｂを代理人として不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず、契約書上買主名義がＢになっていたことからＢに所有権移転登記を受けさせたところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭37.９.14）。</p>
+          <p class="h6 ind3 nobold">　③ Ｂを代理人として不動産を買い受けたＡが、Ｂにその所有権を移転する意思がないにもかかわらず、契約書上買主名義がＢになっていたことからＢに所有権移転登記を受けさせたところ、Ｂが当該不動産をＣに売却してしまった、というケースにつき同旨（最判昭37.９.14）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">④　ＡはＢより不動産を譲り受けたが、所有権移転登記を経由せずにＢから抵当権の設定を受けた旨の登記をしていたところ、Ｂが当該不動産をＣに譲渡してしまったというケースで、善意無過失のＣを保護した（最判昭45.11.19）。</p>
+          <p class="h6 ind3 nobold">　④ ＡはＢより不動産を譲り受けたが、所有権移転登記を経由せずにＢから抵当権の設定を受けた旨の登記をしていたところ、Ｂが当該不動産をＣに譲渡してしまったというケースで、善意無過失のＣを保護した（最判昭45.11.19）。</p>
         </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h09-10-2" title="H9-10-2">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min05-q22">
           <p class="h6 ind2 nobold">(b) 外形他人作出型（外観は他人によって作出されたものだが、後に真実の権利者が明示又は黙示の承認をした場合）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　未登記建物の所有者Ａが、Ｂにその名義で登記することを許容したところ、ＢがＣ名義で登記してしまい、Ａがそれを承認したというケースで、Ｃからの善意の譲受人Ｄを94条２項の類推適用により保護した（最判昭45.４.16）。</p>
+          <p class="h6 ind3 nobold">　① 未登記建物の所有者Ａが、Ｂにその名義で登記することを許容したところ、ＢがＣ名義で登記してしまい、Ａがそれを承認したというケースで、Ｃからの善意の譲受人Ｄを94条２項の類推適用により保護した（最判昭45.４.16）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②　不動産所有者Ａが、Ｂがその不動産の登記名義を勝手に自己へ移転したのを知りながら、Ｂと結婚するなどの事情によりこれを放置し、その間にＢ名義で根抵当権設定登記がなされたというケースで、Ｂからの善意の譲受人Ｃにつき同旨（最判昭45.９.22）。</p>
+          <p class="h6 ind3 nobold">　② 不動産所有者Ａが、Ｂがその不動産の登記名義を勝手に自己へ移転したのを知りながら、Ｂと結婚するなどの事情によりこれを放置し、その間にＢ名義で根抵当権設定登記がなされたというケースで、Ｂからの善意の譲受人Ｃにつき同旨（最判昭45.９.22）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">③　未登記建物の所有者Ａが、その建物が誤って固定資産課税台帳に夫たるＢ名義で登記されたのを知りながら、Ｂ名義で固定資産税を納入していたところ、Ｂの債権者Ｃがその建物に強制執行してきたというケースにつき同旨（最判昭48.６.28）。</p>
-          <p class="p6 ind4">なお、この判決に対しては、固定資産課税台帳の記載のみで権利者らしい外観ありと言えるのか、Ｂ名義の登録の放置・Ｂ名義での納税が権利を失ってもやむを得ないといえるほどの帰責事由に当たるのか、という疑問が呈されている。</p>
+          <p class="h6 ind3 nobold">　③ 未登記建物の所有者Ａが、その建物が誤って固定資産課税台帳に夫たるＢ名義で登記されたのを知りながら、Ｂ名義で固定資産税を納入していたところ、Ｂの債権者Ｃがその建物に強制執行してきたというケースにつき同旨（最判昭48.６.28）。</p>
+          <p class="p6 ind4">　なお、この判決に対しては、固定資産課税台帳の記載のみで権利者らしい外観ありと言えるのか、Ｂ名義の登録の放置・Ｂ名義での納税が権利を失ってもやむを得ないといえるほどの帰責事由に当たるのか、という疑問が呈されている。</p>
         </div>
+<div class="kakomon"><a href="pu26min05q.html#q-h09-10-4" title="H9-10-4">過去問</a></div>
         </div>
         </div>
         <div class="p-card">
@@ -590,6 +597,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -643,6 +659,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

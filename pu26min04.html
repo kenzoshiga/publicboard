@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min03.html">前へ</a>
-      <a href="pu26min05.html#top">次へ</a>
-      <a href="pu26min04q.html#top">肢別へ</a>
+      <a href="pu26min05.html">次へ</a>
+      <a href="pu26min04q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -391,11 +407,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-04">第４章　物（権利の客体）<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-04">第４章　物（権利の客体）</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-04-01">第１節　物－総説<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-04-01">第１節　物－総説</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-04-01-0-01">１　物とは何か</div>
       <p>民法上の「物」とは有体物をいう（85条）。</p>
@@ -406,20 +422,16 @@
       <div class="outer-title" id="A01-04-01-0-02">２　要件</div>
       <div class="blk inner">
         <div class="p-card">
-          <p class="h6 ind3 nobold">①有体性</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②支配可能性</p>
-          <p class="p6 ind4">大気、海面、月、太陽などは除かれる。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③非人格性</p>
+          <p class="h6 ind3 nobold">① 有体性</p>
+          <p class="h6 ind3 nobold">② 支配可能性</p>
+          <p class="p6 ind4">　大気、海面、月、太陽などは除かれる。</p>
+          <p class="h6 ind3 nobold">③ 非人格性</p>
         </div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-04-02">第２節　不動産と動産<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-04-02">第２節　不動産と動産</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-04-02-0-01">１　不動産</div>
       <div class="blk inner">
@@ -472,38 +484,26 @@
         <div class="p-card">
           <p class="h6 ind0">1.　両者を区別する趣旨</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①歴史的に不動産の方が動産より重要な財産とされて、異なった規律に服してきた。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②動く動かないという自然の性質の差異に基づき、扱いが技術的に異ならざるを得ない。</p>
+          <p class="h6 ind3 nobold">① 歴史的に不動産の方が動産より重要な財産とされて、異なった規律に服してきた。</p>
+          <p class="h6 ind3 nobold">② 動く動かないという自然の性質の差異に基づき、扱いが技術的に異ならざるを得ない。</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　具体的差異</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①公示方法の差異（177条、178条）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②公信の原則の有無（192条）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③その上に成立する権利の差異（369条等）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④経済的価値の差異からくる取扱いの差異（13条１項３号、864条）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">⑤無主物の取扱い（239条）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">⑥相隣関係（209条以下）の有無</p>
+          <p class="h6 ind3 nobold">① 公示方法の差異（177条、178条）</p>
+          <p class="h6 ind3 nobold">② 公信の原則の有無（192条）</p>
+          <p class="h6 ind3 nobold">③ その上に成立する権利の差異（369条等）</p>
+          <p class="h6 ind3 nobold">④ 経済的価値の差異からくる取扱いの差異（13条１項３号、864条）</p>
+          <p class="h6 ind3 nobold">⑤ 無主物の取扱い（239条）</p>
+          <p class="h6 ind3 nobold">⑥ 相隣関係（209条以下）の有無</p>
         </div>
         </div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-04-03">第３節　主物と従物<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-04-03">第３節　主物と従物</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-04-03-0-01">１　定義</div>
       <p>従物：独立の物でありながら、客観的・経済的には他の物に従属して、その効用を助ける物（87条１項）</p>
@@ -530,7 +530,7 @@
         <div class="p-card">
           <p class="h6 ind0">4.　独立の物であること</p>
           <p class="p6 ind1">一方が他方の構成部分となり、又は、合して単一の物として認められるだけになるときは、従物について別異の物としての地位を認めることはできない。</p>
-          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="min04-01.png" alt="min04-01.png"></p>
         </div>
       </div>
     </div>
@@ -545,7 +545,7 @@
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-04-04">第４節　元物と果実<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-04-04">第４節　元物と果実</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-04-04-0-01">１　定義</div>
       <div class="blk inner">
@@ -562,6 +562,7 @@
           <p class="h6 ind1">(2) 法定果実：物の使用の対価として受ける金銭その他の物（88条２項）</p>
           <p class="p6 ind2">ex. 家賃、利息</p>
         </div>
+<div class="kakomon"><a href="pu26min04q.html#q-r07-04-u" title="R7-4-ウ他">過去問</a></div>
         </div>
       </div>
     </div>
@@ -576,14 +577,15 @@
           <p class="h6 ind0">2.　法定果実</p>
           <p class="p6 ind1">収取権の存続期間を日割計算して帰属させる（89条２項）。</p>
         </div>
+<div class="kakomon"><a href="pu26min04q.html#q-r07-04-e" title="R7-4-エ他">過去問</a></div>
       </div>
     </div>
     </div>
   </div>
   <div class="p-card chap-card">
-    <h2 id="A01-05">第５章　法律行為<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-05">第５章　法律行為</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-05-01">第１節　法律行為の意義<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-05-01">第１節　法律行為の意義</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-05-01-0-01">１　定義</div>
       <p>：意思表示を要素とする私法上の法律要件</p>
@@ -605,8 +607,6 @@
           <p class="h6 ind1">(1) 容態（人の精神作用に基づく事実）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 外部的容態（行為）：意思表示、準法律行為など</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind2 nobold">(b) 内部的容態：「善意」（32条１項、94条２項など）、「制限する旨の意思表示」（474条４項）</p>
         </div>
         </div>
@@ -614,10 +614,8 @@
           <p class="h6 ind1">(2) 事件（人の精神作用に基づかないもの）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 事件：人の生死、時の経過など、人の精神作用と関係のないもの</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind2 nobold">(b) 事実行為：物を破壊し、果実を分離するというような、人の行為でなくとも同一の効果を生ずる行為</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min04-02.png" alt="min04-02.png"></p>
         </div>
         </div>
         </div>
@@ -638,7 +636,7 @@
           <p class="p6 ind2">一定の意識内容を表現するもの</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 意思の通知</p>
-          <p class="p6 ind3">意思の発表であり、法はこれに対して一定の効果を付与するが、意思が法律効果の発生を内容としない。</p>
+          <p class="p6 ind3">　意思の発表であり、法はこれに対して一定の効果を付与するが、意思が法律効果の発生を内容としない。</p>
           <p class="p6 ind3">ex. 催告（20条等）、受領の拒絶（493条等）</p>
         </div>
         <div class="p-card">
@@ -654,8 +652,8 @@
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　効果</p>
-          <p class="p6 ind1">狭義の準法律行為に対しては、意思表示・法律行為に関する規定が類推適用され得る。</p>
-          <p class="p6 ind1">なぜなら、狭義の準法律行為は、当事者の意思や感情の表現に対して法が一定の効果を付与するものであり、特定の意識内容の表現であって、また、当事者は通常法定の効果を予期してこれを行うものであるので、この点で法律行為・意思表示に類似しているからである。</p>
+          <p class="p6 ind1">　狭義の準法律行為に対しては、意思表示・法律行為に関する規定が類推適用され得る。</p>
+          <p class="p6 ind1">　なぜなら、狭義の準法律行為は、当事者の意思や感情の表現に対して法が一定の効果を付与するものであり、特定の意識内容の表現であって、また、当事者は通常法定の効果を予期してこれを行うものであるので、この点で法律行為・意思表示に類似しているからである。</p>
         </div>
       </div>
     </div>
@@ -691,29 +689,25 @@
         <div class="p-card">
           <p class="h6 ind0">3.　要式行為・不要式行為</p>
           <p class="p6 ind1">意思表示が一定の形式を伴うか否かで区別される</p>
-          <p class="p6 ind1">要式行為：その法律行為を組成する要素たる意思表示が、一定の方式、例え</p>
-          <p class="p6 ind1">ば書面の作成を要するもの</p>
+          <p class="p6 ind1">要式行為　：その法律行為を組成する要素たる意思表示が、一定の方式、例えば書面の作成を要するもの</p>
           <p class="p6 ind1">不要式行為：要式行為以外のもの</p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">4.　生前行為・死後行為</p>
           <p class="p6 ind1">死後行為（死因行為）：行為者の死亡によって効果の発生するもの</p>
           <p class="p6 ind1">生前行為：死後行為以外のもの</p>
-          <div class="sp"></div>
         </div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-05-02">第２節　法律行為の解釈<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-05-02">第２節　法律行為の解釈</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-05-02-0-01">１　意義</div>
       <div class="blk inner">
         <div class="p-card">
-          <p class="h6 ind3 nobold">①法律行為の意味を明らかにすること（狭義の法律行為の解釈）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②法律行為の内容の補充ないし修正をすること（補充的・修正的解釈）</p>
+          <p class="h6 ind3 nobold">① 法律行為の意味を明らかにすること（狭義の法律行為の解釈）</p>
+          <p class="h6 ind3 nobold">② 法律行為の内容の補充ないし修正をすること（補充的・修正的解釈）</p>
         </div>
       </div>
     </div>
@@ -723,11 +717,9 @@
         <div class="p-card">
           <p class="h6 ind0">1.　狭義の法律行為の解釈</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①当事者の付与した共通の意味（主観的意味）を確定する。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②共通の主観的意味を確定し得ない場合、表示の客観的意味を確定する。</p>
-          <p class="p6 ind4">当事者の用いた表示手段（言動・動作など）が、当該事情の下において、慣習や条理に従って判断した場合、相手方又は一般社会によってどのように理解されるかを標準とする。</p>
+          <p class="h6 ind3 nobold">① 当事者の付与した共通の意味（主観的意味）を確定する。</p>
+          <p class="h6 ind3 nobold">② 共通の主観的意味を確定し得ない場合、表示の客観的意味を確定する。</p>
+          <p class="p6 ind4">　当事者の用いた表示手段（言動・動作など）が、当該事情の下において、慣習や条理に従って判断した場合、相手方又は一般社会によってどのように理解されるかを標準とする。</p>
         </div>
         </div>
         <div class="p-card">
@@ -751,7 +743,7 @@
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-05-03">第３節　法律行為の要件<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-05-03">第３節　法律行為の要件</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-05-03-0-01">１　法律行為の成立要件</div>
       <div class="blk inner">
@@ -827,9 +819,9 @@
     </div>
   </div>
   <div class="p-card chap-card">
-    <h2 id="A01-06">第６章　意思表示<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-06">第６章　意思表示</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-06-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-06-01">第１節　総説</h3>
     <div class="p-card rank4-card">
       <p id="A01-06-01-1" class="h6 ind0">Ⅰ　意思表示</p>
     <div class="blk outer">
@@ -838,10 +830,10 @@
       <p>意思表示を細かく分析すると、動機・（内心的）効果意思・表示意思・表示行為に分けられる。</p>
       <p>例えば、ある土地（甲地とする）を買う場合、以下の過程を辿る。</p>
       <table class="tbl">
-      <tr><td>「甲土地上に家を建てたい」</td><td>動機</td></tr>
-      <tr><td>「甲土地を買おう」</td><td>効果意思</td></tr>
-      <tr><td>「それを手紙で伝えよう」</td><td>表示意思</td></tr>
-      <tr><td>「甲土地を売ってください」という手紙を出す</td><td>表示行為</td></tr>
+      <tr><td></td><td>「甲土地上に家を建てたい」</td><td>動機</td></tr>
+      <tr><td></td><td>「甲土地を買おう」</td><td>効果意思</td></tr>
+      <tr><td></td><td>「それを手紙で伝えよう」</td><td>表示意思</td></tr>
+      <tr><td></td><td>「甲土地を売ってください」という手紙を出す</td><td>表示行為</td></tr>
       </table>
       <p>これらの過程に問題があるのが「意思の欠缺」や「瑕疵ある意思表示」の話である（後述）。</p>
       <p></p>
@@ -860,6 +852,7 @@
           <p class="h6 ind0">2.　例外－発信主義</p>
           <p class="p6 ind1">制限行為能力者に対する相手方の催告への確答（20条）</p>
         </div>
+<div class="kakomon"><a href="pu26min04q.html#q-r07-05-a" title="R7-5-ア他">過去問</a></div>
       </div>
     </div>
     <div class="blk outer">
@@ -867,24 +860,26 @@
       <p>表意者が発信した後に死亡したり、意思能力を喪失したり、制限行為能力者となっても、意思表示はそのまま効力がある（97条３項）。</p>
       <p>発信後の死亡・能力喪失は意思表示とは無関係な事実だからである。</p>
       <p>また、相手方が正当な理由なく意思表示の通知が到達することを妨げたときは、その通知は、通常到達すべきであった時に到達したものとみなされる（97条２項）。</p>
+<div class="kakomon"><a href="pu26min04q.html#q-r07-05-i" title="R7-5-イ他">過去問</a></div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A01-06-01-2-03">３　公示による意思表示（98条1項）</div>
       <p>相手方を知ることができず、又は所在不明の場合には、公示による意思表示が認められる（98条１項）。</p>
       <p>公示による意思表示は、最後に官報に掲載した日又はその掲載に代わる掲示を始めた日から2週間を経過した時に、相手方に到達したものとみなす（98条３項）。</p>
       <p>ただし、表意者が相手方を知らないこと又はその所在を知らないことにつき過失があったときは、到達の効力を生じない（98条３項ただし書）。</p>
+<div class="kakomon"><a href="pu26min04q.html#q-r07-05-e" title="R7-5-エ他">過去問</a></div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A01-06-01-2-04">４　意思表示の受領能力</div>
       <p>意思表示が到達により効力を生じるためには、受領者に受領能力が必要である。</p>
       <p>そこで、意思表示の相手方がその意思表示を受けたときに意思能力を有しなかったとき又は未成年者若しくは成年被後見人であったときは、その意思表示をもってその相手方に対抗することができない（98条の２本文）。対抗の問題であるから、受領者側から到達を主張することは妨げられない。</p>
       <p>ただし、①相手方の法定代理人②意思能力を回復し、又は行為能力者となった相手方がその意思表示を知った後は、この限りでない(98条の2ただし書)。</p>
-      <p></p>
+<div class="kakomon"><a href="pu26min04q.html#q-h03-08-o" title="H3-8-オ他">過去問</a></div>
     </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-06-02">第２節　意思表示と表示主義<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-06-02">第２節　意思表示と表示主義</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-06-02-0-01">１　意義</div>
       <div class="blk inner">
@@ -892,25 +887,25 @@
           <p class="h6 ind0">1.　意思表示と表示主義の考え方</p>
           <p class="p6 ind1">法律行為において、（内心的）効果意思と表示行為とが一致していない場合に、どちらを重視して判断するか？</p>
           <p class="p6 ind1">※　効果意思と表示行為が一致していない：本人の意思表示に欠缺（意思と表示の不一致）や瑕疵（欠陥）があった場合</p>
-          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="min04-03.png" alt="min04-03.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　民法の態度</p>
           <p class="p6 ind1">意思表示のそもそもの出発点は個人の意思の尊重、私的自治の原則にあるが、取引の安全も重視する必要がある。そこで、民法は、意思主義、表示主義の両者を採用している（折衷主義）。</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 意思の欠缺</p>
-          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="min04-04.png" alt="min04-04.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 瑕疵ある意思表示</p>
-          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="min04-05.png" alt="min04-05.png"></p>
         </div>
         </div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-06-03">第３節　意思の欠缺<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-06-03">第３節　意思の欠缺</h3>
     <div class="p-card rank4-card">
       <p id="A01-06-03-1" class="h6 ind0">Ⅰ　心裡留保（93条）</p>
     <div class="blk outer">
@@ -946,12 +941,13 @@
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　善意の第三者保護規定（93条２項）</p>
-          <p class="p6 ind1">93条１項ただし書の無効は善意の第三者に対抗できるか。</p>
-          <p class="p6 ind1">Ｑ　甲が、贈与の意思もないのに壺を乙に贈与する旨の意思表示をしたところ、乙がこれを自分の物として丙に売り渡した。甲の心裡留保について、乙が悪意、丙が善意であった場合、甲は、丙に贈与の無効を主張できるか。</p>
-          <p class="p6 ind1">→　無効は「善意の第三者」に対抗することができない（93条２項）。</p>
-          <p class="p6 ind1">「対抗することができない」とは、善意の第三者からは、無効を主張することも有効を主張することも許されるが、善意の第三者に対して無効を主張することは、当事者のみならず他の第三者も許されないということである。本条項は、第三者保護のための規定であるからである。</p>
+          <p class="p6 ind1">93条１項ただし書の無効は善意の第三者に対抗できるか。</p><br>
+          <p class="p6 ind1">Ｑ　甲が、贈与の意思もないのに壺を乙に贈与する旨の意思表示をしたところ、乙がこれを自分の物として丙に売り渡した。甲の心裡留保について、乙が悪意、丙が善意であった場合、甲は、丙に贈与の無効を主張できるか。</p><br>
+          <p class="p6 ind1">　→　無効は「善意の第三者」に対抗することができない（93条２項）。</p>
+          <p class="p6 ind1">　「対抗することができない」とは、善意の第三者からは、無効を主張することも有効を主張することも許されるが、善意の第三者に対して無効を主張することは、当事者のみならず他の第三者も許されないということである。本条項は、第三者保護のための規定であるからである。</p>
           <div class="sp"></div>
         </div>
+<div class="kakomon"><a href="pu26min04q.html#q-h03-08-a" title="H3-8-ア">過去問</a></div>
       </div>
     </div>
     </div>
@@ -960,6 +956,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -1013,6 +1018,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>
