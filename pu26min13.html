@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min12.html">前へ</a>
-      <a href="pu26min14.html#top">次へ</a>
-      <a href="pu26min13q.html#top">肢別へ</a>
+      <a href="pu26min14.html">次へ</a>
+      <a href="pu26min13q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -355,11 +371,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A02">
-  <h2>第２編　物権<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第２編　物権</h2>
   <div class="p-card chap-card">
-    <h2 id="A02-01">第１章　総論<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A02-01">第１章　総論</h2>
     <div class="p-card sec-card">
-      <h3 id="A02-01-01">第１節　物権制度の内容<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A02-01-01">第１節　物権制度の内容</h3>
     <div class="p-card rank4-card">
       <p id="A02-01-01-1" class="h6 ind0">Ⅰ　物権の意義・性質</p>
     <div class="blk outer">
@@ -399,10 +415,8 @@
           <p class="h6 ind1">(1) 物の一部分に物権は成立しない。</p>
           <p class="p6 ind2">例外として、以下のものが挙げられる。</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　地役権は、土地の一部に設定することができる（282条２項ただし書参照）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　１筆の土地の一部につき、所有権の成立は可能。</p>
+          <p class="h6 ind3 nobold">① 地役権は、土地の一部に設定することができる（282条２項ただし書参照）。</p>
+          <p class="h6 ind3 nobold">② １筆の土地の一部につき、所有権の成立は可能。</p>
           <p class="p6 ind4">１筆の土地の一部の譲渡は可能であり、また、時効取得も可能である（大連判大13.10.７）。</p>
         </div>
         </div>
@@ -410,14 +424,10 @@
           <p class="h6 ind1">(2) 数個の物の上に一つの物権は成立しない。</p>
           <p class="p6 ind2">例外として、以下のものが挙げられる。</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　抵当権の効力は、設定時に目的物の上に存在する従物にも及ぶ。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　立木法上の立木と認められる樹木の集団は、不動産とみなされ（立木法２条１項）、 一括して所有権及び抵当権の目的となり得る（立木法２条２項）｡</p>
-          <p class="p6 ind4">※　「立木」とは、１筆の土地又は１筆の土地の一部分に生立する樹木の集団で、所有者が立木ニ関スル法律（立木法）に基づき所有権保存の登記を受けたものをいう（立木法１条１項）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　動産の集合体であるいわゆる「集合動産」は、１個の「物」と認められ、譲渡担保の目的となり得る。</p>
+          <p class="h6 ind3 nobold">① 抵当権の効力は、設定時に目的物の上に存在する従物にも及ぶ。</p>
+          <p class="h6 ind3 nobold">② 立木法上の立木と認められる樹木の集団は、不動産とみなされ（立木法２条１項）、 一括して所有権及び抵当権の目的となり得る（立木法２条２項）｡</p>
+          <p class="p6 ind4">　※　「立木」とは、１筆の土地又は１筆の土地の一部分に生立する樹木の集団で、所有者が立木ニ関スル法律（立木法）に基づき所有権保存の登記を受けたものをいう（立木法１条１項）。</p>
+          <p class="h6 ind3 nobold">③ 動産の集合体であるいわゆる「集合動産」は、１個の「物」と認められ、譲渡担保の目的となり得る。</p>
         </div>
         </div>
         </div>
@@ -432,22 +442,20 @@
       <p>具体的には、次のような意味をもつ。</p>
       <div class="blk inner">
         <div class="p-card">
-          <p class="h6 ind3 nobold">①民法及びその他の法律で定めている以外の種類の物権を創設できない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②民法及びその他の法律で定めている種類の物権につき、それらの規定に定めるのとは異なった内容を与えることはできない。</p>
+          <p class="h6 ind3 nobold">① 民法及びその他の法律で定めている以外の種類の物権を創設できない。</p>
+          <p class="h6 ind3 nobold">② 民法及びその他の法律で定めている種類の物権につき、それらの規定に定めるのとは異なった内容を与えることはできない。</p>
         </div>
       </div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A02-01-01-2-02">２　物権の分類</div>
       <p>※　①～⑩は民法典に規定のある10種類の物権</p>
-      <p><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+      <p><img class="embed-img" src="min13-01.png" alt="min13-01.png"></p>
     </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A02-01-02">第２節　物権の効力<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A02-01-02">第２節　物権の効力</h3>
     <div class="p-card rank4-card">
       <p id="A02-01-02-1" class="h6 ind0">Ⅰ　総説</p>
     <div class="blk outer">
@@ -474,13 +482,9 @@
       <p>例外として、以下のものが挙げられる。</p>
       <div class="blk inner">
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　公示方法ないし対抗要件制度の備わる物権については、それを先に具備した方が優先する（177条、178条）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　占有権は、排他性を有しないので、優先的効力はない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　先取特権は、先取特権相互間及び他の担保物権との関係についても優劣関係が民法に規定されている。</p>
+          <p class="h6 ind3 nobold">① 公示方法ないし対抗要件制度の備わる物権については、それを先に具備した方が優先する（177条、178条）。</p>
+          <p class="h6 ind3 nobold">② 占有権は、排他性を有しないので、優先的効力はない。</p>
+          <p class="h6 ind3 nobold">③ 先取特権は、先取特権相互間及び他の担保物権との関係についても優劣関係が民法に規定されている。</p>
         </div>
       </div>
     </div>
@@ -566,38 +570,43 @@
         <div class="p-card">
           <p class="h6 ind1">(2) 請求の相手方</p>
           <p class="p6 ind2">現に他人の物権を客観的に侵害し、又は侵害の危険を生じさせている者である。</p>
+          <p class="p6 ind2">相手方の故意・過失や責任能力は要件とならない。</p><br>
           <p class="p6 ind2">Ｑ　土地に権原なく建物が建っている場合、建物収去土地明渡請求は登記名義人に対してするべきか、建物の実質的所有者に対してするべきか。特に建物が譲渡された場合に問題となる。</p>
+          <p class="p6 ind2"><img class="embed-img" src="min13-02.png" alt="min13-02.png"></p>
         </div>
+<div class="kakomon"><a href="pu26min13q.html#q-h30-07-eh24-08-1" title="H30-7-エ">過去問</a></div>
         </div>
       </div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A02-01-02-3-03">３　効果</div>
       <div class="blk inner">
-        <div class="p-card">
-          <p class="h6 ind0">1.　物権的請求権の内容（費用負担）</p>
+        <div class="p-card" id="min13-q19">
+          <p class="h6 ind0">1.　物権的請求権の内容（費用負担）</p><br>
           <p class="p6 ind1">Ａ　行為請求権説（大判昭５.10.31）</p>
           <p class="p6 ind1">物権的請求権とは相手方の労力と費用で妨害排除、妨害予防措置を講ずることを請求する権利である。</p>
           <p class="p6 ind1">（理由）</p>
           <p class="p6 ind1">本来、物に対する直接支配を内容とする物権も、他人との関係を生ずることによって、その他人の行為を要求する権利に変更し、相手方に対して物権の直接的支配に対する障害の排除を請求できる。</p>
           <p class="p6 ind1">（批判）</p>
           <p class="p6 ind1">返還請求権と妨害排除請求権が競合する場合、先に訴えて勝訴判決を得て強制執行に踏み切った方が相手方に費用を負担させることになり、不合理である。</p>
-          <p class="p6 ind1">※　行為請求権説に立ちながら、侵害状態ないしその危険が人為によらないものであったり、不可抗力によるものである時には相手方に積極的な行為義務はないとする判例（大判昭７.11.９、大判昭12.11.19）もある（ただし、学説の判例についての評価は分かれる）。</p>
+          <p class="p6 ind1">※　行為請求権説に立ちながら、侵害状態ないしその危険が人為によらないものであったり、不可抗力によるものである時には相手方に積極的な行為義務はないとする判例（大判昭７.11.９、大判昭12.11.19）もある（ただし、学説の判例についての評価は分かれる）。</p><br>
           <p class="p6 ind1">Ｂ　忍容請求権説</p>
           <p class="p6 ind1">物権の効力としては、物権侵害状態を自ら除去することを相手方に受忍させる権利にとどまり、費用も原則として請求者が負担する。</p>
           <p class="p6 ind1">（理由）</p>
           <p class="p6 ind1">物権的請求権は純粋に物に対する追及権であり、人に対する権利ではない。</p>
+<div class="kakomon"><a href="pu26min13q.html#q-h18-09" title="H18-9">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min13-q16">
           <p class="h6 ind0">2.　物権的請求権の拡張</p>
           <p class="p6 ind1">債権たる不動産賃借権においても、それが登記又は借地借家法上の対抗要件を備えた場合には、妨害停止請求権、返還請求権を認めている(605条の４第１号、２号)。</p>
         </div>
+<div class="kakomon"><a href="pu26min13q.html#q-h29-07-ih14-08-i" title="H29-7-イ">過去問</a></div>
       </div>
     </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A02-01-03">第３節　物権変動<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A02-01-03">第３節　物権変動</h3>
     <div class="p-card rank4-card">
       <p id="A02-01-03-1" class="h6 ind0">Ⅰ　序説</p>
     <div class="blk outer">
@@ -612,25 +621,23 @@
           <p class="h6 ind2 nobold">(a) 承継取得：前主の物権上に成立していた権利や負担・瑕疵等もあわせて承継するもの</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">ⅰ　移転的承継：前主の物権をそのまま後主が譲り受けること</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">ⅱ　設定的承継：既存の物権を基礎として内容の制限された別個の物権を設定すること</p>
-          <p class="p6 ind4">ex. 地上権・永小作権・抵当権の設定</p>
-          <p class="p6 ind4">従来の主体（物権設定者）は依然権利を有するが、新たな物権により制限を受けることになる。</p>
+          <p class="p6 ind4">　ex. 地上権・永小作権・抵当権の設定</p>
+          <p class="p6 ind4">　従来の主体（物権設定者）は依然権利を有するが、新たな物権により制限を受けることになる。</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 原始取得：前主の権利とは無関係に物権を取得すること</p>
-          <p class="p6 ind3">ex. 無主物先占（239条１項）、遺失物拾得（240条）、埋蔵物発見（241条）、添付（242条以下）、時効取得（162条以下）、即時取得（192条）</p>
+          <p class="p6 ind3">　ex. 無主物先占（239条１項）、遺失物拾得（240条）、埋蔵物発見（241条）、添付（242条以下）、時効取得（162条以下）、即時取得（192条）</p>
         </div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 物権の喪失（消滅）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①物権の絶対的喪失：目的物の滅失により物権自体が存在を失うような場合</p>
+          <p class="h6 ind3 nobold">① 物権の絶対的喪失：目的物の滅失により物権自体が存在を失うような場合</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②物権の相対的消滅：物権の主体の変更（前主は目的物の所有権を失うが、所有権そのものは後主のもとで存続する場合）</p>
+          <p class="h6 ind3 nobold">② 物権の相対的消滅：物権の主体の変更（前主は目的物の所有権を失うが、所有権そのものは後主のもとで存続する場合）</p>
           <p class="p6 ind4">「承継取得」を前主からみたものである。</p>
         </div>
         </div>
@@ -660,6 +667,7 @@
           <p class="p6 ind1">：物権変動が生じたならば、外部から認識できるように一定の表象を必要とするという原則</p>
           <p class="p6 ind1">物権は直接性・排他性を有する強力な権利であるので、取引の安全のため、その変動を公示する必要がある。</p>
           <p class="p6 ind1">公示方法</p>
+          <p class="p6 ind1"><img class="embed-img" src="min13-03.png" alt="min13-03.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　物権の存在についての公信の原則</p>
@@ -676,17 +684,17 @@
       <div class="outer-title" id="A02-01-03-2-01">１　物権変動の基本的問題点</div>
       <p>物権の変動を生じさせる原因の中でも特に重要なのが、不動産の売買契約のような法律行為（意思表示）である。</p>
       <p>176条は、物権の変動は「当事者の意思表示のみによって、その効力を生ずる」と規定することから、物権の変動は、ほかに何らの形式を必要とせずに、当事者の意思表示、すなわち、合意のみによって生じるということを表していると解される。</p>
+<div class="kakomon"><a href="pu26min13q.html#q-h04-10-e" title="H4-10-エ">過去問</a></div>
     </div>
     <div class="blk outer">
       <div class="outer-title" id="A02-01-03-2-02">２　所有権の移転時期</div>
       <p>Ｑ　物権変動が効力を生じる時期はいつか。</p>
       <p>→　契約成立時説（最判昭33.６.20・通説）</p>
-      <div class="blk inner">
         <div class="p-card">
-          <p class="h6 ind3 nobold">①原則として契約成立時、②直ちに物権変動の効果を生じるのに支障があるときは、その支障がなくなった時、③当事者が特別の定めをしていればそれに従う。</p>
+          <p class="h6 ind3 nobold">① 原則として契約成立時、② 直ちに物権変動の効果を生じるのに支障があるときは、その支障がなくなった時、③ 当事者が特別の定めをしていればそれに従う。</p>
           <div class="sp"></div>
+<div class="kakomon"><a href="pu26min13q.html#q-h04-10-o" title="H4-10-オ">過去問</a></div>
         </div>
-      </div>
     </div>
     </div>
     </div>
@@ -694,6 +702,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -747,6 +764,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

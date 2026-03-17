@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -107,9 +123,9 @@
     <h1>民法 Unit15</h1>
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
-      <a href="pu26min14.html#top">前へ</a>
-      <a href="pu26min16.html#top">次へ</a>
-      <a href="pu26min15q.html#top">肢別へ</a>
+      <a href="pu26min14.html">前へ</a>
+      <a href="pu_index.html">次へ</a>
+      <a href="pu26min15q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -310,11 +326,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A02">
-  <h2>第２編　物権<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第２編　物権</h2>
   <div class="p-card chap-card">
-    <h2 id="A02-01">第１章　総論<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A02-01">第１章　総論</h2>
     <div class="p-card sec-card">
-      <h3 id="A02-01-03">第３節　物権変動<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A02-01-03">第３節　物権変動</h3>
     <div class="p-card rank4-card">
       <p id="A02-01-03-1" class="h6 ind0">Ⅲ　不動産の物権変動－177条論</p>
     <div class="blk outer">
@@ -327,53 +343,49 @@
           <p class="h6 ind1">(1) 当事者関係</p>
           <p class="p6 ind2">当事者間では登記は不要である。</p>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min15-q1">
           <p class="h6 ind1">(2) 共同相続人の登記冒用</p>
           <p class="p6 ind2">Ｑ　特定の相続不動産につき、共同相続人の１人が単独相続の登記をしてこれを第三者に譲渡した場合、他の共同相続人は自己の相続分を登記なしにこの第三者に対抗することができるか。</p>
           <p class="p6 ind2">→　登記不要説（最判昭38.２.22・通説）</p>
           <p class="p6 ind2">（理由）</p>
           <p class="p6 ind2">他者の持分については全くの無権利者であり、登記に公信力がない以上対抗することができる。ただし、94条２項の類推適用の余地はある。</p>
+<div class="kakomon"><a href="pu26min15q.html#q-h28-22-5h14-06-oh04-14-a" title="H28-22-5">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(3) 遺産分割</p>
-        <div class="p-card">
+        <div class="p-card" id="min15-q3">
           <p class="h6 ind2 nobold">(a) 遺産分割前の第三者</p>
           <p class="p6 ind3">特定の相続不動産につき、共同相続人の１人（Ａ）が持分権を第三者（Ｃ）に譲渡し、その後、遺産分割が行われて、他の相続人（Ｂ）がこれを単独で相続した場合</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min15-01.png" alt="min15-01.png"></p>
           <p class="p6 ind3">遺産分割の遡及効により（909条本文）、 Ｂは相続開始の時にさかのぼってこの相続不動産の所有権を取得することになるが、第三者の権利を害することができない（909条ただし書）｡そこで、ＣはＡの持分についてのＡからの取得をＢに対抗することができることになるが、その際Ｃには登記が必要とするのが通説である。もっとも、ここにいう登記は対抗要件としての登記ではなく、909条ただし書の権利保護資格要件としての登記である。</p>
+<div class="kakomon"><a href="pu26min15q.html#q-h13-06-1h17-24-a" title="H13-6-1">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min15-q4">
           <p class="h6 ind2 nobold">(b) 遺産分割後の第三者</p>
           <p class="p6 ind3">特定の相続不動産を共同相続人の１人（Ａ）が遺産分割により単独で承継し、その後、他の相続人（Ｂ）が持分を第三者（Ｃ）に譲渡した場合</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min15-02.png" alt="min15-02.png"></p>
           <p class="p6 ind3">相続による権利の承継は、遺産の分割によるものかどうかにかかわらず、法定相続分を超える部分については、登記、登録その他の対抗要件を備えなければ、第三者に対抗することができない（民法899条の２第1項）。</p>
+<div class="kakomon"><a href="pu26min15q.html#q-r05-07-ah06-18-oh04-14-u" title="R5-7-ア">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min15-q8">
           <p class="h6 ind2 nobold">(c) 相続による権利の承継と第三者</p>
           <p class="p6 ind3">相続による権利の承継は、遺産の分割によるものかどうかにかかわらず、法定相続分を超える部分については、登記、登録その他の対抗要件を備えなければ、第三者に対抗することができない（民法899条の２第1項）。</p>
           <p class="p6 ind3">特定の相続財産を特定の相続人に「相続させる」という遺言は、遺贈ではなく、遺産分割の方法の指定と解されており（最判平３.４.19）、遺産分割の手続を要せず、被相続人から当該相続人への移転登記ができるというのが判例である。しかし、特定の遺産を特定の相続人に「相続させる」趣旨の特定財産承継遺言（民法1014条2項）によって不動産を取得した者は、法定相続分を上回る部分については、登記なくしてその権利を第三者に対抗することはできない（民法899条の２第1項）。</p>
+<div class="kakomon"><a href="pu26min15q.html#q-h28-22-1" title="H28-22-1">過去問</a></div>
         </div>
         </div>
-        <div class="p-card">
+        <div class="p-card"id="min15-q10">
           <p class="h6 ind1">(4) 相続放棄</p>
           <p class="p6 ind2">共同相続人の１人（Ａ）が相続を放棄した場合で、他の共同相続人（Ｂ）が特定の相続不動産を単独で承継したが、Ａが、相続を放棄しなかったならば有したであろう自己の持分を第三者（Ｃ）に譲渡した場合に、Ｂが自己の権利取得をＣに対抗するためには登記が必要か。</p>
-          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
-          <p class="p6 ind2">→　登記不要（最判昭42.１.20・通説）</p>
+          <p class="p6 ind2"><img class="embed-img" src="min15-03.png" alt="min15-03.png"></p>
           <p class="p6 ind2">（理由）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①放棄は相続資格の遡及的消滅である（939条）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②放棄によっては個々の財産の帰属は確定しない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③放棄の有無は家庭裁判所で確認できる（938条）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④放棄できる期間は３か月であり（915条１項本文）、短期に決着する。</p>
+          <p class="h6 ind3 nobold">① 放棄は相続資格の遡及的消滅である（939条）。</p>
+          <p class="h6 ind3 nobold">② 放棄によっては個々の財産の帰属は確定しない。</p>
+          <p class="h6 ind3 nobold">③ 放棄の有無は家庭裁判所で確認できる（938条）。</p>
+          <p class="h6 ind3 nobold">④ 放棄できる期間は３か月であり（915条１項本文）、短期に決着する。</p><br>
+<div class="kakomon"><a href="pu26min15q.html#q-r02-07-e" title="R2-7-エ">過去問</a></div>
           <p class="p6 ind4">相続放棄と遺産分割の異同</p>
-          <p class="p6 ind4"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
-        </div>
+          <p class="p6 ind4"><img class="embed-img" src="min15-04.png" alt="min15-04.png"></p>
         </div>
         </div>
       </div>
@@ -385,25 +397,25 @@
           <p class="h6 ind0">1.　登記請求権</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 登記請求権の意義</p>
-          <p class="p6 ind2">登記申請手続に協力することを請求することができる権利＝実体私法上の権</p>
-          <p class="p6 ind2">利</p>
+          <p class="p6 ind2">登記申請手続に協力することを請求することができる権利＝実体私法上の権利</p>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 登記請求権の発生原因</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①実体的権利関係と登記の不一致</p>
+          <p class="h6 ind3 nobold">① 実体的権利関係と登記の不一致</p>
           <p class="p6 ind4">物権そのものの効力として発生する（物権的登記請求権）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②権利変動と登記の不一致</p>
+          <p class="h6 ind3 nobold">② 権利変動と登記の不一致</p>
           <p class="p6 ind4">権利変動を反映するために当然に当事者間に発生する（物権変動的登記請求権）。</p>
           <p class="p6 ind4">買主は、転売後でも売主に対する移転登記請求権を失わない（大判大５.４.１）。すなわち、現在の権利者だけでなく既往の権利変動の当事者にも発生する。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">③当事者の特約</p>
+          <p class="h6 ind3 nobold">③ 当事者の特約</p>
           <p class="p6 ind4">債権的効果として発生する（債権的登記請求権）。</p>
           <p class="p6 ind4">賃借人は、賃借権を登記すべき特約がある場合に限り、賃借権の登記請求権を有する。債権的登記請求権は、通常の債権として消滅時効にかかる。</p>
         </div>
+<div class="kakomon"><a href="pu26min15q.html#q-h07-15" title="H7-15">過去問</a></div>
         </div>
         </div>
         <div class="p-card">
@@ -412,8 +424,6 @@
           <p class="h6 ind1">(1) 形式的要件－登記が不動産登記法の定めるところに適合すること</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①登記記録に記録すること</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②既に登記のあるとき、これと抵触する登記は許されない。後の登記は却下</p>
           <p class="p6 ind4">される。</p>
         </div>
@@ -439,14 +449,10 @@
           <p class="p6 ind4">（理由）</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①少なくとも現在の権利関係を表しており、登記法の精神はその限りでは実現されている。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②登録免許税が高いなどの理由で、現実によく行われている中間省略登記につき、その効力を一般的に否定すると混乱を生じる。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③だとしても、中間省略登記により害される中間者Ｂの利益は保護すべきである。</p>
-          <p class="p6 ind4">なお、中間省略登記によって利益を害されるのは中間者のみであるから、中間者以外の者による抹消請求は認められない（最判昭44.５.２）。</p>
+          <p class="h6 ind3 nobold">① 少なくとも現在の権利関係を表しており、登記法の精神はその限りでは実現されている。</p>
+          <p class="h6 ind3 nobold">② 登録免許税が高いなどの理由で、現実によく行われている中間省略登記につき、その効力を一般的に否定すると混乱を生じる。</p>
+          <p class="h6 ind3 nobold">③ だとしても、中間省略登記により害される中間者Ｂの利益は保護すべきである。</p>
+          <p class="p6 ind4">　なお、中間省略登記によって利益を害されるのは中間者のみであるから、中間者以外の者による抹消請求は認められない（最判昭44.５.２）。</p>
         </div>
         </div>
         <div class="p-card">
@@ -463,19 +469,12 @@
           <p class="h6 ind3 nobold">ⅱ　滅失建物の登記の流用</p>
           <p class="p6 ind4">滅失建物の登記を滅失後の新築建物に流用することについては、判例・学説ともこれを否定する。</p>
           <p class="p6 ind4">（具体例）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①　滅失建物の登記を滅失後の新築建物に流用</p>
-          <p class="p6 ind4">登記は無効である（最判昭40.５.４）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　弁済等により消滅した抵当権の登記を他の債権担保に流用する契</p>
-          <p class="p6 ind4">約</p>
-          <p class="p6 ind4">そのような契約は無効である（大判昭６.８.７）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　所有権移転請求権保全の仮登記の流用</p>
-          <p class="p6 ind4">所有権移転請求権保全の仮登記移転付記登記後に目的不動産上に利害関係を取得した第三者は原則として無効の主張ができない（最判昭49.12.24）。</p>
+          <p class="h6 ind3 nobold">① 滅失建物の登記を滅失後の新築建物に流用</p>
+          <p class="p6 ind4">　登記は無効である（最判昭40.５.４）。</p>
+          <p class="h6 ind3 nobold">② 弁済等により消滅した抵当権の登記を他の債権担保に流用する契約</p>
+          <p class="p6 ind4">　そのような契約は無効である（大判昭６.８.７）。</p>
+          <p class="h6 ind3 nobold">③ 所有権移転請求権保全の仮登記の流用</p>
+          <p class="p6 ind4">　所有権移転請求権保全の仮登記移転付記登記後に目的不動産上に利害関係を取得した第三者は原則として無効の主張ができない（最判昭49.12.24）。</p>
         </div>
         </div>
         </div>
@@ -485,10 +484,8 @@
         <div class="p-card">
           <p class="h6 ind1">(1) 推定力</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①登記の記載事項は一応真実と推定（反証でくつがえされる）。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②占有の推定力（188条）との関係</p>
+          <p class="h6 ind3 nobold">① 登記の記載事項は一応真実と推定（反証でくつがえされる）。</p>
+          <p class="h6 ind3 nobold">② 占有の推定力（188条）との関係</p>
           <p class="p6 ind4">判例は、登記に推定力を認めつつも（最判昭34.１.８）、登記のある不動産についても、一般に188条を適用する（大判大13.９.25）。</p>
         </div>
         </div>
@@ -506,6 +503,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -559,6 +565,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

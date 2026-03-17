@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min11.html">前へ</a>
-      <a href="pu26min13.html#top">次へ</a>
-      <a href="pu26min12q.html#top">肢別へ</a>
+      <a href="pu26min13.html">次へ</a>
+      <a href="pu26min12q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -314,11 +330,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-11">第１１章　時効<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-11">第１１章　時効</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-11-02">第２節　取得時効<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-11-02">第２節　取得時効</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-11-02-0-01">１　所有権の取得時効（162条）</div>
       <div class="blk inner">
@@ -338,16 +354,17 @@
           <p class="p6 ind3">強暴や隠秘の占有でないことである。これは推定される（186条１項）。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind2 nobold">(c) 「他人の物」</p>
+          <p class="h6 ind2 nobold">(c) 「他人の物」</p><br>
           <p class="p6 ind3">Q1　自己物の時効取得</p>
           <p class="p6 ind3">取得時効の対象となる物は「他人の物」でなければならないか。</p>
           <p class="p6 ind3">162条は、取得時効の対象物を「他人の物」と規定しており、また一般的には、自己の物について取得時効を認めることは無意味である。しかし、例外的に、自己所有物の時効取得を認めることに実益がある場合が存する。そこで、自己の物についても時効取得を認めてもよいのではないかが問題となる。</p>
-          <p class="p6 ind3">→　肯定（最判昭42.７.21）</p>
+          <p class="p6 ind3">→　肯定（最判昭42.７.21）</p><br>
           <p class="p6 ind3">Q2　一筆の土地の一部の時効取得はできるか。</p>
           <p class="p6 ind3">→　できる。一筆の土地の一部も占有が可能であるため、時効取得の対象となる。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h27-06-i" title="H27-6-イ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min12-q7">
           <p class="h6 ind1">(2) 占有継続</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 推定規定（186条２項）</p>
@@ -364,11 +381,12 @@
           <p class="p6 ind3">前主の占有を併せて主張するときは、その瑕疵も承継する（187条２項）。</p>
           <p class="p6 ind3">ex. 前主が悪意で５年占有した不動産を譲り受けた後主が、善意で10年占有した場合、前主の占有も併せて主張すると悪意占有が15年となり時効取得できない（162条１項）。一方、自己のみの占有を主張すれば、善意占有が10年となり、時効取得できる（162条２項）。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h21-07-a" title="H21-7-ア">過去問</a></div>
         </div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min12-q12">
           <p class="h6 ind0">2.　要件(2)――時効期間の満了</p>
-          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="min12-01.png" alt="min12-01.png"></p>
         <div class="p-card">
           <p class="h6 ind1">(1) 「善意」</p>
           <p class="p6 ind2">自分に所有権があると信じることである。善意は、推定される（186条１項）。</p>
@@ -396,6 +414,7 @@
           <p class="p6 ind1">占有者は所有権（又は他の財産権）を原始取得する。遡及効あり（144条）。</p>
           <p class="p6 ind1">本来の権利者は、権利を喪失する。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h27-06-u" title="H27-6-ウ">過去問</a></div>
       </div>
     </div>
     <div class="blk outer">
@@ -405,16 +424,10 @@
         <div class="p-card">
           <p class="h6 ind0">1.　財産権の中でも取得時効の認められないもの</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　直接法律の規定に基づいて成立する権利（留置権・先取特権）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　占有を要素としない権利（抵当権）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③　１回の行使で消滅する権利（形成権）</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④　継続的に行使されない、又は、外形上認識することができない地役権（283条参照）</p>
+          <p class="h6 ind3 nobold">① 直接法律の規定に基づいて成立する権利（留置権・先取特権）</p>
+          <p class="h6 ind3 nobold">② 占有を要素としない権利（抵当権）</p>
+          <p class="h6 ind3 nobold">③ １回の行使で消滅する権利（形成権）</p>
+          <p class="h6 ind3 nobold">④ 継続的に行使されない、又は、外形上認識することができない地役権（283条参照）</p>
         </div>
         </div>
         <div class="p-card">
@@ -422,17 +435,16 @@
           <p class="p6 ind1">Ｑ　債権は通常１回の履行で消滅するため、永続した事実状態というものはあり得ないが、不動産賃借権ではこれを観念することができる。そこで、不動産賃借権の時効取得の可否が問題となる。</p>
           <p class="p6 ind1">→　肯定説（最判昭43.10.８等・通説）</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①土地の継続的な用益という外形的事実の存在</p>
+          <p class="h6 ind3 nobold">① 土地の継続的な用益という外形的事実の存在</p>
+          <p class="h6 ind3 nobold">② それが賃借の意思に基づくことが客観的に表現されていること（ex. 賃借権行使の外形・賃料の支払又は供託）があれば、時効取得を認めることができる。</p>
         </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②それが賃借の意思に基づくことが客観的に表現されていること（ex. 賃借権行使の外形・賃料の支払又は供託）があれば、時効取得を認めることができる。</p>
-        </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h25-10-o" title="H25-10-オ">過去問</a></div>
         </div>
       </div>
     </div>
     </div>
     <div class="p-card sec-card">
-      <h3 id="A01-11-03">第３節　消滅時効<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-11-03">第３節　消滅時効</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-11-03-0-01">１　総説</div>
       <p>消滅時効とは、権利不行使の事実状態を根拠として、権利の消滅を認めるものである。すべての権利が消滅時効にかかるわけではなく、また、時効期間も権利の種類によって異なる点に注意を要する。</p>
@@ -468,6 +480,7 @@
           <p class="h6 ind1">(3) 抗弁権</p>
           <p class="p6 ind2">抗弁権、ないし抗弁的に主張される権利は時効にかからない、という考え方もある。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h26-07-oh01-05-1" title="H26-7-オ">過去問</a></div>
         </div>
       </div>
     </div>
@@ -491,8 +504,9 @@
           <p class="p6 ind2">※　法律上の障害とは、例えば、条件・期限が付されていることである。</p>
           <p class="p6 ind2">本条の趣旨は、法律上権利行使できるのにその行使を怠っている者は、権利の上に眠る者として保護しないという点にある。従って、事実上の障害（権利者の病気・不在・不知、制限行為能力者の法定代理人の不存在など）や債権者の意思によって除くことができる法律上の障害（同時履行の抗弁権、533条）は含まない。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-r03-06-i" title="R3-6-イ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min12-q24">
           <p class="h6 ind0">2.　各種債権の消滅時効の客観的起算点</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 債務不履行に基づく損害賠償請求権－本来の債務の履行を請求できる時（大判昭18.６.15）</p>
@@ -510,18 +524,19 @@
         </div>
         <div class="p-card">
           <p class="h6 ind1">(5) 割賦払債務に期限の利益喪失約款のある場合の時効期間の起算点</p>
-          <p class="p6 ind2">１回の弁済の不履行と同時に当然に期限の利益を失い、債権者の請求がなくても全額につき弁済期が到来するという趣旨である場合、支払遅滞時から全額について時効が進行することについて争いはない。</p>
-          <p class="p6 ind2">Ｑ　では、債権者の請求によって期限の利益を失わせ、全額の支払を請求することができるという趣旨のものの場合、時効期間の起算点をいかに解するか。</p>
+          <p class="p6 ind2">１回の弁済の不履行と同時に当然に期限の利益を失い、債権者の請求がなくても全額につき弁済期が到来するという趣旨である場合、支払遅滞時から全額について時効が進行することについて争いはない。</p><br>
+          <p class="p6 ind2">Ｑ　では、債権者の請求によって期限の利益を失わせ、全額の支払を請求することができるという趣旨のものの場合、時効期間の起算点をいかに解するか。</p><br>
           <p class="p6 ind2">Ａ　債権者意思説（請求時説。大連判昭15.３.13）</p>
-          <p class="p6 ind2">債権者の請求があって初めて全額についての時効が進行する。</p>
+          <p class="p6 ind2">　債権者の請求があって初めて全額についての時効が進行する。</p><br>
           <p class="p6 ind2">Ｂ　即時進行説</p>
-          <p class="p6 ind2">支払遅滞の時点から全額について時効が進行する。</p>
+          <p class="p6 ind2">　支払遅滞の時点から全額について時効が進行する。</p>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-h16-07-i" title="H16-7-イ">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">3.　時効の客観的起算点と履行遅滞（412条）</p>
           <p class="p6 ind1">時効の客観的起算点と履行遅滞（412条）の発生時とは無関係である。</p>
-          <p class="p6 ind1"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="min12-02.png" alt="min12-02.png"></p>
         </div>
       </div>
     </div>
@@ -564,9 +579,9 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 不法行為に基づく生命・身体の侵害による損害賠償請求権（724条の２）</p>
           <p class="p6 ind3">主観的起算点からの時効期間は、被害者又はその法定代理人が損害及び加害者を知った時から５年となる（724条の２、724条１号）。</p>
-          <p class="p6 ind3">客観的起算点からの時効期間は、通常の不法行為に基づく損害賠償請求権と同様、不法行為の時から20年である（724条２号）。</p>
+          <p class="p6 ind3">客観的起算点からの時効期間は、通常の不法行為に基づく損害賠償請求権と同様、不法行為の時から20年である（724条２号）。</p><br>
           <p class="p6 ind3">【まとめ】</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min12-03.png" alt="min12-03.png"></p>
         </div>
         </div>
         <div class="p-card">
@@ -579,6 +594,7 @@
           <p class="p6 ind1">権利が遡及的に消滅する。</p>
           <div class="sp"></div>
         </div>
+<div class="kakomon"><a href="pu26min12q.html#q-r03-06-a" title="R3-6-ア">過去問</a></div>
       </div>
     </div>
     </div>
@@ -586,6 +602,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -639,6 +664,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>

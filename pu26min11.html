@@ -77,8 +77,8 @@
     img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
     table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
     table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden header .toc{display:none;}
-    body.toc-hidden header .toc-title{display:none;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
     .ctrl-wrap{display:flex; gap:8px; align-items:center;}
     .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
       padding:4px 6px;cursor:pointer;font-size:0.80em;
@@ -97,6 +97,22 @@
     body.modal-open{overflow:hidden;touch-action:none;}
     /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
     @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
   </style>
 </head>
 <body>
@@ -108,8 +124,8 @@
     <div class="hnav">
       <a href="pu_index.html">トップへ</a>
       <a href="pu26min10.html">前へ</a>
-      <a href="pu26min12.html#top">次へ</a>
-      <a href="pu26min11q.html#top">肢別へ</a>
+      <a href="pu26min12.html">次へ</a>
+      <a href="pu26min11q.html">肢別へ</a>
     </div>
   </div>
   <div class="wrap">
@@ -308,11 +324,11 @@
 </script>
 <main id="content">
 <section class="sec-title" id="A01">
-  <h2>第１編　総則<a class="toplink" href="#top">↑Top</a></h2>
+  <h2>第１編　総則</h2>
   <div class="p-card chap-card">
-    <h2 id="A01-11">第１１章　時効<a class="toplink" href="#top">↑Top</a></h2>
+    <h2 id="A01-11">第１１章　時効</h2>
     <div class="p-card sec-card">
-      <h3 id="A01-11-01">第１節　総説<a class="toplink" href="#top">↑Top</a></h3>
+      <h3 id="A01-11-01">第１節　総説</h3>
     <div class="blk outer">
       <div class="outer-title" id="A01-11-01-0-01">１　意義</div>
       <div class="blk inner">
@@ -362,16 +378,10 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 消滅時効との相違</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①更新（147条）がない。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②援用（145条）は不要である。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">③起算点は権利発生時である。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④効果が不遡及である。</p>
+          <p class="h6 ind3 nobold">① 更新（147条）がない。</p>
+          <p class="h6 ind3 nobold">② 援用（145条）は不要である。</p>
+          <p class="h6 ind3 nobold">③ 起算点は権利発生時である。</p>
+          <p class="h6 ind3 nobold">④ 効果が不遡及である。</p>
         </div>
         </div>
         <div class="p-card">
@@ -405,19 +415,19 @@
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 法的性質</p>
-          <p class="p6 ind2">Ｑ　法は一方で、時効の完成により権利関係の変動が生ずるとしつつ、他方で当事者がそれを「援用」しなければ裁判所は時効により裁判をすることができないとしているが、これら相矛盾する規定の関係をいかに解すべきか。時効の法的構成と関連し、援用の性質をいかに解するかが問題となる。</p>
-          <p class="p6 ind2">Ａ　実体法説</p>
+          <p class="p6 ind2">Ｑ　法は一方で、時効の完成により権利関係の変動が生ずるとしつつ、他方で当事者がそれを「援用」しなければ裁判所は時効により裁判をすることができないとしているが、これら相矛盾する規定の関係をいかに解すべきか。時効の法的構成と関連し、援用の性質をいかに解するかが問題となる。</p><br>
+          <p class="p6 ind2">Ａ　実体法説</p><br>
           <p class="p6 ind2">A1　確定効果説</p>
-          <p class="p6 ind2">時効期間経過により権利の得喪は絶対的に生じ、援用は攻撃防御方法である。</p>
+          <p class="p6 ind2">　時効期間経過により権利の得喪は絶対的に生じ、援用は攻撃防御方法である。</p><br>
           <p class="p6 ind2">A2　不確定効果説</p>
-          <p class="p6 ind2">A2-1　解除条件説</p>
-          <p class="p6 ind2">時効による権利の得喪は解除条件的に生じ、放棄により発生した効果が消滅する。</p>
-          <p class="p6 ind2">A2-2　停止条件説（最判昭61.３.17）</p>
-          <p class="p6 ind2">時効による権利の得喪は停止条件的に生じ、援用によりはじめて確定する。</p>
+          <p class="p6 ind2">　A2-1　解除条件説</p>
+          <p class="p6 ind2">　時効による権利の得喪は解除条件的に生じ、放棄により発生した効果が消滅する。</p><br>
+          <p class="p6 ind2">　A2-2　停止条件説（最判昭61.３.17）</p>
+          <p class="p6 ind2">　時効による権利の得喪は停止条件的に生じ、援用によりはじめて確定する。</p><br>
           <p class="p6 ind2">Ｂ　訴訟法説－法定証拠説</p>
-          <p class="p6 ind2">時効は、権利の得喪そのものを生じさせるものではなく、権利の得喪に関する訴訟上の証拠方法であり、援用は証拠の提出である。</p>
+          <p class="p6 ind2">　時効は、権利の得喪そのものを生じさせるものではなく、権利の得喪に関する訴訟上の証拠方法であり、援用は証拠の提出である。</p>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q1">
           <p class="h6 ind1">(3) 援用権者</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 「当事者」（145条）の意義</p>
@@ -435,8 +445,9 @@
           <p class="p6 ind3">借地上の建物賃借人（賃貸人の敷地所有権の取得時効につき、最判昭44.７.15）</p>
           <p class="p6 ind3">後順位抵当権者（最判平11.10.21）</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h24-06-ah20-07-a" title="H24-6-ア">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q8">
           <p class="h6 ind1">(4) 援用の効果の及ぶ範囲</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 原則－相対効</p>
@@ -448,13 +459,14 @@
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 例外</p>
-          <p class="p6 ind3">主債務者の援用による主債務の消滅によって保証債務が消滅する場合（保証債務の附従性）</p>
+          <p class="p6 ind3">主債務者の援用による主債務の消滅によって保証債務が消滅する場合（保証債務の附従性）</p><br>
           <p class="p6 ind3">＜判例＞　最判平13.７.10</p>
-          <p class="p6 ind3">被相続人の占有により取得時効が完成した場合において共同相続人の１人が取得時効を援用することができる限度</p>
+          <p class="p6 ind3">　被相続人の占有により取得時効が完成した場合において共同相続人の１人が取得時効を援用することができる限度</p>
           <p class="p6 ind3">・判旨</p>
           <p class="p6 ind3">「時効の完成により利益を受ける者は自己が直接に受けるべき利益の存する限度で時効を援用することができるものと解すべきであって、被相続人の占有により取得時効が完成した場合において、その共同相続人の１人は、自己の相続分の限度においてのみ取得時効を援用することができるにすぎないと解するのが相当である。」</p>
         </div>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h31-06-e" title="H31-6-エ">過去問</a></div>
         </div>
       </div>
     </div>
@@ -464,6 +476,7 @@
         <div class="p-card">
           <p class="h6 ind0">1.　時効の遡及効</p>
           <p class="p6 ind1">時効の効力は起算日にさかのぼる（144条）。時効は、永続した事実状態を真実に合致したものとし、あるいは、そのまま保護する制度であるからである。</p>
+<div class="kakomon"><a href="pu26min11q.html#q-h27-06-ah04-10-a" title="H27-6-ア">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　具体的効果</p>
@@ -476,7 +489,7 @@
           <p class="h6 ind1">(2) 消滅時効－時効期間中の遅延損害金を支払う必要はない。</p>
         </div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q10">
           <p class="h6 ind0">3.　時効の利益の放棄</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 時効の利益の放棄</p>
@@ -487,13 +500,13 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 要件</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　相手方に対してすること</p>
+          <p class="h6 ind3 nobold">① 相手方に対してすること</p>
           <p class="p6 ind4">黙示でもよい。</p>
           <p class="p6 ind4">時効完成を知ってする債務の自認行為は、黙示の放棄である。</p>
           <p class="p6 ind4">時効完成を知らずにする債務の承認については後述する。</p>
         </div>
         <div class="p-card">
-          <p class="h6 ind3 nobold">②　時効完成後であること</p>
+          <p class="h6 ind3 nobold">② 時効完成後であること</p>
           <p class="p6 ind4">時効完成前にあらかじめ放棄することは許されない（146条）。</p>
           <p class="p6 ind4">同様の趣旨から、時効期間を延長する特約も許されないと解されている。</p>
         </div>
@@ -501,10 +514,8 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 効果</p>
         <div class="p-card">
-          <p class="h6 ind3 nobold">①　時効の援用権を失う。</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">②　放棄の効果は、援用と同様に相対的である。</p>
+          <p class="h6 ind3 nobold">① 時効の援用権を失う。</p>
+          <p class="h6 ind3 nobold">② 放棄の効果は、援用と同様に相対的である。</p>
         </div>
         </div>
         </div>
@@ -515,6 +526,7 @@
           <p class="p6 ind2">（理由）</p>
           <p class="p6 ind2">時効完成後の債務の承認は、時効による債務消滅の主張と相容れない行為であり、相手方も債務者はもはや時効の援用をしない趣旨と考えるであろうから、その後の時効援用を認めないのが信義則上相当である。</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-r03-06-oh11-02-ah01-02-2" title="R3-6-オ">過去問</a></div>
         </div>
       </div>
     </div>
@@ -525,80 +537,61 @@
           <p class="h6 ind0">1.　意義</p>
           <p class="p6 ind1">完成猶予：一定期間が経過するまで時効の完成が猶予されること</p>
           <p class="p6 ind1">更新：それまでの時効期間の経過が全く無意味になり、ふりだしに戻ること</p>
+<div class="kakomon"><a href="pu26min11q.html#q-h15-07-e" title="H15-7-エ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q18">
           <p class="h6 ind0">2.　完成猶予・更新事由</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 裁判上の請求等（147条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 147条で規定する事由（147条１項１号～４号）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①裁判上の請求　②支払督促　③裁判上の和解、民事調停、家事調停</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④破産手続参加、再生手続参加、更正手続参加</p>
-        </div>
+          <p class="h6 ind3 nobold">① 裁判上の請求　② 支払督促　③ 裁判上の和解、民事調停、家事調停　④ 破産手続参加、再生手続参加、更正手続参加</p>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①～④の事由が終了するまでの間（継続中）は、時効が完成しない。また、手続が取下げ、却下、棄却により終了した場合には、その終了の時から６ヵ月を経過するまでの間は時効が完成しない（147条１項）。</p>
-        </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 時効の更新</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①～④の事由があり、確定判決による権利確定、支払督促確定、和解・調停成立、権利確定に至る破産等手続終了があったときは、時効は、①～④の事由が終了した時から新たに（ゼロから）その進行を始める（147条２項）。</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h26-06-a" title="H26-6-ア">過去問</a></div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q22">
           <p class="h6 ind1">(2) 強制執行等（148条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 148条で規定する事由（148条１項１号～４号）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①強制執行　②担保権の実行　③留置権等による競売</p>
-        </div>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">④財産開示手続（民執法196条）</p>
-        </div>
+          <p class="h6 ind3 nobold">① 強制執行　② 担保権の実行　③ 留置権等による競売　④ 財産開示手続（民執法196条）</p>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①～④の事由が終了するまでの間（継続中）は、時効が完成しない。また、手続が取下げ等により途中で終了した場合には、その終了の時から６ヵ月を経過するまでの間は時効が完成しない（148条１項）。</p>
-        </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 時効の更新</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①～④が終了し、その権利がまだあるときには、時効が更新され、①～④の事由が終了した時から新たに（ゼロから）その進行を始める（148条２項）。</p>
-          <p class="p6 ind4">ｅｘ．債権者が配当を受けたが、債権の全額を回収できず、債権がまだ残っている場合</p>
+          <p class="p6 ind4">　ex. 債権者が配当を受けたが、債権の全額を回収できず、債権がまだ残っている場合</p>
         </div>
-        </div>
+<div class="kakomon"><a href="pu26min11q.html#q-r04-06-o" title="R4-6-オ">過去問</a></div>
         </div>
         <div class="p-card">
           <p class="h6 ind1">(3) 仮差押え、仮処分（149条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 149条で規定する事由（149条１号、２号）</p>
-        <div class="p-card">
-          <p class="h6 ind3 nobold">①仮差押え　②仮処分</p>
-        </div>
+          <p class="h6 ind3 nobold">① 仮差押え　② 仮処分</p>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 時効の完成猶予</p>
-        <div class="p-card">
           <p class="h6 ind3 nobold">①又は②の事由が終了した時から６ヵ月を経過するまでの間は、時効は完成しない（149条）。</p>
           <p class="p6 ind4">仮差押え又は仮処分は、その後の判決で権利が確定するまでの暫定的措置であるため、時効の完成が猶予されるにとどまる。</p>
         </div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q24">
           <p class="h6 ind1">(4) 催告（150条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 意義</p>
           <p class="p6 ind3">催告は、請求の一種である。</p>
-          <p class="p6 ind3">ｅｘ．手紙や電話で「貸したお金を返して！」と伝える</p>
+          <p class="p6 ind3">　ex. 手紙や電話で「貸したお金を返して！」と伝える</p>
           <p class="p6 ind3">催告があると、催告の時から６ヵ月を経過するまでは時効の完成が猶予される。</p>
         </div>
         <div class="p-card">
@@ -606,8 +599,9 @@
           <p class="p6 ind3">催告による時効の完成猶予中に再度の催告をしても、時効の完成猶予の効力を有しない（150条２項）。時効の更新等の効力を生じさせるためには、催告による６か月の完成猶予中に裁判上の請求等（147条）や強制執行等（148条）を行う必要がある。</p>
           <p class="p6 ind3">また、催告による時効の完成猶予中における151条の協議合意は時効の完成猶予の効力を生じない（151条３項前段）。</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h26-06-o" title="H26-6-オ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q27">
           <p class="h6 ind1">(5) 協議を行う旨の合意（151条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 趣旨</p>
@@ -618,13 +612,8 @@
           <p class="p6 ind3">権利についての協議を行う旨の合意を書面又は電磁的記録でしたときは、次のいずれか早い時までの間は、時効は完成しない。</p>
         <div class="p-card">
           <p class="h6 ind3 nobold">①合意があった時から1年を経過した時</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">②合意において当事者が協議を行う期間（1年に満たないものに限る。）を定めたときは、その期間を経過した時</p>
-        </div>
-        <div class="p-card">
           <p class="h6 ind3 nobold">③当事者の一方から相手方に対して協議の続行を拒絶する旨の通知が書面又は電磁的記録でされたときは、その通知の時から6か月を経過した時</p>
-        </div>
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(c) 再度の合意</p>
@@ -632,13 +621,15 @@
         </div>
         <div class="p-card">
           <p class="h6 ind2 nobold">(d) 催告（150条）と協議を行う旨の合意（151条３項）</p>
-          <p class="p6 ind3">催告によって時効の完成が猶予されている間にされた協議を行う旨の合意は、時効の完成猶予の効力を有しない。また、順番が逆であっても同様である（151条３項）。</p>
+          <p class="p6 ind3">催告によって時効の完成が猶予されている間にされた協議を行う旨の合意は、時効の完成猶予の効力を有しない。また、順番が逆であっても同様である（151条３項）。</p><br>
           <p class="p6 ind3">【②の事由で完成猶予効が生じるか？】</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min11-01.png" alt="min11-01.png"></p>
           <p class="p6 ind3">※　当初の時効が完成すべき時から最長５年間</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-r04-06-u" title="R4-6-ウ">過去問</a></div>
         </div>
-        <div class="p-card">
+        </div>
+        <div class="p-card" id="min11-q28">
           <p class="h6 ind1">(6) 権利の承認（152条）</p>
         <div class="p-card">
           <p class="h6 ind2 nobold">(a) 時効の更新</p>
@@ -647,11 +638,12 @@
         <div class="p-card">
           <p class="h6 ind2 nobold">(b) 行為能力等</p>
           <p class="p6 ind3">承認は単なる事実の認識の表示ゆえ、処分権限又は行為能力は不要である（152条２項）。ただし、管理権限は必要とされる。</p>
-          <p class="p6 ind3"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind3"><img class="embed-img" src="min11-02.png" alt="min11-02.png"></p>
         </div>
+ <div class="kakomon"><a href="pu26min11q.html#q-h21-05-i" title="H21-5-イ">過去問</a></div>
+       </div>
         </div>
-        </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q33">
           <p class="h6 ind0">3.　効力が及ぶ者の範囲</p>
         <div class="p-card">
           <p class="h6 ind1">(1) 原則</p>
@@ -670,25 +662,19 @@
         </div>
         <div class="p-card">
           <p class="h6 ind1">(2) 例外</p>
-          <p class="p6 ind2">主債務の時効の完成猶予及び更新の効力は、保証人に対しても及ぶ。</p>
+          <p class="p6 ind2">主債務の時効の完成猶予及び更新の効力は、保証人に対しても及ぶ。</p><br>
           <p class="p6 ind2">【完成猶予・更新事由のまとめ】</p>
-          <p class="p6 ind2"><img class="embed-img" src="/_media/pu/.png" alt="/_media/pu/.png"></p>
+          <p class="p6 ind2"><img class="embed-img" src="min11-03.png" alt="min11-03.png"></p>
           <p class="p6 ind2">（※）取下げ・取消しの場合を除く</p>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h24-06-eh01-02-3" title="H24-6-エ">過去問</a></div>
         </div>
-        <div class="p-card">
+        <div class="p-card" id="min11-q34">
           <p class="h6 ind0">4.　その他の完成猶予</p>
-          <p class="p6 ind1">（未成年者又は成年被後見人と時効の完成猶予）</p>
-          <p class="p6 ind1">第158条　時効の期間の満了前６か月以内の間に未成年者又は成年被後見人に法定代理人がないときは、その未成年者若しくは成年被後見人が行為能力者となった時又は法定代理人が就職した時から６か月を経過するまでの間は、その未成年者又は成年被後見人に対して、時効は、完成しない。</p>
-          <p class="p6 ind1">２　未成年者又は成年被後見人がその財産を管理する父、母又は後見人に対して権利を有するときは、その未成年者若しくは成年被後見人が行為能力者となった時又は後任の法定代理人が就職した時から６か月を経過するまでの間は、その権利について、時効は、完成しない。</p>
-          <p class="p6 ind1">（夫婦間の権利の時効の完成猶予）</p>
-          <p class="p6 ind1">第159条　夫婦の一方が他の一方に対して有する権利については、婚姻の解消の時から６か月を経過するまでの間は、時効は、完成しない。</p>
-          <p class="p6 ind1">（相続財産に関する時効の完成猶予）</p>
-          <p class="p6 ind1">第160条　相続財産に関しては、相続人が確定した時、管理人が選任された時又は破産手続開始の決定があった時から６か月を経過するまでの間は、時効は、完成しない。</p>
-          <p class="p6 ind1">（天災等による時効の完成猶予）</p>
-          <p class="p6 ind1">第161条　時効の期間の満了の時に当たり、天災その他避けることのできない事変のため第147条第1項各号又は第148条第1項各号に掲げる事由に係る手続を行うことができないときは、その障害が消滅した時から３か月を経過するまでの間は、時効は、完成しない。</p>
+          <p class="p6 ind1"><img class="embed-img" src="min11-04.png" alt="min11-04.png"></p>
           <div class="sp"></div>
         </div>
+<div class="kakomon"><a href="pu26min11q.html#q-h26-06-i" title="H26-6-イ">過去問</a></div>
       </div>
     </div>
     </div>
@@ -696,6 +682,15 @@
 </section>
 
 </main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
   var links = document.querySelectorAll('a.toplink');
@@ -749,6 +744,50 @@
       apply(parseInt(range.value, 10), true);
     });
   }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
 })();
 </script>
 </body>
