@@ -1,0 +1,1367 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit16</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit16</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min15q.html">前へ</a>
+      <a href="pu26min17q.html">次へ</a>
+      <a href="pu26min16.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h28-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-09-ア)</div>
+          <p class="qtext">1　Ａは、Ａが所有し占有する動産甲をＢに売却し、同時に、動産甲について、Ｂとの間で、Ｂを貸主、Ａを借主とする使用貸借契約を締結した。この場合において、Ａが以後Ｂのために動産甲を占有する旨の意思表示をしたときは、Ｂは、動産甲の占有権を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h28-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-09-イ)</div>
+          <p class="qtext">2　Ａは、Ｂが所有しＣに寄託している動産甲をＢから買い受け、自らＣに対し以後Ａのために動産甲を占有することを命じ、Ｃがこれを承諾した。この場合には、Ｂの動産甲の占有権は、Ａに移転する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h23-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-08-ウ)</div>
+          <p class="qtext">3　Ａが動産甲をＢに賃貸している場合において、Ａが甲をＣに譲渡した。この場合において、Ｃが指図による占有移転により甲の引渡しを受けるためには、ＡがＢに対して以後Ｃのためにその物を占有することを命じ、Ｃがこれを承諾することが必要である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h27-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-08-イ)</div>
+          <p class="qtext">4　Ａがその所有する動産甲を目的とする譲渡担保権をＢのために設定し、占有改定による引渡しをした後、ＡがＣに動産甲を譲渡し、占有改定による引渡しをした場合、Ｂは、Ｃに対し、動産甲についての譲渡担保権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h27-08-eh23-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-08-エ)(H23-08-イ)</div>
+          <p class="qtext">5　Ａがその所有する動産甲をＢに賃貸し、引き渡した後、ＡがＣに動産甲を譲渡した場合、Ｃは、引渡しを受けていなくても、Ｂに対し、動産甲の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-08-eh23-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r03-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-08-ウ)</div>
+          <p class="qtext">6　Ａが、Ａ所有の動産甲をＢに売り渡し、Ｂの寄託によりこれを保管している場合において、ＢがＣに動産甲を売却したときは、Ｃは、その引渡しを受けていなかったとしても、Ａに対し、動産甲の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h23-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-08-ア)</div>
+          <p class="qtext">7　Ａが動産甲をＢに寄託している場合において、Ａが甲をＣに譲渡した。Ｂは、民法第178条にいう「第三者」に当たらないから、Ｃは、指図による占有移転により甲の引渡しを受けていなくても、Ｂに対し、甲の引渡しを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-r04-08-eh17-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-08-エ)(H17-09-エ)</div>
+          <p class="qtext">8　Ａ所有の未登録の甲自動車につき無権利のＢが、Ｂの無権利につき善意無過失のＣに甲自動車を売却して現実の引渡しをした場合には、Ｃは、甲自動車を即時取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-08-eh17-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h31-09-oh18-15-oh05-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-09-オ)(H18-15-オ)(H05-09-ア)</div>
+          <p class="qtext">9　Ａは、Ｂが所有者Ｃに無断で占有していた甲自動車を、Ｂの所有物であると過失なく信じて購入し、現実の引渡しを受けた。この場合において、甲自動車が道路運送車両法による登録を受けた自動車であるときは、Ａは甲自動車を即時取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-09-oh18-15-oh05-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h20-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-11-ウ)</div>
+          <p class="qtext">10　コインショップで売買される記念硬貨のように特定された金銭の場合を除けば、金銭は即時取得の対象とはならず、金銭の占有を取得した者が、その善意・悪意を問わず、金銭の所有権を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h13-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-07-オ)</div>
+          <p class="qtext">11　本人の代理人から動産を買い受けたところ、本人がその動産の所有者でなかった場合であっても、即時取得は成立し得る。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h30-08-uh09-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-08-ウ)(H09-15-イ)</div>
+          <p class="qtext">12　Ａが、未成年者であるＢから、Ｂの所有する動産甲を買い受けて現実の引渡しを受けた場合において、Ｂが未成年者であることについて善意無過失であるときは、Ｂがその売買契約を取り消したときであっても、Ａは動産甲を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-08-uh09-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h25-08-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-08-5)</div>
+          <p class="qtext">13　Ａ所有のデジタルカメラ甲の取引につき、Ｇは、Ａの代理権を有しないにもかかわらず、Ａを代理して、甲をＢに売却し、その現実の引渡しをした。この場合において、Ｂは、Ｇが無権代理人であることについて善意無過失であるときは、甲を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-08-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h17-09-ah05-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-09-ア)(H05-09-ウ)</div>
+          <p class="qtext">14　Ａの所有する甲動産を保管しているＢが、Ａから依頼を受けたＡの代理人であると偽って甲動産をＣに売却し、現実の引渡しをした場合には、Ｃは、Ｂが所有者Ａの代理人であると信じ、かつ、そう信じるにつき過失がないときであっても、甲動産を即時取得することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-09-ah05-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r04-08-ih25-08-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-08-イ)(H25-08-2)</div>
+          <p class="qtext">15　未成年者Ａがその所有する甲動産をＢに売却して現実の引渡しをした後、ＡＢ間の売買契約が未成年であることを理由に取り消されたが、その後、Ｂが、取消しにつき善意無過失のＣに甲動産を売却して現実の引渡しをした場合には、Ｃは、甲動産を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-08-ih25-08-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r04-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-08-ア)</div>
+          <p class="qtext">16　Ａ所有の甲動産につき無権利のＢが、Ｃとの間で、Ｃに対する金銭債務の履行に代えて甲動産の給付をする旨の代物弁済契約をしてＣに現実の引渡しをした場合において、ＣがＢの無権利につき善意無過失であるときは、Ｃは、甲動産を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h28-08-uh13-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-08-ウ)(H13-07-エ)</div>
+          <p class="qtext">17　Ａの家から動産甲を盗んだＢが、自己の所有物であると偽って、Ｂが無権利者であることについて善意無過失のＣに代物弁済により動産甲を引き渡した場合には、Ａは、盗難の時から2年を経過した後であっても、Ｃに対して動産甲の返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-08-uh13-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r04-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-08-オ)</div>
+          <p class="qtext">18　Ａ所有の甲動産をＢが占有している場合において、Ｂの債権者Ｃが甲動産を差し押さえ、競売手続により、甲動産をＡが所有していることにつき善意無過失のＤが甲動産を買い受けたときは、Ｄは、甲動産を即時取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h27-08-oh09-15-ah13-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-08-オ)(H09-15-ア)(H13-07-ウ)</div>
+          <p class="qtext">19　Ａがその所有する動産甲をＢに譲渡し、占有改定による引渡しをした後、Ａが無権利者であることについて善意無過失のＣが、競売によってＡから動産甲を買い受け、現実の引渡しを受けた場合、Ｃは、Ｂに対し、動産甲の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-08-oh09-15-ah13-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h05-09-ih13-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-09-イ)(H13-07-ア)</div>
+          <p class="qtext">20　他人の山林を自己の山林と誤信して善意無過失でその山林の雑草木を伐採した者は、その伐採した雑草木を即時取得することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-09-ih13-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h13-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-07-イ)</div>
+          <p class="qtext">21　無権利者から善意無過失で山林を買い受けた後、その山林の立木を伐採した場合、即時取得が成立し得る。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h09-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-15-オ)</div>
+          <p class="qtext">22　他人の靴を自分の靴と信じて履いて帰った場合には、即時取得は認められない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h05-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-14-イ)</div>
+          <p class="qtext">23　ＡがＢに対する債務の担保として、カメラを質入れしようとしている。ＡがＣ所有のカメラをＣに無断で質入れした場合、善意無過失のＢは善意取得によって保護される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h01-03-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-03-4)</div>
+          <p class="qtext">24　甲が、乙所有のゴッホの絵を他に高値で売却する目的で盗み出し、傷んだ箇所を修復するために、事情を知らない丙に修復を依頼した。丙は善意かつ無過失で絵の引渡を受けたことを理由として、乙の返還請求を拒絶することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-03-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h25-08-1r07-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-08-1)(R07-09-イ)</div>
+          <p class="qtext">25　Ａ所有のデジタルカメラ甲の取引につき、Ａから甲を賃借していたＣが死亡し、その相続人Ｂは、その相続によって甲の占有を取得した。この場合において、Ｂは、Ｃが甲に関し無権利者であったことについて善意無過失であるときは、甲を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-08-1r07-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h09-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-15-エ)</div>
+          <p class="qtext">26　所有者でない者が伐採した立木をその者から譲り受けた場合には、即時取得は認められない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h30-08-ah17-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-08-ア)(H17-09-イ)</div>
+          <p class="qtext">27　Ａが、Ｂの所有する動産甲を無権利のＣから買い受けた場合において、契約締結時にＣが無権利者であることにつき善意無過失であるときは、現実の引渡しを受けるまでにＣが無権利者であることを知ったとしても、Ａは動産甲を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-08-ah17-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h25-08-3r07-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-08-3)(R07-09-ウ)</div>
+          <p class="qtext">28　Ａ所有のデジタルカメラ甲の取引につき、Ａから甲の寄託を受けていたＥは、甲をＢに売却したが、その際、Ｂは、Ｅが甲に関し無権利者であることについて善意無過失であった。この場合において、Ｂは、その後にＥから甲の現実の引渡しを受けた際、Ｅが甲に関し無権利者であることについて悪意となっていたときは、甲を即時取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-08-3r07-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h30-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-08-イ)</div>
+          <p class="qtext">29　Ａが、Ｂの所有する動産甲を無権利のＣから買い受けて現実の引渡しを受けた場合において、即時取得を主張するためには、自己に過失がなかったことを立証しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h25-08-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-08-4)</div>
+          <p class="qtext">30　Ａ所有のデジタルカメラ甲の取引につき、Ａから甲を賃借していたＦは、甲をＢに売却し、その現実の引渡しをした。この場合において、Ｂは、Ａに対して甲の即時取得を主張するためには、Ｆが甲に関し無権利者であることについて自己が善意無過失であったことを証明しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-08-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h05-09-oh20-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-09-オ)(H20-11-ア)</div>
+          <p class="qtext">31　占有者が占有物の上に行使する権利は、これを適法に有するものと推定されるので、即時取得を主張する者は、無過失を立証する責任を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-09-oh20-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h17-13-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-13-ウ)</div>
+          <p class="qtext">32　動産質権者が質権の目的である動産を自己の所有物と偽って売却し、これを引き渡した場合において、その買主が、所有者でない者から売却を受けたことを知っていたときは、その買主は、その動産について、所有権を取得することはできず、質権を取得するにすぎない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-13-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-r04-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-05-オ)</div>
+          <p class="qtext">33　法人が代理人によって動産を買った場合において、売主が無権利者であることについて、当該法人の代表者が善意無過失であっても、代理人が悪意であったときは、当該法人は、当該動産を即時取得することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-r04-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-08-ウ)</div>
+          <p class="qtext">34　Ａ所有の甲動産につき無権利のＢがＣに甲動産を寄託している場合において、Ｂが、Ｂの無権利につき善意無過失のＤに甲動産を売却し、Ｃに対して以後Ｄのためにこれを占有することを命じ、Ｃがこれを承諾したときは、Ｄは、甲動産を即時取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h31-09-er07-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-09-エ)(R07-09-ア)</div>
+          <p class="qtext">35　Ａは、Ｂが所有者Ｃに無断でＢの画廊に展示していた甲絵画を、Ｂの所有物であると過失なく信じて購入した。この場合において、Ｂが以後Ａのために甲絵画を保管する意思を表示したときは、Ａは甲絵画を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-35</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-09-er07-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h27-08-uh23-08-oh16-13-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-08-ウ)(H23-08-オ)(H16-13-オ)</div>
+          <p class="qtext">36　Ａが、その所有する動産甲をＢに寄託した後、Ｃに動産甲を譲渡し、Ｃが指図による占有移転によって引渡しを受けた場合であっても、その後、Ａが無権利者であることについて善意無過失のＤがＡから動産甲を譲り受け、指図による占有移転によって引渡しを受けたときは、Ｄは、Ｃに対し、動産甲の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-08-uh23-08-oh16-13-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-h17-09-uh20-11-ih05-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-09-ウ)(H20-11-イ)(H05-09-エ)</div>
+          <p class="qtext">37　Ａの所有する甲動産を保管しているＢが、甲動産を自己の所有物であると偽ってＣに売却し、占有改定により甲動産を引き渡した場合には、Ｃは、Ｂが所有者であると信じ、かつ、そう信じるにつき過失がないときであっても、その時点で甲動産を即時取得することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-09-uh20-11-ih05-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h09-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-15-ウ)</div>
+          <p class="qtext">38　占有の取得が簡易の引渡しによる場合には、即時取得は認められない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-38</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h30-08-or07-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-08-オ)(R07-09-エ)</div>
+          <p class="qtext">39　Ａに対して金銭債務を負担するＢが、当該金銭債務を担保するために、他人の所有する動産甲につき無権利で質権を設定してＡに現実の引渡しをした場合において、Ａが、Ｂが無権利者であることにつき善意無過失であるときは、Ａは動産甲について質権を即時取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-39</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-08-or07-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h20-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-11-エ)</div>
+          <p class="qtext">40　即時取得は、無権利者から動産を買い受けた譲受人を保護するための制度であるため、取得することができる権利の対象は所有権に限られる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-40</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 41 -->
+    <section class="q" id="q-h12-12">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H12-12）</div>
+          <p class="qtext">41　「無権利者から動産を譲り受けた者が民法第192条の規定によりその所有権を取得し得るためには、占有改定の方法による占有の取得では足りない。」という見解がある。次のアからオまでの記述のうち、この見解の根拠として適切でないものの組合せは、後記1から5までのうちどれか。（H12-12）<br><br>ア　譲受人への占有改定により、真の権利者と譲渡人との間の代理占有関係は消滅する。<br><br>イ　占有改定では、真の権利者の譲渡人に対する信頼が裏切られたということは現実化せず、譲受人の譲渡人に対する信頼も現実化していない。<br><br>ウ　占有改定では、譲渡人は依然として直接占有者であり続けるため、動産が更に譲渡される可能性がある。<br><br>エ　真の権利者が譲渡人に対し、動産の返還を請求した場合に、譲渡人が譲受人の権利を理由としてこれを拒否し得るとするのは不都合である。<br><br>オ　民法第192条の趣旨は、無権利者の占有に基づきこれを真の権利者と信じて取引をした譲受人を保護する点にある。<br><br>1　アウ　　　2　アオ　　　3　イエ　　　4　イオ　　　5　ウエ</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min16.html#(リンク)">Unit16-41</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-12">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h28-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人が自己の占有物を以後本人のために占有する意思を表示したときは、本人は、これによって占有権を取得する（民法<span class="mono">183条</span>）。動産甲の所有者Ａは、甲をＢに譲渡すると同時に、Ｂから甲を使用貸借契約により譲り受けており、本人であるＢのためにその代理人として占有する旨の意思表示をしている。よって、占有改定によりＢは甲の占有権を取得する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>指図による占有移転は、本人がその代理人に対して以後第三者のためにその物を占有することを命じ、これに対する譲受人の承諾が必要である（民法<span class="mono">184条</span>）。本肢では、「第三者」ＡがＣに対して占有を命じているので、指図による占有移転は生じず、占有は移転しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-08-u">
+  <div class="dlg-head"><div class="dlg-title">(H23-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人によって占有をする場合において、本人がその代理人に対して以後第三者のためにその物を占有することを命じ、その第三者がこれを承諾したときは、その第三者は、占有権を取得する（民法<span class="mono">184条</span>）。Ｃが指図による占有移転により甲の引渡しを受けるには、ＡがＢに対して以後Ｃのためにその物を占有することを命じ、Ｃがこれを承諾することが必要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動産譲渡担保権設定の対抗要件は引渡しであり、占有改定もこれに含まれる（最判昭30.6.2）。よって、動産甲を占有改定により引渡しを受けたＢは、Ｃに対し、動産甲の譲渡担保権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-08-eh23-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-08-エ)(H23-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動産の賃借人は民法<span class="mono">178条</span>の「第三者」に該当し、所有権の譲受人に対し引渡しの欠缺を主張する正当の利益を有する（大判大4.2.2）。よって、Ｃは、引渡しを受けなければ、Ｂに対し、動産甲の所有権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-08-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>動産の寄託を受け、一時それを保管するにすぎない者は「第三者」（民法<span class="mono">178条</span>）に当たらない（最判昭29.8.31）。本肢のＣは、Ｂより動産甲の引渡しを受けていないため、民法<span class="mono">178条</span>の「第三者」に対し動産甲の所有権を対抗できないが、Ａは、Ｂの寄託により動産甲を保管している者であり、「第三者」に当たらない。よって、Ｃは、動産甲の所有権をＡに対抗することができ、Ａに対し、動産甲の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-08-a">
+  <div class="dlg-head"><div class="dlg-title">(H23-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>受寄者は、民法<span class="mono">178条</span>の「第三者」に当たらない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-08-eh17-09-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-08-エ)(H17-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>未登録の自動車には即時取得の適用がある（最判昭45.12.4）。よって、未登録の甲自動車を無権利のＢが、Ｂの無権利につき善意無過失のＣに売却して現実の引渡しをした場合、Ｃは甲自動車を即時取得することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-09-oh18-15-oh05-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H31-09-オ)(H18-15-オ)(H05-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法192 条の即時取得の目的物は、動産に限られる。判例は、道路運送車両法による登録された自動車は登録が公示方法とされるため、動産に当たらず、民法192 条の適用はないとしている（最判昭和62.4.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-11-u">
+  <div class="dlg-head"><div class="dlg-title">(H20-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>金銭は即時取得の対象とならず、金銭を現実に支配して占有する者が、金銭の所有者となる（最判昭39.1.24）。ただし、収集の対象となっている記念硬貨のように特定された金銭は除かれる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-07-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得が成立するためには、無権利者又は無権限者からの取得であることを要する。代理行為の効果は本人に直接に帰属する（民法<span class="mono">99条</span>1項）ため、売主である本人がその動産の所有者でなかった場合には、買主は無権利者から買い受けたことになり、即時取得は成立する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-08-uh09-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-08-ウ)(H09-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得の取得原因となる取引行為は、有効なものである必要がある。取引行為が、行為能力の制限、意思表示の瑕疵等によって無効あるいは取り消された場合には、民法<span class="mono">192条</span>の適用はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-08-5">
+  <div class="dlg-head"><div class="dlg-title">(H25-08-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得の取得原因となる取引行為自体は有効なものである必要があるため（民法<span class="mono">192条</span>）、取引行為が無権代理によって無効となる場合、即時取得の適用はない。従って、Ｂは、Ｇが無権代理人であることについて善意無過失であっても、甲を即時取得することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-09-ah05-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-09-ア)(H05-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得に関する民法<span class="mono">192条</span>の規定は取引行為自体に瑕疵がある場合には適用されない。本記述のＢＣ間の取引は無権代理であるから、即時取得の規定は適用されず、両者間の法律関係は無権代理の規定（民法<span class="mono">113条</span>から<span class="mono">117条</span>）により決せられる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-08-ih25-08-2">
+  <div class="dlg-head"><div class="dlg-title">(R04-08-イ)(H25-08-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得の取得原因となる取引行為は有効なものである必要があるため（民法<span class="mono">192条</span>）、取引行為が行為能力の制限によって取り消された場合には、民法<span class="mono">192条</span>の適用はない。しかし、これらの場合の転得者には民法<span class="mono">192条</span>の適用がある。よって、無権利者となったＢから甲動産を買い受けた善意無過失のＣは、甲動産を即時取得する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-08-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得（民法<span class="mono">192条</span>）の要件は、動産について無権利者と善意・無過失で取引行為を行い、平穏かつ公然にその引渡しを受けることである。そして、代物弁済（民法<span class="mono">482条</span>）も契約である以上、「取引行為」（民法<span class="mono">192条</span>）には代物弁済も含まれる（大判昭5.5.10）。よって、Ｂの無権利について、善意無過失のＣが現実に引渡しを受けた場合、Ｃは甲動産を即時取得する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-08-uh13-07-e">
+  <div class="dlg-head"><div class="dlg-title">(H28-08-ウ)(H13-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>代物弁済であっても「取引行為」にあたるため即時取得が成立する（民法<span class="mono">192条</span>）。そして、占有物が盗品又は遺失物であるときは、被害者又は遺失者は、盗難又は遺失の時から2年間、占有者に対してその物の回復を請求できる（民法<span class="mono">193条</span>）が、本記述では盗難から2年が経過しているため、ＡはＣに対し動産甲の返還を請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-08-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、「執行債務者の所有に属さない動産が強制競売に付された場合であつても、競落人は、民法<span class="mono">192条</span>の要件を具備するときは、同条によつて右動産の所有権を取得できる」としている（最判昭42.5.30）。よって、Ａ所有の甲動産をＢが占有している場合に、Ｂの債権者Ｃが甲動産を差し押さえ、競売手続により善意無過失のＤが甲動産を買い受けたときには、Ｄは甲動産を即時取得することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-08-oh09-15-ah13-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H27-08-オ)(H09-15-ア)(H13-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>強制競売に付された場合であっても、即時取得の規定は適用される（最判昭42.5.30）。強制競売も、一種の取引であり、売買などの取引行為と同視して、即時取得の適用を認めたものである。本記述において、Ｃは、Ａが無権利者であることについて善意無過失で、競売によって動産甲を買い受け、現実の引渡しを受けており、即時取得の要件を満たしている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-09-ih13-07-a">
+  <div class="dlg-head"><div class="dlg-title">(H05-09-イ)(H13-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得は、動産取引の安全を図るための制度であり、取引行為による動産取得の場合においてのみ適用される。他人の山林を自分の山林と誤信して雑草木を伐採した場合は、取引行為に当たらないため、即時取得の適用はない（大判大4.5.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H13-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得の対象となるのは動産に限られる。占有の当初、不動産であったものが後に動産となったとしても、即時取得の適用はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H09-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得が成立するためには、取引行為により占有を取得することが必要である（民法<span class="mono">192条</span>）。他人の靴を自分の靴と信じて履いて帰った場合は取引行為に当たらず、即時取得の適用はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H05-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得の効果として取得が認められている「動産について行使する権利」とは、所有権と質権を指し、有効な取引行為には質権設定も含まれる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-03-4">
+  <div class="dlg-head"><div class="dlg-title">(H01-03-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得でいう有効な取引行為とは、売買・強制競売・質権設定などであるが、修理の依頼はこれらに当たらない。丙は修理を依頼されただけであり所有権や質権を取得しようとしているわけではないので、即時取得することはなく、返還請求を拒絶することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-08-1r07-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-08-1)(R07-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続は、即時取得の有効な取引行為に当たらない。よって、相続によって甲の占有を取得したＢは、甲を即時取得しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H09-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>伐採などにより土地から分離した立木を譲り受けた場合、民法<span class="mono">192条</span>に規定された要件を満たす限り、即時取得が可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-08-ah17-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-08-ア)(H17-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得の平穏・公然・善意・無過失の要件は、占有所得時に存在している必要がある。よって、Ａが現実の引渡しを受けるまでにＣが無権利者であることを知った場合には、Ａは動産甲を即時取得できない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-08-3r07-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H25-08-3)(R07-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得の平穏・公然・善意・無過失の要件は、占有所得時に存在している必要がある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者が占有物について行使する権利は、適法に有するものと推定される（民法<span class="mono">188条</span>）以上、占有取得者が譲渡人に処分権があると信ずることについては過失のないものと推定され、占有取得者自身において過失のないことを立証することを要しない（最判昭41.6.9）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-08-4">
+  <div class="dlg-head"><div class="dlg-title">(H25-08-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得を主張するには占有取得者の平穏・公然・善意・無過失を要する。<span class="mono">186条</span>1項により平穏・公然・善意は推定される。また、占有者が占有物の上に行使する権利はこれを適法に有するものと推定される（民法<span class="mono">188条</span>）以上、譲受人たる占有取得者がそのように信ずることについては過失のないものと推定され、占有取得者自身において過失のないことを立証することを要しない（最判昭41.6.9）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-09-oh20-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H05-09-オ)(H20-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>即時取得の無過失の立証責任について、占有者が占有物の上に行使する権利はこれを適法に有するものと推定される（民法<span class="mono">188条</span>）以上、譲受人たる占有取得者がそのように信ずることについては過失のないものと推定され、占有取得者自身において過失のないことを立証することを要しない（最判昭41.6.9）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-13-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-13-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得するには、占有取得者の善意無過失が必要である。買主は所有者でない者から売却を受けたことを知っている場合、所有権の即時取得は成立しない。また、買主は、質権の設定を受けたわけではないことから、質権を取得（即時取得を含む）することもできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-05-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人が相手方に対してした意思表示の効力が意思の不存在、錯誤、詐欺、強迫又はある事情を知っていたこと若しくは知らなかったことにつき過失があったことによって影響を受けるべき場合には、その事実の有無は、代理人について決する（民法<span class="mono">101条</span>1項）。そして、判例は、民法<span class="mono">192条</span>における善意・無過失は、法人については、第一次的にはその代表機関について決すべきではあるが、その代表機関が代理人により取引をしたときは、その代理人について判断すべきであるとしている（最判昭47.11.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-08-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>指図による占有移転は、外型的な占有の移転を観念できるので、「動産の占有を始めた」（民法<span class="mono">192条</span>）に該当し（最判昭57.9.7）、指図による占有移転（民法<span class="mono">184条</span>）による即時取得も認められる。そして、指図による占有移転には、占有を取得する第三者の承諾が必要である。本肢では、無権利者であるＢがＣに甲動産を寄託し、Ｃに以後Ｄのためにこれを占有することを命じているが、占有を取得するＤの承諾が得られていない。もっとも、Ｄがこれを承諾した場合には、甲動産を即時取得することができるため、常に即時取得することができないとはいえない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-09-er07-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H31-09-エ)(R07-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、占有改定による即時取得を認めていない（最判昭35.2.11）。本肢のＢからＡに対する引渡しは占有改定にとどまり、外形上の従来の占有状態に変更が生じておらず、Ａは即時取得に必要な占有取得をしていないため、甲絵画を即時取得することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-08-uh23-08-oh16-13-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-08-ウ)(H23-08-オ)(H16-13-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>指図による占有移転の場合にも即時取得が成立する（最判昭57.9.7）。本肢のＤは、無権利者Ａから動産甲を善意無過失で譲り受け、指図による占有移転によって引渡しを受けているため、動産甲を即時取得する。よって、ＤはＣに対し、動産甲の所有権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-09-uh20-11-ih05-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H17-09-ウ)(H20-11-イ)(H05-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、占有改定による即時取得を認めていない（最判昭35.2.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H09-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得成立に必要な占有取得の方法について、簡易の引渡し（民法<span class="mono">182条</span>2項）によることは可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-08-or07-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H30-08-オ)(R07-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">192条</span>1項は、「取引行為によって、平穏に、かつ、公然と動産の占有を始めた者は、善意であり、かつ、過失がないときは、即時にその動産について行使する権利を取得する。」とする。そして、「動産について行使する権利」には、所有権のほか質権も含まれ、質権を設定することも「取引行為」もあたる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-11-e">
+  <div class="dlg-head"><div class="dlg-title">(H20-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>即時取得によって取得することができる権利は、事実上所有権と質権であり、無権利者が動産を質入れした場合、その相手方は、質権を即時取得し得る。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-12">
+  <div class="dlg-head"><div class="dlg-title">（H12-12） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：2</div>
+    <p>ア　適切でない。<br>本記述によると、真の権利者は占有を失い、譲受人は占有改定による占有を取得することになるが、このことは、無権利者から動産を譲り受けた者が民法<span class="mono">192条</span>の規定によりその所有権を取得し得るためには、占有改定の方法による占有の取得では足りないとする見解を根拠付けるものではない。従って、本記述は本問の見解の根拠として適切でない。<br><br>イ　適切である。<br>譲受人が占有改定の方法による引渡しを受けた場合、真の権利者も譲受人も、ともに譲渡人に信頼を置いて所持させている関係だから、即時取得の成否を考える上でいずれの信頼を保護すべきかが問題となる。そして、本記述は、占有改定では、真の権利者の信頼が裏切られたということは現実化せず、譲受人の譲渡人に対する信頼も現実化していないとしており、真の権利者の信頼を保護する立場である。よって、占有改定による即時取得を否定する記述であり、従って、本問の見解の根拠として適切である。<br><br>ウ　適切である。<br>占有改定による即時取得を認めた場合、譲渡人は依然として直接占有者であるので、動産をさらに譲渡することが可能であり、占有改定による二重譲渡がなされた場合、第一の譲受人が譲渡人に引渡しを求めたとき、譲渡人は第二譲受人の即時取得を理由に、これを拒むことができ、また、第一譲受人が現実の占有を取得した後でも、第二譲受人の引渡請求に応じなければならず、妥当性を欠くことになる。従って、本記述は、本問の根拠として適切である。<br><br>エ　適切である。<br>占有改定による即時取得の成立を認めると、真の権利者が譲渡人に動産の返還を請求した場合に、譲渡人が譲受人の即時取得を理由にこれを拒否し得るという不都合が生じることになる。従って、本記述は、本問の見解の根拠として適切である。<br><br>オ　適切でない。<br>本記述のように解すると、即時取得は譲渡人の占有を信頼した譲受人が保護される制度であり、即時取得のためには取得する占有の態様は問題とならないことになる。よって、本記述は占有改定による即時取得を認めるものであり、本問の見解の根拠として適切でない。<br><br>以上により、適切でない記述はアとオであり、従って、正解は肢2となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

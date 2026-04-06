@@ -1,0 +1,719 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit31</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit31</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min30.html">前へ</a>
+      <a href="pu_index.html">次へ</a>
+      <a href="pu26min31q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A03">第３編　担保物権</a>
+  <ul>
+    <li><a href="#A03-06">第６章　非典型担保物権</a>
+      <ul>
+        <li><a href="#A03-06-01">第１節　買戻し・再売買予約</a>
+          <ul>
+            <li><a href="#A03-06-01-0-01">１　総説</a></li>
+            <li><a href="#A03-06-01-0-02">２　買戻し</a></li>
+            <li><a href="#A03-06-01-0-03">３　再売買予約</a></li>
+          </ul>
+        </li>
+        <li><a href="#A03-06-02">第２節　譲渡担保</a>
+          <ul>
+            <li><a href="#A03-06-02-0-01">１　意義</a></li>
+            <li><a href="#A03-06-02-0-02">２　設定・対抗要件</a></li>
+            <li><a href="#A03-06-02-0-03">３　効力</a></li>
+            <li><a href="#A03-06-02-0-04">４　実行</a></li>
+          </ul>
+        </li>
+        <li><a href="#A03-06-03">第３節　代理受領</a>
+          <ul>
+            <li><a href="#A03-06-03-0-01">１　意義</a></li>
+            <li><a href="#A03-06-03-0-02">２　効力</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A03">
+  <h2>第３編　担保物権</h2>
+  <div class="p-card chap-card">
+    <h2 id="A03-06">第６章　非典型担保物権</h2>
+    <div class="p-card sec-card">
+      <h3 id="A03-06-01">第１節　買戻し・再売買予約</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-01-0-01">１　総説</div>
+      <p>買戻しと再売買予約は、ともに主として債権担保の手段として行われ、その意味で担保物権と同様の機能を有するものということができる。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-01-0-02">２　買戻し</div>
+      <p>（広義）：売主がいったん売った物を対価を払って取り戻すこと</p>
+      <p>（狭義）：不動産の解除権留保売買（579条～585条）</p>
+      <p>買戻しの場合には、代金に手数料を加えた額のみを支払えば目的物を取り戻せる。金額や期間の制限が厳格である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-01-0-03">３　再売買予約</div>
+      <p>：売主が一度売った物を将来再び買主から売主に売り戻す旨の予約</p>
+      <p>買戻しと異なり、不動産に限られず、金額を自由に決定できる。</p>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A03-06-02">第２節　譲渡担保</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-02-0-01">１　意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　定義</p>
+          <p class="p6 ind1">：債務者又は第三者（物上保証人）に属する所有権その他の財産権を債権者に譲渡し、債務を弁済することによってその権利を受け戻すことができるとする形式の担保</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　機能</p>
+          <p class="p6 ind1">譲渡担保の目的物は譲渡可能なものであれば足り、その占有を債権者に移転する必要はない。従って、①質権（344条）と異なり占有を設定者の下に留めたままで設定することが可能であり、また②抵当権の目的とすることができない動産その他の財貨を目的とすることができる。</p>
+          <p class="p6 ind1">さらに、債権者は競売手続などによらず、目的物の所有権を主張することで簡易・迅速に債権の回収を図ることができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　譲渡担保の法的構成</p><br>
+          <p class="p6 ind1">Ｑ　譲渡担保は、形式上は担保の目的である権利を債権者に移転するが、実質的には債権担保の機能を果たすにすぎない。譲渡担保の法的性格の問題は、譲渡担保の形式面を重視するか、実質面を重視するかの問題である。</p><br>
+          <p class="p6 ind1">Ａ　所有権的構成（大連判大13.12.24）</p>
+          <p class="p6 ind1">目的物の所有権は譲渡担保権者に完全に移転し、譲渡担保権者は設定者に対して目的物を担保目的を超えて行使してはならないという債務を負う。</p><br>
+          <p class="p6 ind1">Ｂ　担保権的構成（通説）</p>
+          <p class="p6 ind1">譲渡担保権者は、担保権の設定を受けたにすぎず、目的物の所有権は設定者にとどまっている。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-02-0-02">２　設定・対抗要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　設定の当事者</p>
+          <p class="p6 ind1">設定者と担保権者との契約によって設定される。</p>
+          <p class="p6 ind1">設定者は通常債務者自身であるが、第三者（物上保証人）であってもよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　目的物</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 目的物</p>
+          <p class="p6 ind2">目的物には制限がなく、財産的価値のあるもので譲渡性があればよい。既に発生している債権はもちろん、将来発生すべき債権も目的物とすることができる。</p>
+          <p class="p6 ind2">譲渡担保権の目的とされていた将来債権が発生したときは、譲渡担保権者は、設定者の特段の行為を要することなく当然に、当該債権を担保の目的で取得することができる（最判平19.２.15）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 集合動産</p>
+          <p class="p6 ind2">種類、所在場所及び量的範囲を指定するなどの方法により目的物の範囲が特定される場合には、譲渡担保の目的となり得る（最判昭54.２.15）。</p><br>
+          <p class="p6 ind2">【特定されているか？】</p>
+          <p class="p6 ind2">・甲店舗内にある商品一切のうち設定者が保有する物　→　×</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">譲渡担保権設定者所有の物という限定を付されていても、譲渡担保権設定者所有の物とそれ以外の物を明確に識別できる指標が示されておらず、区別できるような措置もない場合には、目的物の外形的、客観的な特定を欠く（（最判昭57.10.14）。</p>
+          <p class="p6 ind2">集合動産譲渡担保の設定者が、通常の営業の範囲内で譲渡担保の目的を構成する個々の動産を売却した場合には、買主である第三者は、当該動産について確定的に所有権を取得することができる（最判平18.7.20）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　被担保債権</p>
+          <p class="p6 ind1">通常金銭債権であるが、それに限られない。</p>
+          <p class="p6 ind1">将来の債権であってもよく、金銭債権の場合には、増減する将来の債権のための譲渡担保の設定も認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　対抗要件</p>
+          <p class="p6 ind1"><img class="embed-img" src="min31-01.png" alt="min31-01.png"></p>
+          <p class="p6 ind1">集合動産譲渡担保権が設定され、譲渡担保権者が占有改定の方法により対抗要件を備えた場合には、その対抗要件具備の効力は、その後構成部分が変動したとしても、集合物としての同一性が損なわれない限り、新たに集合動産の構成部分となった動産を包含する集合物に及ぶ（最判昭62.11.10）。</p>
+          <p class="p6 ind1">→　動産売買の先取特権が存在する動産が譲渡担保権の目的である集合物の構成部分となった場合においても、債権者は当該動産についても引渡しを受けたものとして譲渡担保権を主張することができ、先取特権者が先取特権に基づき動産競売の申立をしたときは、民法333条所定の第三取得者に該当することを主張することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　即時取得</p>
+          <p class="p6 ind1">動産譲渡担保権は、動産物権の一つであるから、即時取得の対象となる（192条）。</p>
+          <p class="p6 ind1">ｅｘ．Ｘ所有のダイヤについて、無権利者ＡがＢに対して譲渡担保権を設定した</p>
+          <p class="p6 ind1">→　Ｂが占有改定以外の方法によって引渡しを受けた場合には、譲渡担保権を取得することがある。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-02-0-03">３　効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　対内的効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 譲渡担保権の効力の及ぶ範囲</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 被担保債権の範囲</p>
+          <p class="p6 ind3">譲渡担保によって担保される債権の範囲につき、抵当権の被担保債権を制限する375条は類推適用されない（最判昭61.７.15）。</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　375条は後順位担保権者の保護のための規定であるが、不動産譲渡担保の場合、後順位担保権者が生ずる余地はない。</p>
+          <p class="h6 ind3 nobold">②　利息等の公示方法がない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 目的物の範囲</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　付加一体物</p>
+          <p class="p6 ind4">譲渡担保は、目的物の占有・利用を設定者のもとに留めるので、担保設定後に付属させた付加一体物についても譲渡担保の効力が及ぶ（370条の類推適用）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　従たる権利</p>
+          <p class="p6 ind4">借地上の建物が譲渡担保の目的物とされた場合、従たる権利である賃借権にも譲渡担保の効力が及ぶ（最判昭51.９.21）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　物上代位</p>
+          <p class="p6 ind4">一般に肯定されている。</p>
+          <p class="p6 ind4">構成部分の変動する集合動産譲渡担保権の効力は、譲渡担保の目的である集合動産の構成部分である動産が滅失した場合にその損害をてん補するために譲渡担保権設定者に支払われる損害保険金に係る請求権に及ぶ(最決平22.12.2)。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 目的物の占有・利用</p>
+          <p class="p6 ind2">占有・利用を譲渡担保権者に移転する場合と、設定者に留める場合がある。</p>
+          <p class="p6 ind2">設定者に占有・利用を留めるのが一般であるが、この際設定者の占有・利用権限をどのように説明するかは譲渡担保の法律構成により異なる。</p>
+          <p class="p6 ind2">所有権的構成からは、賃貸借ないし使用貸借契約が成立していると解することになるが、担保権的構成からは設定者に占有・利用権限があるのは当然ということになる。</p>
+          <p class="p6 ind2">＜判例＞　最判平57.９.28</p>
+          <p class="p6 ind2">譲渡担保は、債権担保のために目的物件の所有権を移転するものであるが、所有権移転の効力は譲渡担保の目的を達するのに必要な範囲においてのみ認められるものであって、設定者は、担保権者が換価処分を完結するまでは、被担保債務を弁済して目的物件についての完全な所有権を回復することができるのであるから、正当な権限なく目的物件を占有する者があるときは、特段の事情がない限り、設定者は占有者に対してその返還を請求することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 譲渡担保権者及び設定者の目的物保管義務</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 設定者の義務</p>
+          <p class="p6 ind3">設定者は担保目的物の保管義務を負う。設定者が目的物を損傷・滅失したり第三者に即時取得させた場合には損害賠償責任を負う。損害賠償責任の内容は、担保的構成によれば譲渡担保権侵害、所有権的構成によれば所有権侵害を理由とする不法行為（709条）、又は債務不履行責任である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 譲渡担保権者の義務</p>
+          <p class="p6 ind3">担保的構成によればもちろん、所有権的構成によっても、譲渡担保権者は設定者に対して目的物を担保目的以外には利用しないという契約上の義務を負う。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 優先弁済を受ける権利</p>
+          <p class="p6 ind2">譲渡担保権者が優先弁済を受けるためには、被担保債権につき債務者が履行遅滞に陥ることが必要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　対外的効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 譲渡担保権者側の第三者と設定者の関係</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 譲渡担保権者が目的物を第三者に譲渡した場合、当該第三者は所有権を取得できるか。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min31-02.png" alt="min31-02.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 債務者が債務を弁済し、譲渡担保権が消滅した後に譲渡担保権者が目的不動産を第三者に譲渡した場合、当該第三者は所有権を取得できるか。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min31-03.png" alt="min31-03.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 譲渡担保権者の一般債権者による差押え</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　不動産の譲渡担保の場合</p>
+          <p class="p6 ind4">ア．弁済期前の差押え</p>
+          <p class="p6 ind4"><img class="embed-img" src="min31-04.png" alt="min31-04.png"></p>
+          <p class="p6 ind4">イ．弁済期後の差押え</p>
+          <p class="p6 ind4">弁済期後は、譲渡担保権者が目的物を処分する権能を取得し、設定者は目的物が換価されるのを受忍すべき立場にあるので、第三者異議の訴えを提起できない（最判平18.10.20）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　動産の譲渡担保の場合</p>
+          <p class="p6 ind4">目的物の占有は設定者の下にあるので、それを差し押さえることはあまり考えられないが、所有権的構成をとれば、譲渡担保権者の一般債権者による差押えは可能となり、担保的構成をとれば、差押えは許されないとすべきである。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 設定者側の第三者と譲渡担保権者との関係</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 設定者が目的物を第三者に譲渡した場合、第三者は所有権を取得できるか。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min31-05.png" alt="min31-05.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 設定者が目的物をさらに第三者に譲渡担保に供した場合、第三者は譲渡担保権を取得できるか。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min31-06.png" alt="min31-06.png"></p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-02-0-04">４　実行</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　実行の方法</p>
+          <p class="p6 ind1">譲渡担保の法的構成に関するいずれの見解によっても、譲渡担保の実行とともに目的物の所有権は譲渡担保権者に帰属する。実行の方法には以下の２つがあり、いずれによるかは契約次第となる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 帰属清算型</p>
+          <p class="p6 ind2">譲渡担保権者が目的物の所有権を自己に帰属させることによって代物弁済的に債権の満足を得、目的物の評価額と債権額の差額を清算する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 処分清算型</p>
+          <p class="p6 ind2">譲渡担保権者が目的物を第三者に売却して売却代金から債権の満足を得、売却代金と債権額の差額を清算する。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　目的物の引渡請求権</p>
+          <p class="p6 ind1">債権者が担保権を実行するためには目的物の占有を取得することが必要である。よって、債権者は設定者に対して目的物の引渡しを請求することができる。</p>
+          <p class="p6 ind1">ただし、清算金の支払と目的物の引渡請求とは引換給付の関係にある（最判昭46.３.25）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　清算</p>
+          <p class="p6 ind1">帰属清算・処分清算のいずれの実行方法によっても、目的物の価額が債権額を上回るときは、その差額を設定者に返還させるべく、清算義務が認められる。</p>
+          <p class="p6 ind1">債権者は目的物を換価処分（処分清算型の場合）又は評価額を元利金に充当し（帰属清算型の場合）、残額があればこれを債務者に返還しなければならず、不足額があればこれを債務者に請求することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　受戻権</p>
+          <p class="p6 ind1">譲渡担保権者が「実行」によって目的物の所有権を取得しても、清算金の支払（帰属清算型）又は第三者への処分（処分清算型）があるまでは設定者は債権額を提供して所有権を取り戻すことができる。これを受戻権という。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 弁済期後の債権者の処分</p>
+          <p class="p6 ind2">不動産を目的とする譲渡担保契約において、債務者が弁済期に債務の弁済をしない場合には、債権者は当該譲渡担保契約が帰属清算型であると処分清算型であるとを問わず、目的物を処分する権能を取得するので、債権者がこの権能に基づいて目的物を第三者に譲渡したときは、原則として譲受人は目的物の所有権を確定的に取得する。</p>
+          <p class="p6 ind2">この場合には、債務者は清算金がある場合に債権者に対してその支払を求めることができるにとどまり、残債務を弁済して目的物を受け戻すことはできなくなる。この結論は譲受人たる第三者が背信的悪意者であっても異ならない（最判平６.２.22）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 受戻権の放棄と清算金</p>
+          <p class="p6 ind2">譲渡担保権の設定者は、譲渡担保の目的物についての受戻権を放棄しても、譲渡担保権者に対して清算金の支払を請求することはできない（最判平8.11.22）。</p>
+          <p class="p6 ind2">※＜判例＞　最判平11.２.26</p>
+          <p class="p6 ind2">譲渡担保権者から目的不動産を譲り受けた第三者と譲渡担保権設定者の精算金支払請求権の消滅時効の援用</p>
+          <p class="p6 ind2">・判旨</p>
+          <p class="p6 ind2">「譲渡担保権者から被担保債権の弁済期後に譲渡担保権の目的物を譲り受けた第三者は、譲渡担保権設定者が譲渡担保権者に対して有する清算金支払請求権につき、消滅時効を援用することができるものと解するのが相当である。」</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A03-06-03">第３節　代理受領</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-03-0-01">１　意義</div>
+      <p>：例えば債務者Ｂが第三債務者Ｃに対して有する債権について、Ｂの債権者ＡがＢからその債権の取立てないし受領の委任を受け、ＡがＣから受領した金銭をＢに対する債権に充当するという債権の担保方法</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-06-03-0-02">２　効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　対内的効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 直接取立権の有無</p>
+          <p class="p6 ind2">ＡがＣから直接に取立てる権利を有するか。</p>
+          <p class="p6 ind2">ＡＢ間に取立委任がされていれば直接取立権があり、Ｃの承諾はＣへの対抗要件となるに留まる（467条１項類推）。しかし、受領委任にすぎなければ直接取立権はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 義務違反の効果</p>
+          <p class="p6 ind2">ＣがＢに弁済した場合、ＡはＣにいかなる請求をすることができるか。</p><br>
+          <p class="p6 ind2">Ｑ　Ｂへの弁済を安易に認めた場合、代理受領の担保としての意味は半減するため問題となる。</p><br>
+          <p class="p6 ind2">Ａ　取立委任型</p>
+          <p class="p6 ind2">Ｃは債務の消滅をＡに主張できず、Ａは依然としてＣに取立権を行使することができる。</p><br>
+          <p class="p6 ind2">Ｂ　受領委任型</p>
+          <p class="p6 ind2">Ｃの行為に対して不法行為責任を追及することができる（Ｃが承認したことでＡ以外には弁済しないという不作為義務を負いその義務違反とした事例につき、最判昭44.３.４）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　対外的効力－第三者に対する効力</p>
+          <p class="p6 ind1">代理受領権につき、第三者への対抗要件の方法がないため、第三者に優先的地位を主張できない。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

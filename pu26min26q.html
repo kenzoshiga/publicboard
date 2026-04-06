@@ -1,0 +1,1342 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit26</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit26</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min25q.html">前へ</a>
+      <a href="pu26min27q.html">次へ</a>
+      <a href="pu26min26.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h24-13-ir06-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-13-イ)(R06-14-ア)</div>
+          <p class="qtext">1　抵当不動産について所有権又は地上権を買い受けた第三者が、抵当権者の請求に応じてその抵当権者にその代価を弁済したときは、抵当権は、その第三者のために消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-13-ir06-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r02-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-13-イ)</div>
+          <p class="qtext">2　Ａがその所有する甲土地にＢのために抵当権（以下｢本件抵当権｣という｡）を設定し、その登記がされた後に、Ｃが甲土地をＡから賃借して甲土地上に乙建物を建築した。甲土地の抵当権者はＢ以外になく、Ｃの賃借権（以下｢本件賃借権｣という｡）は登記されている。この事例に関して。Ｃは、本件抵当権について、抵当権消滅請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h11-11-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-11-1)</div>
+          <p class="qtext">3　抵当不動産の所有権を無償で譲り受けた者であっても、抵当権消滅請求権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-11-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h19-14-ah15-16-ih06-15-eh02-20-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-14-ア)(H15-16-イ)(H06-15-エ)(H02-20-5)</div>
+          <p class="qtext">4　抵当権消滅請求は、抵当不動産について所有権を取得した第三者のほか、地上権又は永小作権を取得した第三者もすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-14-ah15-16-ih06-15-eh02-20-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h26-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-12-ウ)</div>
+          <p class="qtext">5　ＡのＢに対する貸金債権を担保するために、ＡがＣ所有の甲建物に抵当権の設定を受けた場合について。Ｂは、Ｃから甲建物を買い受けた場合には、抵当不動産の第三取得者として、抵当権消滅請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h31-14-uh02-20-1r06-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-14-ウ)(H02-20-1)(R06-14-イ)</div>
+          <p class="qtext">6　抵当権によって担保されている債務を主債務とする保証の保証人は、抵当不動産を買い受けたときは、抵当権消滅請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-14-uh02-20-1r06-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h31-14-eh25-13-ah06-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-14-エ)(H25-13-ア)(H06-15-オ)</div>
+          <p class="qtext">7　停止条件付きで抵当不動産を取得した者は、停止条件が成就していない間は、抵当権消滅請求をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-14-eh25-13-ah06-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h15-16-ah11-11-5r07-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-16-ア)(H11-11-5)(R07-15-ウ)</div>
+          <p class="qtext">8　共有関係にある一個の不動産全体に抵当権が設定されている場合、その共有持分の第三取得者は、共有持分について抵当権消滅請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-16-ah11-11-5r07-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h31-14-oh25-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-14-オ)(H25-13-イ)</div>
+          <p class="qtext">9　抵当権消滅請求は、抵当権の実行としての競売による差押えの効力が発生する前に、しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-14-oh25-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h11-11-4h02-20-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-11-4)(H02-20-2)</div>
+          <p class="qtext">10　抵当不動産について競売が申し立てられた後にその不動産の所有権を取得した者であっても、抵当権消滅請求権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-11-4h02-20-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h06-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-15-イ)</div>
+          <p class="qtext">11　抵当不動産の第三取得者が抵当権消滅請求権を行使することができるのは、抵当権者が第三取得者に対して、抵当権の実行の通知をした後に限られる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h06-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-15-ア)</div>
+          <p class="qtext">12　抵当不動産の第三取得者が抵当権消滅請求権を行使するには、登記の有無を問わず、知れたるすべての抵当権者に対し、不動産取得の原因等を記載した書面を送達しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h19-14-oh02-20-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-14-オ)(H02-20-4)</div>
+          <p class="qtext">13　抵当不動産の第三取得者が、登記をした抵当権者のうち一部の者について抵当権消滅請求をした場合には、当該一部の者の抵当権のみが消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-14-oh02-20-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h19-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-14-イ)</div>
+          <p class="qtext">14　抵当権者が抵当権消滅請求を拒むには、第三取得者から抵当権消滅請求の書面の送付を受けた後2か月以内に抵当権を実行して競売の申立てをしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h15-16-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-16-オ)</div>
+          <p class="qtext">15　抵当権消滅請求があってから2か月以内に抵当権の被担保債権の弁済期が到来しない場合であっても、抵当権者は、弁済期未到来のまま競売を申し立てることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-16-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h13-12-ar06-13-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-12-ア)(R06-13-オ)</div>
+          <p class="qtext">16　抵当権者は、抵当権設定者が通常の用法に従い抵当権が設定された山林の立木を伐採している場合には、その禁止を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-12-ar06-13-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h13-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-12-オ)</div>
+          <p class="qtext">17　抵当権者は、抵当権の侵害があった場合でも、抵当権の目的物の交換価値が被担保債権額を弁済するのに十分であるときは、その妨害排除を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h04-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-19-エ)</div>
+          <p class="qtext">18　土地所有者が建物を築造して土地に抵当権を設定した場合において建物が第三者に賃貸されたときは、抵当権者は自己に損害を及ぼすものとしてその賃貸借契約を解除することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h13-12-ih09-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-12-イ)(H09-12-イ)</div>
+          <p class="qtext">19　抵当権者は、抵当権が設定された山林の立木が伐採されて木材となった場合には、その搬出の禁止を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-12-ih09-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h28-12-ih17-14-oh20-14-ah20-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-12-イ)(H17-14-オ)(H20-14-ア)(H20-14-イ)</div>
+          <p class="qtext">20　ＡのＢに対する金銭債権を担保するために、Ｃの所有する甲建物を目的とする抵当権が設定された場合に、Ｄが甲建物を不法占有している場合には、Ａは、Ｃに対して有する甲建物を適切に維持又は保存するよう求める請求権を保全するためであっても、ＣのＤに対する妨害排除請求権を代位行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-12-ih17-14-oh20-14-ah20-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h29-07-ah24-08-2h20-14-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-07-ア)(H24-08-2)(H20-14-オ)</div>
+          <p class="qtext">21　Ａは、その所有する甲土地についてＢのために抵当権を設定し、その旨の登記がされた後、Ｃに対し、抵当権の実行としての競売手続を妨害する目的で甲土地を賃貸した。この場合において、Ｃの占有により甲土地の交換価値の実現が妨げられてＢの優先弁済請求権の行使が困難となるような状態があり、Ａにおいて抵当権に対する侵害が生じないように甲土地を適切に維持管理することが期待できないときは、Ｂは、Ｃに対し、抵当権に基づく妨害排除請求権を行使して、直接自己への甲土地の明渡しを求めることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-07-ah24-08-2h20-14-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h20-14-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-14-ウ)</div>
+          <p class="qtext">22　判例は、抵当権は、抵当不動産を占有する権原を包含するものではなく、抵当不動産の占有はその所有者にゆだねられているので、抵当権者は直接自己に明け渡すことを請求することはできないとしている。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-14-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h08-15-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-15-1)</div>
+          <p class="qtext">23　Ａ所有の建物についてＢが抵当権を設定した後に、Ａがその建物をＣに賃貸して引き渡した。賃貸借契約終了後もＡがＣに対して建物の返還を請求しないときは、Ｂは、抵当権に基づく妨害排除として、Ｃに対し、建物を自己に引き渡すように請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-15-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h28-12-ah09-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-12-ア)(H09-12-オ)</div>
+          <p class="qtext">24　ＡのＢに対する金銭債権を担保するために、Ｃの所有する甲建物を目的とする抵当権が設定された場合に、Ｃの行為により甲建物の価格が減少しても、甲建物の残存価値がＡのＢに対する金銭債権の弁済のために十分である場合には、Ａは、Ｃに対して不法行為に基づく損害賠償請求をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-12-ah09-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h13-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-12-ウ)</div>
+          <p class="qtext">25　抵当権の侵害による不法行為に基づく損害賠償は、抵当権の実行により損害額が確定した場合でなければ、請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h20-14-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-14-エ)</div>
+          <p class="qtext">26　抵当権者が抵当不動産の占有者に対し抵当不動産の明渡請求をしたにもかかわらず、その占有者が理由なくこれに応じないで違法に占有を継続する場合、抵当権者は抵当不動産の占有者に対し賃料額相当の損害賠償金の支払を請求することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-14-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h09-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-12-ア)</div>
+          <p class="qtext">27　債務者が、抵当権の目的物である不動産を損傷したときは、抵当権者は、被担保債権の弁済期の到来前であっても、抵当権を実行することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h02-22-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-22-2)</div>
+          <p class="qtext">28　原抵当権者が、転抵当権を設定するには、原抵当権の抵当権設定者の承諾を要する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-22-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h02-22-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-22-1)</div>
+          <p class="qtext">29　転抵当権者は、原抵当権の被担保債権の弁済期が到来していなくても、転抵当権の被担保債権の弁済期が到来していれば、転抵当権を実行することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-22-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h02-19-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-19-オ)</div>
+          <p class="qtext">30　抵当権者甲が、一般債権者乙に対し、抵当権を放棄したときは、甲は、抵当権を失う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-19-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h18-16-oh09-17-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-16-オ)(H09-17-5)</div>
+          <p class="qtext">31　抵当権者がその債務者の一般債権者に対して抵当権の放棄をしたときは、抵当権者は、当該一般債権者との関係では優先弁済権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-16-oh09-17-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h29-12-eh09-17-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-12-エ)(H09-17-2)</div>
+          <p class="qtext">32　債務者Ａに対する債権者として、Ａ所有の甲土地の第１順位の抵当権者Ｂ(被担保債権額600万円)、第2順位の抵当権者Ｃ(被担保債権額2100万円)及び第3順位の抵当権者Ｄ(被担保債権額2400万円)がおり、また、無担保の一般債権者Ｅ(債権額400万円)がいる。この事例において、甲土地の競売による甲土地の競売による配当金総額が5000万円である場合に関して。ＢからＤに対する抵当権の順位の譲渡又は放棄は、ＢとＤの合意によってすることができ、Ａ、Ｃ及びＥの承諾は不要である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-12-eh09-17-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h09-17-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-17-1)</div>
+          <p class="qtext">33-1　甲不動産には、順位1番から3番までの抵当権が設定され（第1順位の抵当権者をＡ、第2順位の抵当権者をＢ、第3順位の抵当権者をＣとし、Ｃの抵当権の被担保債権額がＡの抵当権の被担保債権額より大きいものとする。）、それぞれ登記がされている。この事例において、ＡがＣに抵当権の順位を譲渡する場合とＡがＣのために抵当権の順位を放棄する場合に関して。<br>順位の譲渡は1番抵当権の債務者と3番抵当権の債務者が同一でなければすることができないが、順位の放棄はこれらの債務者が異なっていてもすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-33-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-17-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h09-17-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-17-4)</div>
+          <p class="qtext">33-2　Ａは、順位の譲渡がされた場合には1番抵当権者として配当を受けることができないが、順位の放棄がされた場合には1番抵当権者として配当を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-33-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-17-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h09-17-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-17-3)(改)</div>
+          <p class="qtext">34　登記は、順位の譲渡については効力発生要件であるが、順位の放棄については第三者に対する対抗要件である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-17-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h29-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-12-ア)</div>
+          <p class="qtext">35-1　債務者Ａに対する債権者として、Ａ所有の甲土地の第１順位の抵当権者Ｂ(被担保債権額600万円)、第2順位の抵当権者Ｃ(被担保債権額2100万円)及び第3順位の抵当権者Ｄ(被担保債権額2400万円)がおり、また、無担保の一般債権者Ｅ(債権額400万円)がいる。この事例において、甲土地の競売による甲土地の競売による配当金総額が5000万円である場合に関して。<br>抵当権の順位を、第1順位の抵当権者Ｄ、第2順位の抵当権者Ｃ及び第3順位の抵当権者Ｂと変更するためには、ＢとＤの合意があれば足りる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-35-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-h29-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-12-ウ)</div>
+          <p class="qtext">35-2　ＢがＥに対して抵当権を譲渡した場合のＢの配当額は200万円であり、ＢがＥに対して抵当権を放棄した場合のＢの配当額は360万円である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-35-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h29-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-12-オ)</div>
+          <p class="qtext">35-3　ＢがＤに対して抵当権の順位を譲渡した場合のＢの配当額は580万円であり、ＢがＤに対して抵当権の順位を放棄した場合のＢの配当額は500万円である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-35-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h22-13">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-13)</div>
+          <p class="qtext">36　債務者の所有する甲土地について、Ａは被担保債権1,000万円の一番抵当権を、Ｂは被担保債権1,200万円の二番抵当権を、Ｃは被担保債権1,500万円の三番抵当権を、Ｄは被担保債権1,500万円の四番抵当権を有していた。その後、Ａが次のアからオまでのいずれかの行為をした。甲土地が競売された結果、配当金総額が3,000万円であったとして、アからオまでのそれぞれの行為がされた場合のＡの配当額を計算し、その額が少ない順番にアからオまでを並べたときに、3番目となるものは、後記1から5までのうちどれか。(H22-13)<br><br>ア　ＡがＣに対し、抵当権の順位の譲渡をした。<br><br>イ　ＡがＤに対し、抵当権の順位の譲渡をした。<br><br>ウ　ＡがＣに対し、抵当権の順位の放棄をした。<br><br>エ　ＡがＤに対し、抵当権の順位の放棄をした。<br><br>オ　ＡがＤとの間で、抵当権の順位の変更をするとの合意をしたが、Ｂ及びＣの承諾は得ていない。<br><br>1　ア　　　2　イ　　　3　ウ　　　4　エ　　　5　オ</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-13">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h14-09">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-09)</div>
+          <p class="qtext">37　債務者Ｅに対する債権者として、Ｅ所有の不動産の1番抵当権者Ａ（債権額1000万円）、2番抵当権者Ｂ（債権額1200万円）及び3番抵当権者Ｃ（債権額1400万円）がおり、また、無担保の債権者Ｄ（債権額1600万円）がいる。これらの債権者の間で次のアからエまでの行為がされた場合につき、当該不動産の競売に基づく売却により3000万円を配当するものとして各債権者に対する配当額を算出し、Ａに対する配当額が多い順にアからエまでを並べ替えた場合、正しい順番は、後記1から5までのうちどれか。(H14-09)<br><br>ア　ＡがＤの利益のために抵当権を譲渡した。<br><br>イ　ＡがＣの利益のために抵当権の順位を譲渡した。<br><br>ウ　ＡがＤの利益のために抵当権を放棄した。<br><br>エ　ＡがＣの利益のために抵当権の順位を放棄した。<br><br>1　イアエウ　　2　イエアウ　　3　ウエアイ　　4　エイウア　　5　エウイア</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min26.html#(リンク)">Unit26-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-09">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h24-13-ir06-14-a">
+  <div class="dlg-head"><div class="dlg-title">(H24-13-イ)(R06-14-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産について所有権又は地上権を買い受けた第三者が、抵当権者の請求に応じてその抵当権者にその代価を弁済したときは、抵当権は、その第三者のために消滅する（民法<span class="mono">378条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-13-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当不動産の第三取得者は、抵当権消滅請求をすることができる（民法<span class="mono">379条</span>）。抵当権の消滅請求をすることができる者は、抵当不動産に対する所有権取得者である。よって、抵当不動産の賃借権者であるＣは、本件抵当権について、抵当権消滅請求をすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-11-1">
+  <div class="dlg-head"><div class="dlg-title">(H11-11-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産の第三取得者は抵当権消滅請求をすることができる（民法<span class="mono">379条</span>）。第三取得者であれば無償で譲り受けた者でもよい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-14-ah15-16-ih06-15-eh02-20-5">
+  <div class="dlg-head"><div class="dlg-title">(H19-14-ア)(H15-16-イ)(H06-15-エ)(H02-20-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権消滅請求をすることができるのは、抵当不動産について所有権を取得した第三者に限られる（民法<span class="mono">379条</span>）。したがって、地上権又は永小作権を取得した第三者は抵当権消滅請求をすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>主たる債務者、保証人及びこれらの者の承継人は、抵当権消滅請求をすることができない（民法<span class="mono">380条</span>）。これらの者は、自ら抵当債権の全部を支払うべき義務を有するため、抵当権消滅請求手続をとるのは妥当ではないからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-14-uh02-20-1r06-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-14-ウ)(H02-20-1)(R06-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>主たる債務者、保証人及びこれらの者の承継人は、抵当権消滅請求をすることができない（民法380 条）。これらの者は、自ら債務を負担する者であり、たとえ第三取得者になっても、その債務を弁済しないで抵当権消滅請求をするのは妥当ではないためである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-14-eh25-13-ah06-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H31-14-エ)(H25-13-ア)(H06-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産の停止条件付第三取得者は、その停止条件の成否が未定である間は、抵当権消滅請求をすることができない（民法381 条）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-16-ah11-11-5r07-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H15-16-ア)(H11-11-5)(R07-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>1個の不動産全体を目的とする抵当権が設定されている場合において、その不動産の共有持分の第三取得者は、共有持分について抵当権消滅請求をすることができない（最判平9.6.5）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-14-oh25-13-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-14-オ)(H25-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産の第三取得者は、抵当権の実行としての競売による差押えの効力が発生する前に、抵当権抹消請求をしなければならない（民法382 条）。抵当権消滅請求は、抵当権者による抵当権の実行手続に影響を及ぼさない範囲内で認められるべきであるからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-11-4h02-20-2">
+  <div class="dlg-head"><div class="dlg-title">(H11-11-4)(H02-20-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産の第三取得者は、抵当権の実行としての競売による差押えの効力が発生する前に、抵当権消滅請求をしなければならない（民法<span class="mono">382条</span>）。そして、競売による差押えの効力が発生するのは、抵当権の実行としての競売開始決定が債務者に送達された時か、差押えの登記がされた時である（民事執行法<span class="mono">188条</span>、<span class="mono">46条</span>1項）。よって、抵当不動産について競売を申し立てられただけであれば、いまだ抵当不動産の第三取得者が抵当権消滅請求をすることは可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H06-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>第三取得者が抵当権消滅請求権を行使するに際して、抵当権者から抵当権実行の通知を受けていることは不要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H06-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当不動産の第三取得者は、抵当権消滅請求をするときは、登記をした各債権者に対し、一定の事項を記載した書面を送付しなければならない（民法<span class="mono">383条</span>）。登記のない者には書面の送達は不要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-14-oh02-20-4">
+  <div class="dlg-head"><div class="dlg-title">(H19-14-オ)(H02-20-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権消滅請求は、登記をした全ての抵当権者に対してすることを要し、登記をした抵当権者のうち一部の者について抵当権消滅請求をすることはできない（民法<span class="mono">383条</span>柱書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権者が抵当権消滅請求を拒むには、第三取得者から抵当権消滅請求の書面の送付を受けた後2か月以内に抵当権を実行して競売の申立てをしなければならない（民法<span class="mono">384条</span>1号参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-16-o">
+  <div class="dlg-head"><div class="dlg-title">(H15-16-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権者が抵当権消滅請求を拒むには、第三取得者から抵当権消滅請求の書面の送付を受けた後2か月以内に抵当権を実行して競売の申立てをしなければならない（民法<span class="mono">384条</span>1号参照）。この場合には、期間内に被担保債権の弁済期が到来しないこともあり得るため、弁済期未到来であっても、競売申立てが認められると解される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-12-ar06-13-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-12-ア)(R06-13-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権は、抵当権設定者の占有・利用を奪うものではないから、目的物が通常の経済的用途に従って利用されている限り、抵当権が侵害されているとはいえず、その禁止を請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-12-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権の侵害があった場合に、抵当権の目的物の交換価値が被担保債権額の弁済に十分であっても、抵当権の不可分性の原則（民法<span class="mono">372条</span>、<span class="mono">296条</span>）により、抵当権に基づく物権的請求権を認めることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-19-e">
+  <div class="dlg-head"><div class="dlg-title">(H04-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権設定後も、抵当権設定者は抵当不動産の使用・収益ができる。よって、抵当権設定者が抵当権の目的物上の建物を第三者に賃貸した場合であっても、原則として抵当権者はその賃貸借契約を解除することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-12-ih09-12-i">
+  <div class="dlg-head"><div class="dlg-title">(H13-12-イ)(H09-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>目的物の通常の用法を超えて抵当権者に無断で立木を伐採する行為は、抵当不動産の価値の減少に当たるといえる。判例は、抵当権者は抵当権が設定された山林の立木が伐採されて木材となったものを搬出しようとする者に対して、抵当権そのものを理由として搬出の禁止を請求し得るとしている（大判昭7.4.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-12-ih17-14-oh20-14-ah20-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-12-イ)(H17-14-オ)(H20-14-ア)(H20-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>第三者が抵当不動産を不法占有することにより、抵当不動産の交換価値の実現が妨げられ抵当権者の優先弁済請求権の行使が困難となるような状態があるときは、抵当権者は抵当不動産の所有者に対し、抵当不動産を適切に維持又は保存するように求める請求権を有し、かかる請求権の保全のために、所有者の妨害排除請求権を代位行使できる（最大判平11.11.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-07-ah24-08-2h20-14-o">
+  <div class="dlg-head"><div class="dlg-title">(H29-07-ア)(H24-08-2)(H20-14-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権設定登記後に抵当不動産の所有者から占有権原の設定を受けてこれを占有する者についても、その占有権原の設定に抵当権の実行としての競売手続を妨害する目的が認められ、その占有により抵当不動産の交換価値の実現が妨げられて抵当権者の優先弁済請求権の行使が困難となるような状態があるときは、抵当権者は、当該占有者に対し、抵当権に基づく妨害排除請求として、上記状態の排除を求めることができる（最判平17.3.10）。また、抵当不動産の所有者において抵当権に対する侵害が生じないように抵当不動産を適切に維持管理することが期待できない場合には、抵当権者は、占有者に対し、直接自己への抵当不動産の明渡しを求めることができる（最判平17.3.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-14-u">
+  <div class="dlg-head"><div class="dlg-title">(H20-14-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権に基づく妨害排除請求権の行使に当たり、抵当不動産の所有者において抵当権に対する侵害が生じないように抵当不動産を適切に維持管理することが期待できない場合には、抵当権者は、占有者に対し、直接自己への抵当不動産の明渡しを求めることができる（最判平17.3.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-15-1">
+  <div class="dlg-head"><div class="dlg-title">(H08-15-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有者以外の第三者の不法占有により、抵当不動産の交換価値の実現が妨げられ、抵当権者の優先弁済請求権の行使が困難となるような状態があるときは、抵当権者から占有者に対する妨害排除請求が認められる（最大判平11.11.24）。また、所有者による抵当不動産の適切な維持管理が期待できない場合には、抵当権者が占有者に対し、直接自己への明渡しを求めることもできる（最判平17.3.10）。もっとも、本肢のＣが上記各判例の要件を満たすかは明らかでない。よって、ＢはＣに対し、建物を自己に引き渡すように請求できるとはいえない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-12-ah09-12-o">
+  <div class="dlg-head"><div class="dlg-title">(H28-12-ア)(H09-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権が侵害されたとして損害賠償を請求するためには、抵当権の侵害により目的物の価値が減少し、残存価額が被担保債権の担保として十分でなくなったことが必要である（大判昭3.8.1）。よって、被担保債権の担保として十分である限り、抵当権者は不法行為として損害賠償を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H13-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権実行前であっても、弁済期到来後であれば損害賠償請求できる（大判昭11.4.13）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-14-e">
+  <div class="dlg-head"><div class="dlg-title">(H20-14-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権者は、抵当不動産の占有者に対し明渡請求ができる場合であっても、賃料額相当の損害賠償請求はできない。抵当権者には、抵当不動産の使用収益権はなく、抵当権者が抵当権に基づく妨害排除請求により取得する占有は、所有者に代わり抵当不動産を維持管理することを目的とするものであるからである（最判平17.3.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H09-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者が担保を滅失させ、損傷させ、又は減少させたときは、債務者は期限の利益を主張することができない（民法<span class="mono">137条</span>2号）。その結果、債権者は期限が到来したものとして、直ちに履行の請求が可能であり、抵当権を実行することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-22-2">
+  <div class="dlg-head"><div class="dlg-title">(H02-22-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>転抵当権の設定は、転抵当権者と原抵当権者との合意のみによってすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-22-1">
+  <div class="dlg-head"><div class="dlg-title">(H02-22-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>転抵当権者は、原抵当権の被担保債権の弁済期が到来しなければ、その実行をすることができない。原抵当権の債務者が、その被担保債権の弁済期に弁済すれば、その抵当権は実行されないという利益を設定者は有しているからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-19-o">
+  <div class="dlg-head"><div class="dlg-title">(H02-19-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権の放棄（民法<span class="mono">376条</span>）をすると、抵当権を放棄した抵当権者と放棄を受けた無担保債権者とが同順位で優先弁済を分け合うことになる。よって、抵当権の放棄をした者は、抵当権そのものを失うわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-16-oh09-17-5">
+  <div class="dlg-head"><div class="dlg-title">(H18-16-オ)(H09-17-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権の放棄（民法<span class="mono">376条</span>）をすると、抵当権を放棄した抵当権者と放棄を受けた無担保債権者が同順位で優先弁済を分け合うことになる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-12-eh09-17-2">
+  <div class="dlg-head"><div class="dlg-title">(H29-12-エ)(H09-17-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">376条</span>の処分（抵当権の順位の譲渡・放棄）は、抵当権の帰属自体に変更を生じさせず、配当上の効果を生じさせる相対的効力を定めたと解されている。よって、他の担保権者等第三者の抵当権の帰属自体にはなんら影響を与えないので、その同意を得る必要はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-17-1">
+  <div class="dlg-head"><div class="dlg-title">(H09-17-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権者は、その抵当権を同一の債務者に対する他の債権者の利益のためにその抵当権の順位を譲渡し、若しくは放棄することができる（民法<span class="mono">376条</span>1項）。民法<span class="mono">376条</span>1項における同一の債務者とは、債務者でない抵当権設定者も含むものとされており（昭30.7.11民甲1427）、同一不動産上に抵当権を有する債権者に対しては、被担保債権の債務者が同一でなくても、抵当権の順位の譲渡及び放棄をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-17-4">
+  <div class="dlg-head"><div class="dlg-title">(H09-17-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>先順位の抵当権者から後順位の抵当権者に対して順位の譲渡がされた場合、その両者の間で順位の入れ替えが行われたのと同じ効果が生じ、両者の受ける配当額を合算した額について順位の譲渡人が後順位となり、Ｃの抵当権の被担保債権額がＡの抵当権の被担保債権額より大きいものとするとの条件から、Ａは1番抵当権者として配当を受けることができない。一方、順位の放棄がされた場合、同順位で配当を受けることになるため、両者の受ける配当額を合算した額について按分比例で弁済を受ける。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-17-3">
+  <div class="dlg-head"><div class="dlg-title">(H09-17-3)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権の順位の譲渡又は放棄がされた場合、これらの処分の利益を受ける者の権利の順位は、抵当権の登記にした付記の前後によるため（民法<span class="mono">376条</span>2項）、登記が対抗要件となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H29-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権の順位は、関係抵当権者全員の合意によらなければ変更できない（民法<span class="mono">374条</span>1項本文）。順位の変わらない中間者の同意も必要である。これは、抵当権の順位の変更の効果は絶対的であり、順位の変わらない中間者も配当等において影響を受けるからである。よって、本記述の場合には、Ｃの同意も要する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H29-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本問の甲土地の競売による配当金総額が5000万円の場合、通常の配当額は、Ｂが600万円、Ｃが2100万円、Ｄは2400万円中2300万円、Ｅが0円である。この場合において、ＢからＥへ抵当権の譲渡が行われると、ＢとＥの間で、Ｂは後順位となる。本記述では、ＢとＥの配当額の合計額600万円から、まず、Ｅが400万円の配当を受けることになるので、Ｂの受ける配当額は200万円となる。他方で、ＢからＥへ抵当権の放棄が行われると、Ｂは、Ｅとの関係においてのみ、優先権を失い、Ｂが本来受けるべき配当額（600万円）をＢとＤで両者の債権額（Ｂの600万円、Ｅの400万円）に比例し分配することになる。本記述では、Ｂの受ける配当額は600万円×1000分の600＝360万円となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-12-o">
+  <div class="dlg-head"><div class="dlg-title">(H29-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、抵当権の順位を譲渡した場合のＢの配当額と抵当権の順位の放棄をした場合のＢの配当額が逆になっている点で、誤っている。本問の場合において、ＢからＤへ抵当権の順位の譲渡がなされると、ＢとＤが確保していた優先配当額の範囲内で、ＤがＢに対して優先して配当を受けることになる。本記述では、ＢとＤの配当額の合計額2900万円から、まず、Ｄが2400万円の配当を受けることになるので、Ｂの受ける配当額は500万円となる。他方で、ＢからＤへ抵当権の順位の放棄がなされると、ＢとＤが確保していた優先配当額の合計をＢとＤとの間で債権額に応じて平等に分配することになる。本記述では、Ｂの受ける配当額は2900万円×3000分の600＝580万円となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-13">
+  <div class="dlg-head"><div class="dlg-title">(H22-13) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：4</div>
+    <p>ア　300万円。<br>抵当権の順位の譲渡があった場合、受益者である後順位抵当権者が処分者より優位に立ち、処分者に優先して弁済を受けることができることになる（民法<span class="mono">376条</span>1項）。本記述においては、ＡとＣが受けられる優先弁済枠の合計額1800万円からＣが優先的に配当を受け、残余についてＡに配当されることになる。そして、Ｃの債権額は1500万円であるから、Ｃは1500万円全額の配当を受けることができ、Ａはその残余である300万円の配当を受ける。<br><br>イ　0円。<br>抵当権の順位の譲渡があった場合、受益者である後順位抵当権者が処分者より優位に立ち、処分者に優先して弁済を受けることができることになる（民法<span class="mono">376条</span>1項）。本記述において、ＡとＤが受けられる優先弁済枠の合計額1000万円からＤが優先的に配当を受け、残余についてＡに配当されることになる。そして、Ｄの債権額は1500万円であるから、Ｄは1000万円の配当を受けることができるが、残余が生じないため、Ａは配当を受けることができない。<br><br>ウ　720万円。<br>抵当権の順位の放棄があった場合、受益者である後順位抵当権者は処分者と同順位に立ち、債権額に応じて平等に配当が分配される（民法<span class="mono">376条</span>1項）。本記述においては、ＡとＣが受けられる優先弁済枠の合計額1800万円がそれぞれの債権額（Ａ：1000万円、Ｃ：1500万円）に応じて按分されることになる。よって、Ａは、1800万円×1000万円÷2500万円＝720万円の配当を受ける。<br><br>エ　400万円。<br>抵当権の順位の放棄があった場合、受益者である後順位抵当権者は処分者と同順位に立ち、債権額に応じて平等に配当が分配される（民法<span class="mono">376条</span>1項）。本記述においては、ＡとＤの受けられる優先弁済枠の合計額1000万円がそれぞれの債権額（Ａ：1000万円、Ｄ：1500万円）に応じて按分されることになる。よって、Ａは、1000万円×1000万円÷2500万円＝400万円の配当を受ける。<br><br>オ　1000万円。<br>抵当権の順位は、各抵当権者の合意によって変更することができる（民法<span class="mono">374条</span>1項本文）。本記述においては、ＡＤ間で順位を変更する場合、中間者であるＢ及びＣの順位に変動がなくとも、優先弁済の範囲につき影響を受けるので、Ｂ及びＣも合意の当事者になる必要がある。Ｂ及びＣが合意の当事者に加わっていない以上、順位の変更の効力は生じず、Ａの順位に変動は生じない。<br><br>以上により、Ａに対する配当額が少ない順番に並べたときに、3番目となるものはエであり、従って、正解は肢4となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-09">
+  <div class="dlg-head"><div class="dlg-title">(H14-09) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：4</div>
+    <p>本問で抵当権の処分がされなかった場合の各債権者の配当額は、Ａが1000万円、Ｂが1200万円、Ｃは1400万円中800万円、Ｄが0円である。<br>債務者Ｅに対する債権者として、Ｅ所有の不動産の1番抵当権者Ａ（債権額1000万円）、2番抵当権者Ｂ（債権額1200万円）、3番抵当権者Ｃ（債権額1400万円）、無担保の債権者Ｄ（債権額1600万円）がおり、当該不動産の競売代金が3000万円の場合、通常の配当はＡが1000万円、Ｂが1200万円、Ｃは1400万円中800万円のみとなる。ところが本問では、1番抵当権者Ａは抵当権を有しない債権者Ｄに抵当権を譲渡又は放棄し、また、1番抵当権者Ａは3番抵当権者Ｃに抵当権の順位を譲渡又は放棄している（民法<span class="mono">376条</span>）。<br><br>ア　Ａ0円、Ｂ1200万円、Ｃ800万円、Ｄ1000万円<br>アの抵当権の譲渡により、譲受人Ｄは自己の債権（1600万円）を、譲渡人Ａの抵当権の被担保債権額（1000万円）の順位（1番抵当権）の限度で担保される。従って、Ｄは1000万円の配当を受け、Ａは配当を受けることができない（0円）。<br><br>イ　Ａ400万円、Ｂ1200万円、Ｃ1400万円、Ｄ0円<br>イの抵当権の順位の譲渡により、譲渡人Ａと譲受人Ｃとの間で譲渡人は譲受人の後順位となる。譲受人Ｃは自己と譲渡人の配当額の合計額において自己の債権額の範囲で優先弁済を受ける。譲渡人Ａは残額があれば弁済を受けることができる。本問ではＡとＣの配当額の合計額1800万円から、まず、Ｃが1400万円の配当を受け、残額400万円をＡが受けることになる。<br><br>ウ　Ａ384万6154円、Ｂ1200万円、Ｃ800万円、Ｄ615万3846円<br>ウの抵当権の放棄により、抵当権の放棄者Ａは放棄を受けるＤとの関係においてのみ優先権を失い、Ａが本来受けるべき配当額（1000万円）をＡとＤで両者の債権額（Ａの1000万円、Ｄの1600万円）に比例して分配する。本問では、Ｄは1000万円×2600分の1600＝6、153、846円となり、Ａは1000万円×2600分の1000＝3、846、154円となる。<br><br>エ　Ａ750万円、Ｂ1200万円、Ｃ1050万円、Ｄ0円<br>エの抵当権の順位の放棄により、抵当権の順位の放棄者Ａと放棄を受ける３番抵当権者Ｃは同順位となり、Ａの配当額（1000万円）とＣの配当額（800万円）の合計額（1800万円）を両者の債権額（Ａの1000万円、Ｃの1400万円）に比例して分配する。本問では、Ｃは1800万円×2400分の1400＝1050万円となり、Ａは1800万円×2400分の1000＝750万円となる。<br><br>以上により、Ａに対する配当額が多い順に並べると、エ750万円、イ400万円、ウ384万6154円、ア0円であり、従って、正解は肢4となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

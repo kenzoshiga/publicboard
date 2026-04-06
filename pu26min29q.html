@@ -1,0 +1,1392 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit29</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit29</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min28q.html">前へ</a>
+      <a href="pu26min30q.html">次へ</a>
+      <a href="pu26min29.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h19-11-eh10-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-11-エ)(H10-11-エ)</div>
+          <p class="qtext">1　留置権者は、被担保債権の全部の弁済を受けるまで目的物を留置することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-11-eh10-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h14-10-oh06-11-ih19-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-10-オ)(H06-11-イ)(H19-11-オ)</div>
+          <p class="qtext">2　動産留置権と動産質権は、いずれも目的動産の滅失によって債務者が取得すべき金銭その他の物に対して代位することができる権利である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-10-oh06-11-ih19-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h03-03-4h01-04-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-03-4)(H01-04-3)</div>
+          <p class="qtext">3　不動産における留置権は、登記をしなければ、所有者から不動産を譲り受けた第三者に対抗することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-03-4h01-04-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h14-10-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-10-ア)</div>
+          <p class="qtext">4　動産留置権は目的動産の占有を取得しなければ成立しないが、動産質権はその設定契約をもって成立し、目的動産の占有の取得はその対抗要件である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-10-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r05-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-12-オ)(改)</div>
+          <p class="qtext">5　教授：　Ａを賃借人、Ｂを賃貸人とするＢ所有の甲建物の賃貸借契約の期間中に、Ａが甲建物についてＢの負担に属する必要費を支出し、Ｂからその償還を受けないまま、賃貸借契約が終了した事例について、考えてみましょう。この事例において、実は、甲建物の所有者が当初からＣであり、Ｃに無断で、ＢがＡに甲建物を賃貸していた場合には、Ａは、Ｂに対し、必要費償還請求権を被担保債権として、甲建物について留置権を主張することができますか。<br>学生：オ　はい。Ａは、Ｂに対し、留置権を主張することができます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h27-12-ih22-12-ih01-03-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-12-イ)(H22-12-イ)(H01-03-3)</div>
+          <p class="qtext">6　Ａからその所有するカメラをＢが借りていた場合において、ＣがＢからそのカメラの修理を有償で依頼され、その引渡しを受けたときは、Ｃは、Ｂに対する修理代金債権に基づくそのカメラについての留置権を主張して、ＡのＣに対するカメラの引渡請求を拒むことができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-12-ih22-12-ih01-03-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-r06-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-11-ア)</div>
+          <p class="qtext">7　ＡがＢに対して甲建物を売却した後、Ａが甲建物を引き続き占有していたが、Ｂがその代金全額を支払う前に甲建物をＣに対して売却した場合において、ＣがＡに対して甲建物の明渡しを請求したときは、Ａは、Ｂに対する売買代金債権を被担保債権として留置権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h08-11-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-11-4)</div>
+          <p class="qtext">8　Ａは、債務者Ｂに対する貸付債権を担保するため、Ｂ所有の家屋に抵当権を設定した。その後、Ｃは、Ｂとの間でその家屋について、賃貸借契約を締結し、引渡しを受けて居住を始め、屋根の修繕費用を支出した。Ａが抵当権を実行した事例において、Ｃが抵当権に基づく差押えの前に屋根の修繕工事をしたときは、Ｃは、買受人に対し修繕費用の弁済を受けるまで家屋の引渡しを拒むことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-11-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r04-13-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-13-ア)</div>
+          <p class="qtext">9　建物の賃借人は、賃貸人に対して有する造作買取代金債権を被担保債権として、当該建物について留置権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-13-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h27-12-eh22-12-eh10-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-12-エ)(H22-12-エ)(H10-11-オ)</div>
+          <p class="qtext">10　Ａからその所有する甲建物を賃借していたＢが、Ａの同意を得て甲建物に造作を設置し、賃貸借契約終了後、Ａに対してその造作を買い取るべきことを請求した場合、Ｂは、Ａに対する造作買取代金債権に基づく甲建物についての留置権を主張して、ＡのＢに対する甲建物の明渡請求を拒むことができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-12-eh22-12-eh10-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h17-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-12-ウ)</div>
+          <p class="qtext">11　ＡがＢに対して甲建物を賃貸している。Ｂは、賃貸借契約締結の際に、Ａに対して敷金を交付していたが、賃貸借の終了後の敷金返還時期に関する特別の約定はなかった。この場合において、Ｂは、敷金返還請求権に基づき甲建物を留置することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r06-11-ih23-11-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-11-イ)(H23-11-4)</div>
+          <p class="qtext">12　ＡがＢに対して甲建物を売却して引き渡した後、ＡがＣに対して甲建物を売却し、その旨の登記がされた場合において、ＣがＢに対し甲建物の明渡しを請求したときは、Ｂは、Ａに対する債務不履行に基づく損害賠償請求権を被担保債権として留置権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-11-ih23-11-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r04-13-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-13-ウ)</div>
+          <p class="qtext">13　他人物売買の売主から目的物の引渡しを受けた買主は、所有者から当該目的物の返還請求を受けた場合には、売主に対して有する損害賠償請求権を被担保債権とする留置権を主張して返還を拒むことはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-13-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h27-12-uh22-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-12-ウ)(H22-12-ウ)</div>
+          <p class="qtext">14　Ａ所有の甲土地をＢがＣに売却して引き渡した後、甲土地の所有権を移転すべきＢの債務が履行不能となった場合、Ｃは、履行不能による損害賠償請求権に基づく甲土地についての留置権を主張して、ＡのＣに対する甲土地の引渡請求を拒むことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-12-uh22-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h19-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-11-イ)</div>
+          <p class="qtext">15　留置権は、物に関して生じた債権に停止条件が付されている場合において当該条件の成否がいまだ確定しないときであっても、当該物について成立する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h14-10-ih03-03-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-10-イ)(H03-03-5)</div>
+          <p class="qtext">16　動産留置権は被担保債権の弁済期が到来する前は成立しないが、動産質権は被担保債権の弁済期が到来する前であっても成立する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-10-ih03-03-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h03-03-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-03-3)</div>
+          <p class="qtext">17　留置権者が留置物について支出した有益費の償還請求権に基づく留置権は、償還請求権に期限の許与が認められても、消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-03-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r06-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-11-オ)</div>
+          <p class="qtext">18　Ａを賃借人とし、Ｂを賃貸人とする甲建物の賃貸借契約がＡの賃料不払を理由に解除された後、Ａが自らに占有権原のないことを知りながら甲建物をなお占有している間に甲建物について有益費を支出した場合において、ＢがＡに対して甲建物の明渡しを請求したときは、Ａは、Ｂに対する有益費償還請求権を被担保債権として留置権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h27-12-ah17-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-12-ア)(H17-12-ア)</div>
+          <p class="qtext">19　Ａを賃貸人、Ｂを賃借人とする甲建物の賃貸借契約がＢの債務不履行を理由に解除された場合において、Ｂが占有権原がないことを知りながら引き続き甲建物を占有し、有益費を支出したときは、Ｂは、Ａに対する有益費償還請求権に基づく甲建物についての留置権を主張して、ＡのＢに対する甲建物の明渡請求を拒むことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-12-ah17-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h29-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-11-ア)</div>
+          <p class="qtext">20　留置権者は、留置物の換価代金について優先弁済権を有する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-r05-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-11-ア)</div>
+          <p class="qtext">21　留置権者は、留置物から生ずる果実を収取し、他の債権者に先立って、これを自己の債権の弁済に充当することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h25-11-uh30-13-ah14-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-11-ウ)(H30-13-ア)(H14-10-エ)</div>
+          <p class="qtext">22　留置権者は、債務者の承諾を得て留置物を第三者に賃貸することができ、賃貸によって得られた賃料を他の債権者に先立って被担保債権の弁済に充当することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-11-uh30-13-ah14-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-r05-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-12-イ)(改)</div>
+          <p class="qtext">23　教授：　Ａを賃借人、Ｂを賃貸人とするＢ所有の甲建物の賃貸借契約の期間中に、Ａが甲建物についてＢの負担に属する必要費を支出し、Ｂからその償還を受けないまま、賃貸借契約が終了した事例について、考えてみましょう。Ａが、留置権に基づいて甲建物を留置している間に、甲建物について有益費を支出し、これによる価格の増加が現存するときは、Ａは、Ｂに、有益費を償還させることができますか。<br>学生：イ　はい。Ａは、Ｂの選択に従い、その支出した金額又は増価額を償還させることができます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h30-13-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-13-オ)</div>
+          <p class="qtext">24　留置権者が留置物について必要費を支出した場合において、これによる価格の増加が現存しないときは、所有者にその償還をさせることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-13-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h17-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-12-イ)</div>
+          <p class="qtext">25　ＡがＢに対して甲建物を賃貸している。Ａは、Ｂの債務不履行を理由に賃貸借契約を解除したが、Ｂは、解除前に支出した有益費の償還請求権に基づく留置権を行使して、甲建物を占有していた。この場合において、Ｂが解除後に更に修繕費を支出したときは、Ｂは、この修繕費の償還請求権のためにも甲建物を留置することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h03-03-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-03-1)</div>
+          <p class="qtext">26　留置権者は、留置物を第三者に賃貸した場合において、債務者の承諾を得ていないときは、収取した賃料を自己の債権の弁済に充てることはできず、不当利得として債務者に返還しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-03-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-r04-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-13-イ)</div>
+          <p class="qtext">27　建物の賃借人は、賃貸借契約の終了後においては、当該建物について留置権を行使する場合であっても、従前のとおり当該建物に居住することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h17-12-eh25-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-12-エ)(H25-11-オ)</div>
+          <p class="qtext">28　ＡがＢに対して甲建物を賃貸している。Ａは、Ｂの債務不履行を理由に賃貸借契約を解除したが、Ｂは、解除前に支出した修繕費の償還請求権に基づく留置権を行使して、甲建物を占有していた。この場合において、Ｂが甲建物を継続して使用することは、保存行為に当たるから、Ｂは、甲建物の使用の対価に相当する額をＡに支払う義務を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-12-eh25-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h30-13-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-13-ウ)</div>
+          <p class="qtext">29　留置権者以外の者が留置物を占有している場合には、留置権者は、占有者に対し、留置権に基づき、目的物の占有を自己に移転するよう請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-13-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h19-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-11-ア)</div>
+          <p class="qtext">30　留置権は、目的物を占有していなければ成立せず、目的物の占有を失うと消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h16-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-12-ア)</div>
+          <p class="qtext">31　Ａは、Ｂからその所有する時計の修理を依頼され、その修理をしたが、Ｂは、時計の修理代金を支払っていない。ＡがＣによって時計を強取されたときは、Ｃに対する占有回収の訴えによって占有を回復しても、Ａは、留置権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h16-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-12-エ)</div>
+          <p class="qtext">32　Ａは、Ｂからその所有する時計の修理を依頼され、その修理をしたが、Ｂは、時計の修理代金を支払っていない。Ａが時計をＤに賃貸して引き渡したときは、Ａの留置権は、消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-r05-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-12-ウ)(改)</div>
+          <p class="qtext">33　教授：　Ａを賃借人、Ｂを賃貸人とするＢ所有の甲建物の賃貸借契約の期間中に、Ａが甲建物についてＢの負担に属する必要費を支出し、Ｂからその償還を受けないまま、賃貸借契約が終了した事例について、考えてみましょう。Ａが、留置権に基づいて甲建物を留置している間に、Ｂに無断で、第三者に甲建物を賃貸したときは、それによって留置権は当然に消滅しますか。<br>学生：ウ　はい。留置権は、当然に消滅します。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-r04-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-13-エ)</div>
+          <p class="qtext">34　留置物の所有者である債務者から当該留置物を譲り受けた第三取得者は、留置権者が留置物の占有において善良な管理者の注意を怠ったとしても、留置権の消滅請求をすることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h30-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-13-イ)</div>
+          <p class="qtext">35　留置権者が留置物の所有者である債務者の承諾を得ないで留置物に質権を設定した場合には、債務者は、留置権者に対し、留置権の消滅を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-35</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h25-11-ah16-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-11-ア)(H16-12-イ)</div>
+          <p class="qtext">36　留置権者が留置物の一部をその過失により壊したとしても、債務者は、債務の全額を弁済しない限り、留置権の消滅を請求することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-11-ah16-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-r05-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-12-ア)</div>
+          <p class="qtext">37　教授：　Ａを賃借人、Ｂを賃貸人とするＢ所有の甲建物の賃貸借契約の期間中に、Ａが甲建物についてＢの負担に属する必要費を支出し、Ｂからその償還を受けないまま、賃貸借契約が終了した事例について、考えてみましょう。この事例において、Ａは、Ｂに対し、必要費償還請求権を被担保債権として、甲建物について留置権を主張することが考えられますが、Ａが裁判手続外で留置権を行使した場合には、必要費償還請求権の消滅時効の進行に影響を及ぼしますか。<br>学生：ア　はい。Ａが甲建物を留置している間は、必要費償還請求権の消滅時効は進行しません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h25-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-11-イ)</div>
+          <p class="qtext">38　留置権者が留置物の占有を継続していても、それにより被担保債権の消滅時効の進行が妨げられることはない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-38</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h08-12-oh17-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-12-オ)(H17-13-エ)</div>
+          <p class="qtext">39　Ａは、Ｂに対する500万円の債権を担保するために、Ｂとの間でＢ所有の不動産に質権を設定する契約を締結した。Ｂが履行期限後も債務を履行しないまま10年を経過した場合であっても、Ａが目的不動産の占有を継続している限り、被担保債権が時効によって消滅することはない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-39</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-12-oh17-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h22-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-11-ア)</div>
+          <p class="qtext">40　留置権及び質権は、債務者が相当の担保を提供して、その消滅を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-40</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 41 -->
+    <section class="q" id="q-h16-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-12-ウ)</div>
+          <p class="qtext">41　Ａは、Ｂからその所有する時計の修理を依頼され、その修理をしたが、Ｂは、時計の修理代金を支払っていない。Ａが修理代金債権の額に相当する担保の提供に応じないときは、Ｂは、Ａの承諾に代わる裁判を得てＡの留置権の消滅を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-41</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 42 -->
+    <section class="q" id="q-h13-09">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H13-09）</div>
+          <p class="qtext">42　留置権に関する次のアからオまでの記述のうち、【】部分（Ａ）又は（Ｂ）の部分のいずれか一方のみが判例の趣旨に照らして正しいものの組合せは、後記1から5までのうちどれか。（H13-09）<br><br>ア　留置権者は、（Ａ）【目的物から優先弁済を受ける権利を有しない】ので、（Ｂ）【目的物を競売に付する権利を有しない】。<br><br>イ　物の引渡しを求める訴訟において、被告が留置権を行使して引渡しを拒絶した場合、（Ａ）【債務の完済までは原告に目的物引渡請求権は生じない】ので、（Ｂ）【裁判所は、引換給付の判決をすべきである。】<br><br>ウ　留置権が生じた後に目的物が売却された場合、（Ａ）【留置権は対世的な効力を有する】ので、（Ｂ）【その目的物の占有者は、買主に対し留置権を行使することができる】。<br><br>エ　賃貸借契約の目的物である土地が譲渡された場合、借地人は、土地の譲受人に対し借地権を対抗することができないときであっても、（Ａ）【借地権は土地に関して生じた債権である】ので、（Ｂ）【留置権を行使して土地の明渡しを拒絶することができる】。<br><br>オ　建物の賃借人が、賃料不払のために契約を解除された後に、権原がないことを知りながら有益費を支出した場合、（Ａ）【占有が不法行為によって始まった場合と同様の状況にある】ので、（Ｂ）【賃借人は、その建物について留置権を行使することができない】。<br><br>1　アイ　　　2　アエ　　　3　イウ　　　4　ウオ　　　5　エオ</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min29.html#(リンク)">Unit29-42</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-09">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h19-11-eh10-11-e">
+  <div class="dlg-head"><div class="dlg-title">(H19-11-エ)(H10-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者は、債権の全部の弁済を受けるまで、留置物の全部についてその権利を行使できる（民法<span class="mono">296条</span>）。留置権にも他の担保物権と同様不可分性が認められる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-10-oh06-11-ih19-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H14-10-オ)(H06-11-イ)(H19-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>質権は目的動産の滅失によって債務者が取得すべき金銭その他の物に対して代位することができる（民法<span class="mono">350条</span>、<span class="mono">304条</span>）。しかし、留置権については、このような規定はなく、物上代位は認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-03-4h01-04-3">
+  <div class="dlg-head"><div class="dlg-title">(H03-03-4)(H01-04-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産上の留置権は、登記することができない（不登法<span class="mono">3条</span>参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-10-a">
+  <div class="dlg-head"><div class="dlg-title">(H14-10-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権の成立には他人の物を占有している必要がある（民法<span class="mono">295条</span>1項）。一方、質権設定契約は要物契約であるため、設定契約のみでは成立せず、目的物の占有の取得は効力要件である（民法<span class="mono">344条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-12-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-12-オ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">295条</span>1項の「他人の物」とは、広く占有者以外の人に属する物という意味であり、債務者の物に限られないため（最判昭47.11.16参照）、誰の所有物であっても、民法<span class="mono">295条</span>の要件を充たせば、その上に留置権が成立する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-12-ih22-12-ih01-03-3">
+  <div class="dlg-head"><div class="dlg-title">(H27-12-イ)(H22-12-イ)(H01-03-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権は物権であり、いったん成立すれば、すべての人に対して主張できる。修理委託契約における物の修理代金債権と物の返還義務とは、同一の法律関係に基づくため、本記述のＣには修理代金債権を担保するための留置権が成立する。よって、カメラを修理したＣは、賃借人Ｂに対して留置権を行使でき、ＡのＣに対するカメラの引渡請求を拒むことができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-11-a">
+  <div class="dlg-head"><div class="dlg-title">(R06-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、本記述と同様の事案において、ＡはＢから本件建物を譲り受けたＣに対して、留置権を行使することができるとしている（最判昭47.11.16）。判例の結論に賛成する学説は、その理由として、ＡのＢに対する売買代金債権とＢのＡに対する引渡請求権はともに、ＡＢ間の同一の売買契約によって生じたもので、Ａの代金債権のために留置権が成立しており、Ｃはこの留置権の付着した物をＢから買い受けているということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-11-4">
+  <div class="dlg-head"><div class="dlg-title">(H08-11-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>必要費は、その物に関して生じた債権として留置権の被担保債権となりうる債権であり（民法<span class="mono">295条</span>1項）、また、競売不動産の上に留置権を有する者は買受人に対してその権利を行使することができる（大判昭13.4.19）。よって、賃借人Ｃは、買受人に対し修繕費用の弁済を受けるまで家屋の引渡しを拒むことができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-13-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-13-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、「造作買取代金債権は造作に関して生じた債権で、建物に関して生じた債権ではない」とし、造作買取請求権を被担保債権とする当該建物に対する留置権は認められないとしている（最判昭29.1.14）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-12-eh22-12-eh10-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-12-エ)(H22-12-エ)(H10-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>造作買取代金債権に基づいて、賃借人は留置権を行使できない（最判昭29.1.14）。当該債権は、造作に関して生じた債権であり、建物に関して生じた債権ではないから、民法<span class="mono">295条</span>1項の「その物に関して生じた債権」にあたらないからである。よって、賃借人Ｂは、留置権を主張して甲建物の明渡請求を拒むことができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>賃貸人は、賃貸借が終了し、かつ、賃貸物の返還を受けたときは、敷金の返還をしなければならない（民法<span class="mono">622条の2</span>第1項）。よって、賃借人は賃貸人に対し敷金返還請求権をもって家屋につき留置権を行使することはできない（最判昭49.9.2）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-11-ih23-11-4">
+  <div class="dlg-head"><div class="dlg-title">(R06-11-イ)(H23-11-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、本記述と同様の事案において、留置権の主張を否定している（最判昭43.11.21）。その理由として、判例は、当該損害賠償請求権は、「物自体を目的とする債権がその態様を変じたものであり、このような債権はその物に関し生じた債権とはいえない」ということを挙げている。よって、Ｂは、Ａに対する債務不履行に基づく損害賠償請求権を被担保債権として留置権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-13-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-13-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>他人の物の売買による買主が、その物の真の所有者から返還請求を受けた場合、買主は留置権を行使できない（最判昭51.6.17）。その理由として、判例は、「他人の物の売主は、その所有権移転債務が履行不能となつても、目的物の返還を買主に請求しうる関係になく、…買主が目的物の返還を拒絶することによつて損害賠償債務の履行を間接に強制するという関係は生じないため、右損害賠償債権について目的物の留置権を成立させるために必要な物と債権との牽連関係が当事者間に存在するとはいえない」ということを挙げている（最判昭51.6.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-12-uh22-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H27-12-ウ)(H22-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人の物の売買による買主が、その物の真の所有者から返還請求を受けた場合、買主は留置権を行使できない（最判昭51.6.17）。売主の売買契約の債務不履行に基づく損害賠償請求権は民法<span class="mono">295条</span>1項の「その物に関して生じた債権」にあたらないからである。よって、買主Ｃは、真の所有者ＡのＣに対する甲土地の引渡請求を拒むことができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権が成立するには、その債権が弁済期にあることを要する（民法<span class="mono">295条</span>1項ただし書）。よって、停止条件の成否が確定していないときは、その債権は弁済期にないことから、留置権は成立しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-10-ih03-03-5">
+  <div class="dlg-head"><div class="dlg-title">(H14-10-イ)(H03-03-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権の成立には債権が弁済期にあることが必要である（民法<span class="mono">295条</span>1項ただし書）。質権の被担保債権は、弁済期にあることは要件ではなく、将来債権や条件付債権であってもよい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-03-3">
+  <div class="dlg-head"><div class="dlg-title">(H03-03-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権が弁済期にないときは、留置権は生じない（民法<span class="mono">295条</span>1項ただし書）。よって、裁判所が有益費の償還について相当の期限を許与したとき（民法<span class="mono">299条</span>2項ただし書）は、留置権は生じない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-11-o">
+  <div class="dlg-head"><div class="dlg-title">(R06-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>賃借人が、賃貸借契約の解除後に、自己に占有権原のないことを知りながら引き続き賃貸物件を占有し、有益費を支出したときは、民法<span class="mono">295条</span>2項の類推適用により、占有者は留置権を主張することができない（最判昭46.7.16）。本記述の賃借人Ａは、甲建物の賃貸借契約の解除後に自己に占有権原のないことを知りながら甲建物を占有し、有益費を支出しているため、賃貸人Ｂに対して留置権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-12-ah17-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-12-ア)(H17-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃借人が、賃貸借契約の解除後に、自己に占有権原のないことを知りながら引き続き賃貸物件を占有し、有益費を支出したときは、民法<span class="mono">295条</span>2項の類推適用により、占有者は留置権を主張できない（最判昭46.7.16）。よって、賃借人Ｂは賃貸人Ａに対して留置権を主張できず、Ｂは、ＡのＢに対する甲建物の明渡請求を拒むことができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H29-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権（民法<span class="mono">295条</span>1項本文）は、債権の弁済を受けるまで、目的物を留置することにより、債権者に債権の弁済を心理的に強制する機能を有する権利であり、優先弁済を受ける権利を有しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-11-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者は、留置物から生ずる果実を収取し、他の債権者に先立って、これを自己の債権の弁済に充当することができる（民法<span class="mono">297条</span>1項）。その趣旨は、簡易な決済を図るという点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-11-uh30-13-ah14-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H25-11-ウ)(H30-13-ア)(H14-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者には果実収取権がある（民法<span class="mono">297条</span>）ので、債務者の承諾を得て留置物を第三者に賃貸した場合には、その賃料債権を収受し、被担保債権の弁済に充当することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-12-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-12-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者は、留置物について有益費を支出したときは、これによる価格の増加が現存する場合に限り、所有者の選択に従い、その支出した金額又は増価額を償還させることができる（民法<span class="mono">299条</span>2項本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-13-o">
+  <div class="dlg-head"><div class="dlg-title">(H30-13-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権者が目的物に必要費を支出した場合、所有者に対しその償還を請求できる（民法<span class="mono">299条</span>1項）。必要費は、所有者が自らのもとにその物を置いていても支出せざるを得なかった費用だからである。そして、必要費については、現存する増加額に限るというような規定はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-12-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>家屋の賃借人は賃借家屋のために支出した有益費を被担保債権として賃借家屋を留置することができる（民法<span class="mono">295条</span>1項、<span class="mono">608条</span>2項）。そして、留置権者が留置権を行使している間に留置物について必要費を支出した場合、さらにこの必要費のためにも留置権を行使できる（最判昭33.1.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-03-1">
+  <div class="dlg-head"><div class="dlg-title">(H03-03-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者が民法<span class="mono">298条</span>2項の規定に違反して、債務者の承諾を得ずにした賃貸借は、留置権者と賃借人との賃貸借関係においては相対的に有効であるが、留置権の適法な行使によるものとはいえず、留置権者は果実収取権（民法<span class="mono">297条</span>1項）を行使することはできない。よって、本肢の場合、留置権者は収取した賃料を不当利得として債務者又は所有者に返還しなければならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-13-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">298条</span>2項は、「留置権者は、債務者の承諾を得なければ、留置物を使用し、賃貸し、又は担保に供することができない。ただし、その物の保存に必要な使用をすることは、この限りでない。」としている。そして、判例は、留置権の行使として当該家屋に居住することは、他に特別の事情がない限り、民法<span class="mono">298条</span>2項ただし書の「その物の保存に必要な使用」に当たるとしている（大判昭10.5.13）。よって、建物の賃借人は、当該建物について留置権を行使する場合、従前のとおり当該建物に居住することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-12-eh25-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H17-12-エ)(H25-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>建物の賃借人が賃借中に支出した費用の償還請求権について留置権を行使し、その償還を受けるまで建物を継続して使用することは、他に特別の事情のない限り、「その物の保存に必要な使用」（民法<span class="mono">298条</span>2項）に当たるが（大判昭10.5.13）、それによって得た利益は不当利得として建物の所有者に償還すべきである（大判昭13.12.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-13-u">
+  <div class="dlg-head"><div class="dlg-title">(H30-13-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">302条</span>。留置権者が目的物の占有を喪失すれば、留置権は消滅する。そのため、留置権に基づいて目的物の占有を自己に移転するよう請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H19-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者が留置物の占有を喪失すれば、留置権は消滅する（民法<span class="mono">302条</span>本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H16-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権は占有の喪失によって消滅する（民法<span class="mono">302条</span>本文）が、占有回収の訴えによって占有を回復したときは、占有は喪失しなかったことになるので（民法<span class="mono">203条</span>ただし書）、留置権も消滅しなかったことになる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-12-e">
+  <div class="dlg-head"><div class="dlg-title">(H16-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権者が、留置物を賃貸しても、留置権者は間接占有を有しているため、留置権は消滅しない。このことは、債務者の承諾を得ているか否かを問わない。債務者の承諾を得ない賃貸の場合は、留置権の消滅請求（民法<span class="mono">298条</span>3項、2項）がされることになるが、そのことと占有の喪失による消滅とは別の問題である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-12-u">
+  <div class="dlg-head"><div class="dlg-title">(R05-12-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権者は、債務者の承諾を得なければ、留置物を使用し、賃貸し、又は担保に供することができない（民法<span class="mono">298条</span>2項本文）。そして、留置権者が当該規定に違反したときは、債務者は、留置権の消滅を請求することができる（民法<span class="mono">298条</span>3項）。目的物を無断で賃貸した場合であっても、留置権は当然に消滅するわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-13-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権者が民法<span class="mono">298条</span>1項、2項に違反したときは、留置権の消滅を請求することができる（民法<span class="mono">298条</span>3項）。そして、判例は、「留置権者が民法<span class="mono">298条</span>1項および2項の規定に違反したとき、その留置物の第三取得者がある場合は、第三取得者である所有者も同条3項により留置権の消滅請求権を行使し得る」としている（最判昭40.7.15）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-13-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権者が債務者の承諾を得ずに留置物に質権を設定した場合は、民法<span class="mono">298条</span>2項の規定に違反するため、債務者は留置権の消滅を請求することができる（民法<span class="mono">298条</span>3項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-11-ah16-12-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-11-ア)(H16-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">298条</span>1項は、留置権者の善管注意義務を定め、同条3項は、当該規定に違反したときは、「債務者は、留置権の消滅を請求することができる。」と規定する。本記述では、留置権者が留置物の一部をその過失により壊しているから、善管注意義務に反している。よって、債務者は、留置権の消滅を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-12-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、留置している間は、必要費償還請求権の消滅時効は進行しないとしている点で、誤っている。留置権の行使は、債権の消滅時効の進行を妨げない（民法<span class="mono">300条</span>）。留置権の行使は、債権行使それ自体ではないため、時効完成猶予の効力を有しない。その趣旨は、留置権の行使により、目的物を留置していても、それは被担保債権そのものを行使しているとはいえず、債権の不行使の状態が存在していると考えられる点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>留置権の行使は、債権の消滅時効の進行を妨げない（民法<span class="mono">300条</span>）。その趣旨は、留置権の行使により、目的物を留置していても、それは被担保債権そのものを行使しているとはいえず、債権の不行使の状態が存在していると考えられる点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-12-oh17-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H08-12-オ)(H17-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">300条</span>の規定は、質権について準用すると規定されており（民法<span class="mono">350条</span>）、質権の行使は、債権の消滅時効の進行を妨げない。すなわち、Ｂが債務を履行しないまま10年が経過した場合、Ａが目的不動産の占有を継続していたとしても、被担保債権は時効によって消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H22-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権の債務者は、相当の担保を供して、留置権の消滅を請求することができる（民法<span class="mono">301条</span>）。留置権の被担保債権額は、一般に目的物の価格に比べて僅少な場合が多いので、僅かな債権額のために目的物を留置されるのは不公平であり、債務者が債権額相当の担保を供して留置権を消滅させることができるとすることが公平に適うとされるからである。しかし、質権については、民法<span class="mono">301条</span>は準用されていないので（民法<span class="mono">350条</span>参照）、債務者が相当の担保を提供して、質権の消滅を請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H16-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者は、相当の担保を供して、留置権の消滅を請求することができ（民法<span class="mono">301条</span>）、留置権者が担保の提供に応じないときは、債務者は、留置権者の承諾に代わる裁判（民法<span class="mono">414条</span>2項ただし書）を得て留置権の消滅を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-09">
+  <div class="dlg-head"><div class="dlg-title">（H13-09） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：1</div>
+    <p>ア　Ａのみが正しい。<br>留置権は目的物を換価して優先弁済を受ける権利はない。しかし、民事執行法<span class="mono">195条</span>による形式的競売により競売する権利が認められている。これは留置権者の便宜のために認められた権利であり、換価金を所有者に返還する債務を負う。従って、本記述はＡについては正しいが、Ｂについては誤っている。<br><br>イ　Ｂのみが正しい。<br>留置とは、相手方からの物の引渡請求に対して、それを拒絶し、占有を続けることをいう。そのため、留置権は、物の引渡請求権があることを前提として、それを拒絶する権利であるといえる。よって、債務の完済以前にも目的物の引渡請求権は生じている。また裁判所は、目的物引渡請求に対し、留置権の主張があったときは引換給付判決をすべきとされる（最判昭33.3.13）。従って、本記述はＡについては誤っているが、Ｂについては正しい。<br><br>ウ　両方とも正しい。<br>留置権は物権であるので、対世的効力を有するため、留置権がいったん成立した後は、留置物の譲受人に対しても留置権を主張することができる。従って、本記述はＡＢ両方とも正しい。<br><br>エ　両方とも誤り。<br>判例は、借地権は賃借物を目的として成立するもので、物に関して生じた債権ではないとし、このような物自体を目的とする債権は権利の実行によって弁済を受ければよく、留置権の発生原因とはならないとした（大判大11.8.21）。よって、留置権は成立しない以上、明渡しを拒絶することもできない。従って、本記述はＡＢ両方とも誤っている。<br><br>オ　両方とも正しい。<br>判例は、建物の賃借人が賃料不払のために契約を解除された後に有益費を支出した場合において、無権原であることについて悪意又は有過失であるときは、占有が不法行為により始まった場合でなくても、民法<span class="mono">295条</span>2項の類推適用により、留置権の成立を否定している（最判昭46.7.16）。従って、本記述はＡＢ両方とも正しい。<br><br>以上により、一方のみが正しい記述はアとイであり、従って、正解は肢1となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

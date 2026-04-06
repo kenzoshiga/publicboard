@@ -1,0 +1,1192 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit31</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit31</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min30q.html">前へ</a>
+      <a href="pu_index.html">次へ</a>
+      <a href="pu26min31.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r03-15-ah29-15-oh23-15-ah19-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-15-ア)(H29-15-オ)(H23-15-ア)(H19-12-ウ)</div>
+          <p class="qtext">1　構成部分の変動する集合動産について、種類、所在場所及び量的範囲を指定するなどの方法により目的物の範囲が特定される場合には、この集合動産を一個の集合物として譲渡担保権の目的とすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-15-ah29-15-oh23-15-ah19-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r03-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-15-ウ)</div>
+          <p class="qtext">2　将来発生すべき債権を目的として譲渡担保権が設定された場合において、譲渡担保権の目的とされた債権が将来発生したときは、譲渡担保権者は、譲渡担保権設定者の特段の行為を要することなく当然に、当該債権を担保の目的で取得することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h31-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-15-イ)</div>
+          <p class="qtext">3　譲渡担保権設定契約において、その目的物を「譲渡担保権設定者の甲店舗内にある商品一切のうち譲渡担保権設定者が所有する物」と定めたときは、譲渡担保権設定者がいずれの商品について所有権を有するかが外形上明確になっていなくても、譲渡担保権の目的物は特定されている。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-r04-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-15-イ)</div>
+          <p class="qtext">4　構成部分の変動する集合動産を目的とする譲渡担保権の設定者が、通常の営業の範囲内で譲渡担保権の目的を構成する個々の動産を売却した場合、買主である第三者は、当該動産について譲渡担保権の拘束を受けることなく確定的に所有権を取得することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h31-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-15-オ)</div>
+          <p class="qtext">5　構成部分の変動する集合動産を目的とする集合物譲渡担保権設定契約において通常の営業の範囲内でその構成部分である動産を売却する権限を付与されていた譲渡担保権設定者が、その範囲を超えた売却をした場合において、譲渡担保権者が対抗要件を具備していたときは、売却された動産が集合物から離脱したかどうかにかかわらず、その所有権は、譲渡担保権の負担付きで買主に移転する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h30-15-ih23-15-er07-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-15-イ)(H23-15-エ)(R07-11-オ)</div>
+          <p class="qtext">6　Ａは、Ｂに対する貸金債権（元金のほか、利息及び遅延損害金を含む。）を担保するために、Ｂから、構成部分の変動する集合動産を目的とする譲渡担保として、甲倉庫内にある全ての鋼材についての帰属清算型の譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。Ｂは、Ａに対する譲渡担保権設定後、通常の営業の一環として、Ｃに対して、甲倉庫内にある鋼材の一部を売却し、Ｃの管理する乙倉庫に搬入した。この場合において、Ｂが貸金債務の弁済期を徒過していたときであっても、Ａは、乙倉庫に搬入された鋼材について譲渡担保権を実行することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-15-ih23-15-er07-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h24-15-oh23-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-15-オ)(H23-15-ウ)</div>
+          <p class="qtext">7　債務者が将来取得する債権については、その発生原因や債権額、債権発生の期間の始期と終期などにより、譲渡担保の目的となるべき債権が当該債務者の有する他の債権と識別することができる程度に特定されていれば、債権の発生が確実であるかどうかを問わず、譲渡担保権を設定することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-15-oh23-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h23-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-15-イ)</div>
+          <p class="qtext">8　継続的取引から生じる債務の一切を担保するいわゆる根担保として、集合動産譲渡担保を設定することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h27-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-08-イ)</div>
+          <p class="qtext">9　Ａがその所有する動産甲を目的とする譲渡担保権をＢのために設定し、占有改定による引渡しをした後、ＡがＣに動産甲を譲渡し、占有改定による引渡しをした場合、Ｂは、Ｃに対し、動産甲についての譲渡担保権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h31-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-15-エ)</div>
+          <p class="qtext">10　構成部分の変動する集合動産を目的として集合動産譲渡担保権が設定され、譲渡担保権者が占有改定の方法によって対抗要件を具備したときは、譲渡担保権者は、その後に新たにその集合動産の構成部分となった動産についても、譲渡担保権を第三者に対して主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h30-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-15-ウ)</div>
+          <p class="qtext">11　Ａは、Ｂに対する貸金債権（元金のほか、利息及び遅延損害金を含む。）を担保するために、Ｂから、構成部分の変動する集合動産を目的とする譲渡担保として、甲倉庫内にある全ての鋼材についての帰属清算型の譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。甲倉庫内にあるすべての鋼材は、ＢがＣから買い受けたものであるが、Ｂはその代金を支払っていなかった。この場合において、Ｃが動産売買の先取特権に基づいて、甲倉庫内にある鋼材の競売の申立てをしたときは、Ａは、譲渡担保権を主張して、当該競売手続の不許を求めることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h19-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-12-エ)</div>
+          <p class="qtext">12　所有権を留保した売買契約に基づき売主から動産の引渡しを受けた買主が、当該所有権の留保について善意無過失である第三者に対し当該動産につき譲渡担保権を設定して占有改定を行った場合には、当該売主は、当該第三者に対し、当該動産の所有権を対抗することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h30-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-15-エ)</div>
+          <p class="qtext">13　Ａは、Ｂに対する貸金債権（元金のほか、利息及び遅延損害金を含む。）を担保するために、Ｂから、構成部分の変動する集合動産を目的とする譲渡担保として、甲倉庫内にある全ての鋼材についての帰属清算型の譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。★Ｂは、Ａに対する譲渡担保権設定後、通常の営業の一環として、Ｃに対して、甲倉庫内にある鋼材の一部を売却し、Ｃの管理する乙倉庫に搬入した。この場合において、Ａが譲渡担保権を実行しようとした際には、5年分の遅延損害金が発生していた。この場合において、Ａの譲渡担保権によって担保される遅延損害金の範囲は、最後の2年分に限られない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r03-15-ih29-15-eh24-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-15-イ)(H29-15-エ)(H24-15-イ)</div>
+          <p class="qtext">14　土地の賃借人がその土地上に所有する建物を目的として設定した譲渡担保権の効力は、土地の賃借権に及ばない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-15-ih29-15-eh24-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h29-15-uh21-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-15-ウ)(H21-15-ウ)</div>
+          <p class="qtext">15　甲が、その所有する動産を乙に対する譲渡担保の目的とした場合において、甲が乙の許諾を得てその動産を丙に売却したときは、乙は、その売却代金に対して物上代位権を行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-15-uh21-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h27-15-ah25-12-4h31-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-15-ア)(H25-12-4)(H31-15-ア)</div>
+          <p class="qtext">16　構成部分の変動する集合動産を目的とする集合物譲渡担保権の効力は、譲渡担保の目的である集合動産を構成するに至った動産が滅失した場合にその損害をてん補するために譲渡担保権設定者に対して支払われる損害保険金に係る請求権に及ぶ。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-15-ah25-12-4h31-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r04-15-uh24-15-ah21-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-15-ウ)(H24-15-ア)(H21-15-イ)</div>
+          <p class="qtext">17　譲渡担保権の設定者は、譲渡担保権が実行されて目的物が確定的に譲渡担保権者の所有に帰属し又は換価処分されるまでは、その目的物を正当な権原なく占有する者に対し、その返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-15-uh24-15-ah21-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h27-15-eh21-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-15-エ)(H21-15-オ)</div>
+          <p class="qtext">18　不動産を目的とする譲渡担保の被担保債権の弁済期が到来し、債務者が被担保債権を弁済した後に、譲渡担保権者が目的不動産を第三者に売却した場合には、当該第三者は、被担保債権が弁済されていることを知らず、かつ、知らないことに過失がないときに限り、目的不動産の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-15-eh21-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-r02-15-oh26-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-15-オ)(H26-15-ア)</div>
+          <p class="qtext">19　不動産を目的とする譲渡担保において、被担保債権の弁済期後に譲渡担保権者の債権者が目的不動産を差し押さえたときは、譲渡担保権の設定者は、差押登記後に債務の全額を弁済しても、第三者異議の訴えにより強制執行の不許を求めることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-15-oh26-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h04-09-5h11-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-09-5)(H11-09-ウ)</div>
+          <p class="qtext">20　譲渡担保権の目的である印刷機を、設定者が第三者に譲渡した場合であっても、当該第三者に対し占有改定により引き渡したときは、譲渡担保権は消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-09-5h11-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h24-15-eh19-12-ih30-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-15-エ)(H19-12-イ)(H30-15-ア)</div>
+          <p class="qtext">21　Ａは、Ｂの所有する甲動産について譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。その後、Ｃも、甲動産についてＢから譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。この場合において、Ｃは、甲動産について、Ａが譲渡担保権を実行する前に、自ら譲渡担保権を実行することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-15-eh19-12-ih30-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h26-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-15-エ)</div>
+          <p class="qtext">22　債務者が弁済期に債務の弁済をしないときは目的不動産を債務の弁済に代えて確定的に譲渡担保権者に帰属させる旨の譲渡担保契約が締結された場合において、債務者が弁済期に債務の弁済をしないときは、譲渡担保権者は、目的不動産を換価処分するか又はこれを適正に評価することによって具体化する価額から債権額を差し引いた残額を清算金として当該債務者に支払わなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-r04-15-er06-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-15-エ)(R06-11-エ)</div>
+          <p class="qtext">23　譲渡担保権が実行されて目的物が第三者に譲渡された場合、譲渡担保権の設定者は、第三者からの引渡請求があっても、清算金の支払を受けるまでは目的物を留置することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-15-er06-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-r03-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-15-オ)</div>
+          <p class="qtext">24　所有する不動産に譲渡担保権を設定した債務者が弁済期に債務の弁済をしなかった場合において、債権者が目的不動産を確定的に自己の所有に帰属させるとの意思表示をした上でその引渡しを求めたときは、債務者は、清算金の支払との同時履行を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h27-15-uh11-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-15-ウ)(H11-09-エ)</div>
+          <p class="qtext">25　不動産を目的とする譲渡担保権の実行に伴って譲渡担保権設定者が取得する清算金請求権と譲渡担保権者の譲渡担保契約に基づく当該譲渡担保の目的不動産の引渡請求権とは同時履行の関係に立ち、譲渡担保権者は、譲渡担保権設定者からその引渡債務の履行の提供を受けるまでは、自己の清算金支払債務の全額について履行遅滞による責任を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-15-uh11-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h26-15-oh22-12-oh21-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-15-オ)(H22-12-オ)(H21-15-ア)</div>
+          <p class="qtext">26　譲渡担保権者が被担保債権の弁済期後に目的不動産を第三者に譲渡した場合には、譲渡担保権を設定した債務者は、当該第三者からの明渡請求に対し、譲渡担保権者に対する清算金支払請求権を被担保債権とする留置権を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-15-oh22-12-oh21-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h30-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-15-オ)</div>
+          <p class="qtext">27　Ａは、Ｂに対する貸金債権（元金のほか、利息及び遅延損害金を含む。）を担保するために、Ｂから、構成部分の変動する集合動産を目的とする譲渡担保として、甲倉庫内にある全ての鋼材についての帰属清算型の譲渡担保権の設定を受け、占有改定の方法によりその引渡しを受けた。Ｂは、Ａに対する譲渡担保権設定後、通常の営業の一環として、Ｃに対して、甲倉庫内にある鋼材の一部を売却し、Ｃの管理する乙倉庫に搬入した。この場合において、Ｂが貸金債務の弁済期を徒過した後、Ａは、Ｃに対して、甲倉庫内にある全ての鋼材を売却した。この場合において、ＡがＢに対して清算金支払債務を負うときは、Ｂは、Ａが清算金支払債務を履行するまでの間に、Ａに対する貸金債務の弁済をすれば、Ｃに対して、鋼材の所有権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h26-15-uh21-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-15-ウ)(H21-15-エ)</div>
+          <p class="qtext">28　被担保債権の弁済期後は、譲渡担保権者による目的不動産の換価処分が完結する前であっても、譲渡担保権を設定した債務者は、債務の全額を弁済して目的不動産を受け戻すことができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-15-uh21-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r02-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-15-イ)</div>
+          <p class="qtext">29　不動産に処分清算型の譲渡担保権を設定した債務者が弁済期に債務の弁済をせず、その後譲渡担保権者が目的不動産を第三者に譲渡した場合において、その第三者が背信的悪意者であったときは、その第三者は、目的不動産の所有権を取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-r04-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-15-オ)</div>
+          <p class="qtext">30　譲渡担保権の設定者は、譲渡担保権者が清算金の支払又はその提供をせず、清算金がない旨の通知もしない間であっても、譲渡担保権の目的物の受戻権を放棄して譲渡担保権者に対して清算金の支払を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-r02-15-uh28-15-ih24-15-uh11-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-15-ウ)(H28-15-イ)(H24-15-ウ)(H11-09-オ)</div>
+          <p class="qtext">31　不動産に帰属清算型の譲渡担保権を設定した債務者が弁済期に債務の弁済をしなかった場合において、清算金が生ずるときは、債務者は、譲渡担保権者が清算金の支払又はその提供をしない間であっても、目的不動産の受戻権を放棄して、譲渡担保権者に対して清算金の支払を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-15-uh28-15-ih24-15-uh11-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h26-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-15-イ)</div>
+          <p class="qtext">32　譲渡担保権者が被担保債権の弁済期後に目的不動産を第三者に譲渡した場合には、譲渡担保権を設定した債務者は、当該第三者の主観的態様にかかわらず、債務の全額を弁済して目的不動産を受け戻すことができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h29-15-ih19-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-15-イ)(H19-13-エ)</div>
+          <p class="qtext">33　甲が、乙に対する手形金債権を担保するために、乙の丙に対する請負代金債権の弁済を乙に代わり受領することの委任を乙から受け、丙がその代理受領を承認した場合において、丙が乙に請負代金を支払ったために甲がその手形金債権の満足を受けられなかったときは、丙がその承認の際担保の事実を知っていたとしても、丙は、甲に対し不法行為に基づく損害賠償責任を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-15-ih19-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h19-13-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-13-オ)</div>
+          <p class="qtext">34　代理受領は、形式的には弁済の受領に関する委任を受けたにすぎず、対抗要件を付与するものではないため、第三者に対抗することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min31.html#(リンク)">Unit31-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-13-o">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r03-15-ah29-15-oh23-15-ah19-12-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-15-ア)(H29-15-オ)(H23-15-ア)(H19-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>構成部分の変動する集合動産についても、その種類、所在場所及び量的範囲を指定するなどなんらかの方法で目的物の範囲が特定される場合には、一個の集合物として譲渡担保の目的となりうる（最判昭54.2.15）。判例の結論に賛成する学説は、その理由として、集合物の譲渡担保は中小企業の資金調達等で重要な機能を果たしており、実務上の需要が大きいという必要性があり、また、種類、所在場所及び量的範囲によって特定されていれば効力が及ぶ範囲が明確であるため許容性も認められるということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-15-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>最判平19.2.15。判例は、「将来発生すべき債権を目的とする譲渡担保契約が締結された…場合において、譲渡担保の目的とされた債権が将来発生したときには、譲渡担保権者は、譲渡担保設定者の特段の行為を要することなく当然に、当該債権を担保の目的で取得することができる」としている。判例の結論に賛成する学説は、その理由として、債権の譲渡担保が債権譲渡の形式を利用している以上、譲渡担保契約時に将来債権が移転するのは当然であるということを挙げている。なお、この判例を受けて現在の民法<span class="mono">466条の6</span>第2項が規定されたとされている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>集合動産は、種類、所在場所及び量的範囲を指定するなどの方法により目的物の範囲が特定される場合には、譲渡担保の目的となり得る(最判昭54.2.15)。本記述のような定め方では、譲渡担保権の目的が特定されているとは言えない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-15-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「譲渡担保権設定者には、その通常の営業の範囲内で、譲渡担保の目的を構成する動産を処分する権限が与えられており、この権限内でされた処分の相手方は、当該動産について、譲渡担保の拘束を受けることなく確定的に所有権を取得することができる」としている（最判平18.7.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H31-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、譲渡担保権設定者が通常の営業の範囲を超えた売却処分をした場合、当該処分は権限に基づかないものである以上、譲渡担保契約に定められた保管場所から搬出されるなどして当該譲渡担保の目的である集合物から離脱したと認められる場合でない限り、当該処分の相手方は目的物の所有権を承継取得することはできないとしている（最判平18.7.20）。したがって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-15-ih23-15-er07-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H30-15-イ)(H23-15-エ)(R07-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保設定者には、その通常の営業の範囲内で、譲渡担保の目的を構成する動産を処分する権限が付与されており、この権限内でされた処分の相手方は、当該動産について、譲渡担保の拘束を受けることなく確定的に所有権を取得することができる（最判平18.7.20）。本記述では、Ｂは、Ａに対する譲渡担保権設定後、通常の営業の一環として、Ｃに対して、甲倉庫内にある鋼材の一部を売却し、Ｃの管理する乙倉庫に搬入している。よって、乙倉庫に搬入された鋼材については、Ｃが確定的に所有権を取得することができるので、Ａは、この鋼材について譲渡担保権を実行することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-15-oh23-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H24-15-オ)(H23-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者が将来取得する債権を被担保債権として、譲渡担保権を設定することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H23-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、継続的取引から生じる不特定の債権を被担保債権とする根譲渡担保も有効であるとしている（大判昭5.3.3）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動産譲渡担保権設定の対抗要件は引渡しであり、占有改定もこれに含まれる（最判昭30.6.2）。よって、本記述において、動産甲を占有改定により引渡しを受けたＢは、Ｃに対し、動産甲の譲渡担保権を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H31-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>集合動産譲渡担保権が設定され、譲渡担保権者が対抗要件を具備した場合には、その対抗要件の具備の効力は、その後構成部分が変動したとしても、集合物としての同一性が損なわれない限り、新たに集合動産の構成部分となった動産を包含する集合物に及ぶ（最判昭62.11.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H30-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動産売買の先取特権の存在する動産が譲渡担保権の目的である集合物の構成部分となった場合においては、債権者は、当該動産についての引渡しを受けたものとして譲渡担保権を主張することができ、当該先取特権者が先取特権に基づいて動産競売の申立てをしたときは、特段の事情のない限り、民法<span class="mono">333条</span>所定の第三取得者に該当するものとして、訴えをもって、動産競売の不許を求めることができる（最判昭62.11.10）。その理由として、判例は、集合動産を目的とする譲渡担保権が設定され、債権者が対抗要件を具備した場合、この対抗要件具備の効力は、その後構成部分が変動したとしても、集合物としての同一性が損なわれない限り、新たにその構成部分となった動産を包含する集合物に及ぶということを挙げている。本記述では、Ａは譲渡担保権の設定について対抗要件を具備しているため、Ｃに対し、競売手続の不許を求めることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-12-e">
+  <div class="dlg-head"><div class="dlg-title">(H19-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有権留保により所有権を留保していた売主は、当該買主から目的物について譲渡担保権の設定を受けた者に対して、自らの所有権を対抗することができる（最判昭58.3.18）。また、占有改定により動産の所有権の即時取得をすることはできないため（最判昭35.2.11）、当該第三者は当該売主に対して、所有権を有することを主張することもできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H30-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保権によって担保される債権の範囲については、設定契約の当事者間において自由に定めることができ、抵当権に関する民法<span class="mono">375条</span>の規定は適用されない（最判昭61.7.15）。譲渡担保権の場合には、抵当権と違って、後順位担保権者の登場する可能性が少ないからである。よって、Ａの譲渡担保権によって担保される遅延損害金の範囲は、最後の2年分に限られない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-15-ih29-15-eh24-15-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-15-イ)(H29-15-エ)(H24-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債務者である土地の賃借人がその賃借地上に所有する建物を譲渡担保とした場合には、その建物のみを担保に供したことが明らかであるなど特段の事情がない限り、譲渡担保の効力は土地の賃借権に及ぶ（最判昭51.9.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-15-uh21-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H29-15-ウ)(H21-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>譲渡担保権者は、物上代位権を行使することができる。判例も、譲渡担保の設定を受けた債権者が、物上代位によって目的商品の売買代金債権を差し押さえることができるとしている（最決平11.5.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-15-ah25-12-4h31-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-15-ア)(H25-12-4)(H31-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保権者は、物上代位権を行使することができる。集合物譲渡担保権の効力は、目的動産が滅失した場合にその損害をてん補するために譲渡担保権設定者に対して支払われる損害保険金に係る請求権に及ぶ（最決平22.12.2）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-15-uh24-15-ah21-15-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-15-ウ)(H24-15-ア)(H21-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、譲渡担保は、債権担保のために目的物件の所有権を移転するものであるが、所有権移転の効力は譲渡担保の目的を達するのに必要な範囲においてのみ認められるものであって、設定者は、担保権者が換価処分を完結するまでは、被担保債務を弁済して目的物件についての完全な所有権を回復することができるのであるから、正当な権限なく目的物件を占有する者があるときは、特段の事情がない限り、設定者は占有者に対してその返還を請求することができるとしている（最判昭57.9.28）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-15-eh21-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-15-エ)(H21-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産が譲渡担保の目的とされ、設定者から譲渡担保権者への所有権移転登記が経由された場合において、被担保債務の弁済等により譲渡担保権が消滅した後に目的不動産が譲渡担保権者から第三者に譲渡されたときは、譲渡担保設定者は、登記がなければ、その所有権を当該第三者に対抗できない（最判昭62.11.12）。従って、第三者の善意無過失は要件ではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-15-oh26-15-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-15-オ)(H26-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産を目的とする譲渡担保において、被担保債権の弁済期後に譲渡担保権者が目的不動産を差し押さえ、その旨の登記がされたときは、設定者は、差押登記後に債務の全額を弁済しても、第三者異議の訴えにより強制執行の不許を求めることはできない（最判平18.10.20）。設定者が債務の履行を遅滞したときは、譲渡担保権者は目的不動産を処分する権能を取得するから、弁済期後は、設定者としては、目的不動産が換価処分されることを受忍すべき立場にあるからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-09-5h11-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H04-09-5)(H11-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保権設定者が目的物を第三者に譲渡した場合、原則として、目的物の所有権は第三者に移転しない。もっとも、即時取得（民法<span class="mono">192条</span>）が成立する場合には、第三者は所有権を取得することができるが、占有改定による即時取得は認められない（最判昭35.2.11）。本肢の場合、第三者には即時取得は成立しないため、譲渡担保権は消滅しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-15-eh19-12-ih30-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H24-15-エ)(H19-12-イ)(H30-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>動産譲渡担保権の対抗要件としての引渡しには占有改定も含まれるが、譲渡担保権設定者が目的物にさらに譲渡担保権を設定した場合、後順位譲渡担保権者の私的実行は認められない（最判平18.7.20）。よって、後順位譲渡担保権者Ｃは、Ａが譲渡担保権を実行する前に自ら譲渡担保権を実行することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H26-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者所有の不動産につき譲渡担保契約を締結し、債務者が弁済期に弁済しないときは当該不動産を債務の弁済の代わりに自己の所有とする合意のもとに、自己のため所有権移転登記を経由した債権者は、債務者が弁済期に債務の弁済をしない場合においては、これを適正に評価することによって具体化する物件の価額から、自己の債権額を差し引き、なお残額があるときは、これに相当する金銭を清算金として債務者に支払うことを要する（最判昭46.3.25）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-15-er06-11-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-15-エ)(R06-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、不動産を目的とする譲渡担保権が設定されている場合において、譲渡担保権が実行されて目的不動産が第三者に譲渡されたとしても、譲渡担保権設定者は、清算金の支払があるまでは留置権を主張することができるとしている（最判平9.4.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-15-o">
+  <div class="dlg-head"><div class="dlg-title">(R03-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保権の実行に伴い設定者が取得する清算金請求権と譲渡担保権者の目的不動産の引渡請求権とは同時履行の関係に立つ。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-15-uh11-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H27-15-ウ)(H11-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保権の実行に伴い設定者が取得する清算金請求権と譲渡担保権者の目的不動産の引渡請求権とは同時履行の関係に立つため、譲渡担保権者は、設定者から目的不動産についての引渡しの債務の履行の提供を受けるまでは、自己の清算金支払債務の全額について履行遅滞による責任を負わない（最判平15.3.27）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-15-oh22-12-oh21-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-15-オ)(H22-12-オ)(H21-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産を目的とする譲渡担保権が設定されている場合において、譲渡担保権者が譲渡担保権の実行として目的不動産を第三者に譲渡したときは、設定者は、第三者からの明渡請求に対し、譲渡担保権者に対する清算金支払請求権を被担保債権とする留置権を主張することができる（最判平9.4.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H30-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>譲渡担保権者が実行により目的物の所有権を取得しても、清算金の支払があるまでは、設定者の受戻しが認められる。もっとも、譲渡担保権者が目的不動産を第三者に売却等をしたときは、債務者はその時点で受戻権および目的不動産の所有権を終局的に失う。本記述では、Ｂが貸金債務の弁済期を徒過した後、Ａが清算金の支払をせず、かつ、Ｂも債務の弁済をしないうちに、Ａが、Ｃに対して、甲倉庫内にある全ての鋼材を売却した時点で、Ｂは、受戻権ひいては当該鋼材の所有権を終局的に失う。よって、Ｂは、Ａが清算金支払債務を履行するまでの間に、Ａに対する貸金債務の弁済をしたとしても、Ｃに対して、鋼材の所有権を主張することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-15-uh21-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H26-15-ウ)(H21-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>弁済期の経過後であっても、債権者が担保権の実行を完了するまでの間であれば、債務者は、債務の全額を弁済して譲渡担保権を消滅させ、目的不動産の所有権を回復すること（受戻し）ができる（最判昭62.2.12）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-15-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>最判平6.2.22。判例は、「不動産を目的とする譲渡担保契約において、債務者が弁済期に債務の弁済をしない場合には、債権者は、右譲渡担保契約がいわゆる帰属清算型であると処分清算型であるとを問わず、目的物を処分する権能を取得するから、債権者がこの権能に基づいて目的物を第三者に譲渡したときは、原則として、譲受人は目的物の所有権を確定的に取得し、債務者は、清算金がある場合に債権者に対してその支払を求めることができるにとどまり、残債務を弁済して目的物を受け戻すことはできなくなる」とした上で、「この理は、譲渡を受けた第三者がいわゆる背信的悪意者に当たる場合であっても異なるところはない」としている。その理由として、判例は、「そのように解さないと、権利関係の確定しない状態が続くばかりでなく、譲受人が背信的悪意者に当たるかどうかを確知し得る立場にあるとは限らない債権者に、不測の損害を被らせるおそれを生ずる」ということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-15-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、受戻権を放棄して譲渡担保権者に対して清算金の支払を請求できるとしている点で、誤っている。判例は、「譲渡担保権設定者は、譲渡担保権者が清算金の支払又はその提供をせず、清算金がない旨の通知もしない間に譲渡担保の目的物の受戻権を放棄しても、譲渡担保権者に対して清算金の支払を請求することはできない」としている（最判平8.11.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-15-uh28-15-ih24-15-uh11-09-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-15-ウ)(H28-15-イ)(H24-15-ウ)(H11-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>譲渡担保権設定者は、譲渡担保権者が清算金の支払又は提供をせず、清算金がない旨の通知もしない間に譲渡担保の目的物の受戻権を放棄しても、譲渡担保権者に対して清算金の支払を請求することはできない（最判平8.11.22）。その理由として、判例は、清算金支払請求権と受戻権は発生原因を異にする別個の権利であるから、受戻権の放棄により清算金支払請求権を取得することとなると解することができず、また、このように解さないと譲渡担保権者の譲渡担保権の実行の時期の決定権を奪うことになるということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H26-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡担保契約において、債務者が弁済期に弁済をしない場合には、債権者は、目的物を処分する権能を取得するから、債権者が目的物を第三者に譲渡したときは、原則として、譲受人は目的物の所有権を確定的に取得し、債務者は、残債務を弁済して目的物を受け戻すことはできなくなる。このことは譲受人が背信的悪意者に当たる場合であっても異ならない（最判平6.2.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-15-ih19-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H29-15-イ)(H19-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>正当の理由なく第三債務者が債務者に弁済した場合、代理受領の委任を受けた債権者は不法行為責任の追及ができる（最判昭44.3.4、最判昭61.11.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-13-o">
+  <div class="dlg-head"><div class="dlg-title">(H19-13-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理受領は、形式的には弁済受領に関する委任を受けたにすぎず、対抗要件を付与するものではないので、第三者には対抗できないことになる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

@@ -1,0 +1,844 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit26</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit26</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min25.html">前へ</a>
+      <a href="pu26min27.html">次へ</a>
+      <a href="pu26min26q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A03">第３編　担保物権</a>
+  <ul>
+    <li><a href="#A03-02">第２章　抵当権</a>
+      <ul>
+        <li><a href="#A03-02-03">第３節　抵当権の効力</a>
+          <ul>
+            <li><a href="#A03-02-03-1">Ⅴ　抵当不動産の第三取得者の保護</a>
+              <ul>
+            <li><a href="#A03-02-03-1-01">１　代価弁済</a></li>
+            <li><a href="#A03-02-03-1-02">２　抵当権消滅請求</a></li>
+            </ul>
+          </li>
+            <li><a href="#A03-02-03-2">Ⅵ　義務違反・抵当権侵害に対する救済</a>
+              <ul>
+            <li><a href="#A03-02-03-2-01">１　抵当権に基づく物権的請求権</a></li>
+            <li><a href="#A03-02-03-2-02">２　抵当権侵害に対する損害賠償請求</a></li>
+            <li><a href="#A03-02-03-2-03">３　期限の利益喪失、増担保請求(侵害者が抵当権設定者である場合）</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A03-02-04">第４節　抵当権の処分</a>
+          <ul>
+            <li><a href="#A03-02-04-1">Ⅰ　総説</a>
+              <ul>
+            </ul>
+          </li>
+            <li><a href="#A03-02-04-2">Ⅱ　転抵当（376条１項前段）</a>
+              <ul>
+            <li><a href="#A03-02-04-2-01">１　意義</a></li>
+            <li><a href="#A03-02-04-2-02">２　設定</a></li>
+            <li><a href="#A03-02-04-2-03">３　効果</a></li>
+            </ul>
+          </li>
+            <li><a href="#A03-02-04-3">Ⅲ　抵当権の譲渡・放棄、順位の譲渡・放棄（376条１項）</a>
+              <ul>
+            <li><a href="#A03-02-04-3-01">１　抵当権の譲渡・放棄</a></li>
+            <li><a href="#A03-02-04-3-02">２　抵当権の順位の譲渡・放棄</a></li>
+            </ul>
+          </li>
+            <li><a href="#A03-02-04-4">Ⅳ　抵当権の順位の変更（374条１項）</a>
+              <ul>
+            <li><a href="#A03-02-04-4-01">１　意義</a></li>
+            <li><a href="#A03-02-04-4-02">２　設定</a></li>
+            <li><a href="#A03-02-04-4-03">３　効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A03">
+  <h2>第３編　担保物権</h2>
+  <div class="p-card chap-card">
+    <h2 id="A03-02">第２章　抵当権</h2>
+    <div class="p-card sec-card">
+      <h3 id="A03-02-03">第３節　抵当権の効力</h3>
+    <div class="p-card rank4-card">
+      <p id="A03-02-03-1" class="h6 ind0">Ⅴ　抵当不動産の第三取得者の保護</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-03-1-01">１　代価弁済</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">抵当権者が所有権又は地上権を買い受けた第三取得者に対し、その売主に支払うべき抵当不動産の売買代金を直接自己に支払うように請求し、第三取得者がこれに応じて売買代金を弁済すると、抵当権はその者のために消滅する（378条）。代価弁済によって全額の弁済を受けられなかった抵当権者は、残額につき一般債権者となる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当不動産について所有権又は地上権を買い受けた第三者</p>
+          <p class="p6 ind2">「地上権を買い受けた」とは、その全存続期間中の地代を一括して代金として支払って取得したことをいう。</p>
+          <p class="p6 ind2">無償だと抵当権者に支払うべき代価が存在しないので、取得は有償の場合に限られる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権者の請求と「第三者」の承諾</p>
+          <p class="p6 ind2">抵当権者が「第三者」（所有権又は地上権の有償取得者）に対して、その売主に支払うべき売買代金を自己に支払えと請求し、「第三者」がその請求に応ずることを要する。</p>
+          <p class="p6 ind2">抵当権者の請求がないにもかかわらず、「第三者」が自発的に抵当権者に売買代金を支払っても、単に第三者弁済としての効力を有するにすぎない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 代価の弁済</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 代価が被担保債権額を超えない場合</p>
+          <p class="p6 ind3">「第三者」は代価の全額を支払う必要があり、一部の支払では第三者弁済の効力を有するにすぎない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 代価が被担保債権額を超える場合</p>
+          <p class="p6 ind3">「第三者」は被担保債権額に相当する額の支払で足りる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当権の消滅</p>
+          <p class="p6 ind2">「第三者」が抵当権者の請求に応じて代価を弁済すれば、その額が被担保債権額に満たない場合でも、抵当権は「第三者」のために消滅する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 代金債務の消滅と残余債務の存続</p>
+          <p class="p6 ind2">代価弁済をした「第三者」は、抵当権者に支払った範囲で、売主に対する代金債務を免れる。</p>
+          <p class="p6 ind2">被担保債権も代価弁済の額の範囲で消滅し、残額があれば、無担保債権として存続する。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-03-1-02">２　抵当権消滅請求</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：抵当不動産について所有権を取得した第三者が一定の代価又は金額を抵当権者に提供して抵当権の消滅を請求することができるという制度（379条以下）</p>
+          <p class="p6 ind1">この制度は、抵当権の実行によりいったん取得した所有権を失うことを防止するという、抵当不動産の第三取得者の保護のためのものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　消滅請求権者</p>
+          <p class="p6 ind1">消滅請求権者は、抵当不動産の所有権を取得した者（「第三取得者」）であり、有償・無償を問わない（379条）。</p>
+          <p class="p6 ind1">主たる債務者、保証人及びこれらの者の承継人が抵当不動産の所有権を取得しても、抵当権消滅請求をすることはできない（380条）。</p>
+          <p class="p6 ind1">抵当不動産の停止条件付第三取得者は、停止条件の成否が未定の間は消滅請求できない（381条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　消滅請求ができる時期</p>
+          <p class="p6 ind1">第三取得者は、抵当権の実行としての競売による差押えの効力発生前に、消滅請求しなければならない（382条）。ただし、一般債権者が強制執行として行う強制競売の場合は、差押えの効力発生後でも消滅請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　手続</p>
+          <p class="p6 ind1">消滅請求しようとする第三取得者は、登記（仮登記を含む）をした各債権者に対し一定の事項を記載した書面を送付しなければならない（383条）。登記をした債権者が複数いる場合には、全員に対して送付しなければならず、そのうち１人でも送付を受けない者がいる場合には、送付を受けた者に対しても消滅請求の申出は効力を生じない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　登記をしたすべての債権者が、第三取得者の提供した代価又は金額を承諾し、かつ、第三取得者がその代価・金額を払い渡し又は供託したときは、抵当権は消滅する（386条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　債権者が承諾しない場合でも、以下の場合は承諾したものとみなされる（384条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　債権者が上記4.の書面の送付を受けた後２か月以内に抵当権を実行して競売の申立てをしない場合</p>
+          <p class="h6 ind3 nobold">ⅱ　債権者が上記の競売申立てを取り下げた場合</p>
+          <p class="h6 ind3 nobold">ⅲ　上記の競売申立てを却下する旨の決定が確定した場合</p>
+          <p class="h6 ind3 nobold">ⅳ　上記の競売申立てに基づく競売手続を取り消す旨の決定が確定した場　合</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">6.　債権者の競売申立て</p>
+          <p class="p6 ind1">上記4.の書面の送付を受けたすべての債権者は、第三取得者の消滅請求への対抗処置として、その書面の送付を受けた時から２か月以内ならば、競売の申立てをすることができる（384条１号）。</p>
+          <p class="p6 ind1">この競売申立てについては、書面の送付を受けた時から２か月以内に、債務者及び抵当不動産の譲受人に、その旨を通知しなければならない（385条）。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A03-02-03-2" class="h6 ind0">Ⅵ　義務違反・抵当権侵害に対する救済</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>抵当権は目的物の交換価値を排他的に支配する担保物権である。従って、抵当権が侵害された場合には①物権的請求権として侵害の排除を請求できるほか、②損害賠償請求（709条）をすることができる。もっとも、いかなる場合に抵当権侵害があったかについては、抵当権が非占有担保であることに関連して争いがある。また、抵当権設定者による抵当権侵害については③期限の利益喪失や、増担保請求権の問題がある。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-03-2-01">１　抵当権に基づく物権的請求権</div>
+      <p>抵当権も物権であることから、物権一般の効力としての物権的請求権の行使が認められることになる。しかし、抵当権は目的物の価値を把握するものであり、抵当権設定者の目的物使用権能を奪うものではない。そこで、いかなる要件でいかなる請求が可能かが問題となる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　抵当権に基づく妨害排除請求権</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当山林の立木の伐採・搬出の禁止請求、有害な登記の抹消請求</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①抵当山林の立木の伐採･搬出の禁止請求、②有害な登記の抹消請求は、抵当権の妨害排除請求権に基づいて認められる（①につき大判昭７.４.20、②につき最判平６.５.12）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当不動産の不法占拠者に対する明渡請求の可否</p><br>
+          <p class="p6 ind2">Ａ　否定説</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="h6 ind3 nobold">①抵当権は非占有担保であり、抵当権者は抵当不動産の占有関係について干渉し得る余地はない。</p>
+          <p class="h6 ind3 nobold">②競売後には不法占拠者は排除されるから（民執法83条）、抵当不動産の担保価値は下落しない。</p><br>
+          <p class="p6 ind4">Ｂ　肯定説（最大判平11.11.24、最判平17.３.10）</p>
+          <p class="p6 ind4">第三者が抵当不動産を不法占拠することにより、抵当不動産の交換価値の実現が妨げられ抵当権者の優先弁済請求権の行使が困難になるような状態のときは、抵当権者は、抵当不動産の所有者に対して抵当不動産を適切に維持又は保存するよう求める請求権を保全するため、民法423条の法意に従い、所有者の不法占有者に対する妨害排除請求権を代位行使して抵当不動産の明渡しを請求することができる。なお、この場合には、抵当権に基づく妨害排除請求として、抵当権者が、占有者に対し、抵当不動産の明渡しを請求することもできる。</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="h6 ind3 nobold">①不法占拠者の存在は、競売価格を確実に引き下げ担保価値支配権を侵害する。</p>
+          <p class="h6 ind3 nobold">②民事執行法83条は、買受人が生じた後の処理規定にすぎず、競売の実をあげるためには不十分である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 占有権原のある者に対する請求の可否</p>
+          <p class="p6 ind2">抵当不動産の所有者から占有権原の設定を受けてこれを占有する者であっても、抵当権設定登記後に占有権原の設定を受けたものであり、その設定に抵当権の実行としての競売手続を妨害する目的が認められ、その占有により抵当不動産の交換価値の実現が妨げられて抵当権者の優先弁済請求権の行使が困難となるような状態があるときは、抵当権者は、当該占有者に対し、抵当権に基づく妨害排除請求として、上記状態の排除を求めることができる（最判平17.３.10）。</p>
+          <p class="p6 ind2">また、抵当不動産の所有者において抵当権に対する侵害が生じないように抵当不動産を維持管理することが期待できない場合には、抵当権者は、占有者に対し、直接自己への抵当不動産の明渡しを求めることができる（最大判平11.11.24、最判平17.３.10）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　返還請求</p>
+          <p class="p6 ind1">第三者が不法に抵当不動産の一部を搬出した場合（例えば、山林の木材を伐採して搬出した場合）にその返還を請求できるか。</p>
+          <p class="p6 ind1">この点、抵当権には、目的物を占有する権能はないので、抵当権者が自己への返還を請求することはできないのが原則である。しかし、抵当不動産との一括競売の便宜と第三者による即時取得の防止のために設定者の下への返還請求は認められる（通説）。</p>
+          <p class="p6 ind1">なお、抵当権の不可分性から、物権的請求権の行使要件として、抵当不動産の担保価値が被担保債権を下回ることは不要である（通説）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-03-2-02">２　抵当権侵害に対する損害賠償請求</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　設定者による侵害</p>
+          <p class="p6 ind1">抵当権侵害により、損害が生じたときには、抵当権侵害による不法行為（709条）が成立し、損害賠償請求権が発生する。しかし、設定者自身による担保物への侵害については、後述のように、抵当権の実行が可能になり（137条２号）、それ以上に損害賠償を認める意味がない。これを認めたとしても、その場合の損害賠償は、回収できなかった額を弁済せよというに等しいからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　第三者による侵害</p>
+          <p class="p6 ind1">第三者による侵害の場合には、通常、所有者の侵害者に対する損害賠償請求権も同時に発生し、担保権者はこれに物上代位できるので、抵当権者による侵害者に対する損害賠償請求権を常に認める必要があるというわけではない。しかし、例えば、抵当権登記が不法に抹消されたような場合には、これを認める必要がある。</p>
+          <p class="p6 ind1">もっとも、この場合、抵当権を実行してみなければ実際にどれだけ損害が生じているかがわからないことなどから、いくつかの問題がある。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 発生要件</p>
+          <p class="p6 ind2">損害というためには、担保価値減少のために被担保債権の弁済を受けることができなくなったことを要する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権実行前の損害賠償請求</p>
+          <p class="p6 ind2">抵当権実行の前でも、弁済期到来後であれば請求できる（大判昭11.４.13・多数説）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="h6 ind3 nobold">①弁済期後であれば、抵当権の実行は可能であるから、損害賠償訴訟時の時価を基準に損害を確定できる。</p>
+          <p class="h6 ind3 nobold">②抵当権の実行を待っていては、抵当権者に回復することができない状況が生じるおそれがある。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　抵当不動産の占有者に対する賃料相当額の損害賠償請求の可否</p><br>
+          <p class="p6 ind1">Ｑ　抵当権者が抵当不動産の占有者に対して明渡請求ができる場合に、占有者に対して賃料相当額の損害賠償請求をすることができるか。</p><br>
+          <p class="p6 ind1">→　否定説（最判平17.３.10）</p>
+          <p class="p6 ind1">（理由）</p>
+          <p class="h6 ind3 nobold">①抵当権者は、抵当不動産を自ら使用することはできず、民事執行法上の手続等によらずにその使用による利益を取得することもできない。</p>
+          <p class="h6 ind3 nobold">②抵当権者が抵当権に基づく妨害排除請求により取得する占有は、抵当不動産の所有者に代わり抵当不動産を維持管理することを目的とするものであって、抵当不動産の使用及びその使用による収益の取得を目的とするものではない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-03-2-03">３　期限の利益喪失、増担保請求(侵害者が抵当権設定者である場合）</div>
+      <p>抵当権設定者が抵当権侵害をした場合は、上記のほかに、以下の２点が問題となる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　期限の利益の喪失</p>
+          <p class="p6 ind1">抵当権侵害が債務者の責めに帰すべき事由によるときは、債務者は期限の利益を失うので（137条２号）、抵当権者は直ちに抵当権を実行できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　増担保請求権</p>
+          <p class="p6 ind1">抵当権侵害があったときは、増担保を請求できる旨の特約がなされている場合も多い。</p>
+          <p class="p6 ind1">このような特約がない場合に抵当権者が増担保請求することができるかにつき民法に規定はなく、増担保請求が認められるか問題となる。この点、特約がない場合であっても、債務者が不法行為上の責任を負うべき場合などに限り増担保請求をすることができるとする説が有力である。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A03-02-04">第４節　抵当権の処分</h3>
+    <div class="p-card rank4-card">
+      <p id="A03-02-04-1" class="h6 ind0">Ⅰ　総説</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>抵当権の処分とは、後順位抵当権者若しくはそれ以外の債権者との間で、抵当権自体を被担保債権と切り離して譲渡したり流通させたりすることをいう。資本の流動化を図るために、例外的に被担保債権と切り離された抵当権の処分が認められている。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A03-02-04-2" class="h6 ind0">Ⅱ　転抵当（376条１項前段）</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-2-01">１　意義</div>
+      <p>：抵当権者がその抵当権を他の債権の担保に供すること</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-2-02">２　設定</div>
+      <p>原抵当権者と転抵当権者との合意で成立する。転抵当の被担保債権や弁済期は、原抵当権と一致しなくてよい。</p>
+      <p>第三者に対抗するには登記が必要であり（付記登記による）、主たる債務者、保証人、抵当権設定者（物上保証人）及びこれらの承継人に対抗するには主たる債務者に対する通知・承諾が必要である（377条１項）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-2-03">３　効果</div>
+      <p>転抵当権と原抵当権双方の被担保債権の弁済期が到来してから実行できる。</p>
+      <p>原抵当権の被担保債権の限度で優先弁済を受ける。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A03-02-04-3" class="h6 ind0">Ⅲ　抵当権の譲渡・放棄、順位の譲渡・放棄（376条１項）</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-3-01">１　抵当権の譲渡・放棄</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当権の譲渡</p>
+          <p class="p6 ind2">抵当権を有しない特定の債権者に対して抵当権者が抵当権を与え、その限度において自分は抵当権を喪失し、無担保債権者になること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権の放棄</p>
+          <p class="p6 ind2">抵当権を有しない特定の債権者に対して抵当権者が自己の有する優先弁済権を主張せず、本来配当されるべきであった額を両者の債権額に按分して平等に配当させる結果を生じさせる行為</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　設定</p>
+          <p class="p6 ind1">抵当権の譲渡人とその譲受人間の契約で成立する。譲受人は、譲渡人と同一の債務者に対する債権者であって、抵当目的物につき登記した担保権を有しない無担保債権者であることを要する（376条１項後段）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　対抗要件</p>
+          <p class="p6 ind1">主たる債務者、保証人、抵当権設定者（物上保証人）及びこれらの者の承継人に対抗するには主たる債務者への通知・承諾が必要である（377条１項）。</p>
+          <p class="p6 ind1">第三者に対抗するには登記が必要である（付記登記による）。</p>
+          <p class="p6 ind1">なお、上記の主たる債務者への通知・承諾がなされれば、主たる債務者、保証人、抵当権設定者等が抵当権の譲渡人に対してした弁済は、受益者（譲受人）に対抗できない（377条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当権の譲渡</p>
+          <p class="p6 ind2">譲渡人は譲受人の有する債権額の限度で無担保債権者となる。</p>
+          <p class="p6 ind2">譲受人は譲渡人の有した抵当権の範囲で抵当権を取得する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権の放棄</p>
+          <p class="p6 ind2">放棄を受けた無担保債権者と放棄者である抵当権者は、平等の立場で共同して優先弁済を受けることになる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-3-02">２　抵当権の順位の譲渡・放棄</div>
+      <p>抵当権の順位の譲渡・放棄とは、後順位の抵当権を有する者の利益のために、その順位だけを処分することをいう。</p>
+      <p>抵当権の譲渡・放棄とでは、順位の譲渡・放棄を受ける者が抵当権者である点で異なるが、効果はそれに準じて考えればよい。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当権の順位譲渡</p>
+          <p class="p6 ind2">先順位抵当権者が、特定の後順位抵当権者に対し、自己の有する抵当権の限度において、後順位抵当権者に対する優先弁済権を認めること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権の順位放棄</p>
+          <p class="p6 ind2">先順位抵当権者が、特定の後順位抵当権者との間で、自己の優先弁済権を主張せず、両者の支配している抵当目的物の交換価値から両者が債権額に按分比例して平等な配当を受けることとする抵当権者の行為</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　設定</p>
+          <p class="p6 ind1">抵当権の順位の譲渡人（放棄する者）とその譲受人間の契約で成立する。</p>
+          <p class="p6 ind1">なお、376条１項の「同一の債務者」には、債務者でない抵当権設定者も含まれる。すなわち、債務者は同一でなくても設定者が同一であればよい（昭30.７.11民甲1427）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 抵当権の順位譲渡</p>
+          <p class="p6 ind2">譲渡人は後順位となり、譲受人は自己と譲渡人の配当額の合計額において優先弁済を受ける。譲渡人は残額があれば弁済を受けることができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 抵当権の順位放棄</p>
+          <p class="p6 ind2">放棄者と放棄を受けた者とは同順位となり、両者の配当額の合計額を両者の債権額に比例して分配する。</p>
+          <p class="p6 ind2"><img class="embed-img" src="min26-01.png" alt="min26-01.png"></p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A03-02-04-4" class="h6 ind0">Ⅳ　抵当権の順位の変更（374条１項）</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-4-01">１　意義</div>
+      <p>：同一の抵当不動産に対する複数の抵当権者間で、抵当権を被担保債権から切り離してその順位を変更すること</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-4-02">２　設定</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　順位変更の当事者</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 当事者</p>
+          <p class="p6 ind2">抵当権の順位の変更は、その順位を絶対的に変更するものなので、順位の変更により影響を受ける抵当権者全員の合意が必要である。また、利害関係を有する者があるときはその承諾を得る必要がある（374条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 具体例</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) １番抵当権を第３順位に、３番抵当権を第１順位とする順位の変更の場合には、たとえ１番抵当権の被担保債権額が３番抵当権の被担保債権額より少なくても、２番抵当権者の合意も必要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) １番抵当権と２番抵当権の順位の変更であれば、３番抵当権者の合意は不要である。ただし、２番抵当権の順位を３番抵当権へ譲渡・放棄しているときは、３番抵当権者の承諾が必要となる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　登記</p>
+          <p class="p6 ind1">抵当権の順位の変更は、登記（順位変更登記）をすることにより効力が生じる（374条２項）。登記は対抗要件ではなく、効力発生要件である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A03-02-04-4-03">３　効果</div>
+      <p>順位の変更は、被担保債権より完全に切り離されて行われる（順位の絶対的変更）。</p>
+      <p>例えば、ＡＢＣの順位をＣＢＡの順位に変更する場合に、Ｃの債権額がＡの債権額を上回る場合には、Ｂの配当額は影響を受けることになる。</p>
+      <p>【抵当権の処分方法の対比】</p>
+      <p><img class="embed-img" src="min26-02.png" alt="min26-02.png"></p>
+      <p>設例：債務者Ｓの土地に、１番抵当権者Ａ（被担保債権300万円）、２番抵当権者Ｂ（200万円）、３番抵当権者Ｃ（700万円）、一般債権者Ｄ（700万円）が存在し、土地の競売価格は1000万円であった場合。</p>
+      <p>→　譲渡・放棄、順位譲渡・順位放棄の計算の前提として、まず本来の配当額を出す。</p>
+      <p>抵当権の処分がなければ、先順位の抵当権から先に債権額を回収する。</p>
+      <p>本来の配当額：1番抵当権金300万円、2番抵当権金200万円、3番抵当権500万円。一般債権者Ｄに配当はない。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　抵当権の譲渡（Ａ→Ｄ）</p>
+          <p class="p6 ind4">Ａの配当額金300万円からＤが先に債権を回収する（残金があればＡは残金から回収する）。</p>
+          <p class="p6 ind4">配当額　Ｄ：300万円</p>
+          <p class="p6 ind4">Ａ：300万円－300万円＝0円</p>
+          <p class="p6 ind4">Ｂ：200万円　　Ｃ：500万円</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　抵当権の放棄（Ａ→Ｄ）</p>
+          <p class="p6 ind4">Ａの配当額金300万円を債権額に比例してＡとＤで分ける。</p>
+          <p class="p6 ind4">配当額　Ａ：300万円×300万円／1000万円＝90万円</p>
+          <p class="p6 ind4">Ｄ：300万円×700万円／1000万円＝210万円</p>
+          <p class="p6 ind4">Ｂ：200万円　　Ｃ：500万円</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③　順位譲渡（Ａ→Ｃ）</p>
+          <p class="p6 ind4">ＡとＣの配当を足して、Ｃが先に債権を回収する（残金があればＡは残金から回収する）。</p>
+          <p class="p6 ind4">配当額　Ｃ：700万円　　Ａ：（300万円＋500万円）－700万円＝100万円</p>
+          <p class="p6 ind4">Ｂ：200万円　　Ｄ：0円</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">④　順位放棄（Ａ→Ｃ）</p>
+          <p class="p6 ind4">ＡとＣの配当を足して、債権額に比例してＡとＣで分ける。</p>
+          <p class="p6 ind4">配当額　Ａ：（300万円＋500万円）×300万円／1000万円＝240万円</p>
+          <p class="p6 ind4">Ｃ：（300万円＋500万円）×700万円／1000万円＝560万円</p>
+          <p class="p6 ind4">Ｂ：200万円　　Ｄ：0円</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

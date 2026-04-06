@@ -1,0 +1,1517 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit18</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit18</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min17q.html">前へ</a>
+      <a href="pu26min19q.html">次へ</a>
+      <a href="pu26min18.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h14-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-12-ア)</div>
+          <p class="qtext">1　民法第188条にいう占有物の上に行使する権利とは、所有権その他の物権に限られ、賃借権その他の債権は含まれない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h28-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-09-オ)</div>
+          <p class="qtext">2　Ａが所有しＢに寄託している動産甲について、Ｂによる動産甲の占有の効果はＡに帰属することから、Ｂは、動産甲の占有権を取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h23-09-ah05-17-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-09-ア)(H05-17-2)</div>
+          <p class="qtext">3　法人の代表者が法人の業務として動産甲を所持する場合には、代表者個人のためにも甲を所持するものと認めるべき特別の事情がない限り、代表者個人が甲の占有者であるとして占有回収の訴えを提起することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-09-ah05-17-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-r02-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-08-イ)</div>
+          <p class="qtext">4　Ａ所有の甲建物をＢがＡから賃借して居住し、ＣがＢの身の回りの世話をする使用人として甲建物でＢと同居している場合において、ＡＢ間の賃貸借契約が解除されたときは、Ａは、Ｃに対し、甲建物の明渡しを請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r02-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-08-ウ)</div>
+          <p class="qtext">5　Ａ所有の甲建物を、代金を約定期限までに支払わないときには契約が当然に解除されたものとする旨の解除条件付きで、ＢがＡから購入して占有を始めた場合において、その解除条件が成就して売買契約が失効したときは、Ｂの占有は所有の意思をもってする占有ではなくなる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h01-06-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-06-1)</div>
+          <p class="qtext">6　意思無能力者は、法定代理人によって物の占有を取得することができるが、物を自ら所持することによっては、その占有を取得することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-06-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h28-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-09-エ)</div>
+          <p class="qtext">7　Ａは、Ｂが所有しＡに賃貸している動産甲について、Ｂの承諾を得て、動産甲の賃借権をＣに譲渡した。この場合には、Ａは、動産甲のＣへの引渡しがされていないときであっても、動産甲の占有権を失う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h22-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-08-ア)</div>
+          <p class="qtext">8　Ａが自己の所有するアパートの部屋をＢに賃貸して、Ｂがこれを使用している。Ａにアパートの部屋の占有権が認められるためには、ＡＢ間の賃貸借契約が有効である必要があり、賃貸借契約が瑕疵により無効な場合には、Ａの占有権は否定される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h03-02-1h03-02-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-02-1)(H03-02-2)</div>
+          <p class="qtext">9　所有権の移転につき農地法所定の許可を要する農地の賃借人が、所有者からこれを買い受け、その代金を支払った場合において、許可が得られていないときは、その者は、自主占有を取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-02-1h03-02-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h28-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-09-ウ)</div>
+          <p class="qtext">10　Ａは、Ｂが所有しＡに寄託している動産甲をＢから買い受け、その代金を支払った。この場合には、Ａの動産甲に対する占有の性質は、所有の意思をもってする占有に変更される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-r06-07-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-07-ア)</div>
+          <p class="qtext">11　教授：　今日は、占有者の善意・悪意について考えてみましょう。占有者については、占有の態様等に関して、どのような推定がされますか。★学生：ア　占有者は、所有の意思をもって、平穏に、かつ、公然と占有をするものと推定されますが、占有者が善意であることは推定されません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-07-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h05-17-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-17-1)</div>
+          <p class="qtext">12　被相続人所有の家屋を相続人中の1人が占有している場合において、被相続人が死亡したときは、当該相続人のみがその家屋の占有権を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-17-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h03-02-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-02-5)</div>
+          <p class="qtext">13　土地の所有者が死亡し、相続が開始した場合において、相続人は、その土地が相続財産に含まれていることを知らなかったときでも、自主占有を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-02-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r02-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-08-エ)</div>
+          <p class="qtext">14　亡Ａの遺産をＢ及びＣが相続した場合には、Ｂが、その相続の時から、Ａの遺産に属する財産について単独所有者としての所有の意思をもってする占有を取得することはない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r06-07-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-07-オ)</div>
+          <p class="qtext">15　教授：　相続が発生した場合の取得時効についても考えてみましょう。相続人である占有者は、その選択に従い、被相続人の占有に自己の占有を併せて主張することもできます。では、占有を始めた時に悪意であった相続人が占有を始めた時に善意であった被相続人を相続した場合において、その相続人が被相続人の占有を併せて主張するときは、取得時効の要件としての占有者の善意・悪意は、どのように判定されますか。★学生：オ　被相続人の占有を併せて主張する場合には、相続人が占有を始めた時に悪意であっても、善意と判定されます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-07-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h09-11-ah05-17-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-11-ア)(H05-17-3)</div>
+          <p class="qtext">16　自分に本権がないことを知っている占有者は、その占有が妨害されたとしても、妨害の排除を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-11-ah05-17-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h01-06-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-06-4)</div>
+          <p class="qtext">17　第三者のために物を占有する者は、占有を妨害した者に対し、損害賠償の請求をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-06-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h15-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-09-オ)</div>
+          <p class="qtext">18　Ａの自宅の隣接地にあった大木が落雷を受け、Ａの自宅の庭に倒れ込んだため、Ａは、庭に駐車していた車を有料駐車場に停めざるを得なかった。この場合、Ａは、当該隣接地の所有者であるＢに対し、占有保持の訴えにより大木の撤去を請求することができるが、損害賠償を請求することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h18-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-07-ウ)</div>
+          <p class="qtext">19　所有権に基づく妨害排除請求権は、時効によって消滅しないが、占有保持の訴えは、妨害が消滅した時から1年を経過した場合には提起することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h27-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-09-ア)</div>
+          <p class="qtext">20　占有者は、その占有を第三者に妨害されるおそれがあるときは、その第三者に故意又は過失があるか否かにかかわらず、その第三者に対し、占有保全の訴えにより、その妨害の予防又は損害賠償の担保を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h15-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-09-イ)</div>
+          <p class="qtext">21　Ａの宅地の隣接地に堆積されていた大量の土砂が、長雨のため、Ａの宅地に流入しそうになった。Ａは、当該隣接地の所有者であるＢに対し、土砂がＡの宅地に流入しないようにするための設備を設置することを請求するとともに、損害賠償の担保を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r03-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-09-イ)</div>
+          <p class="qtext">22　Ａがその占有する動産甲を公園で紛失し、Ｂがこれを拾得した場合には、Ａは、Ｂに対し、占有回収の訴えにより、動産甲の返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h23-09-ih05-17-4h15-09-uh22-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-09-イ)(H05-17-4)(H15-09-ウ)(H22-08-オ)</div>
+          <p class="qtext">23　動産甲の占有者Ａは、Ｂの詐欺によって、Ｂに動産甲を現実に引き渡した。この場合において、Ａは、Ｂに対し、占有回収の訴えにより動産甲の返還を求めることはできない。（H29-09-ア）</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-09-ih05-17-4h15-09-uh22-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h05-17-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-17-5)</div>
+          <p class="qtext">24　建物の直接占有者である賃借人が間接占有者である賃貸人の建物への立ち入りを拒んだ時は、賃貸人は、当該建物に対する間接占有を侵奪されたものとして、占有回収の訴えを提起することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-17-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-r03-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-09-ウ)</div>
+          <p class="qtext">25　Ａがその所有する動産甲をＢに賃貸したが、Ｂが賃貸借契約終了後も動産甲を返還しなかったため、ＡがＢに無断で動産甲の占有を取り戻した場合には、Ｂは、Ａに対し、占有回収の訴えにより、動産甲の返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-r03-09-ah22-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-09-ア)(H22-08-ウ)</div>
+          <p class="qtext">26　Ａが占有する動産甲をＢが盗み、その事情を知っているＣがこれをＢから買い受けた場合には、Ａは、Ｃに対し、占有回収の訴えにより、動産甲の返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-09-ah22-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h01-03-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-03-1)</div>
+          <p class="qtext">27　甲が、乙所有のゴッホの絵を他に高値で売却する目的で盗み出し、傷んだ箇所を修復するために、事情を知らない丙に修復を依頼した。乙が、占有回収の訴えにより、返還を請求してきても、丙はこれを拒絶することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-03-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h29-09-eh23-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-09-エ)(H23-09-オ)</div>
+          <p class="qtext">28　Ｂは、Ａが占有する動産甲を盗み、盗品であることを秘して動産甲をその事実を知らないＣに売却した。その後、Ｃは動産甲をそれが盗品であることを知っていたＤに売却した。この場合において、Ａは、Ｄに対し、占有回収の訴えにより動産甲の返還を求めることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-09-eh23-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r03-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-09-エ)</div>
+          <p class="qtext">29　Ａが占有する動産甲をＢが盗んだが、Ａが適法に動産甲の占有を取り戻した場合には、Ａは、Ｂに対し、占有回収の訴えにより、占有侵害により生じた損害の賠償を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h15-09-ah22-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-09-ア)(H22-08-エ)</div>
+          <p class="qtext">30　Ｂは、Ａの車庫から自動車を窃取して乗り回した後、これをＣに売り渡した。Ａは、Ｃに対し、Ｃが自動車の占有を取得した時から1年内に限り、占有回収の訴えにより自動車の返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-09-ah22-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h15-09-eh23-09-uh01-06-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-09-エ)(H23-09-ウ)(H01-06-5)</div>
+          <p class="qtext">31　Ａは、Ｂに預けていた壺の返還を求めていたが、Ｂが言を左右にして返還に応じなかったので、Ｂの自宅に無断で入り、壺を取り戻したところ、Ｂから占有回収の訴えを提起された。Ａは、この訴訟において、抗弁として、壺の所有権が自分にあると主張することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-09-eh23-09-uh01-06-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h14-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-12-オ)</div>
+          <p class="qtext">32　民法第188条が適用されるのは、現在の占有者についてのみであり、過去の占有者は、その占有の間、本権を適法に有していたとは推定されない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h27-09-oh14-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-09-オ)(H14-12-イ)</div>
+          <p class="qtext">33　土地の占有者は、当該土地の所有者からの所有権に基づく土地明渡請求に対し当該土地を所有者から使用貸借した旨の主張をするときは、その占有権原を適法に有することが推定されるので、当該土地の使用借権の設定に係る事実について主張・立証する必要はない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-09-oh14-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h14-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-12-ウ)</div>
+          <p class="qtext">34　他人の所有する土地につき地上権を主張する占有者は、その土地の所有者に対し、民法第188条に基づき地上権の設定登記手続を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h09-11-uh01-06-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-11-ウ)(H01-06-2)</div>
+          <p class="qtext">35　他人の物を賃貸して賃料を受け取っていた者は、その物の所有者に賃料の返還を請求された場合には、自分に本権があると信じていたときでも、これを返還しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-35</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-11-uh01-06-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-r06-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-07-イ)</div>
+          <p class="qtext">36　教授：　占有物から生ずる果実の収取について考えてみましょう。悪意の占有者は、果実の収取を怠った場合には、その果実の代価を償還する義務を負いますか。★学生：イ　収取を怠った果実の代価を償還する義務を負いません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-r06-07-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-07-エ)</div>
+          <p class="qtext">37　教授：　善意の占有者が本権の訴えにおいて敗訴したときは、いつから悪意の占有者とみなされますか。★学生：エ　占有を始めた時にさかのぼって悪意の占有者とみなされます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-07-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h14-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-11-ア)</div>
+          <p class="qtext">38　占有すべき権利（本権）のない善意の占有者は、本権の訴えで敗訴した場合であっても、訴えの提起の時までの間に占有物から生じた果実を消費していたときは、その果実の代価を償還する義務を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-38</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-r06-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-07-ウ)</div>
+          <p class="qtext">39　教授：　占有物が占有者の責めに帰すべき事由によって滅失し、又は損傷したときにおける占有者の損害賠償の範囲について考えてみましょう。所有の意思のない善意の占有者は、どの範囲で賠償する義務を負いますか。★学生：ウ　損害の全部の賠償をする義務を負います。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-39</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-r02-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-08-オ)</div>
+          <p class="qtext">40　Ａが、Ｂの所有する甲建物を自己の所有と偽って、事情を知らないＣに賃貸している場合において、占有者Ｃがその責めに帰すべき事由によって甲建物を損傷させたときは、Ｃは、Ｂに対し、その損害の全部の賠償をしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-40</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 41 -->
+    <section class="q" id="q-h14-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-11-エ)</div>
+          <p class="qtext">41　占有すべき権利（本権）のない悪意の占有者は、占有物が滅失したときは、その滅失が自己の責めに帰すべからざる事由によるものであっても、回復者に対し、損害の全部を賠償する義務を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-41</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 42 -->
+    <section class="q" id="q-h31-09-uh27-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-09-ウ)(H27-09-エ)</div>
+          <p class="qtext">42　Ａは、Ｂ所有の甲建物を自己の所有物であると信じて占有し、その修繕や管理を行うとともに、第三者に賃貸して賃料を収受していた。この場合において、Ａは、Ｂに甲建物を返還する際、修繕・管理のために支出した通常の必要費をＢから償還させることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-42</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-09-uh27-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 43 -->
+    <section class="q" id="q-h14-11-oh09-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-11-オ)(H09-11-オ)</div>
+          <p class="qtext">43　占有すべき権利（本権）のない占有者は、善意であるか悪意であるかを問わず、占有物に支出した必要費については、占有物から生じた果実を取得した場合を除き、回復者に対し、その全額の償還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-43</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-11-oh09-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 44 -->
+    <section class="q" id="q-h27-09-uh01-06-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-09-ウ)(H01-06-3)</div>
+          <p class="qtext">44　占有者がその占有物について有益費を支出したときは、善意の占有者は占有の回復者に対しその償還を請求することができるが、悪意の占有者は占有の回復者に対しその償還を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-44</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-09-uh01-06-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 45 -->
+    <section class="q" id="q-h10-03-4h02-04-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-03-4)(H02-04-5)</div>
+          <p class="qtext">45　Ａは、Ｂに対し、自己所有の甲土地を売却し、代金と引換えに甲土地を引き渡したが、その後、Ｃに対しても甲土地を売却し、代金と引換えに甲土地の所有権移転登記を経由した。Ｂは、甲土地の引渡しを受けた後に、他人により占有を奪われたとしても、占有回収の訴えを提起して占有を回復した場合には、継続して占有したものと扱われるので、占有を奪われていた期間も、時効期間に算入される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-45</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-03-4h02-04-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 46 -->
+    <section class="q" id="q-h27-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-09-イ)</div>
+          <p class="qtext">46　建物の賃貸借契約により賃貸人の代理占有が成立する場合において、賃借人が当該賃貸借契約の終了後も当該建物の占有を続けていたとしても、当該賃貸借契約の終了により、賃貸人の代理占有は消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-46</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 47 -->
+    <section class="q" id="q-h16-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-13-イ)</div>
+          <p class="qtext">47　ＡがＢに対して甲動産を貸し渡している。ＡがＢに対して甲動産の一時返還を求めたところ、Ｂは、甲動産は自己の所有物であるとして、これを拒否した。その後、ＤがＢから甲動産を窃取した。この場合には、Ａは、Ｄに対し、占有回収の訴えを提起することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min18.html#(リンク)">Unit18-47</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-13-i">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h14-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H14-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">188条</span>の「占有物について行使する権利」とは、所有権、質権などの物権に限られず、賃借人、受寄者の権利のような債権など、占有を正当とする権利のすべてを含む(賃借権につき大判大4.4.27)。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H28-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>代理占有の場合は、占有の効果は本人のみならず占有代理人自身にも帰属する。よって、Ｂは動産甲の占有権を取得している。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-09-ah05-17-2">
+  <div class="dlg-head"><div class="dlg-title">(H23-09-ア)(H05-17-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>法人の代表者は法人の機関であり、法人の機関が占有している場合、本人である法人のみに所持があり、法人の機関である法人の代表者個人に所持はない。よって、法人の代表者個人には占有訴権はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-08-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>他人の使用人として家屋に居住するにすぎない者に対しては、特段の事情のないかぎり、その不法占有を理由として家屋の明渡しを請求することはできない（最判昭35.4.7）。判例の結論に賛成する学説は、その理由として、使用人は、占有補助者に過ぎず、その占有は雇主の占有の範囲内で行われているものであり、独立の占有をなすものではないということを挙げている。よって、ＡＢ間の賃貸借契約が解除されたときは、Ａは、Ｃに対し、甲建物の明渡しを請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-08-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有の意思とは所有者として占有する意思をいい、解除条件が成就しても所有の意思を失うわけではない（最判昭60.3.28）。よって、ＢがＡから解除条件付きで甲建物を購入し、その後条件が成就して売買契約が失効しても、Ｂの占有は所有の意思をもってする占有でなくなるわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-06-1">
+  <div class="dlg-head"><div class="dlg-title">(H01-06-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有権は、自己のためにする意思をもって物を所持することによって取得する（民法<span class="mono">180条</span>）。意思無能力者は、自己のためする意思を持ち得ないため、自ら占有を取得することはできない。ただ、意思無能力者であっても、権利能力（民法<span class="mono">3条</span>）は有しているため、法定代理人を通じてであれば占有を取得することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H28-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人の所持を介して占有する場合にも占有は認められる（代理占有）。また、事実的支配が継続するかぎり占有意思はなお存続し、占有権はただちに消滅するわけではない。Ａは、動産甲のＣへの引渡しをしておらず、事実的支配が継続しているので、動産甲の占有権を失わない（民法<span class="mono">203条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-08-a">
+  <div class="dlg-head"><div class="dlg-title">(H22-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有権は、代理人によって取得することができる（民法<span class="mono">181条</span>）。賃貸人は、賃借人の占有を通じて間接的に占有権を取得する。もっとも、この占有代理関係は外形上存在すればよく、法律上有効である必要はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-02-1h03-02-2">
+  <div class="dlg-head"><div class="dlg-title">(H03-02-1)(H03-02-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>農地を賃借していた者が当該農地を買受け、その代金を支払ったときは、農地の所有権移転の効力要件たる農地法所定の許可手続がとられていなかったとしても、買主は特段の事情のない限り、売買契約を締結し、代金を支払った時に民法<span class="mono">185条</span>にいう新権原により所有の意思をもって当該農地の占有を始めたというべきであるとされている（最判昭52.3.3）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>他主占有が自主占有に転換する条件は、①自己に占有をさせた者に対して所有の意思があることを表示すること、又は、②新たな権原により更に所有の意思をもって占有を始めることである（民法<span class="mono">185条</span>）。ここにいう「権原」とは法律上の名義を意味し、法律行為等がこれに当たるものと解されている。本記述では、Ａは、所有者Ｂから動産甲を買い受けており、売買契約が自主占有への転換の「新たな権原」に当たることから、②による自主占有への転換が認められる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-07-a">
+  <div class="dlg-head"><div class="dlg-title">(R06-07-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者は、所有の意思をもって、善意で、平穏に、かつ、公然と占有をするものと推定する（民法<span class="mono">186条</span>1項）。この規定により、占有が立証されると、その占有は所有の意思等があるものと推定され、これを覆すためには反対の事実の主張立証を要する（最判昭54.7.31）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-17-1">
+  <div class="dlg-head"><div class="dlg-title">(H05-17-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>被相続人が死亡して相続が開始するときは、特別の事情のない限り、従前その占有に属したものは、当然相続人の占有に移ると解すべきである（最判昭44.10.30）。よって、相続人中の1人が占有しているからといって、当該相続人のみが家屋の占有権を取得するわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-02-5">
+  <div class="dlg-head"><div class="dlg-title">(H03-02-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>被相続人の事実的支配の内にあったものは、相続により当然に、相続人に承継されると社会観念上認められるため（最判昭44.10.30）、相続人が相続財産や相続の開始を知っているか否かに関わらず、相続により当然に相続人の占有に移る。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-08-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>共同相続人の一人が単独に相続したものと信じて疑わず、所有者として行動してきた等の事情のある場合には、その相続の時から自主占有を取得する（最判昭47.9.8）。よって、Ｂは、単独に相続したものと信じて疑わず、所有者として行動してきた等の事情のある場合には、相続の時から、Ａの遺産に属する財産について単独所有者としての所有の意思をもってする占有を取得することがある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-07-o">
+  <div class="dlg-head"><div class="dlg-title">(R06-07-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「10年の取得時効の要件としての占有者の善意・無過失の存否については占有開始の時点においてこれを判定すべきものとする民法<span class="mono">162条</span>2項の規定は、時効期間を通じて占有主体に変更がなく同一人により継続された占有が主張される場合について適用されるだけではなく、占有主体に変更があつて承継された2個以上の占有が併せて主張される場合についてもまた適用されるものであり、後の場合にはその主張にかかる最初の占有者につきその占有開始の時点においてこれを判定すれば足りる」としている（最判昭53.3.6）。悪意の占有開始者が自己以前の善意無過失の占有を承継した場合には、その時点で、善意占有者が悪意に転じたのと同様であるとみることができるし、善意無過失で始まった占有が時効期間の途中で悪意占有に転じても、そのことによって時効の完成は妨げられないからである。よって、被相続人の占有を併せて主張する場合には、相続人が占有を始めた時に悪意であっても、善意と判定される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-11-ah05-17-3">
+  <div class="dlg-head"><div class="dlg-title">(H09-11-ア)(H05-17-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有訴権は、悪意の占有者、すなわち、自分に本権がないことを知っている占有者にも認められる（大判大13.5.22）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-06-4">
+  <div class="dlg-head"><div class="dlg-title">(H01-06-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人のために物を占有する者（占有代理人）も占有権を有するので、占有の訴えを提起することができる（民法<span class="mono">197条</span>後段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H15-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有保持の訴えによる損害賠償の請求は、占有妨害について妨害者の故意過失を要する（大判昭9.10.19）。本肢においては、占有妨害は落雷によって生じているため、Ｂには故意も過失も存しない。よって、Ａは、Ｂに対し、大木の撤去は請求できるが、損害賠償を請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H18-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>所有権は消滅時効にかからず、所有権から派生する物権的請求権も同様である（大判大11.8.21）。また、占有保持の訴えは、妨害の存する間又はその消滅した後1年以内に提起しなければならない（民法<span class="mono">201条</span>1項本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-09-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者がその占有を妨害されるおそれがあるときは、占有保全の訴えにより、その妨害の予防又は損害賠償の担保を請求することができる（民法<span class="mono">199条</span>）。担保を供させるのには、妨害のおそれがあれば足り、不法行為の成立の要件、すなわち相手方の故意又は過失は必要ない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H15-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者がその占有を妨害されるおそれがあるときは、占有保全の訴えにより、その妨害の予防又は損害賠償の担保を請求することができる（民法<span class="mono">199条</span>）。よって、Ａは、設備を設置することの請求又は損害賠償の担保を請求することができるにとどまる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-09-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者がその占有を奪われたときは、占有回収の訴えにより、その物の返還及び損害の賠償を請求することができる（民法<span class="mono">200条</span>1項）。「占有を奪われた」とは、占有者の意思に基づかないで占有を奪取されることである。紛失物を他者が取得した場合は、占有を奪取されたとはいえないため、「占有を奪われた」に当たらない。よって、Ａに占有回収の訴えは認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-09-ih05-17-4h15-09-uh22-08-o">
+  <div class="dlg-head"><div class="dlg-title">(H23-09-イ)(H05-17-4)(H15-09-ウ)(H22-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有侵奪とは、占有者がその意思に反して所持を失ったことをいう（大判大11.11.27）。よって、占有者が欺かれて占有物を引き渡した場合は、意思に反してとはいえず、占有回収の訴えによる返還請求はできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-17-5">
+  <div class="dlg-head"><div class="dlg-title">(H05-17-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>当初の占有者が任意に占有を移転させた場合、占有を受領した者が後に当初の占有者の意思に反する行為をしたとしても、占有の侵奪があったということはできない（最判昭34.1.8）。占有の引渡しをしたことによって、代理占有が確立しているので、賃借人が賃貸人の建物への立ち入りを拒んだとしても、それによって占有権が消滅することにはならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-09-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者がその占有を奪われたときは、占有回収の訴えにより、その物の返還及び損害の賠償を請求することができる（民法<span class="mono">200条</span>1項）。占有回収請求の積極的要件は、①Ｂが動産甲を占有していたことと、②Ａが動産甲を占有していることである。そして、訴えの相手方Ａが所有権などの本権を有することは、Ｂの占有の訴えを斥ける事由とはならない。これは、民法<span class="mono">202条</span>2項が、「占有の訴えについては、本権に関する理由に基づいて裁判をすることができない。」と規定していることによるとされている。よって、Ｂは、Ａに対し、占有回収の訴えにより、動産甲の返還を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-09-ah22-08-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-09-ア)(H22-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">200条</span>2項は、「占有回収の訴えは、占有を侵奪した者の特定承継人に対して提起することができない。ただし、その承継人が侵奪の事実を知っていたときは、この限りでない。」と規定している。本記述の場合、特定承継人Ｃは、Ｂが動産甲を盗んだ事情を知っているため、占有回収の訴えを提起することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-03-1">
+  <div class="dlg-head"><div class="dlg-title">(H01-03-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有回収の訴えは、占有を侵奪した者の特定承継人に対しては提起することができない（民法<span class="mono">200条</span>2項）。本記述の丙は、甲から修理を依頼された者にすぎないが、善意の特定承継人に当たるため、占有回収の訴えの被告とならず、乙からの請求を拒絶することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-09-eh23-09-o">
+  <div class="dlg-head"><div class="dlg-title">(H29-09-エ)(H23-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>いったん善意の特定承継人の占有に帰したならば、その後の特定承継人が悪意であっても、その者に対して占有回収の訴えを提起することはできない（大判昭13.12.26）。よって、Ａは、Ｄに対し、占有回収の訴えにより動産甲の返還を求めることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-09-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者がその占有を奪われたときは、占有回収の訴えにより、その物の返還及び損害の賠償を請求することができる(民法<span class="mono">200条</span>1項)。よって、本記述のＡは、Ｂに対し、占有侵害による損害賠償請求をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-09-ah22-08-e">
+  <div class="dlg-head"><div class="dlg-title">(H15-09-ア)(H22-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有回収の訴えは、占有を奪われた時から1年以内に提起しなければならない（民法<span class="mono">201条</span>3項）。よって、Ａは、Ｂが窃取した時から1年以内に限り、占有回収の訴えにより自動車の返還を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-09-eh23-09-uh01-06-5">
+  <div class="dlg-head"><div class="dlg-title">(H15-09-エ)(H23-09-ウ)(H01-06-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有回収の訴えについては、本権に関する理由に基づいて裁判をすることができない（民法<span class="mono">202条</span>2項）。よって、占有回収の訴えの提起を受けたＡは、抗弁として、壺の所有権が自分にあると主張することはできない。なお、占有の訴えに対しに対し本権に基づく反訴を提起することはできる（最判昭40.3.4）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-12-o">
+  <div class="dlg-head"><div class="dlg-title">(H14-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">188条</span>の推定は、現在の占有者についてだけでなく、過去の占有者についても、その占有の間は適法に権利を有していたものと推定される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-09-oh14-12-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-09-オ)(H14-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">188条</span>の推定は、権利の存在・帰属について適用されるものであり、所有権の取得などのような権利の変動については、本条の推定は働かない。すなわち、所有権者等から不法占有の主張がある場合、占有者は適法に占有しているとは推定されず、占有についての証明責任を負う（最判昭35.3.1）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H14-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">188条</span>の「推定」とは、相手方が占有者に本権のない旨の立証に成功しない限り、正当な本権があるとされることを意味し、消極的、防御的な効力を有するにすぎない。よって、占有者は、本条の推定により不動産の上に行使する権利の登記を申請することは許されない（大判明39.12.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-11-uh01-06-2">
+  <div class="dlg-head"><div class="dlg-title">(H09-11-ウ)(H01-06-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>善意の占有者は、占有物から生ずる果実を取得する（民法<span class="mono">189条</span>1項）。果実を収取する権利を有していると誤信している善意の占有者は、果実を当然消費することが予想され、本権を有する者から果実の返還を請求できるとすると、善意占有者にとって苛酷な結果となるからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-07-i">
+  <div class="dlg-head"><div class="dlg-title">(R06-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、償還する義務を負わないとしている点で、誤っている。悪意の占有者は、果実を返還し、かつ、既に消費し、過失によって損傷し、又は収取を怠った果実の代価を償還する義務を負う（民法<span class="mono">190条</span>1項）。その趣旨は、他人の果実収取権の侵害の可能性を知っていた占有者に、権利者が受けた不利益の填補を命ずる点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-07-e">
+  <div class="dlg-head"><div class="dlg-title">(R06-07-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、占有を始めた時にさかのぼるとしている点で、誤っている。善意の占有者が本権の訴えにおいて敗訴したときは、その「訴えの提起の時」から悪意の占有者とみなす（民法<span class="mono">189条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H14-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>善意の占有者でも本権の訴えで敗訴したときは、その訴えの提起の時から悪意の占有者とみなされる（民法<span class="mono">189条</span>2項）が、訴えの提起前は善意の占有者であるため、占有物から生ずる果実を取得できる（民法<span class="mono">189条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-07-u">
+  <div class="dlg-head"><div class="dlg-title">(R06-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有物が占有者の責めに帰すべき事由によって滅失し、又は損傷したときは、その回復者に対し、悪意の占有者はその損害の全部の賠償をする義務を負い、善意の占有者はその滅失又は損傷によって現に利益を受けている限度において賠償をする義務を負う。ただし、所有の意思のない占有者は、善意であるときであっても、全部の賠償をしなければならない（民法<span class="mono">191条</span>）。その趣旨は、他主占有者は善意であっても占有物を他人に返還しなければならず、注意義務に従って物を保管しなければならないため、帰責事由によってこの義務に違反して物を滅失又は損傷させた場合には、もともとそれによる損害全部の賠償義務を負うべき立場にあるという点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-08-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有物が占有者の責めに帰すべき事由によって滅失し、又は損傷したときは、その回復者に対し、悪意の占有者はその損害の全部の賠償をする義務を負い、善意の占有者はその滅失又は損傷によって現に利益を受けている限度において賠償をする義務を負う（民法<span class="mono">191条</span>本文）。ただし、所有の意思のない占有者は、善意であるときであっても、全部の賠償をしなければならない（同条ただし書）。Ｃは、Ａが、Ｂの所有する甲建物を自己所有と偽っていることについて、善意であるものの、甲建物を賃貸借に基づいて占有しており他主占有であるため所有の意思のない占有者に当たり、全部の賠償をしなければならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-11-e">
+  <div class="dlg-head"><div class="dlg-title">(H14-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有物が占有者の故意又は過失によって滅失又は損傷したときは、本権のない占有者は損害の賠償をする義務を負う（民法<span class="mono">191条</span>）が、帰責事由のない占有者は、損害賠償義務を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-09-uh27-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H31-09-ウ)(H27-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者が占有物を返還する場合には、その物の保存のために支出した必要費を回復者から償還させることができる。ただし、占有者が果実を取得したときは、通常の必要費は、占有者の負担に帰する（民法196 条1項）。本記述のＡは、賃料という法定「果実」を取得しているのであるから、占有の回復者Ｂに通常の必要費の償還を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-11-oh09-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H14-11-オ)(H09-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者は、その善意・悪意、所有の意思の有無を問わず、占有物の返還に当たり、支出した必要費の全額を請求することができる。ただし、占有者が果実を取得したときは、通常の必要費は占有者の負担となり、臨時費ないし特別費の償還を請求できるだけである（民法<span class="mono">196条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-09-uh01-06-3">
+  <div class="dlg-head"><div class="dlg-title">(H27-09-ウ)(H01-06-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有者が占有物の改良のために支出した金額その他の有益費については、その価格の増加が現存する場合に限り、回復者の選択に従い、その支出した金額又は増加額を償還させることができる（民法<span class="mono">196条</span>2項）。同条は、単に「占有者」としており、占有者の主観による区別をしていない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-03-4h02-04-5">
+  <div class="dlg-head"><div class="dlg-title">(H10-03-4)(H02-04-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>占有者が占有回収の訴えを提起して勝訴し、現実にその物の占有を回復したときは、現実に占有しなかった間も占有が継続していたものと擬制される（民法<span class="mono">203条</span>ただし書、最判昭44.12.2）ので、占有を奪われていた期間も時効期間に算入される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-09-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>占有権は、代理権の消滅のみによっては、消滅しない（民法<span class="mono">204条</span>2項）。占有代理関係は外形的に存在すれば足り、法律上有効なことまでは必要としない、ということを注意的に定めたものである。そして、「代理権が消滅」とは、代理占有関係が無効であったり、終了したりした場合のことをいう。本記述においては、賃貸借契約は終了しているものの、賃借人は建物の占有を続けており、占有代理関係が外形的に存在しているといえる。よって、賃貸人の代理占有は消滅しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-13-i">
+  <div class="dlg-head"><div class="dlg-title">(H16-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代理人が本人に対して、以後自己又は第三者のために占有物を所持する意思を表示した場合、本人の占有権は消滅する（民法<span class="mono">204条</span>1項2号）。よって、ＡはＤに対し、占有回収の訴えを提起することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

@@ -1,0 +1,1467 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit27</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit27</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min26q.html">前へ</a>
+      <a href="pu26min28q.html">次へ</a>
+      <a href="pu26min27.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h07-12-uh13-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-12-ウ)(H13-13-イ)</div>
+          <p class="qtext">1　共同抵当の目的とされている複数の土地の全部が競売によって売却され、その売却代金が同時に配当される場合には、共同抵当権者は、被担保債権のうち後順位抵当権者の存しない土地の売却代金から受けることができない額についてのみ、後順位抵当権の存する土地の売却代金から優先弁済を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-12-uh13-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h07-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-12-イ)</div>
+          <p class="qtext">2　共同抵当の目的とされている複数の土地のうちの一部が競売によって売却されたときは、競売された土地についてのみ後順位抵当権者が存する場合であっても、共同抵当権者は、その売却代金から、被担保債権の全額について優先弁済を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h28-14-ah13-13-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-14-ア)(H13-13-ア)</div>
+          <p class="qtext">3　甲土地（価額4,000万円）及び乙土地（価額6,000万円）についてＡのＢに対する債権（債権額5,000万円）を担保するために第1順位の共同抵当権が設定された後、甲土地についてＣのＢに対する債権（債権額6,000万円）を担保するために第2順位の抵当権が設定され、乙土地についてＤのＢに対する債権（債権額4,000万円）を担保するために第2順位の抵当権が設定された。甲土地及び乙土地をＢが所有する場合において、Ａが乙土地に設定された抵当権を実行してその代価から5,000万円の配当を受けた後、Ｃが甲土地に設定された抵当権を実行したときは、Ｄは、甲土地の代価から3,000万円の配当を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-14-ah13-13-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h13-13-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-13-オ)</div>
+          <p class="qtext">4　ＡがＣに対する2,500万円の債権を担保するために甲土地（時価3,000万円）と乙土地（時価2,000万円）について共同抵当権を有し、ＢがＣに対する2,000万円の債権を担保するために甲土地について後順位の抵当権を有している。物上保証人であるＤが甲土地及び乙土地を所有する場合において、Ａが甲土地の抵当権を実行したときは、Ｂは、乙土地についてＡの抵当権を代位行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-13-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h20-16-uh13-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-16-ウ)(H13-13-エ)</div>
+          <p class="qtext">5　甲土地（価額3,000万円）及び乙土地（価額2,000万円）につき、ＸのＡに対する債権（債権額3,000万円）を担保するため、第1順位の共同抵当権が設定された後、甲土地につき、ＹのＡに対する債権（債権額2,000万円）を担保するため、第2順位の抵当権が設定された。甲土地がＡの所有に、乙土地が物上保証人Ｂの所有に属する場合において、Ｘが乙土地について設定された抵当権を放棄した上、甲土地について設定された抵当権を実行し、その代価3,000万円全部がＸに配当されたときは、Ｙは、Ｘに対し、不当利得返還請求をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-16-uh13-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h28-14-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-14-ウ)</div>
+          <p class="qtext">6-1　甲土地（価額4,000万円）及び乙土地（価額6,000万円）についてＡのＢに対する債権（債権額5,000万円）を担保するために第1順位の共同抵当権が設定された後、甲土地についてＣのＢに対する債権（債権額6,000万円）を担保するために第2順位の抵当権が設定され、乙土地についてＤのＢに対する債権（債権額4,000万円）を担保するために第2順位の抵当権が設定された。★甲土地をＥが、乙土地をＢが所有する場合において、Ａが甲土地に設定された抵当権を実行してその代価から4,000万円の配当を受けた後、Ａが乙土地に設定された抵当権を実行したときは、Ｃは、乙土地の代価から4,000万円の配当を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-6-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-14-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h28-14-ih20-16-ah20-16-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-14-イ)(H20-16-ア)(H20-16-イ)</div>
+          <p class="qtext">6-2　甲土地及び乙土地をＥが所有する場合において、Ａが甲土地に設定された抵当権を放棄した後に、乙土地に設定された抵当権が実行されたときは、Ｄは、乙土地の代価から3,000万円の配当を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-6-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-14-ih20-16-ah20-16-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h13-13-uh07-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-13-ウ)(H07-12-オ)</div>
+          <p class="qtext">7　ＡがＣに対する2,500万円の債権を担保するために甲土地（時価3,000万円）と乙土地（時価2,000万円）について共同抵当権を有し、ＢがＣに対する2,000万円の債権を担保するために甲土地について後順位の抵当権を有している。債務者Ｃが甲土地及び乙土地を所有する場合において、Ａが乙土地の抵当権を放棄して甲土地の抵当権を実行したときは、Ｂは、Ａによる抵当権の放棄がなければ乙土地についてＡの抵当権を代位行使することができた限度で、Ａに優先して配当を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-13-uh07-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h26-14-eh17-16-uh05-15-ih01-12-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-14-エ)(H17-16-ウ)(H05-15-イ)(H01-12-2)</div>
+          <p class="qtext">8　元本の確定前に、第三者がその時点における被担保債権の全部を債務者のために弁済したときは、その第三者は、弁済した債権について根抵当権を行使することができる。（R03-14-ア）</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-14-eh17-16-uh05-15-ih01-12-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h06-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-12-エ)</div>
+          <p class="qtext">9　元本の確定前に、根抵当権の被担保債権について債務引受があったときは、根抵当権者は、引受人の債務についても、根抵当権を行うことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h01-12-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-12-1)(改)</div>
+          <p class="qtext">10　Ａは、ＢがＣに対して有する継続的売掛債権につき、Ａ所有の不動産に根抵当権を設定した。Ｄは、Ｃの債務につき連帯保証した。その後、ＢがＥに対し甲債権を譲渡した。その後、ＢがＥに根抵当権の一部譲渡をしたときは、甲債権は、その譲渡された根抵当権によって担保される。なお、根抵当権の元本は確定していないものとする。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-12-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h17-16-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-16-イ)</div>
+          <p class="qtext">11　抵当権は、特定の債権を被担保債権とすることを要するが、根抵当権は、債権者と債務者が確定していれば、それ以上に被担保債権の範囲を限定する必要はない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-16-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h22-15-uh16-15-ah03-16-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-15-ウ)(H16-15-ア)(H03-16-エ)</div>
+          <p class="qtext">12　根抵当権は、一定の範囲に属する不特定の債権を担保する抵当権であり、根抵当権設定契約の当時既に発生している債権を被担保債権とすることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-15-uh16-15-ah03-16-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r05-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-15-ア)</div>
+          <p class="qtext">13　根抵当権者は、利息その他の定期金を請求する権利を有するときは、その満期となった最後の2年分についてのみ、その根抵当権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h26-14-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-14-ウ)</div>
+          <p class="qtext">14　根抵当権者は、確定した元本及び元本の確定前に発生した被担保債権の利息のうち満期となった最後の2年分についてのみ、その根抵当権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-14-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h17-16-eh22-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-16-エ)(H22-15-オ)</div>
+          <p class="qtext">15　根抵当権については、必ず極度額を定めなければならず、極度額の範囲内でしか優先弁済を受けることができない。しかし、その範囲内であれば、抵当権と異なり、最後の2年分を超える利息や遅延損害金についても優先弁済を受けられる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-16-eh22-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r05-15-ih29-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-15-イ)(H29-14-ア)</div>
+          <p class="qtext">16　根抵当権の担保すべき債権の範囲を変更した場合において、元本の確定前にその変更について登記をしなかったときは、その変更をしなかったものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-15-ih29-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h26-14-ih16-15-ih22-15-ah02-13-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-14-イ)(H16-15-イ)(H22-15-ア)(H02-13-5)</div>
+          <p class="qtext">17　根抵当権者と根抵当権設定者が元本の確定前に根抵当権の担保すべき債権の範囲を変更するときは、後順位の抵当権者の承諾を得なければならない。（R02-14-ア）</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-14-ih16-15-ih22-15-ah02-13-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h03-16-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-16-イ)</div>
+          <p class="qtext">18-1　甲は自己所有の不動産に乙のために根抵当権を設定し、その設定契約において乙のＡに対する電気製品売買取引によって生ずる債権を担保するものと定め、根抵当権設定の登記をした。その後、甲と乙は上記根抵当権の債務者をＢと変更する旨の合意をした（以下「本件変更契約」という。）。★根抵当権の確定前に本件変更契約に基づく債務者変更の登記をしなかった場合には、根抵当権の被担保債権は、乙のＡに対する電気製品売買取引によって生ずる債権である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-18-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-16-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h03-16-uh06-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-16-ウ)(H06-12-ア)</div>
+          <p class="qtext">18-2　本件変更契約の締結前に乙のＢに対する電気製品売買取引により生じていた債権も、根抵当権の被担保債権となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-18-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-16-uh06-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h02-13-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-13-4)</div>
+          <p class="qtext">19　根抵当権が共有である場合において、共有者の1人について被担保債権の範囲を変更するには、その共有者と根抵当権設定者とですることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-13-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h05-15-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-15-ア)</div>
+          <p class="qtext">20　債権者Ａ、ＢがＣ所有の不動産について1個の根抵当権を設定する場合に、Ａについては甲との間の銀行取引から生ずる債権を担保するものとし、Ｂについては乙との間の売買取引から生ずる債権を担保するものとすることは可能である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-15-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-r02-14-ih27-14-eh16-15-uh02-13-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-14-イ)(H27-14-エ)(H16-15-ウ)(H02-13-2)</div>
+          <p class="qtext">21　根抵当権者と根抵当権設定者が根抵当権の極度額を減額するときは、利害関係を有する者の承諾を得なければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-14-ih27-14-eh16-15-uh02-13-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h26-14-oh17-16-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-14-オ)(H17-16-オ)</div>
+          <p class="qtext">22　根抵当権の極度額の変更は、元本の確定前に限り、行うことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-14-oh17-16-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-r02-14-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-14-ウ)</div>
+          <p class="qtext">23　根抵当権者と根抵当権設定者は、後順位の抵当権者の承諾を得ることなく、根抵当権の担保すべき元本の確定すべき期日を変更することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-14-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h26-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-14-ア)</div>
+          <p class="qtext">24　根抵当権の元本の確定期日は、根抵当権の設定時に定めなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-r02-14-oh06-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-14-オ)(H06-12-ウ)</div>
+          <p class="qtext">25　根抵当権者は、元本の確定前において、根抵当権設定者の承諾を得ることなく、その根抵当権を譲り渡すことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-14-oh06-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r02-14-eh06-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-14-エ)(H06-12-イ)</div>
+          <p class="qtext">26　根抵当権者は、元本の確定前において、根抵当権設定者の承諾を得ることなく、その根抵当権を他の債権の担保とすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-14-eh06-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h05-15-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-15-ウ)</div>
+          <p class="qtext">27　共同根抵当は、設定と同時にその旨の登記がされなければ成立しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-15-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-r03-14-ih01-12-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-14-イ)(H01-12-5)</div>
+          <p class="qtext">28　元本の確定前に債務者について相続が開始したときは、根抵当権の担保すべき元本は、当然に確定する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-14-ih01-12-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h29-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-14-イ)</div>
+          <p class="qtext">29　元本の確定前に債務者が死亡して相続が開始した場合において、相続の開始後6か月以内に、根抵当権者と根抵当権設定者との間で債務者の相続人が相続の開始後に負担する債務を担保する旨の合意をしなかったときは、根抵当権の担保すべき元本は、相続開始の時に確定したものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h22-15-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-15-エ)</div>
+          <p class="qtext">30　債務者ではない根抵当権設定者が死亡した場合、根抵当権の担保すべき元本は、確定する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-15-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-r03-14-uh02-13-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-14-ウ)(H02-13-3)</div>
+          <p class="qtext">31　元本の確定前に債務者について合併があった場合には、その債務者が根抵当権設定者であるときを除き、根抵当権設定者は、元本の確定を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-14-uh02-13-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h27-14-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-14-イ)(改)</div>
+          <p class="qtext">32　ＡとＢ会社は、平成23年4月1日、ＡがＢ会社の石油販売特約店となることに伴い、Ａ所有の甲土地に、Ｂ会社のために、Ａを債務者とし、極度額を500万円とする根抵当権（以下「本件根抵当権」という。）を設定し、担保すべき債権の範囲を石油供給取引によって生ずる債権と定め、その旨の登記手続をした。なお、本件根抵当権の担保すべき元本の確定期日は定められていない。平成25年10月1日にＢ会社がＣ会社に吸収合併された場合、当該合併の事実を同年11月15日にＡが知ったときは、その後にＡは、当該合併を理由として本件根抵当権の担保すべき元本の確定を請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-14-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-r03-14-oh27-14-uh22-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-14-オ)(H27-14-ウ)(H22-15-イ)</div>
+          <p class="qtext">33　根抵当権が担保すべき元本の確定すべき期日の定めがない場合は、根抵当権設定者は、根抵当権の設定後いつでも、根抵当権者に対し、元本の確定を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-14-oh27-14-uh22-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h18-16-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-16-イ)</div>
+          <p class="qtext">34　根抵当権者は、元本確定期日の定めがない限りいつでも根抵当権の元本の確定を請求することができ、元本の確定後に根抵当権の被担保債権の全部を譲り受けた者は、当該根抵当権を実行することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-16-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-r03-14-eh29-14-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-14-エ)(H29-14-エ)</div>
+          <p class="qtext">35　元本の確定後においては、根抵当権設定者は、その根抵当権の極度額を、現に存する債務の額と以後2年間に生ずべき利息その他の定期金及び債務の不履行による損害賠償の額とを加えた額に減額することを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-35</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-14-eh29-14-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-r05-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-15-オ)</div>
+          <p class="qtext">36　他人の債務を担保するため根抵当権を設定した者は、元本の確定後において現に存する債務の額がその根抵当権の極度額を超えるときは、その極度額に相当する金額を払い渡し又は供託して、その根抵当権の消滅請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h27-14-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-14-オ)(改)</div>
+          <p class="qtext">37　ＡとＢ会社は、平成23年4月1日、ＡがＢ会社の石油販売特約店となることに伴い、Ａ所有の甲土地に、Ｂ会社のために、Ａを債務者とし、極度額を500万円とする根抵当権（以下「本件根抵当権」という。）を設定し、担保すべき債権の範囲を石油供給取引によって生ずる債権と定め、その旨の登記手続をした。なお、本件根抵当権の担保すべき元本の確定期日は定められていない。本件根抵当権の担保すべき元本が確定した後にＡがＥに甲土地を売り渡した場合において、当該元本の確定時点におけるＡのＢ会社に対する残債務額が600万円であったときは、ＥがＢ会社に対して本件根抵当権の消滅を請求するためには、600万円の払渡し又は供託をしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-14-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h16-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-15-オ)</div>
+          <p class="qtext">38　元本の確定後の被担保債権の額が根抵当権の極度額を超えている場合において、抵当不動産の第三取得者は、根抵当権者が極度額に相当する額の金銭の受領を拒んだときは、同額の金銭を供託して根抵当権の消滅を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-38</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 41 -->
+    <section class="q" id="q-h14-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-06-エ)</div>
+          <p class="qtext">39　Ａは、Ｂに対する貸金債権を担保するために、Ｂ所有の土地に抵当権を設定し、その旨の登記をした。その後、当該貸金債務は全額弁済されたが、抵当権設定登記が抹消されないうちに、Ａは、たまたまＢに対して債権を有していたＣとの間で当該抵当権のみを譲渡する契約を締結し、その旨の登記をした。この場合、抵当権設定登記が抹消されていない以上、Ｂは、Ｃに対し、抵当権の消滅を対抗することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-39</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 42 -->
+    <section class="q" id="q-h26-12-eh04-09-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-12-エ)(H04-09-4)</div>
+          <p class="qtext">40　ＡのＢに対する貸金債権を担保するために、ＡがＣ所有の甲建物に抵当権の設定を受けた場合、当該抵当権は、Ｂ及びＣに対しては、当該貸金債権と同時でなければ、時効によって消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-40</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-12-eh04-09-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 43 -->
+    <section class="q" id="q-h27-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-06-エ)</div>
+          <p class="qtext">41　Ａがその所有する甲土地について、ＢのＣに対する債権を被担保債権とし、Ｂを抵当権者とする抵当権を設定した後に、Ｃが甲土地の所有権を時効により取得したときであっても、Ｂの抵当権は消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-41</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 44 -->
+    <section class="q" id="q-h02-19-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-19-ウ)</div>
+          <p class="qtext">42　乙の抵当権が設定され、その旨の登記がされた土地を、甲が時効取得したときでも、乙は抵当権を失わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-42</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-19-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 45 -->
+    <section class="q" id="q-h31-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-13-エ)</div>
+          <p class="qtext">43　教授：　ＡがＢから甲土地を賃借し、その賃貸借について対抗要件が具備されている場合において、その後にＡが甲土地上に所有する乙建物に抵当権を設定したという事例について考えましょう。ＡとＢとの合意によって甲土地の賃貸借契約を解除することはできますか。★学生：　賃貸借契約を合意解除することはできますが、それを抵当権者に対抗することはできません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min27.html#(リンク)">Unit27-43</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-13-e">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h07-12-uh13-13-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-12-ウ)(H13-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>共同抵当の目的とされている複数の不動産の全部について同時にその代価を配当すべきときは、各不動産の価額に応じて、それぞれの不動産の負担が按分される（民法<span class="mono">392条</span>1項）。後順位抵当権者が存する土地についても、まず共同抵当権者の被担保債権について按分された額の配当が行われ、残りを後順位抵当権者に配当することになる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-12-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>共同抵当の目的物のうち、一部の不動産の代価を配当すべきときは、抵当権者は、その代価から債権全額の弁済を受けることができる（異時配当、民法<span class="mono">392条</span>2項前段）。後順位抵当権者が存するときであっても結論は変わらない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-14-ah13-13-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-14-ア)(H13-13-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>共同抵当の目的物のうち、一部の不動産の代価を配当すべきときは、抵当権者は、その代価から債権全額の弁済を受けることができる（異時配当、民法<span class="mono">392条</span>2項前段）。そして、共同抵当の目的不動産をいずれも債務者が所有している場合、競売された不動産の次順位の抵当権者は、同時配当であれば抵当権者が受けるべきであった額を限度として、その抵当権者に代位して抵当権を行使することができる（民法<span class="mono">392条</span>2項後段）。本事案において、同時に配当がされていればＡは甲土地から2,000万円の配当を受けるべきであった。よって、Ｄが代位して配当を受けるのは2,000万円である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-13-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-13-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>共同抵当の目的物を同一の物上保証人が所有しており、1つの不動産の代価を配当する場合（異時配当）、競売された不動産の後順位の抵当権者は、他の不動産につき、同時配当がなされたならば、その不動産が負担すべきであった額を限度として、共同抵当権者に代位して優先弁済を受けることができる（民法<span class="mono">392条</span>2項、最判平4.11.6）。よって、Ｂは、乙土地についてＡの抵当権を代位行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-16-uh13-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H20-16-ウ)(H13-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>共同抵当の目的物が別人所有で、債務者所有の不動産から先に競売された場合、<span class="mono">392条</span>2項の適用はなく、債務者所有の不動産の後順位抵当権者は物上保証人所有の抵当不動産に代位できない（最判昭44.7.3）。物上保証人は、自己の土地（乙不動産）について抵当権が実行されたときは、甲不動産に対する法定代位により求償権の満足を受けられることを期待しており、その期待を保護すべきだからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-14-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-14-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>共同抵当の目的物が別人所有の場合、<span class="mono">392条</span>2項の適用はない。しかし、物上保証人所有の不動産のみが競売されたときは、物上保証人は債務者所有の不動産の1番抵当権に代位することができる。そして、物上保証人の抵当不動産の後順位抵当権者は、当該物上保証人の取得した1番抵当権から優先して弁済を受けることができる（最判昭53.7.4）。よって、Ｃは、Ｅが代位した乙土地の代価からＥに優先して4,000万円の配当を受けることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-14-ih20-16-ah20-16-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-14-イ)(H20-16-ア)(H20-16-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>共同抵当権者が、その目的となっている一つの不動産上の抵当権を放棄して他の不動産のみを実行した場合に、当該他の不動産に後順位抵当権者がいるときは、もし放棄がなければ後順位抵当権者が代位できた額について、共同抵当権者は、後順位抵当権者に優先することはできない（最判平4.11.6）。本記述では、仮に同時配当の場合、Ａは甲土地から2,000万円の配当を受けることができた（民法<span class="mono">392条</span>1項）。よって、甲土地にＡが配当を受けることができた2000万円につきＤに優先できず、乙土地からは、3,000万円の配当しか受けられないため、乙不動産の後順位抵当権者Ｄは、乙土地の代価から3,000万円の配当を受けることができる（民法<span class="mono">392条</span>2項後段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-13-uh07-12-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-13-ウ)(H07-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>ある不動産に対する抵当権を放棄した共同抵当権者が、後順位抵当権者がいる他の不動産の抵当権を実行した場合、放棄された抵当権の目的たる不動産につき、後順位抵当権者が代位をなし得たはずの負担額の限度において、優先弁済を受けられなくなる（大判昭11.7.14）。よって、Ｂは、Ａによる抵当権の放棄がなければ乙土地についてＡの抵当権を代位行使することができた限度（1,000万円）で、Ａに優先して配当を受けることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-14-eh17-16-uh05-15-ih01-12-2">
+  <div class="dlg-head"><div class="dlg-title">(H26-14-エ)(H17-16-ウ)(H05-15-イ)(H01-12-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">398条の7</span>第1項後段。元本の確定前に根抵当権者から債権を取得した者は、その債権について根抵当権を行使することができない。元本の確定前に債務者のために又は債務者に代わって弁済をした者も、同様とする。本条の趣旨は、根抵当権の被担保債権の中に根抵当権者以外の者が有する債権が混じることは、根抵当権の独立的な性格になじまないという点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-12-e">
+  <div class="dlg-head"><div class="dlg-title">(H06-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>元本確定前に、根抵当権の被担保債権について債務引受があった場合、元の債務者の債務は別の債務者の債務となり、根抵当権が担保する債権の範囲内から脱するため、その債務について根抵当権を行うことはできない（民法<span class="mono">398条の7</span>第2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-12-1">
+  <div class="dlg-head"><div class="dlg-title">(H01-12-1)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>根抵当権は、根抵当権者と債務者との間に生じる債権のうち、設定行為で定めた一定の範囲に属する不特定の債権を担保するものであるから（民法<span class="mono">398条の2</span>第1項）、ＥがＢから根抵当権の一部譲渡を受けた場合、Ｅの根抵当権によって担保されるのは、ＥＣ間に生じた継続的売掛債権であって、ＥがＢから譲り受けた甲債権は、当然に担保されるものではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-16-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-16-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>抵当権は特定の債権を被担保債権とするが、根抵当権は一定の範囲に属する不特定の債権を被担保債権とする。根抵当権の被担保債権の範囲は、①債権者と債務者との特定の継続的取引契約により生ずるものその他債務者との一定の種類の取引により生ずるもの、②特定の原因に基づいて債務者との間に継続して生ずる債権、手形上若しくは小切手上の請求権又は電子記録債権でなければならない（民法<span class="mono">398条の2</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-15-uh16-15-ah03-16-e">
+  <div class="dlg-head"><div class="dlg-title">(H22-15-ウ)(H16-15-ア)(H03-16-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>根抵当権は、一定の範囲に属する不特定の債権を担保する抵当権であるが（民法<span class="mono">398条の2</span>第1項）、設定時に既に生じている特定債権を不特定債権と併せて、被担保債権とすることができる（昭46.10.4民甲3230）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-15-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、その満期となった最後の2年分についてのみ、その根抵当権を行使することができるとしている点で、誤っている。根抵当権には民法<span class="mono">375条</span>の適用はないため、根抵当権者は、満期となった最後の2年分に限らず、確定した元本のほか、利息・遅延損害金等の全部について、極度額を限度として根抵当権を行使することができる（民法<span class="mono">398条の3</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-14-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-14-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>根抵当権では、被担保債権の範囲に制限を設ける民法<span class="mono">375条</span>は適用されない。よって、根抵当権者は、満期となった最後の2年分に限らず、確定した元本のほか、利息・遅延損害金等の全部について、極度額を限度として根抵当権を行使することができる（民法<span class="mono">398条の3</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-16-eh22-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H17-16-エ)(H22-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権は、一定の範囲に属する不特定の債権を極度額の限度において担保するものである（民法<span class="mono">398条の2</span>第1項）。よって、極度額の範囲内である限り、満期となった最後の2年分を超える利息や遅延損害金についても優先弁済を受けることができる（民法<span class="mono">375条</span>参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-15-ih29-14-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-15-イ)(H29-14-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権で担保すべき債権の範囲の変更は、元本の確定前に変更の登記をしなければ、その変更をしなかったものとみなされる（民法<span class="mono">398条の4</span>第3項）。根抵当権の物権としての内容を変更する物権的行為であり、登記がその効力発生要件とされている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-14-ih16-15-ih22-15-ah02-13-5">
+  <div class="dlg-head"><div class="dlg-title">(H26-14-イ)(H16-15-イ)(H22-15-ア)(H02-13-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>元本の確定前においては、根抵当権の担保すべき債権の範囲を変更することができる（民法<span class="mono">398条の4</span>第1項前段）。そして、被担保債権の範囲の変更をするには、後順位の抵当権者その他の第三者の承諾を得ることを要しない（民法<span class="mono">398条の4</span>第2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-16-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-16-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権の債務者の変更について、元本の確定前に登記をしなかったときは、その変更をしなかったものとみなされる（民法<span class="mono">398条の4</span>第3項）。よって、根抵当権の債務者は、Ａのままであり、根抵当権の被担保債権は、乙のＡに対する電気製品売買取引により生ずる債権である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-16-uh06-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H03-16-ウ)(H06-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権の債務者の変更をした場合、根抵当権は、変更後の債務者の債務のみを担保し、旧債務者の債務は担保されなくなる。また、当該根抵当権は、変更後に債務者との取引によって生じた債権のみならず、変更前の債務者との取引によって既に生じていた債権を担保する。よって、変更契約の締結前に乙のＢに対する電気製品売買取引により生じていた債権は、根抵当権の被担保債権となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-13-4">
+  <div class="dlg-head"><div class="dlg-title">(H02-13-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>元本確定前には根抵当権者と設定者の合意による根抵当権の被担保債権の範囲の変更が認められるが（民法<span class="mono">398条の4</span>第1項前段）、共有根抵当権の場合には、根抵当権者全員が、合意の当事者となることを要する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-15-a">
+  <div class="dlg-head"><div class="dlg-title">(H05-15-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>数人共有の根抵当権を設定することも可能である。この場合において、各共有者について担保すべき債権の範囲又は債務者が異なるものとすることもできる（昭46.10.4民甲3230）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-14-ih27-14-eh16-15-uh02-13-2">
+  <div class="dlg-head"><div class="dlg-title">(R02-14-イ)(H27-14-エ)(H16-15-ウ)(H02-13-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権の極度額の変更は、利害関係を有する者の承諾を得なければ、することができない（民法<span class="mono">398条の5</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-14-oh17-16-o">
+  <div class="dlg-head"><div class="dlg-title">(H26-14-オ)(H17-16-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>根抵当権の極度額の変更は、元本確定の前後を問わずすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-14-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-14-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権の担保すべき元本の確定すべき期日を定め又は変更する場合（民法<span class="mono">398条の6</span>第1項）には、変更について後順位の抵当権者その他の第三者の承諾を得ることを要しないとする民法<span class="mono">398条の4</span>第2項の規定が準用されている（民法<span class="mono">398条の6</span>第2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-14-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-14-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>根抵当権の担保すべき元本については、その確定すべき期日を定め又は変更することができる（民法<span class="mono">398条の6</span>第1項）。よって、根抵当権の設定時に、元本の確定期日を定める必要はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-14-oh06-12-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-14-オ)(H06-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>元本の確定前においては、根抵当権者は、根抵当権設定者の承諾を得て、その根抵当権を譲り渡すことができる（民法<span class="mono">398条の12</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-14-eh06-12-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-14-エ)(H06-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>元本の確定前においては、根抵当権者は、民法<span class="mono">376条</span>1項の規定（抵当権又はその順位の譲渡又は放棄）による根抵当権の処分をすることができない（民法<span class="mono">398条の11</span>第1項本文）。ただし、その根抵当権を他の債権の担保とすることを妨げない（民法<span class="mono">398条の11</span>第1項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-15-u">
+  <div class="dlg-head"><div class="dlg-title">(H05-15-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>共同根抵当権は、設定と同時にその旨の登記がされなければ成立しない（民法<span class="mono">398条の16</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-14-ih01-12-5">
+  <div class="dlg-head"><div class="dlg-title">(R03-14-イ)(H01-12-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">398条の8</span>第2項。元本の確定前にその債務者について相続が開始したときは、根抵当権は、相続開始の時に存する債務のほか、根抵当権者と根抵当権設定者との合意により定めた相続人が相続の開始後に負担する債務を担保する。よって、根抵当権者と根抵当権設定者の合意があれば、元本は確定せず、根抵当権は存続する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H29-14-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>元本確定前に債務者について相続が開始したときは、根抵当権は、相続開始時に存する債務のほか、根抵当権者と根抵当権設定者との合意により定めた相続人が相続開始後に負担する債務を担保し（民法<span class="mono">398条の8</span>第2項）、この合意について相続開始後6か月以内に登記をしないときは、担保すべき元本は、相続開始のときに確定する（民法<span class="mono">398条の8</span>第4項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-15-e">
+  <div class="dlg-head"><div class="dlg-title">(H22-15-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債務者ではない根抵当権設定者について相続が開始しても、元本は確定しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-14-uh02-13-3">
+  <div class="dlg-head"><div class="dlg-title">(R03-14-ウ)(H02-13-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">398条の9</span>第3項。元本の確定前に根抵当権者について合併があった場合又は元本の確定前にその債務者について合併があった場合には、根抵当権設定者は、担保すべき元本の確定を請求することができる。ただし、その債務者が根抵当権設定者であるときは、この限りでない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-14-i">
+  <div class="dlg-head"><div class="dlg-title">(H27-14-イ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権設定者は、根抵当権者について合併があったことを知った日から2週間経過したとき又は、合併の日から1か月経過したときは、元本の確定前の根抵当権者の合併（民法<span class="mono">398条の9</span>第1項）を理由とした元本確定請求ができない（<span class="mono">398条の9</span>第5項後段）。本記述では、平成25年10月1日に根抵当権者であるＢ会社がＣ会社に吸収合併されているので、「1箇月」後の同年11月1日を経過すると、Ａは、当該合併を理由とした本件根抵当権の担保すべき元本の確定を請求することができない。そして、Ａが当該合併の事実を知ったのは同年11月15日であるから、同年11月1日を経過している。よって、Ａは、当該合併を理由とした本件根抵当権の担保すべき元本の確定を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-14-oh27-14-uh22-15-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-14-オ)(H27-14-ウ)(H22-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">398条の19</span>第1項。根抵当権設定者は、根抵当権の設定の時から3年を経過したときは、担保すべき元本の確定を請求することができる。この場合において、担保すべき元本は、その請求の時から2週間を経過することによって確定する。よって、根抵当権の設定があったときから3年を経過した場合でなければ、元本の確定を請求することはできない。なお、この規定は、担保すべき元本の確定すべき期日の定めがあるときは、適用されない（同条3項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-16-i">
+  <div class="dlg-head"><div class="dlg-title">(H18-16-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>根抵当権者は、いつでも、担保すべき元本の確定を請求し得る（民法<span class="mono">398条の19</span>第2項）。また、元本確定後は通常の抵当権と同じく随伴性を有するから、被担保債権の譲受人は当該根抵当権を実行し得る。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-14-eh29-14-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-14-エ)(H29-14-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>元本の確定後においては、根抵当権設定者は、その根抵当権の極度額を、現に存する債務の額と以後2年間に生ずべき利息その他の定期金及び債務の不履行による損害賠償の額とを加えた額に減額することを請求することができる（民法<span class="mono">398条の21</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-15-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">398条の22</span>第1項前段は、「元本の確定後において現に存する債務の額が根抵当権の極度額を超えるときは、他人の債務を担保するためその根抵当権を設定した者…は、その極度額に相当する金額を払い渡し又は供託して、その根抵当権の消滅請求をすることができる。」としている。根抵当権消滅請求をすると、極度額を超える債権は無担保債権になる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-14-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-14-オ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>元本の確定後において現に存する債務の額が根抵当権の極度額を超えるときは、他人の債務を担保するためその根抵当権を設定した者又は第三所得者は、その極度額に相当する金額を払い渡し又は供託して、その根抵当権の消滅請求をすることができる（民法<span class="mono">398条の22</span>第1項前段）。本記述では、本件根抵当権の担保すべき元本の確定時点におけるＡのＢ会社に対する残債務額は600万円であり、一方、本件根抵当権の極度額は500万円であるから、「元本の確定後において現に存する債務の額が根抵当権の極度額を超えるとき」にあたる。よって、第三取得者であるＥがＢ会社に対して本件根抵当権の消滅を請求するためには、本件根抵当権の極度額である500万円の払渡し又は供託をすれば足りる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H16-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>元本の確定後において現に存する被担保債権の額が根抵当権の極度額を超えている場合、抵当不動産の第三取得者は、その極度額に相当する金額を払い渡し又は供託して、その根抵当権の消滅を請求することができる（民法<span class="mono">398条の22</span>第1項前段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H14-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>弁済その他の原因により債権が消滅し、その債権を担保する抵当権が消滅した場合、抵当権設定者は、登記なくして抵当権の消滅を対抗することができる（大決昭8.8.18）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-12-eh04-09-4">
+  <div class="dlg-head"><div class="dlg-title">(H26-12-エ)(H04-09-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当権は、債務者及び抵当権設定者に対しては、その担保する債権と同時でなければ、時効によって消滅しない（民法<span class="mono">396条</span>）。Ｂは債務者、Ｃは抵当権設定者であるから、本記述は正しい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H27-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者又は抵当権設定者でない者が抵当不動産について取得時効に必要な要件を具備する占有をしたときは、抵当権は、これによって消滅する（民法<span class="mono">397条</span>）。よって、債務者であるＣが甲土地の所有権を時効により取得したときであっても、Ｂの抵当権は消滅しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-19-u">
+  <div class="dlg-head"><div class="dlg-title">(H02-19-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債務者又は抵当権設定者でない者が抵当不動産について取得時効に必要な要件を具備する占有をしたときは、抵当権は、これによって消滅する（民法<span class="mono">397条</span>）。よって、甲が債務者又は抵当権設定者でない限り、乙は抵当権を失う。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H31-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>本記述は、民法<span class="mono">398条</span>、大判14.7.18により正しい。民法398 条は、「地上権又は永小作権を抵当権の目的とした地上権者又は永小作人は、その権利を放棄しても、これをもって抵当権者に対抗することができない。」としている。判例は、借地契約の合意解除についても、民法398 条の類推適用を認め、抵当権者に対抗できないとしている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

@@ -1,0 +1,1342 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit19</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit19</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min18q.html">前へ</a>
+      <a href="pu26min20q.html">次へ</a>
+      <a href="pu26min19.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r06-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-08-オ)</div>
+          <p class="qtext">1　土地の所有者が境界付近における障壁の修繕をするために隣地を使用する必要がある場合であっても、隣地上の住家については、その居住者の承諾を得なければ、立ち入ることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r02-09-uh30-09-5h05-16-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-09-ウ)(H30-09-5)(H05-16-オ)</div>
+          <p class="qtext">2　土地の所有者は、境界付近において建物を修繕するために必要があるときは、隣人の承諾がなくても、隣人の住家に立ち入ることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-09-uh30-09-5h05-16-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-r05-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-08-ア)</div>
+          <p class="qtext">3　公道に至るための他の土地の通行権（以下｢囲繞地通行権｣という｡）に関して。他の土地に囲まれて公道に通じない土地（以下｢袋地｣という｡）の所有権を取得した者は、所有権の移転の登記をしなくても、袋地を囲んでいる他の土地（以下｢囲繞地｣という｡）の所有者に対して、囲繞地通行権を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h05-16-eh14-06-ih20-09-eh30-09-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-16-エ)(H14-06-イ)(H20-09-エ)(H30-09-1)</div>
+          <p class="qtext">4　Ａから袋地（他人の土地に囲まれて公道に通じない土地）を買い受けたＢは、その袋地について所有権の移転の登記をしていなくても、囲繞地（袋地を囲んでいる土地）の全部を所有するＣに対し、公道に至るため、その囲繞地の通行権を主張することができる。（H24-07-オ）（H01-08-3）</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-16-eh14-06-ih20-09-eh30-09-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r05-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（R05-08-ウ）</div>
+          <p class="qtext">5　公道に至るための他の土地の通行権（以下｢囲繞地通行権｣という｡）に関して。民法第210条の規定による囲繞地通行権が認められる場合の通行の場所及び方法は、通行権者のために必要であり、かつ、囲繞地のために損害が最も少ないものを選ばなければならない。（R05-08-ウ）★★（参考）★民法★第210条　他の土地に囲まれて公道に通じない土地の所有者は、公道に至るため、その土地を囲んでいる他の土地を通行することができる。★2　池沼、河川、水路若しくは海を通らなければ公道に至ることができないとき、又は崖（がけ）があって土地と公道とに著しい高低差があるときも、前項と同様とする。★</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r02-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（R02-09-エ）</div>
+          <p class="qtext">6　民法第210条の規定による通行権を有する者であっても、通路を開設することはできない。（R02-09-エ）★（参考）★民法★第210条　他の土地に囲まれて公道に通じない土地の所有者は、公道に至るため、その土地を囲んでいる他の土地を通行することができる。★2　池沼、河川、水路若しくは海を通らなければ公道に至ることができないとき、又は崖（がけ）があって土地と公道とに著しい高低差があるときも、前項と同様とする。★</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h01-08-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-08-4)</div>
+          <p class="qtext">7　袋地の所有者は、囲繞地の通行による損害について、囲繞地の所有者に対し償金を支払うことを要しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-08-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-r05-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-08-オ)</div>
+          <p class="qtext">8　公道に至るための他の土地の通行権（以下｢囲繞地通行権｣という｡）に関して。Ａがその所有する一筆の土地を甲土地と乙土地とに分筆し、甲土地をＢに譲渡するのと同時に乙土地をＣに譲渡したことによって甲土地が袋地となった場合には、Ｂは、乙土地以外の囲繞地について囲繞地通行権を有することがある。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h30-09-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-09-2)</div>
+          <p class="qtext">9　分割によって袋地が生じた場合には、袋地の所有者は、公道に至るため、他の分割者の所有地のみを通行することができるが、償金を支払わなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-09-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-r05-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-08-エ)</div>
+          <p class="qtext">10　公道に至るための他の土地の通行権（以下｢囲繞地通行権｣という｡）に関して。共有物の分割によって生じた袋地の所有者が、他の分割者の所有地（以下｢残余地｣という｡）について有する囲繞地通行権は、当該残余地について特定承継が生じた場合には、消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h21-11-ih05-16-uh01-08-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-11-イ)(H05-16-ウ)(H01-08-5)</div>
+          <p class="qtext">11　Ａが所有する甲土地を二つに分筆してその一つをＢに譲渡したところ、Ｂの取得した土地が公道に通じない土地となった場合、ＢはＡが所有する残余地について通行権を有するが、ＡがＣに対して残余地を売却した場合、当該通行権は消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-11-ih05-16-uh01-08-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h21-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-11-エ)</div>
+          <p class="qtext">12　Ａが、その所有する甲土地及び乙土地のうち甲土地をＢに譲渡した際に、これにより、Ａの所有する乙土地が公道に通じない土地になることを認識していた場合、Ａは、公道に至るために甲土地を通行することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r06-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-08-エ)</div>
+          <p class="qtext">13　土地の所有者は、他の土地に設備を設置しなければ電気の供給を受けることができない場合であっても、当該他の土地の所有者の承諾を得なければ、当該設備を設置することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r02-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-09-オ)</div>
+          <p class="qtext">14　土地の所有者は、直接に雨水を隣地に注ぐ構造の屋根を設けてはならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r06-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-08-ア)</div>
+          <p class="qtext">15　堀の所有者は、対岸の土地が他人の所有に属するときは、当該土地の所有者の承諾を得なければ、当該堀の幅員を変更してはならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r02-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-09-ア)</div>
+          <p class="qtext">16　土地の所有者は、隣地の所有者と共同の費用で、境界標を設けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h23-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H23-10-エ)</div>
+          <p class="qtext">17　Ａの所有する甲土地と、Ｂの所有する乙土地とが、互いに相隣地の関係にある。Ａは、甲土地と乙土地との境界に境界標を設けたいと考えた場合に、Ｂに対し、共同の費用でこれを設けることを求めることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h23-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r02-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-09-イ)</div>
+          <p class="qtext">18　境界線上に設けられた囲障は、相隣者の共有に属するものと推定される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h30-09-4h23-10-oh05-16-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-09-4)(H23-10-オ)(H05-16-イ)</div>
+          <p class="qtext">19　土地の所有者は、隣地の竹木の枝が境界線を越えるときは、その枝を自ら切り取ることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-09-4h23-10-oh05-16-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-r05-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-09-ア)</div>
+          <p class="qtext">20　教授：　所有権の取得の形態には、承継取得と原始取得の2つがありますね。民法には、付合、混和及び加工の規定がありますが、これらの規定による取得は承継取得と原始取得のどちらに当たりますか。★学生：ア　原始取得に当たります。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h01-04-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-04-1)</div>
+          <p class="qtext">21　無主の不動産は、先占によりその所有権を取得することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-04-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r04-09-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-09-ア)</div>
+          <p class="qtext">22　Ａの所有する甲土地の中からＢが埋蔵物を発見した場合において、その所有者が判明しないときは、Ｂが当該埋蔵物の単独所有権を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-09-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h15-10-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-10-オ)</div>
+          <p class="qtext">23　Ａ所有の建物甲及び建物乙が、その間の隔壁を除去する等の工事によって、一棟の建物丙となった場合には、建物甲の所有権は、建物丙のうちの建物甲の価格の割合に応じた持分となり、Ａは、この持分上に抵当権を設定することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-10-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-r04-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-09-エ)</div>
+          <p class="qtext">24　Ａの所有する甲土地に、甲土地の使用収益の権原を有しないＢが、その所有する種子をＡに無断でまいた場合には、生育した苗の所有権は、Ｂに帰属する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h30-07-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-07-ウ)</div>
+          <p class="qtext">25　Ａが、Ｂの所有する甲建物を無権原で占有し、甲建物に増築をした場合には、当該増築部分が甲建物の構成部分になったときであっても、Ｂは、Ａに対し、甲建物の所有権に基づき、当該増築部分の撤去を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-07-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h12-13-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-13-ア)</div>
+          <p class="qtext">26　ＢがＡ所有の甲土地上に無権原で立木を植栽した場合、Ａは、Ｂに対し、当該立木を収去して甲土地を明け渡すよう請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-13-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h21-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-09-エ)</div>
+          <p class="qtext">27　Ａ所有の土地をＢが自己所有の土地と誤信して立木を植栽していたところ、Ｃが当該立木を伐採して伐木を持ち出した場合には、Ａは、Ｃに対し、当該伐木の所有権を主張することができる。なお、｢立木ニ関スル法律｣の適用のないものとする。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r04-09-oh15-10-ah14-08-ah06-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-09-オ)(H15-10-ア)(H14-08-ア)(H06-17-ウ)</div>
+          <p class="qtext">28　Ａの所有する甲建物に、賃借人ＢがＡの承諾を得て増築をした場合において、当該増築部分が甲建物の構造の一部をなし、それ自体では取引上の独立性を有しないときは、Ａが当該増築部分の所有権を取得する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-09-oh15-10-ah14-08-ah06-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r05-09-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-09-イ)</div>
+          <p class="qtext">29　教授：　Ａの所有する甲動産とＢの所有する乙動産とが、付合により、損傷しなければ分離することができなくなった場合において、甲動産の方が主たる動産であるときは、その合成物の所有権は誰に帰属しますか。★学生：イ　Ａに帰属します。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-09-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h31-10-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-10-ア)</div>
+          <p class="qtext">30　教授：　まず、動産同士の付合について考えてみましょう。Ａの所有する甲動産とＢの所有する乙動産とが、付合により、損傷しなければ分離することができなくなった場合において、その付合が、Ａが権原によって乙動産に甲動産を結合させたために生じたものであるときは、合成物の所有権はどうなるのでしょうか。★学生：　乙動産が主たる動産であったとしても、Ａが甲動産の所有権を失うことはありません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-10-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-r05-09-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-09-オ)</div>
+          <p class="qtext">31　教授：　Ａの所有する甲液体とＢの所有する乙液体とが混和して識別することができなくなった場合には、その合成物の所有権は誰に帰属しますか。★学生：オ　甲液体と乙液体について主従の区別が可能かどうかにかかわらず、混和の時における価格の割合に応じて、ＡとＢとが共有することになります。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-09-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h31-10-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-10-ウ)</div>
+          <p class="qtext">32　教授：　次に、混和について検討しましょう。Ａの所有する甲液体とＢの所有する乙液体とが混和して識別することができなくなった場合において、甲液体が主たる液体であったときは、混和した液体の所有権はどうなるのでしょうか。★学生：　ＡとＢが価格の割合に応じて混和した液体を共有します。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-10-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-r05-09-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-09-エ)</div>
+          <p class="qtext">33　教授：　他人の動産に、自らは他に材料を提供しないで工作を加えた者が加工物の所有権を取得するのはどのような場合ですか。★学生：エ　工作によって生じた価格が材料の価格を著しく超えるときです。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-33</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-09-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h31-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-10-エ)</div>
+          <p class="qtext">34　教授：　では、動産の加工はどうでしょうか。Ａが、Ｂの所有する甲動産に工作を加えた場合において、Ａが材料の一部を供したときは、加工物の所有権は、どうなるのでしょうか。★学生：　工作によって生じた価格が甲動産の価格を著しく超えるときに限り、Ａがその加工物の所有権を取得します。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-34</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h15-10-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-10-エ)</div>
+          <p class="qtext">35　Ａは、Ｂから依頼を受け、動産甲に工作を加えて動産乙を作成した。乙の価格が著しく甲の価格を超えている場合であっても、甲がＢの所有物でなかったときは、Ａは、乙の所有権を取得しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-35</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-10-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h02-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-19-エ)</div>
+          <p class="qtext">36　有名デザイナー甲がうっかり乙の所有する廉価な生地を使用して、新作発表会のためのドレスを製作したときは、乙は生地の所有権を失う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-36</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-r05-09-uh31-10-oh06-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-09-ウ)(H31-10-オ)(H06-17-ア)</div>
+          <p class="qtext">37　教授：　請負人が自ら材料を提供して建物の建築を始めたが、独立の不動産になっていない建前の状態で工事を中止した後、第三者がその建前に自ら材料を提供して工事を続行して建物を建築した場合には、その建物の所有権の帰属はどの規定により決定されるでしょうか。★学生：ウ　動産の付合の規定により決定されます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-37</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-09-uh31-10-oh06-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-r06-13-ah31-14-ah15-10-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-13-ア)(H31-14-ア)(H15-10-ウ)</div>
+          <p class="qtext">38　抵当権が設定されている甲建物と抵当権が設定されていない乙建物がその間の隔壁を除去する工事により一棟の建物となった場合において、甲建物と乙建物が互いに主従の関係になかったときは、甲建物に設定されていた抵当権は消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-38</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-13-ah31-14-ah15-10-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h31-10-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-10-イ)</div>
+          <p class="qtext">39　教授：　では、ＡがＡの所有する甲動産をＢに保管させ、Ｃのために指図による占有移転により質権を設定した場合において、ＢがＢの所有する乙動産を甲動産に付合させて、合成物の所有権を取得したときは、Ｃの質権はどうなるのでしょうか。★学生：　Ｃの質権は消滅します。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-39</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-10-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h15-10-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-10-イ)</div>
+          <p class="qtext">40　Ｃは、Ａから預かっていたＡ所有の動産甲にＢから盗取してきたＢ所有の動産乙を附合させた。この場合において、甲が主たる動産であったときは、Ｂは、乙の所有権を喪失するが、Ｃに対する損害賠償請求権を取得するので、Ａに対する償金請求権は有しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min19.html#(リンク)">Unit19-40</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-10-i">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r06-08-o">
+  <div class="dlg-head"><div class="dlg-title">(R06-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>土地の所有者は、境界又はその付近における障壁、建物その他の工作物の築造、収去又は修繕の目的のため必要な範囲内で、隣地を使用することができる（民法<span class="mono">209条</span>1項1号）。ただし、居住者の承諾がなければ、その住家に立ち入ることはできない（同項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-09-uh30-09-5h05-16-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-09-ウ)(H30-09-5)(H05-16-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地の所有者は、「境界又はその付近における障壁、建物その他の工作物の築造、収去又は修繕」のため必要な範囲内で、隣地を使用することができる（改正民法<span class="mono">209条</span>1項1号）。ただし、住家については、その居住者の承諾がなければ、立ち入ることはできない（同項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-08-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>袋地の所有権を取得した者は、所有権移転登記を経由していなくても、囲繞地所有者に対して囲繞地通行権を主張することができる（最判昭47.4.14）。その理由として、判例は、民法「<span class="mono">210条</span>において袋地の所有者が囲繞地を通行することができるとされているのも、相隣関係にある所有権共存の一態様として、囲繞地の所有者に一定の範囲の通行受忍義務を課し、袋地の効用を完からしめようとしているためである。このような趣旨に照らすと、袋地の所有者が囲繞地の所有者らに対して囲繞地通行権を主張する場合は、不動産取引の安全保護をはかるための公示制度とは関係がない」ということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-16-eh14-06-ih20-09-eh30-09-1">
+  <div class="dlg-head"><div class="dlg-title">(H05-16-エ)(H14-06-イ)(H20-09-エ)(H30-09-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>袋地の所有権を取得した者は、所有権移転登記を経由していなくても、囲繞地の所有者ないしこれにつき利用権を有する者に対して、囲繞地通行権を主張することができる（最判昭47.4.14）。なお、囲繞地通行権自体を登記することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-08-u">
+  <div class="dlg-head"><div class="dlg-title">（R05-08-ウ） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>囲繞地通行権が認められる場合、通行の場所及び方法は、通行権を有する者のために必要であり、かつ、他の土地のために損害が最も少ないものを選ばなければならない（民法<span class="mono">211条</span>1項）。その趣旨は、隣接土地所有者間の利用を調節して、相互扶助を実現する点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-09-e">
+  <div class="dlg-head"><div class="dlg-title">（R02-09-エ） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>公道に至るための他の土地の通行権（民法<span class="mono">210条</span>）を有する者は、必要があるときは、通路を開設することができる（民法<span class="mono">211条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-08-4">
+  <div class="dlg-head"><div class="dlg-title">(H01-08-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">210条</span>の規定による通行権を有する者は、その通行する他の土地の損害に対して償金を支払わなければならない（民法<span class="mono">212条</span>本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-08-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、乙土地以外の囲繞地について囲繞地通行権を有することがあるとしている点で、誤っている。一筆の土地を分筆したことにより生じた袋地の所有者は、分筆前一筆であった残余地についてのみ囲繞地通行権を有するにすぎない（最判昭37.10.30）。よって、本記述のＢも、乙土地以外の囲繞地については囲繞地通行権を有しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-09-2">
+  <div class="dlg-head"><div class="dlg-title">(H30-09-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地の分割又は一部譲渡により袋地が生じたときは、袋地の所有者は、公道に至るため、他の分割者の所有地のみを通行でき（民法<span class="mono">213条</span>1項前段、2項）、この場合、通行権者は償金を支払う必要はない（同条1項後段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-08-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>囲繞地通行権は、袋地に付着した物権的権利で残余地に課せられた物権的負担と解すべきとして、共有物の分割により生じた袋地の所有者が有する残余地の囲繞地通行権（民法<span class="mono">213条</span>1項）は、残余地について特定承継が生じた場合でも消滅しない（最判平2.11.20）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-11-ih05-16-uh01-08-5">
+  <div class="dlg-head"><div class="dlg-title">(H21-11-イ)(H05-16-ウ)(H01-08-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>囲繞地通行権は、通行の対象の土地（残余地）に特定承継が生じた場合にも消滅しない（最判平2.11.20）。当該囲繞地通行権は、残余地自体に課せられた物権的負担だからである。従って、ＡがＣに残余地を売却しても、通行権は消滅しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-11-e">
+  <div class="dlg-head"><div class="dlg-title">(H21-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地の分割や一部譲渡によって、公道に通じなくなった土地の所有者は、もとの一筆であった土地を無償で通行することができる（民法<span class="mono">213条</span>）。そして、同一人が所有する数筆の土地の一部が譲渡されたことによって生じた公道に通じない土地についても、民法<span class="mono">213条</span>2項の適用がある（最判昭44.11.13）。譲渡人の認識の有無は関係ない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-08-e">
+  <div class="dlg-head"><div class="dlg-title">(R06-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、当該他の土地の所有者の承諾を得なければ、当該設備を設置することはできないとしている点で、誤っている。土地の所有者は、他の土地に設備を設置し、又は他人が所有する設備を使用しなければ電気、ガス又は水道水の供給その他これらに類する継続的給付を受けることができないときは、継続的給付を受けるため必要な範囲内で、他の土地に設備を設置し、又は他人が所有する設備を使用することができる（民法<span class="mono">213条の2</span>第1項）。よって、土地の所有者は、他の土地に設備を設置しなければ電気の供給を受けることができない場合には、当該他の土地の所有者の承諾を得なくても、継続的給付を受けるため必要な範囲内で当該設備を設置することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-09-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>土地の所有者は、直接に雨水を隣地に注ぐ構造の屋根その他の工作物を設けてはならない（民法<span class="mono">218条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-08-a">
+  <div class="dlg-head"><div class="dlg-title">(R06-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>溝、堀その他の水流地の所有者は、対岸の土地が他人の所有に属するときは、その水路又は幅員を変更してはならない（民法<span class="mono">219条</span>1項）。よって、堀の所有者は、対岸の土地が他人の所有に属するときは、当該土地の所有者の承諾を得なければ、当該堀の幅員を変更してはならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-09-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>土地の所有者は、隣地の所有者と共同の費用で、境界標を設けることができる（民法<span class="mono">223条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h23-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H23-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">223条</span>は、土地の所有者は、隣地の所有者と共同の費用で境界標を設けることができると規定し、民法<span class="mono">224条</span>本文は、境界標設置または保存の費用について、相隣者が等しい割合で負担する旨規定している。よって、甲土地所有者であるＡは、隣地の乙土地所有者であるＢと共同の費用で、両土地の境界に境界標を設置することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-09-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>境界線上に設けた境界標、囲障、障壁、溝及び堀は、相隣者の共有に属するものと推定する（民法<span class="mono">229条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-09-4h23-10-oh05-16-i">
+  <div class="dlg-head"><div class="dlg-title">(H30-09-4)(H23-10-オ)(H05-16-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>土地の所有者は、隣地の竹木の枝が境界線を越えるときは、その竹木の所有者に、その枝を切除させることができる（民法<span class="mono">233条</span>1項）。また、①竹木の所有者に枝を切除するよう催告したにもかかわらず、竹木の所有者が相当の期間内に切除しないとき、②竹木の所有者を知ることができず、又はその所在を知ることができないとき、③急迫の事情があるときには、土地の所有者は、その枝を自ら切り取ることができる（民法<span class="mono">233条</span>3項）。①から③に該当しない場合には、土地の所有者は隣地の竹木の枝を切除することはできない。よって、本記述は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-09-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>原始取得とは、ある権利について、人から譲り受けるのではなく、新たに発生した権利を取得することをいう。この点、付合や混和、加工は、所有者の異なる2個以上の物が合わさって1個の物になったり、異なるものが混ざり合って識別不能になったり、また物に他人の工作が加えられたりして新たな物が作り出されることで新たに権利としての所有権を取得することから、原始取得と解される。したがって、本記述は正しい。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-04-1">
+  <div class="dlg-head"><div class="dlg-title">(H01-04-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有者のない動産は、所有の意思をもって占有することにより、その所有権を取得する（民法<span class="mono">239条</span>1項）。これに対し、所有者のない不動産は、国庫に帰属する（民法<span class="mono">239条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-09-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-09-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>埋蔵物は、遺失物法の定めるところに従い公告をした後6箇月以内にその所有者が判明しないときは、これを発見した者がその所有権を取得する（民法<span class="mono">241条</span>本文）。ただし、他人の所有する物の中から発見された埋蔵物については、「これを発見した者及びその他人」が等しい割合でその所有権を取得する（民法<span class="mono">241条</span>ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-10-o">
+  <div class="dlg-head"><div class="dlg-title">(H15-10-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>民法<span class="mono">242条</span>本文の「物」に動産だけでなく不動産が含まれるかについては争いがあるが、仮に含まれるとした場合であっても、付合は、異なる所有者の物の分離が困難となった場合に適用されるものであって、本問のように同一所有者の建物が1棟になった場合には適用されない。そして、1つの物に対しては1つの所有権しか存在することができないことから（一物一権主義）、建物甲の所有権が持分権となることも観念することができない。よって、その持分上に抵当権を設定することもできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-09-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、生育した苗の所有権は、Ｂに帰属するとしている点で、誤っている。民法<span class="mono">242条</span>本文は、「不動産の所有者は、その不動産に従として付合した物の所有権を取得する。」と規定している。そして、判例は、撒かれた種から生育した苗の所有者は、播種が権限を有しない者によってされた場合には、同条本文により土地所有者が取得するとしている（最判昭31.6.19）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-07-u">
+  <div class="dlg-head"><div class="dlg-title">(H30-07-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の所有者は、その不動産に従として付合した物の所有権を取得する。ただし、権原によってその物を附属させた他人の権利を妨げない（民法<span class="mono">242条</span>）。本記述の増築部分はＡが無権限で増築しており<span class="mono">242条</span>ただし書きの適用はなく、甲建物に付合しているため、所有者Ｂの所有に帰属している。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-13-a">
+  <div class="dlg-head"><div class="dlg-title">(H12-13-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>無権原者が他人の土地に樹木・農作物を植えつけると、それらの物は土地に付合（民法<span class="mono">242条</span>）するので、土地所有者は自由に抜去・処分できる（大判大10.6.1、最判昭31.6.19）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-09-e">
+  <div class="dlg-head"><div class="dlg-title">(H21-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>権原のない者が植栽した樹木は、土地に付合するから（民法<span class="mono">242条</span>本文、最判昭46.11.16）、他人が自己所有の土地と誤信して植栽したとしても、その立木の所有権は、土地の所有者に帰属する。よって、Ａは、Ｃに対し、伐採された立木の所有権を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-09-oh15-10-ah14-08-ah06-17-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-09-オ)(H15-10-ア)(H14-08-ア)(H06-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">242条</span>は、「不動産の所有者は、その不動産に従として付合した物の所有権を取得する。ただし、権原によってその物を附属させた他人の権利を妨げない。」と規定している。判例は、賃借人が賃貸人の同意を得て賃借建物を増築した事案において、増築部分が既存建物の構造の一部を成すもので、それ自体では独立性を有しないときは、増築につき賃貸人の承諾を受けたとしても、同条ただし書の適用はないとしている（最判昭44.7.25）。よって、本記述においては、甲建物の所有者たるＡが当該増築部分の所有権を取得する（民法<span class="mono">242条</span>本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-09-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-09-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">243条</span>前段により、本記述は正しい。民法<span class="mono">243条</span>前段は、「所有者を異にする数個の動産が、付合により、損傷しなければ分離することができなくなったときは、その合成物の所有権は、主たる動産の所有者に帰属する。」と規定している。その趣旨は、分離による社会的損失の防止という点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-10-a">
+  <div class="dlg-head"><div class="dlg-title">(H31-10-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有者を異にする数個の動産が、付合により、損傷しなければ分離することができない場合、又は分離するのに過分の費用を要する場合は、主たる動産の所有者がその合成物の所有権を取得する（民法243 条）。動産の付合については、不動産の付合における民法242 条ただし書のような規定が存在しない。すなわち、権原を有する者がその物を付属させたときでも、付属物は付属させた者の所有にとどまらない。よって、合成物の所有権は、主たる動産である乙動産の所有者Ｂが取得し、その付合が、Ａが権原によって乙動産に甲動産を結合させたために生じたものであるときでも変わらない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-09-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-09-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>所有者を異にする物が混和して識別することができなくなった場合において、主従の区別をすることができないときは、その混和の時における価格の割合に応じてその合成物を共有する（民法<span class="mono">245条</span>が準用する民法<span class="mono">244条</span>）。主従の区別がつく場合には、主たる液体の所有者が混和した液体の所有権を取得する。本記述は、「主従の区別が可能かどうかにかかわらず」としている点で、誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-10-u">
+  <div class="dlg-head"><div class="dlg-title">(H31-10-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>混和の場合には、動産の付合に関する民法243 条、<span class="mono">244条</span>が準用される（民法245 条）。液体が混和して識別することができなくなったが、主従の区別がつくときは、主たる液体の所有者が混和した液体の所有権を取得する（民法245 条、243 条）。よって、甲液体が主たる液体であったときは、混和した液体の所有権は甲液体の所有者Ａが取得する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-09-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-09-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>他人の動産に工作を加えた者（以下「加工者」という。）があるときは、その加工物の所有権は、材料の所有者に帰属する。ただし、工作によって生じた価格が材料の価格を著しく超えるときは、加工者がその加工物の所有権を取得する（民法<span class="mono">246条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H31-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>加工物の所有権は、原則として材料の所有者に帰属するが（民法246 条1 項本文）、①工作によって生じた価格が材料の価格を著しく超えるとき（同項ただし書）、②加工者が自己の材料を供した場合に、その材料の価格と工作によって生じた価格の合計価格が他人の材料の価格を超えるとき（民法246 条2 項）は、加工者が加工物の所有権を取得する。本肢では、加工者Ａが材料の一部を提供しているため、上記②の要件に該当する場合には、Ａが加工物の所有権を取得する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-10-e">
+  <div class="dlg-head"><div class="dlg-title">(H15-10-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>他人の動産に工作を加えた者（以下「加工者」という。）があるときは、その加工物の所有権は、材料の所有者に帰属する。ただし、工作によって生じた価格が材料の価格を著しく超えるときは、加工者がその加工物の所有権を取得する（民法<span class="mono">246条</span>1項）。そして、「他人の動産」にはそれ以上の要件は付加されていないため、依頼者以外の者の所有物であっても加工の目的物となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-19-e">
+  <div class="dlg-head"><div class="dlg-title">(H02-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>加工者の工作によって生じた価格が材料の価格を著しく超えるときは、加工者がその加工物の所有権を取得する（民法<span class="mono">246条</span>1項ただし書）。よって、乙の所有する廉価な生地を使用して、甲が新作発表会のためのドレスを製作した場合、甲がその所有権を取得し、乙はそれを失う。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-09-uh31-10-oh06-17-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-09-ウ)(H31-10-オ)(H06-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、動産の付合の規定により決定されるとしている点で、誤っている。判例は、建前に第三者が材料を供して工事を施し独立の不動産である建物に仕上げた場合、その建物の帰属は民法<span class="mono">246条</span>2項の加工の規定によって決定されるとしている（最判昭54.1.25）。判例の結論に賛成する学説は、その理由として、建物の建築のような場合には、動産と動産の単純な結合でなく、材料に対して施される工作が特段の価値を有するということを挙げている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-13-ah31-14-ah15-10-u">
+  <div class="dlg-head"><div class="dlg-title">(R06-13-ア)(H31-14-ア)(H15-10-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、甲建物に設定されていた抵当権は消滅するとしている点で、誤っている。本記述と同様の事案において、判例は、抵当権が設定されている甲建物と抵当権が設定されていない乙建物がその間の障壁を除去する工事により一棟の建物となった場合において、甲建物と乙建物が互いに主従の関係になかったときは、甲建物の価格の割合に応じた持分を目的として存続するとしている（最判平6.1.25）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-10-i">
+  <div class="dlg-head"><div class="dlg-title">(H31-10-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>添付によって物の所有権が消滅したときは、その物の上に存在していた権利も消滅する（民法247 条1 項）。権利の客体が消滅したことを理由とする。よって、Ｂが合成物の所有権を取得したときは、甲動産に対するＣの質権は消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-10-i">
+  <div class="dlg-head"><div class="dlg-title">(H15-10-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>添付により損失を受けた者は、民法<span class="mono">703条</span>及び民法<span class="mono">704条</span>の規定に従い、その償金を請求することができる（民法<span class="mono">248条</span>）。そして、同一事実によって不当利得請求権と不法行為に基づく損害賠償請求権が生じた場合、債権者は、併存的にいずれの権利も行使することができるとされている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

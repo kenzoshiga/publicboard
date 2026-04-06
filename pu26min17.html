@@ -1,0 +1,641 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit17</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit17</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min16.html">前へ</a>
+      <a href="pu26min18.html">次へ</a>
+      <a href="pu26min17q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A02">第２編　物権</a>
+  <ul>
+    <li><a href="#A02-01">第１章　総論</a>
+      <ul>
+        <li><a href="#A02-01-03">第３節　物権変動</a>
+          <ul>
+            <li><a href="#A02-01-03-1">Ⅳ　動産物権変動－178条論</a>
+              <ul>
+            <li><a href="#A02-01-03-1-02">２　即時取得制度</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-03-2">Ⅴ　明認方法</a>
+              <ul>
+            <li><a href="#A02-01-03-2-01">１　意義</a></li>
+            <li><a href="#A02-01-03-2-02">２　明認方法の対象・方法</a></li>
+            <li><a href="#A02-01-03-2-03">３　立木をめぐる諸問題</a></li>
+            </ul>
+          </li>
+            <li><a href="#A02-01-03-3">Ⅵ　物権の消滅</a>
+              <ul>
+            <li><a href="#A02-01-03-3-01">１　目的物の滅失</a></li>
+            <li><a href="#A02-01-03-3-02">２　消滅時効（166条）</a></li>
+            <li><a href="#A02-01-03-3-03">３　混同（179条）</a></li>
+            <li><a href="#A02-01-03-3-04">４　放棄</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A02">
+  <h2>第２編　物権</h2>
+  <div class="p-card chap-card">
+    <h2 id="A02-01">第１章　総論</h2>
+    <div class="p-card sec-card">
+      <h3 id="A02-01-03">第３節　物権変動</h3>
+    <div class="p-card rank4-card">
+      <p id="A02-01-03-1" class="h6 ind0">Ⅳ　動産物権変動－178条論</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-1-02">２　即時取得制度</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">4.　盗品・遺失物に関する特則－即時取得の制限</p>
+          <p class="p6 ind1">目的物が原権利者の意思に反し、又は意思によらずその占有を離れた盗品・遺失物である場合に、原権利者の保護を図り、２年間は取戻しを可能とする。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 「盗品又は遺失物」</p>
+          <p class="p6 ind2">所有者の意思によらないで占有を失った場合に限り適用される。</p>
+          <p class="p6 ind2">詐欺・恐喝・横領の場合には適用なし（瑕疵はあるが意思に基づくので）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 原権利者の回復請求権</p>
+          <p class="p6 ind2">盗難又は遺失の時から２年間（除斥期間・通説）、原則として無償で回復請求できる（193条）。ただし、例外的に194条により代価を弁償する場合がある。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 回復請求権者</p>
+          <p class="p6 ind3">「被害者又は遺失者」</p>
+          <p class="p6 ind3">原所有者が回復請求できることはもちろん、賃借人・受寄者も請求できる。</p>
+          <p class="p6 ind3">質権者は回復請求できない。占有回収の訴えによることになる（353条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 相手方</p>
+          <p class="p6 ind3">現に占有している者である。</p>
+          <p class="p6 ind3">即時取得者からの特定承継人も含む（判例・通説）。</p>
+          <p class="p6 ind3">目的物が変形されたり、相手方の手中にないときには、返還請求権もなく、物に代わる損害賠償の請求もできない（最判昭26.11.27）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 所有権の帰属</p><br>
+          <p class="p6 ind3">Ｑ　回復請求をすることができる期間、動産の所有権は原所有者・即時取得者のいずれに属するか。</p><br>
+          <p class="p6 ind3">Ａ　原所有者説（大判昭４.12.11）</p>
+          <p class="p6 ind3">　回復請求をすることができる期間、その動産の所有権は原所有者に帰属する。</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="p6 ind3">　「回復」とは、占有の回復の意味である。</p><br>
+          <p class="p6 ind3">Ｂ　即時取得者説</p>
+          <p class="p6 ind3">　即時取得（192条）の原則を重視して、即時取得者にあるとする。</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="p6 ind3">　「回復」とは、所有権の回復を意味する。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 代価の弁償（194条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">占有者が競売、公の市場、又は目的物と同種の物を販売する商人から買い受けた場合、回復者は、占有者が支払った代価を弁償しなければ、回復請求できない。</p>
+          <p class="p6 ind3">一般の動産譲渡の場合に比べ、はるかにその取引安全を保護する必要があるからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 代価弁償の返還時期</p><br>
+          <p class="p6 ind3">Ｑ　物の返還後も代価弁償を請求できるか。</p>
+          <p class="p6 ind3">→　肯定説（最判平12.６.27）</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="h6 ind3 nobold">①占有者の保護という194条の立法趣旨。</p>
+          <p class="h6 ind3 nobold">②194条を取得者に抗弁を認めただけの規定とすると、盗品だと言われて素直にこれを原所有者に引き渡した者が代価の弁償を受けられず、かえってどこまでも返還を拒んだ者が弁償を受けることができるという不均衡が生じる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 使用利益の返還</p><br>
+          <p class="p6 ind2">Ｑ　194条に基づき盗品等の引渡しを拒むことができる占有者は、使用利益の返還義務を負わないか。</p>
+          <p class="p6 ind2">→　使用収益の返還義務を負わない。（最判平12.６.27）</p>
+          <p class="p6 ind2">＜判例＞　最判平12.６.27</p>
+          <p class="p6 ind2">・判旨</p>
+          <p class="p6 ind2">「盗品又は遺失物（以下『盗品等』という。）の被害者又は遺失主（以下『被害者等』という。）が盗品等の占有者に対してその物の回復を求めたのに対し、占有者が民法194条に基づき支払った代価の弁償があるまで盗品等の引渡しを拒むことができる場合には、占有者は、右弁償の提供があるまで盗品等の使用収益を行う権限を有すると解するのが相当である。」</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-03-2" class="h6 ind0">Ⅴ　明認方法</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-2-01">１　意義</div>
+      <p>：権利の所在を公示する方法で、慣習上、対抗要件としての効力を認められてきたもの</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-2-02">２　明認方法の対象・方法</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　明認方法の対象</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　立木法の適用を受けない立木</p>
+          <p class="h6 ind3 nobold">②　未分離の果実－蜜柑、桑葉、稲立毛</p>
+          <p class="h6 ind3 nobold">③　温泉権</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　具体的方法</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　第三者をして権利取得の事実を明らかにするに適する方法で足りる。</p>
+          <p class="h6 ind3 nobold">②　明認方法は、第三者が利害関係を取得した当時にも存在するものでなけ　れば、対抗力は認められない（最判昭36.5.4）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-2-03">３　立木をめぐる諸問題</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　立木のみの二重譲渡</p>
+          <p class="p6 ind1"><img class="embed-img" src="min17-01.png" alt="min17-01.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　土地とともに立木が売買された場合</p>
+          <p class="p6 ind1"><img class="embed-img" src="min17-02.png" alt="min17-02.png"></p>
+          <p class="p6 ind1">→　立木の生育する土地を取得した場合、立木は土地の一部であるから、対抗要件は土地の登記であり、明認方法のみを施しても第三者に対抗できない（大判昭９.12.28）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　立木の所有権留保</p>
+          <p class="p6 ind1"><img class="embed-img" src="min17-03.png" alt="min17-03.png"></p>
+          <p class="p6 ind1">→　立木を原則として土地の構成部分であると解すると、この問題は、対抗問題として処理されることになる。従って、Ａは、明認方法を施さない限り、立木所有権の留保をＣに対抗できない（最判昭34.８.７）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　立木を植栽した場合</p>
+          <p class="p6 ind1"><img class="embed-img" src="min17-04.png" alt="min17-04.png"></p>
+          <p class="p6 ind1">→　まず、Ｂは「権原」に基づいて当該土地に立木を植栽したといえるので、242条ただし書を類推し、当該立木は当該土地に付合せず、立木はＢの所有権の独立の客体になり得る。しかし、取引の安全のため、Ｂが当該立木の所有権を第三者に主張するには、対抗要件、すなわち、少なくとも明認方法を施すことを要する。よって、当該立木の所有権の帰属は、Ｂによる立木についての明認方法とＣによる甲土地の所有権移転登記の先後により決せられることになる（最判昭35.３.１）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　立木を伐採した場合、伐木の所有権を対抗することができるか。</p><br>
+          <p class="p6 ind1">Ｑ　Ａ所有の立木がＢとＣとに二重譲渡され、後にこれが伐採された場合、当該伐木はＢＣのいずれに帰属するか。</p><br>
+          <p class="p6 ind1">ＢＣともに明認方法を施していない場合、互いに立木所有権について相手方に対して所有権を主張できないことから、伐木についてどう考えるか問題となる。</p>
+          <p class="p6 ind1">→　ＢＣ共に伐木の所有権を対抗できない（最判昭33.７.29）</p>
+          <p class="p6 ind1">「立木当時既に明認方法の欠缺を主張する正当な利益を有していた第三者に対する関係においては、（伐木等を自ら占有すると否とに拘らず）伐木等の所有権を以て対抗し得ない」とする。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-01-03-3" class="h6 ind0">Ⅵ　物権の消滅</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>物権一般に共通する消滅原因には、以下のものがある。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-3-01">１　目的物の滅失</div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-3-02">２　消滅時効（166条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　所有権以外の物権は20年間の消滅時効にかかる（166条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　抵当権は、債務者･設定者との関係ではその担保する債権と同時でなければ時効によって消滅しない（396条）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-3-03">３　混同（179条）</div>
+      <p>混同：併存させておく必要のない２個の法律上の地位が同一人に帰属することにより、一方が消滅すること</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　所有権と制限物権の混同（179条１項）</p>
+          <p class="p6 ind1">ex. 地上権者が土地の所有権を取得した場合には、地上権は消滅する（179条１項本文）。</p>
+          <p class="p6 ind1">例外－以下の場合には混同により消滅しない（179条１項ただし書）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①制限物権が第三者の権利の目的となっている場合</p>
+          <p class="h6 ind3 nobold">②物権の目的物が第三者の権利の目的となっている場合</p>
+          <p class="h6 ind3 nobold">③自己借地権</p>
+          <p class="p6 ind4">　借地借家法は、借地権（建物所有を目的とする地上権又は土地の賃借権。借地借家法２条１号）を設定する場合において、「他の者と共に有することとなるときに限り」、自己借地権を設定できるとする（借地借家法15条１項）。また、借地権が、借地権設定者に帰した場合であっても、「他の者と共にその借地権を有するときは」、借地権は消滅しないとする（借地借家法15条２項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　制限物権とこれを目的とする物権の混同（179条２項）</p>
+          <p class="p6 ind1">ex. 地上権者が地上権を目的として設定されている抵当権を取得した場合には、当該抵当権は消滅する（179条２項前段）。</p>
+          <p class="p6 ind1">例外－以下の場合には混同により消滅しない（179条２項後段、１項ただし書）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①制限物権が第三者の権利の目的となっている場合</p>
+          <p class="h6 ind3 nobold">②混同すべき物権の目的物が第三者の権利の目的となっている場合</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-01-03-3-04">４　放棄</div>
+      <p>：権利を消滅させることを目的とする単独行為</p>
+      <p></p>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>
