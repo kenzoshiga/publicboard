@@ -336,12 +336,12 @@
     function getCardHtml(item){
       return `
         <section class="face front">
-          <div class="label">表</div>
+          <div class="label">問題</div>
           <div class="content">${escapeHtml(item.front).replace(/\n/g, '<br>')}</div>
           <div class="hint">クリックで裏面を表示</div>
         </section>
         <section class="face back">
-          <div class="label">裏</div>
+          <div class="label">解答</div>
           <div class="content">${escapeHtml(item.back).replace(/\n/g, '<br>')}</div>
           <div class="hint">もう一度クリックで表面に戻る</div>
         </section>
