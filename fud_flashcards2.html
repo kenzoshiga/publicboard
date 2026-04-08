@@ -411,6 +411,7 @@
 
     function flipCard(){
       if (isAnimating) return;
+      currentCard.style.transform = '';
       setFlipState(!flipped);
     }
 
