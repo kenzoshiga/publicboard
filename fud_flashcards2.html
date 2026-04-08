@@ -78,7 +78,7 @@
       top:50%;
       transform:translateY(-50%);
       color:#94a3b8;
-      font-size:36px;
+      font-size:18px;
       font-weight:700;
       opacity:.25;
       transition:opacity .2s ease;
@@ -404,6 +404,8 @@
     function setFlipState(nextFlipped){
       flipped = nextFlipped;
       if (!currentCard) return;
+      currentCard.style.transition = '';
+      currentCard.style.transform = '';
       currentCard.classList.toggle('is-flipped', flipped);
       currentCard.setAttribute('aria-pressed', flipped ? 'true' : 'false');
       applyHeight(index);
@@ -411,7 +413,10 @@
 
     function flipCard(){
       if (isAnimating) return;
-      currentCard.style.transform = '';
+      if (currentCard) {
+        currentCard.style.transition = '';
+        currentCard.style.transform = '';
+      }
       setFlipState(!flipped);
     }
 
