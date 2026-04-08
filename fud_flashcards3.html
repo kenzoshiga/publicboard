@@ -184,13 +184,6 @@
       flex:1 1 auto;
       min-height:0;
     }
-.front .card-body{
-  background:#ffffff;
-}
-
-.back .card-body{
-  background:#f1f5f9;
-}
     .text-wrap{
       width:100%;
       flex:0 0 auto;
@@ -278,7 +271,7 @@
       display:flex;
       justify-content:center;
       align-items:center;
-      background:#f8fafc;
+      background:#ffffff;
       border:1px solid #e5e7eb;
       border-radius:14px;
       padding:10px;
@@ -327,6 +320,7 @@
 
   <main class="page">
     <h1 class="title" id="themeTitle">不動産登記法</h1>
+    <div class="sub">カード中央をクリックで表裏切替 ／ 画面左で前へ ／ 画面右で次へ</div>
 
     <section class="card-wrap" aria-live="polite">
       <div class="counter" id="counter"></div>
@@ -479,7 +473,6 @@
           <div class="card-body">
             <div class="text-wrap">
               <div class="content">${escapeHtml(item.front).replace(/\n/g, '<br>')}</div>
-              <div class="hint">クリックで裏面を表示</div>
             </div>
             ${item.frontImg ? `
               <div class="media-wrap">
@@ -494,7 +487,6 @@
           <div class="card-body">
             <div class="text-wrap">
               <div class="content">${escapeHtml(item.back).replace(/\n/g, '<br>')}</div>
-              <div class="hint">もう一度クリックで表面に戻る</div>
             </div>
             ${item.backImg ? `
               <div class="media-wrap">
