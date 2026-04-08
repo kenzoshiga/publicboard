@@ -93,6 +93,7 @@
       max-width:920px;
       perspective:1400px;
       margin-top:24px;
+      overflow:hidden;
     }
     .counter{
       text-align:center;
@@ -105,14 +106,25 @@
       width:100%;
       min-height:220px;
     }
-    .card{
-      position:relative;
+    .card,
+    .slide-card{
+      position:absolute;
+      inset:0;
       width:100%;
       transform-style:preserve-3d;
-      transition:transform .55s ease, height .25s ease;
+    }
+    .card{
+      transition:transform .55s ease, height .25s ease, opacity .25s ease;
       cursor:pointer;
+      z-index:2;
+    }
+    .slide-card{
+      z-index:3;
+      pointer-events:none;
     }
     .card.flipped{transform:rotateY(180deg)}
+    .slide-card.flipped{transform:rotateY(180deg)}
+
     .face{
       position:absolute;
       inset:0;
@@ -165,21 +177,6 @@
       top:0;
       width:100%;
     }
-    .card-wrap.swiping .card{
-      transition:none;
-    }
-    .card-wrap.swiping .card.dragging-next{
-      transform:translateX(var(--swipe-x, 0px)) rotate(2deg);
-    }
-    .card-wrap.swiping .card.dragging-prev{
-      transform:translateX(var(--swipe-x, 0px)) rotate(-2deg);
-    }
-    .card-wrap.swiping .card.flipped.dragging-next{
-      transform:rotateY(180deg) translateX(calc(var(--swipe-x, 0px) * -1)) rotate(-2deg);
-    }
-    .card-wrap.swiping .card.flipped.dragging-prev{
-      transform:rotateY(180deg) translateX(calc(var(--swipe-x, 0px) * -1)) rotate(2deg);
-    }
     .footer-note{
       position:absolute;
       bottom:18px;
@@ -212,24 +209,24 @@
       <div class="stage" id="stage">
         <article class="card" id="card" role="button" tabindex="0" aria-label="カードをめくる">
           <section class="face front">
-            <div class="label">問題</div>
+            <div class="label">表</div>
             <div class="content" id="frontText"></div>
             <div class="hint">クリックで裏面を表示</div>
           </section>
           <section class="face back">
-            <div class="label">解答</div>
+            <div class="label">裏</div>
             <div class="content" id="backText"></div>
             <div class="hint">もう一度クリックで表面に戻る</div>
           </section>
         </article>
 
         <div class="measure face" id="measureFront">
-          <div class="label">問題</div>
+          <div class="label">表</div>
           <div class="content" id="measureFrontText"></div>
           <div class="hint">クリックで裏面を表示</div>
         </div>
         <div class="measure face" id="measureBack">
-          <div class="label">解答</div>
+          <div class="label">裏</div>
           <div class="content" id="measureBackText"></div>
           <div class="hint">もう一度クリックで表面に戻る</div>
         </div>
@@ -291,7 +288,6 @@
     const frontText = document.getElementById('frontText');
     const backText = document.getElementById('backText');
     const card = document.getElementById('card');
-    const cardWrap = document.querySelector('.card-wrap');
     const stage = document.getElementById('stage');
     const measureFront = document.getElementById('measureFront');
     const measureBack = document.getElementById('measureBack');
@@ -302,20 +298,21 @@
 
     let index = 0;
     let flipped = false;
+    let isAnimating = false;
 
     themeTitle.textContent = deck.theme;
 
-    function syncCardHeight(){
-      const item = deck.cards[index];
+    function measureCardHeight(item){
       measureFrontText.textContent = item.front;
       measureBackText.textContent = item.back;
+      return Math.max(measureFront.offsetHeight, measureBack.offsetHeight);
+    }
 
-      const frontHeight = measureFront.offsetHeight;
-      const backHeight = measureBack.offsetHeight;
-      const nextHeight = Math.max(frontHeight, backHeight);
-
-      stage.style.height = nextHeight + 'px';
-      card.style.height = nextHeight + 'px';
+    function syncCardHeight(){
+      const item = deck.cards[index];
+      const height = measureCardHeight(item);
+      stage.style.height = height + 'px';
+      card.style.height = height + 'px';
     }
 
     function renderCard(){
@@ -329,24 +326,89 @@
     }
 
     function flipCard(){
+      if (isAnimating) return;
       flipped = !flipped;
       renderCard();
     }
 
-    function nextCard(){
-      index = (index + 1) % deck.cards.length;
-      flipped = false;
-      renderCard();
+    function buildSlideCard(item, isFlipped, height){
+      const el = document.createElement('article');
+      el.className = 'slide-card' + (isFlipped ? ' flipped' : '');
+      el.style.height = height + 'px';
+      el.innerHTML = `
+        <section class="face front">
+          <div class="label">表</div>
+          <div class="content"></div>
+          <div class="hint">クリックで裏面を表示</div>
+        </section>
+        <section class="face back">
+          <div class="label">裏</div>
+          <div class="content"></div>
+          <div class="hint">もう一度クリックで表面に戻る</div>
+        </section>
+      `;
+      el.querySelector('.front .content').textContent = item.front;
+      el.querySelector('.back .content').textContent = item.back;
+      return el;
     }
 
-    function prevCard(){
-      index = (index - 1 + deck.cards.length) % deck.cards.length;
-      flipped = false;
-      renderCard();
+    function animateSlide(direction){
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const currentIndex = index;
+      const nextIndex = direction === 'next'
+        ? (index + 1) % deck.cards.length
+        : (index - 1 + deck.cards.length) % deck.cards.length;
+
+      const currentItem = deck.cards[currentIndex];
+      const nextItem = deck.cards[nextIndex];
+      const currentHeight = measureCardHeight(currentItem);
+      const nextHeight = measureCardHeight(nextItem);
+      const stageHeight = Math.max(currentHeight, nextHeight);
+      const distance = stage.offsetWidth + 60;
+      const outgoingX = direction === 'next' ? -distance : distance;
+      const incomingStartX = direction === 'next' ? distance : -distance;
+
+      stage.style.height = stageHeight + 'px';
+      card.style.height = stageHeight + 'px';
+
+      const incoming = buildSlideCard(nextItem, false, stageHeight);
+      incoming.style.transform = `translateX(${incomingStartX}px)`;
+      stage.appendChild(incoming);
+
+      card.style.transition = 'transform .38s ease, opacity .38s ease';
+      incoming.style.transition = 'transform .38s ease';
+      card.style.pointerEvents = 'none';
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          card.style.transform = `translateX(${outgoingX}px)`;
+          card.style.opacity = '0';
+          incoming.style.transform = 'translateX(0px)';
+        });
+      });
+
+      const done = () => {
+        incoming.removeEventListener('transitionend', done);
+        incoming.remove();
+        index = nextIndex;
+        flipped = false;
+        card.style.transition = 'transform .55s ease, height .25s ease, opacity .25s ease';
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.pointerEvents = '';
+        renderCard();
+        isAnimating = false;
+      };
+
+      incoming.addEventListener('transitionend', done);
     }
 
-    prevZone.addEventListener('click', prevCard);
-    nextZone.addEventListener('click', nextCard);
+    prevZone.addEventListener('click', () => animateSlide('prev'));
+    nextZone.addEventListener('click', () => animateSlide('next'));
+
+    card.addEventListener('click', flipCard);
 
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -356,36 +418,29 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') nextCard();
-      if (e.key === 'ArrowLeft') prevCard();
+      if (e.key === 'ArrowRight') animateSlide('next');
+      if (e.key === 'ArrowLeft') animateSlide('prev');
     });
 
     let touchStartX = 0;
     let touchStartY = 0;
     let touchCurrentX = 0;
     let isDragging = false;
-    let swipeDirection = '';
     let moved = false;
 
-    function clearSwipeState(){
-      cardWrap.classList.remove('swiping');
-      card.classList.remove('dragging-next', 'dragging-prev');
-      card.style.removeProperty('--swipe-x');
-      isDragging = false;
-      swipeDirection = '';
-    }
-
     card.addEventListener('touchstart', (e) => {
+      if (isAnimating) return;
       if (!e.touches || e.touches.length !== 1) return;
       const t = e.touches[0];
       touchStartX = t.clientX;
       touchStartY = t.clientY;
       touchCurrentX = t.clientX;
+      isDragging = false;
       moved = false;
-      clearSwipeState();
     }, { passive: true });
 
     card.addEventListener('touchmove', (e) => {
+      if (isAnimating) return;
       if (!e.touches || e.touches.length !== 1) return;
       const t = e.touches[0];
       const dx = t.clientX - touchStartX;
@@ -394,35 +449,38 @@
       if (Math.abs(dx) > 10) moved = true;
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 18) {
         isDragging = true;
-        swipeDirection = dx < 0 ? 'next' : 'prev';
-        cardWrap.classList.add('swiping');
-        card.classList.toggle('dragging-next', swipeDirection === 'next');
-        card.classList.toggle('dragging-prev', swipeDirection === 'prev');
-        card.style.setProperty('--swipe-x', dx + 'px');
         touchCurrentX = t.clientX;
+        card.style.transition = 'none';
+        card.style.transform = `translateX(${dx}px)`;
       }
     }, { passive: true });
 
     card.addEventListener('touchend', () => {
+      if (isAnimating) return;
       const dx = touchCurrentX - touchStartX;
+
       if (isDragging && Math.abs(dx) > 70) {
-        clearSwipeState();
-        if (dx < 0) nextCard();
-        else prevCard();
+        card.style.transition = 'transform .2s ease';
+        card.style.transform = 'translateX(0px)';
+        setTimeout(() => {
+          card.style.transition = 'transform .55s ease, height .25s ease, opacity .25s ease';
+          card.style.transform = '';
+          animateSlide(dx < 0 ? 'next' : 'prev');
+        }, 30);
         return;
       }
-      clearSwipeState();
+
+      card.style.transition = 'transform .2s ease';
+      card.style.transform = 'translateX(0px)';
+      setTimeout(() => {
+        card.style.transition = 'transform .55s ease, height .25s ease, opacity .25s ease';
+        card.style.transform = '';
+      }, 220);
     });
 
-    card.addEventListener('click', () => {
-      if (moved) {
-        moved = false;
-        return;
-      }
-      flipCard();
+    window.addEventListener('resize', () => {
+      if (!isAnimating) syncCardHeight();
     });
-
-    window.addEventListener('resize', syncCardHeight);
 
     renderCard();
   </script>
