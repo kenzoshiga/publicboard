@@ -1,0 +1,842 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit42</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit42</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min41.html">前へ</a>
+      <a href="pu26min43 html">次へ</a>
+      <a href="pu26min42q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-01">第１章　贈与</a>
+      <ul>
+
+        <li><a href="#A06-01-00-0-01">１　意義</a></li>
+
+        <li><a href="#A06-01-00-0-02">２　贈与の効力</a></li>
+
+        <li><a href="#A06-01-00-0-03">３　特殊の贈与</a></li>
+      </ul>
+    </li>
+    <li><a href="#A06-02">第２章　売買</a>
+      <ul>
+        <li><a href="#A06-02-01">第１節　売買の成立</a>
+          <ul>
+            <li><a href="#A06-02-01-0-01">１　意義</a></li>
+            <li><a href="#A06-02-01-0-02">２　手付</a></li>
+            <li><a href="#A06-02-01-0-03">３　売買契約に関する費用</a></li>
+          </ul>
+        </li>
+        <li><a href="#A06-02-02">第２節　売買の効力</a>
+          <ul>
+            <li><a href="#A06-02-02-1">Ⅰ　売主の義務</a>
+              <ul>
+            <li><a href="#A06-02-02-1-01">１　財産権移転義務</a></li>
+            <li><a href="#A06-02-02-1-02">２　果実引渡義務</a></li>
+            </ul>
+          </li>
+            <li><a href="#A06-02-02-2">Ⅱ　買主の義務</a>
+              <ul>
+            <li><a href="#A06-02-02-2-01">１　代金支払義務</a></li>
+            <li><a href="#A06-02-02-2-02">２　利息支払義務（575条２項）</a></li>
+            <li><a href="#A06-02-02-2-03">３　目的物受取義務</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A06-02-03">第３節　買戻し</a>
+          <ul>
+            <li><a href="#A06-02-03-0-01">１　意義</a></li>
+            <li><a href="#A06-02-03-0-02">２　要件</a></li>
+            <li><a href="#A06-02-03-0-03">３　買戻権とその譲渡・行使</a></li>
+            <li><a href="#A06-02-03-0-04">４　共有持分の買戻特約</a></li>
+            <li><a href="#A06-02-03-0-05">５　買戻権の消滅</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-01">第１章　贈与</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-01-00-0-01">１　意義</div>
+      <p>：当事者の一方がある財産を無償で相手方に与える契約</p>
+      <p>無償・片務・諾成契約である。他人物贈与でも有効に成立する。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-01-00-0-02">２　贈与の効力</div>
+      <p><img class="embed-img" src="min42-01.png" alt="min42-01.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　贈与者の財産移転義務（549条）</p>
+          <p class="p6 ind1">特定物の贈与では、債務者の注意義務を軽減する旨の規定はないので、「善良な管理者の注意」（400条）をもって目的物を保管しなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　書面によらない贈与の解除（550条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 趣旨</p>
+          <p class="p6 ind2">550条が書面によらない贈与の解除を認めた趣旨は、①贈与者の意思が確定していることを確かめて、後に争いの生ずることを防ぎ（意思の明確化）、また、②軽率に贈与のなされることを防ぐため（軽率な贈与の予防）と考えられている。</p>
+          <p class="p6 ind2">すなわち、書面によらない贈与は解除することができると規定することによって、事実上、贈与は「書面」によることを要求しているということができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 「書面」による贈与</p>
+          <p class="p6 ind2">「書面」とは、贈与意思の明確化（①）という書面によらない贈与の解除が認められた趣旨から、贈与の事実が確実にみてとれる程度の記載があればよい。</p>
+          <p class="p6 ind2">贈与者の権利移転の意思が書面に表示されていればよいと、ごく緩やかに解されている。ただ、贈与者がたまたま自分の日記の中に当該贈与契約を締結した事実を記載していても、書面による贈与に当たらず、贈与者は本条による解除をすることができる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　贈与契約を書面にしたものである必要はなく、例えば書面上は売渡証書であっても、自己の財産を相手方に取得させる意思が表示されており他の証拠から無償行為であることが証明されればよい（大判大３.12.25）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　贈与契約を書面にしたものについて、受贈者の承諾の意思が書面に表示されていなくてもよい（大判明40.５.６）。また、契約の成立後に書面が作成されてもよい（大判大５.９.22）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　贈与者の慎重な意思決定に基づいて作成され、かつ、贈与の意思を確実に看取し得る限り、贈与者の第三者宛の内容証明郵便でもよい（最判昭60.11.29）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 「履行の終わった」の意味</p>
+          <p class="p6 ind2">書面によらない贈与の解除を認めた①の趣旨から、贈与の意思を明確に表す程度の徴表でよい。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 贈与の目的物が動産の場合－引渡しの終了のとき</p>
+          <p class="h6 ind2 nobold">(b) 贈与の目的物が不動産の場合－登記又は引渡しのいずれかがあったとき</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 解除</p>
+          <p class="p6 ind2">本条の解除は、不完全な贈与の履行を拒む趣旨であるから、消滅時効にかからない（大判大８.６.３）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　贈与者の引渡義務等（551条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 通常の贈与</p>
+          <p class="p6 ind2">贈与者は、贈与の目的物を贈与の目的として特定した時の状態で引き渡し、又は移転することを約したものと推定される（551条１項）。</p>
+          <p class="p6 ind2">贈与者は贈与契約の内容に適合した目的物を引き渡す義務を負うことを前提にした上で、無償契約である贈与における贈与者の責任を軽減する観点から設けられた規定である。同規定は当事者の意思を推定する規定であるから、当事者間でこれと異なる合意がされた場合はそれに従うこととなる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 負担付贈与</p>
+          <p class="p6 ind2">負担付贈与では受贈者が負担を負うが、これは本来贈与者の給付と対価関係にあるわけではない。しかし、実質的には負担の範囲内では両者が対価関係にあるといえるので、贈与者は負担の限度で売主と同様の担保責任を負う（551条２項）。「負担の限度で責任を負う」とは、受贈者が負担の履行によって損失を被らないようにするという意味とされる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-01-00-0-03">３　特殊の贈与</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　負担付贈与：受贈者も贈与者に対して一定の給付を負担する贈与契約（553条）</p>
+          <p class="p6 ind1">本来、受贈者が負う負担は贈与者の給付と対価関係に立つわけではないが、実質上、負担の範囲内で対価関係にあるといえることから、双務契約に関する規定（ex．同時履行の抗弁権（533条）、危険負担（536条）、解除（541条～548条））が準用される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　定期贈与（552条）：継続的に一定の財産を与える契約</p>
+          <p class="p6 ind1">ex．ある者の在学中に他の者が一定額の学費・生活費を与えるという契約</p>
+          <p class="p6 ind1">定期贈与は当事者間の人的関係に基づくことが多いから、反対の意思表示のない限り、贈与者又は受贈者の死亡によってその効力を失う（552条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　死因贈与：贈与者の死亡を停止条件とする贈与（554条）</p>
+          <p class="p6 ind1">死因贈与と遺贈とは、いずれも贈与者の死亡によって効力を生じる点で類似するものであり、遺贈の規定が準用される。</p>
+          <p class="p6 ind1">ただ、死因贈与は契約であるが、遺贈は単独行為である。この相違から、いかなる規定までが準用されるのかが問題となってくる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 遺贈の効力に関する規定</p>
+          <p class="p6 ind2">死因贈与は契約であることから、遺贈の承認･放棄についての規定は準用されないが、これを除き、遺贈の効力に関する規定（985条以下）の準用が認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 遺贈の方式に関する規定</p>
+          <p class="p6 ind2">遺贈は単独行為であり、また、本人の死亡後に問題となるので、本人の意思の明確化が必要となり、また、偽造等の回避が問題となる。これに対して、死因贈与はあくまで契約であり、諸般の事情からいかなる契約がなされたかを認定することは可能である。そのため、方式についての規定は準用されず、たとえ口頭であってもよいとされる（最判昭32.５.21）。</p>
+          <p class="p6 ind2"><img class="embed-img" src="min42-02.png" alt="min42-02.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 遺贈の撤回に関する判例</p>
+          <p class="p6 ind2">＜判例＞　最判昭57.４.30</p>
+          <p class="p6 ind2">「負担の履行期が贈与者の生前と定められた負担付死因贈与契約に基づいて受贈者が約旨に従い負担の全部又はそれに類する程度の履行をした場合においては、贈与者の最終意思を尊重する余り受贈者の利益を犠牲にすることは相当でないから、右贈与契約締結の動機、負担の価値と贈与財産の価値との相関関係、右契約上の利害関係者間の身分関係その他の生活関係等に照らし右負担の履行状況にもかかわらず負担付死因贈与契約の全部又は一部の取消をすることがやむをえないと認められる特段の事情がない限り、遺言の取消に関する民法1022条、1023条の各規定を準用するのは相当でないと解すべきである。」</p>
+          <p class="p6 ind2">＜判例＞　最判昭58.１.24</p>
+          <p class="p6 ind2">「死因贈与が自由に取り消すことができないものであるからといつて、このことから直ちに、贈与者は死因贈与の目的たる不動産を第三者に売り渡すことができないとか、又はこれを売り渡しても当然に無効であるとはいえない…（受贈者と買主との関係はいわゆる二重譲渡の場合における対抗問題によつて解決されることになる）。」</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A06-02">第２章　売買</h2>
+    <div class="p-card sec-card">
+      <h3 id="A06-02-01">第１節　売買の成立</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-01-0-01">１　意義</div>
+      <p>：当事者の一方がある財産権を相手方に移転することを約し、相手方がこれにその代金を支払うことを約束することによって効力を生ずる契約</p>
+      <p>有償・双務・諾成契約である（555条）。</p>
+      <p>売買に関する民法の規定は、売買以外の有償契約について準用する。ただし、その有償契約の性質がこれを許さないときは、この限りでない（559条）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-01-0-02">２　手付</div>
+      <p><img class="embed-img" src="min42-03.png" alt="min42-03.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">手付とは、契約締結の際に当事者の一方から相手方に交付される金銭その他の有価物をいう。</p>
+          <p class="p6 ind1">手付契約は、売買契約に従たる要物契約である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　手付の目的・種類</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 種類</p>
+          <p class="p6 ind2">手付には、①証約手付、②解約手付、③違約手付があるが、試験対策としては解約手付を学習すればよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 解約手付</p>
+          <p class="p6 ind2">解約手付とは、両当事者が相手方の債務不履行がなくても契約を解除できるという解除権を留保する趣旨で交付される手付をいう。</p>
+          <p class="p6 ind2">解約手付の趣旨で手付が交付された場合には、交付した者（買主）が手付を放棄するか、交付を受けた者（売主）が手付金額の倍額を買主に返還すれば、債務不履行の事実がなくても契約を解除できる。</p>
+          <p class="p6 ind2">当事者間で授受された手付は、反対の証拠のない限り解約手付とされる（最判昭29.１.21）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　解約手付による解除の要件</p>
+          <p class="p6 ind1">解約手付が交付された場合には、その相手方が契約の履行に着手するまでは契約を解除することができる（557条１項ただし書）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 相手方が契約の履行に着手する前であること</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 履行の着手の意義</p>
+          <p class="p6 ind3">客観的に外部から認識し得るような形で履行行為の一部をなし又は履行の提供をするために欠くことのできない前提行為をした場合を指す（最大判昭40.11.24）。一般的には、履行の着手に当たるか否かは、「当該行為の態様、債務の内容、履行期が定められた趣旨・目的等諸般の事情を総合勘案して決すべきである」（最判平５.３.16）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 具体例</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　売主については、契約の趣旨に従って、目的物の修理、調達、荷造りなどをした場合</p>
+          <p class="p6 ind4">不動産売買の買主の場合、支払代金を調達しただけでは足りない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　買主が、履行期到来後売主に対して頻繁に明渡しを求め、この際、明渡しがあればいつでも残代金の支払をすることができる準備がある場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　履行期日前、買主が、残代金と引換えに引渡しを求めた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅳ　借家人のいる家屋につき売主がしばしば借家人に対して明渡しを求めていた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅴ　転売契約において売主が前主に代金を支払い、売主名義に移転登記を得ていた場合</p>
+          <p class="p6 ind4">※　履行期が定められていても、それ以前に、本条１項の履行の着手をすることができないわけではない (最判昭41.１.21)。例えば、履行期を５月１日とする売買契約で解約手付が授受されている場合、買主が４月30日に代金を提供したときには ｢契約の履行に着手｣ したと認められる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 手付の放棄・倍戻しをすること</p>
+          <p class="p6 ind2">手付の倍額の償還による売買契約の解除をするためには、単に口頭により手付の倍額を償還する旨を告げその受領を催告するのみでは足りず、買主に現実の提供をすることを要する（557条1項本文。最判平６.３.22）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　解約手付による解除の効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 損害賠償請求権の有無</p>
+          <p class="p6 ind2">解除の結果、損害賠償請求権は発生しない（557条２項）。</p>
+          <p class="p6 ind2">ただし、債務不履行を理由として解除する場合には、解約手付とは無関係であり、545条その他法定解除の規定に従う。従って、その解約手付が違約手付を兼ねているのでない限り、買主は不当利得としてその返還を請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 契約が合意解除された場合、特約その他の事由のない限り手付金は不当利得として返還されなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 契約が履行されたときは、手付金は代金の一部にあてられる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-01-0-03">３　売買契約に関する費用</div>
+      <p>売買契約に関する費用は、当事者双方が等しい割合で負担する（558条）。</p>
+      <p>売買では当事者双方が平等に利益を受けることから、このように規定されている。</p>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A06-02-02">第２節　売買の効力</h3>
+    <div class="p-card rank4-card">
+      <p id="A06-02-02-1" class="h6 ind0">Ⅰ　売主の義務</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-02-1-01">１　財産権移転義務</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　財産権移転義務等</p>
+          <p class="p6 ind1">売買契約が成立すると、売主は売買の目的である財産権を買主に完全に移転する義務を負う（555 条）。</p>
+          <p class="p6 ind1">具体的には、①目的たる財産権の移転、②目的物の占有の移転、③対抗要件を具備させること、④証書の交付等をする必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　他人物売買</p>
+          <p class="p6 ind1"><img class="embed-img" src="min42-04.png" alt="min42-04.png"></p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 他人物売買の有効性</p>
+          <p class="p6 ind2">他人の物を売買契約の目的としても売買契約自体は有効である。売主は、その物を他人から取得して買主に移転する義務がある（561条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 他人物売買の所有権移転時期</p>
+          <p class="p6 ind2">売主が他人所有の特定物を売り渡し、その後その物件の所有権を取得した場合には、買主への物件の所有権および占有移転の時期、方法につき特段の約定ないし意思表示がない限り、売主がその物件の所有権を取得すると同時に買主はその物件の所有権を取得する（最判昭40.11.19）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-02-1-02">２　果実引渡義務</div>
+      <p><img class="embed-img" src="min42-05.png" alt="min42-05.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">売買の目的物引渡前は、売主に果実収取権があり(575条１項) 、目的物引渡後は、買主に果実収取権がある。「目的物の引渡」が基準である。</p>
+          <p class="p6 ind1">契約成立時に目的物の所有権は買主に移転し、果実は買主の物となるため、権利の移転後も売主が目的物を占有している間に果実が生じた場合には、本来は、売主はそれを買主に引き渡すべきである。</p>
+          <p class="p6 ind1">所有権移転後、売主が管理費用を支出した場合には、売主は買主に当該管理費用を請求することができる。また、履行期以後に発生する売買代金の利息を請求することもできる。</p>
+          <p class="p6 ind1">買主から請求できる→果実収取の利益</p>
+          <p class="p6 ind1">売主から請求できる→管理費用及び利息</p>
+          <p class="p6 ind1">民法575条は、買主の果実収取の利益と売主の管理費用及び利息の請求額を等しいと考え、両当事者の複雑な関係を簡潔に解決しようとするものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　売主が売買の目的物の引渡しを遅滞している場合</p>
+          <p class="p6 ind1">売主は、売買の目的物の引渡しを遅滞しているときでも、代金の支払を受けない限り、引渡しの時まで果実を収取できる (大連判大13.９.24)。</p>
+          <p class="p6 ind1">しかし、買主が代金を支払ったときには、目的物引渡前でも売主は果実を取得する権利を失う（大判昭７.３.３)。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A06-02-02-2" class="h6 ind0">Ⅱ　買主の義務</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-02-2-01">１　代金支払義務</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　代金の支払期限（573条）</p>
+          <p class="p6 ind1">双務契約である売買においては、目的物の引渡しと代金の支払は同時履行の関係に立つから、売買の目的物の引渡しについてのみ期限があるときは、公平の観点から、買主の代金の支払についても同一の期限の定めを付したものと推定される（573条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　代金の支払場所（574条）</p>
+          <p class="p6 ind1">当事者の意思を推測し、売買の目的物の引渡しと同時に代金を支払うべきときは、その引渡しの場所において支払わなければならない（574条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代金支払拒絶権（576条～578条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 目的につき他人が権利を主張する場合（576条）</p>
+          <p class="p6 ind2"><img class="embed-img" src="min42-06.png" alt="min42-06.png"></p>
+          <p class="p6 ind2">売買の目的について権利を主張する者があることその他の事由により、買主が買い受けた権利の全部若しくは一部を取得することができず、又は失うおそれがあるときは、両当事者の公平の見地から買主に代金支払の拒絶権を認め、その損害を未然に防止できるようにしたものである。</p>
+          <p class="p6 ind2">576条は、代金支払の拒絶ができる場合として売買の目的について権利を主張する者がある場合以外に「その他の事由」を追加するとともに、買い受けた権利を取得することができない場合にも代金支払拒絶を認めている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 目的物に担保物権がある場合（577条）</p>
+          <p class="p6 ind2"><img class="embed-img" src="min42-07.png" alt="min42-07.png"></p>
+          <p class="p6 ind2">買い受けた不動産上に契約の内容に適合しない抵当権等（抵当権、質権、先取特権）が存在する場合には、買主は抵当権消滅請求をすることができるが（379条以下）、そのために担保権者に支払った費用は売主の債務の弁済であるから、売主から償還してもらえるものである。そこで、当事者の便宜と公平の見地から、買主が抵当権消滅請求をする場合にはその手続が終了するまで代金支払拒絶権を認め、代金額から費用を差し引いた額を支払わせるとするものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 売主の供託請求権（578条）</p>
+          <p class="p6 ind2">576条及び577条によって買主に代金支払拒絶権が認められる場合には、売主は買主に対して代金の供託を請求することができる（578条）。従って、売主が代金の供託を請求したにもかかわらず、買主が代金を供託しないときは、買主は上記の代金支払拒絶権を行使することができない（大判昭14.４.15）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-02-2-02">２　利息支払義務（575条２項）</div>
+      <p>買主は、目的物の引渡しの日から、代金の利息を支払う義務を負う（575条２項本文）。本条項の趣旨は、１項で売主に目的物の引渡しまでは目的物の果実を取得できるとしたこととの均衡上、買主にたとえ遅滞があっても目的物の引渡しを受ける以前には、代金の利息の支払義務を負わないとしたところにある（大連判大13.９.24）。</p>
+      <p>なお、代金の支払について期限があるときは、その期限が到来するまでは、利息を支払うことを要しない（575条２項ただし書）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-02-2-03">３　目的物受取義務</div>
+      <p>＜判例＞　最判昭46.12.16</p>
+      <p>売買契約において、売主が買主に対し、契約の存続期間を通じて採掘する鉱石の全量を売り渡す約定があったなどの事情がある場合には、信義則上、買主には売主が上記期間内に採掘した鉱石を引き取る義務があると解すべきである。</p>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A06-02-03">第３節　買戻し</h3>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p><img class="embed-img" src="min42-08.png" alt="min42-08.png"></p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-03-0-01">１　意義</div>
+      <p>買戻しとは、不動産の売買契約において、その売買契約と同時に特約を付すことで、一定の要件のもとに売主に当該不動産を取り戻すことを認める制度をいう</p>
+      <p>売主が契約を解除して目的物を取り戻せる権利を買戻権といい、形式的には約定解除権であるが、その実質は物権取得権である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-03-0-02">２　要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　不動産売買であること</p>
+          <p class="p6 ind1">民法上の「買戻し」は不動産に限られる。動産の買戻しも契約自由の原則から有効であるが、民法にいう「買戻し」ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　買戻しの特約が売買契約と同時になされること</p>
+          <p class="p6 ind1">買戻しの特約は、売買契約と同時にその登記をしなければ第三者に対して対抗力が認められない（581条１項）。後に買戻しの特約をしても無効で、誤ってその登記がなされても抹消しなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　買戻代金について定めること</p>
+          <p class="p6 ind1">支払代金及び契約費用が買戻代金となるのが原則であるが、当事者が別段の合意をした場合には、その合意により定めた金額及び契約費用が買戻代金となる（579条前段括弧書）。</p>
+          <p class="p6 ind1">なお、当事者が別段の意思を表示しないときは不動産の果実と代金の利息とは相殺したものとみなされる（579条後段）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　買戻しの期間</p>
+          <p class="p6 ind1">買戻しの期間は10年を超えることができない。特約でこれより長い期間を定めたときは、10年とする（580条１項）。また、買戻しについて期間を定めたときは、その後にこれを伸長できない（580条２項）。</p>
+          <p class="p6 ind1">なお、期間の定めがないときは５年以内に買戻権を行使しなければならない（580条３項）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-03-0-03">３　買戻権とその譲渡・行使</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　買戻権の性質</p>
+          <p class="p6 ind1">買戻権は、形式的には約定解除権であるが、実質は金を借りた債務者がこれを返済して担保物を取り戻すことができる地位である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　買戻権の譲渡</p>
+          <p class="p6 ind1">買戻権は譲渡できる。対抗要件は登記であり、債権譲渡の対抗要件である通知・承諾（467条）を要しない（大判昭８.９.12）。ただし、買戻権が登記されていないときは、通知・承諾による（最判昭35.４.26）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　買戻権の行使</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 行使の方法</p>
+          <p class="p6 ind2">相手方に対する意思表示によってなされる（540条１項）。不動産の買主が死亡した場合、共同相続人の全員に対して買戻しの意思表示をしなければならない（544条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 行使の相手方</p>
+          <p class="p6 ind2">行使の相手方は買主であり、目的物が第三者に譲渡されたときは転得者である（最判昭36.５.30）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 代金及び契約の費用の提供</p>
+          <p class="p6 ind2">売買代金又は合意により定めた金額と契約の費用を提供しなければ、買戻しをすることはできない（583条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 買戻しの効果</p>
+          <p class="p6 ind2">買戻権の行使によって目的不動産の所有権は売主に復帰する。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-03-0-04">４　共有持分の買戻特約</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　共有者の１人が買戻特約付きでその持分を売却した後に、当該不動産に分割又は競売があったときは、売主は買主が受け、若しくは受けるべき部分又は代金について買戻しをすることができる（584条本文）。ただし、売主に通知をしないでした分割及び競売は、売主に対抗することができない（584条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　共有者の１人が買戻特約付きでその持分を売却した後に、当該不動産の競売があり、買主が買受人となったときは、売主は競売の代金及び583条に掲げた費用を支払って不動産の全部の買戻しをすることもできるし（585条１項）、売却した持分のみの買戻しをすることもできる。</p>
+          <p class="p6 ind1">しかし、買主以外の共有者の分割請求によって買主が競売の買受人となったときは、売主はその持分のみについて買戻しをすることはできない（585条２項）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-03-0-05">５　買戻権の消滅</div>
+      <p>買戻権は、買戻期間の経過・目的物の滅失によって消滅する。また、当事者の合意によって消滅させることができる。</p>
+      <p>【買戻し　まとめ】</p>
+      <p><img class="embed-img" src="min42-09.png" alt="min42-09.png"></p>
+      <p></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,711 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit43</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit43</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min42.html">前へ</a>
+      <a href="pu26min44 html">次へ</a>
+      <a href="pu26min43q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-02">第２章　売買</a>
+      <ul>
+        <li><a href="#A06-02-04">第４節　売主の契約不適合責任</a>
+          <ul>
+            <li><a href="#A06-02-04-0-01">１　契約不適合責任の類型・意義</a></li>
+            <li><a href="#A06-02-04-0-02">２　権利に関する契約不適合</a></li>
+            <li><a href="#A06-02-04-0-03">３　責任の内容（買主の救済手段）</a></li>
+            <li><a href="#A06-02-04-0-04">４　行使期間</a></li>
+            <li><a href="#A06-02-04-0-05">５　担保責任に関する特約</a></li>
+            <li><a href="#A06-02-04-0-06">６　その他の担保責任</a></li>
+            <li><a href="#A06-02-04-0-07">７　目的物の滅失・損傷に関する危険の移転</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-02">第２章　売買</h2>
+    <div class="p-card sec-card">
+      <h3 id="A06-02-04">第４節　売主の契約不適合責任</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-01">１　契約不適合責任の類型・意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　総説</p>
+          <p class="p6 ind1">契約不適合責任とは、契約の目的物が本来の契約内容と異なっていた場合に、買主はどのような請求ができ、売主はどのような義務を負うか？という問題である。民法は、売主には契約の内容に適合した権利の移転・目的物の引渡しをなすべき義務があることを前提に、その義務の不履行に対する買主の救済手段に関する統一的な規定を定めている。</p>
+          <p class="p6 ind1">目的物の契約不適合（562条）のほか、権利に関する契約不適合（565条）についても規定がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　契約不適合の類型</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 562条で定める類型</p>
+          <p class="p6 ind2">562条では、目的物に関する契約不適合の類型を定めている。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 種類に関する契約不適合</p>
+          <p class="h6 ind2 nobold">(b) 品質に関する契約不適合</p>
+          <p class="h6 ind2 nobold">(c) 数量に関する契約不適合</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 権利に関する契約不適合（565条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　契約不適合の意義</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 契約内容の確定</p>
+          <p class="p6 ind2">売買契約の当事者が当該売買契約において目的物の種類・品質・数量に対してどのような意味を与えたのかを契約の解釈を通じて探究し、それによって導かれた契約の内容に即してみたときに「あるべき」種類・品質・数量が欠如している場合が契約不適合となる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 対象となる目的物</p>
+          <p class="p6 ind2">売買の目的物に限定は付されていない。特定物か不特定物か、代替物か不代替物かを問わない。</p>
+          <p class="p6 ind2">ただし、引き渡されたことが必要であり、履行遅滞や履行不能は対象外である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 種類・品質に関する契約不適合</p>
+          <p class="p6 ind2">物質面での欠点のみならず、いわゆる環境瑕疵（日照・景観阻害など）や心理的瑕疵も含まれる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 数量に関する契約不適合</p>
+          <p class="p6 ind2">売買の目的物に数量不足があったすべての場合に数量に関する契約不適合があったとされるわけではない。</p>
+          <p class="p6 ind2">売買契約の当事者が当該契約のもとで「数量」に特別の意味を与え、それを基礎として売買がされたという場合にはじめて、数量に関する契約不適合があったと評価されるというべきである。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-02">２　権利に関する契約不適合</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　権利に関する契約不適合</p>
+          <p class="p6 ind1"><img class="embed-img" src="min43-01.png" alt="min43-01.png"></p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 総説</p>
+          <p class="p6 ind2">売主には売買契約の内容に適合した権利を移転すべき義務があることを前提に、民法は、移転した権利に関して契約不適合があった場合についても目的物に関する契約不適合と同様に買主の各種請求を可能とする規定を置いている（565条による562条、563条及び564条の準用）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 意義</p>
+          <p class="p6 ind2">移転した権利の契約不適合とは、以下のような場合を指す。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　売買の目的である不動産に契約の内容に適合しない他人の地上権や抵当権の負担があったとき</p>
+          <p class="h6 ind3 nobold">ⅱ　一部が他人に属していて売主がそれを移転しなかったとき（565条かっこ書参照）</p>
+          <p class="h6 ind3 nobold">ⅲ　売買契約の内容が地役権付きの土地所有権である場合にその地役権がなかったとき</p>
+          <p class="p6 ind4">　権利に関する契約不適合が契約締結時に既に存在していたか、契約締結後に生じたかは問わない。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　全部他人物売買の場合</p>
+          <p class="p6 ind1">目的たる財産権の「全部」が他人に属し、売主が買主に権利の全部を移転できない場合、売主は権利移転義務（561条）の不履行という債務不履行状態にある。よって、この場合には契約不適合責任の問題とはならず、債務不履行の一般規定(415条以下、541条、542条)により処理される。権利の一部が他人に属していた場合（565条かっこ書）と区別しなければならない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-03">３　責任の内容（買主の救済手段）</div>
+      <p><img class="embed-img" src="min43-02.png" alt="min43-02.png"></p>
+      <p>目的物に関する契約不適合又は権利に関する契約不適合がある場合、買主に以下の1.から4.の請求が認められる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　追完請求（562条１項）</p>
+          <p class="p6 ind1">562条１項により、買主の追完請求権が明文化されている。これは、担保責任が契約責任であるとする考え方を前提とするものである。これにより、特定物か不特定物かを問わず、履行の追完請求権が認められる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 追完方法</p>
+          <p class="p6 ind2">買主は、売主に対して、①目的物の修補、②代替物の引渡し、③不足分の引渡しによる履行の追完を請求でき（562条１項本文）、追完方法の選択権は、買主に与えられている。ただし、売主は、「買主に不相当な負担を課するものでないとき」には、それと異なる方法により履行の追完をすることができる（同条項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 追完請求が認められない場合</p>
+          <p class="p6 ind2">履行の追完が不能の場合（412条の２第１項）又は契約内容の不適合が買主の責めに帰すべき事由による場合（562条２項）は、買主の追完請求は認められない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　代金減額請求（563条）</p>
+          <p class="p6 ind1">563条により、買主の代金減額請求権が明文化されている。代金減額請求権によって対価的均衡を維持する必要性は、数量不足の場合などに限らず、より一般的に認められるものであることから、代金減額請求権は契約不適合の場合一般における救済手段として認められる。</p>
+          <p class="p6 ind1">損害賠償請求権とは別個の規定であり、損害賠償請求が認められない場合（415条１項ただし書等）でもなし得る。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 減額請求の要件</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 催告による減額請求</p>
+          <p class="p6 ind3">562条１項の追完請求権が認められる場合に、買主が相当の期間を定めて催告をし、その期間内に履行の追完がないときは、買主に代金減額請求権が認められる（563条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 無催告減額請求</p>
+          <p class="p6 ind3">以下のいずれかに該当する場合には、催告なしに代金減額請求が認められる（563条２項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　履行の追完の不能</p>
+          <p class="h6 ind3 nobold">ⅱ　売主による履行の追完を拒絶する意思の明確な表示</p>
+          <p class="h6 ind3 nobold">ⅲ　定期行為における時期の経過</p>
+          <p class="h6 ind3 nobold">ⅳ　催告しても履行の追完を受ける見込みがないことが明らかであるとき</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 減額請求が認められない場合</p>
+          <p class="p6 ind2">目的物の契約不適合が「買主の責めに帰すべき事由」によるものである場合は、買主は売主に対して代金減額請求をすることができない（563条３項）。</p>
+          <p class="p6 ind2">また、代金減額的な趣旨の損害賠償請求と両立はしないため、代金減額的な趣旨の損害賠償請求と代金減額請求の両方をすることは認められない。しかし、信頼利益的な売買コストに関する損害賠償請求と代金減額請求との両立は認められ得る。代金減額請求は、売買契約の一部解除と同じ性質を持つため、解除をしたうえで代金減額請求権を行使することも認められない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 数量が超過する場合</p>
+          <p class="p6 ind2">契約不適合の効果としての代金減額請求権を定めた563条を類推適用して代金の増額を求めることはできないと考えられる（最判平13.11.27参照）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　損害賠償請求（564条、415条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 売主の帰責事由の要否</p>
+          <p class="p6 ind2">売主に対し債務不履行を理由とする損害賠償請求をすることができるが、売主の帰責性が必要である（415条１項、564条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 損害賠償の範囲</p>
+          <p class="p6 ind2">債務不履行を理由とする損害賠償であり、その内容は、履行利益、すなわち、契約に適合した履行がされたならば買主が受けたであろう利益の賠償となる。その範囲は、416条のもとで決せられる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　契約の解除（564条、541条、542条）</p>
+          <p class="p6 ind1">買主は、541条以下の要件を満たしたときに、売主に対して、債務不履行を理由として売買契約を解除することができる（564条）。契約目的の達成が不能であるかを問わず、解除の一般規定（541条以下）に従った取扱いがなされる。したがって、解除に売主の帰責事由は不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　売主の帰責事由の要否</p>
+          <p class="p6 ind1">契約不適合が「売主の責めに帰すべき事由」によるものであることは要件ではない。もっとも、損害賠償請求には、売主の帰責事由が必要である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-04">４　行使期間</div>
+      <p><img class="embed-img" src="min43-03.png" alt="min43-03.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　目的物に関する契約不適合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 売主が種類又は品質に関して不適合である目的物を引き渡した場合</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 原則（買主の通知義務と通知を怠ったことによる失権）</p>
+          <p class="p6 ind3">買主が契約不適合を知った時から１年以内に契約不適合の通知をすれば、買主の追完請求権等は保全され、以後契約不適合を知った時から５年の主観的消滅時効にかかるまで、権利行使をなし得ることとなる（566条本文）。</p>
+          <p class="p6 ind3">逆に言えば、当該通知を怠った場合には、契約不適合による各種請求権は失権するということである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 例外（買主が失権しない場合）</p>
+          <p class="p6 ind3">引渡しの際に、目的物の種類又は品質について不適合があることについて売主が悪意又は重過失であるときは、買主が１年以内に通知をしなかった場合であっても権利行使をすることができる（566条ただし書）。通知義務及び通知を怠った場合の失権がないことを規定している。</p>
+          <p class="p6 ind3">この規定の趣旨は、売主が、その不適合について悪意又は重過失の場合にまで、引渡しによる履行が終了したとの売主の期待を保護する必要がない点にある。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 数量に関する契約不適合の場合</p>
+          <p class="p6 ind2">数量に関する契約不適合には、566条の適用はない。</p>
+          <p class="p6 ind2">数量に関する契約不適合の場合は、売主が履行を終了したという期待を抱くことは想定し難く、売主を保護する必要がないと考えられたためである。したがって、この場合には、消滅時効の一般原則に従った扱いのみが妥当する。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　権利に関する契約不適合</p>
+          <p class="p6 ind1">権利に関する契約不適合については、566条の適用はない。</p>
+          <p class="p6 ind1">権利移転義務の不履行に関しては短期間でその不履行の判断が困難になるとは考え難く、消滅時効の一般原則と異なる短期の期間制限を必要とする趣旨が妥当しないためである。</p>
+          <p class="p6 ind1">その結果、専ら債権の消滅時効に関する一般準則(166条１項)によって処理されるため、契約不適合を知った時から５年、不適合な給付がされた時から10年となる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-05">５　担保責任に関する特約</div>
+      <p><img class="embed-img" src="min43-04.png" alt="min43-04.png"></p>
+      <p>担保責任に関する規定は強行規定ではないから、当事者の特約によって法定の責任を排除・減軽・加重することができる。しかし、売主が責任を負担しない旨の特約は信義に反する場合があるので、知りながら告げなかった事実及び自ら第三者のために設定し又は第三者に譲り渡した権利については、責任を免れることはできない（572条）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-06">６　その他の担保責任</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　競売における担保責任（568条）</p>
+          <p class="p6 ind1"><img class="embed-img" src="min43-05.png" alt="min43-05.png"></p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 競売の目的物に関する制限</p>
+          <p class="p6 ind2">競売によって買い受けた物に種類又は品質に関する不適合があった場合は、買受人は、債務者に対し、不適合を理由とする契約の解除や代金減額請求をすることができない（568条４項）。</p>
+          <p class="p6 ind2">他方、競売によって買い受けた物に、物の不存在もしくは数量に関する不適合または権利の不存在若しくは権利に関する不適合があった場合は、買受人は、債務者に対し、債務不履行を理由として契約を解除し、または代金減額請求をすることができる（568条１項）。</p>
+          <p class="p6 ind2">たとえば、競売の内容が借地権付きの建物である場合にその借地権がなかったとすると、565条の権利の不適合として、568条１項から３項が適用される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">種類・品質の不適合を特別に扱い、担保責任が否定される理由は、競売においては、①債務者（所有者）の自由意思によってなされるものではないこと、②債権者は目的物の品質について知る機会が少なく帰責性が乏しいこと、③競売手続においては目的物にある程度の損傷等があることを織り込んで買受けが行われているのが実情であり、買受人は自己の危険で買い取るべきであること、④競売の結果の安定性を図る必要があること、が挙げられている。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　契約不適合の抵当権等がある場合の買主による費用の償還請求（570条）</p>
+          <p class="p6 ind1"><img class="embed-img" src="min43-06.png" alt="min43-06.png"></p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">売買の目的である不動産に契約の内容に適合しない先取特権、質権又は抵当権が存していた場合において、買主が費用を支出して抵当権等を消滅させた場合に、買主から売主へその費用の償還を認めたものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要件</p>
+          <p class="p6 ind2">以下の2つの要件を満たす必要がある。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　売買の目的である不動産に契約内容に適合しない先取特権、質権又は抵当権が設定されていること</p>
+          <p class="p6 ind4">契約内容に適合しないことが要件であるから、たとえば抵当権が設定されていることを前提として廉価で売買された場合には適用されない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　買主が費用を支出してその不動産の所有権を保存したこと</p>
+          <p class="p6 ind4">たとえば、買主が抵当権の被担保債権を第三者弁済や抵当権消滅請求をするなどして当該抵当権を消滅させた場合である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 効果</p>
+          <p class="p6 ind2">買主は売主に対して支出した費用の償還を請求することができる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　債権の売主の、債務者の資力についての担保責任（569条）</p>
+          <p class="p6 ind1"><img class="embed-img" src="min43-07.png" alt="min43-07.png"></p>
+          <p class="p6 ind1">債権の売主も、売買の目的である債権の契約不適合について担保責任を負う。しかし、債務者の資力は債権そのものの内容ではないため、売主は特約をした場合にのみ責任を負う。法は、売主が時期を定めずに債務者の資力を担保したときは、契約時における資力を担保したものと推定し（569条１項）、弁済期に至らない債権について債務者の将来の資力を担保したときは、弁済期における債務者の資力を担保したものと推定する（569条２項）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-02-04-0-07">７　目的物の滅失・損傷に関する危険の移転</div>
+      <p><img class="embed-img" src="min43-08.png" alt="min43-08.png"></p>
+      <p>危険移転時を「引渡し時」とする特約が締結されている実情をもとに、567条１項は、引渡しを基準として目的物の滅失・損傷の危険を買主に移転させることを明文化したものである。</p>
+      <p>567条２項は、受領遅滞の場合の危険の移転を明文化した。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　引渡し後の滅失・損傷</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 特定物の売買の場合及び種類物売買で目的物の特定がされている場合</p>
+          <p class="p6 ind2">目的物の滅失・損傷に関する危険は、目的物の引渡しによって、売主から買主に移転する（危険移転時＝引渡し時）。</p>
+          <p class="p6 ind2">その結果、その引渡しがあった時以後にその目的物が当事者双方の責めに帰することができない事由によって滅失し、又は損傷したときは、買主は、その滅失又は損傷を理由として、履行の追完の請求、代金の減額の請求、損害賠償の請求及び契約の解除をすることができない。この場合において、買主は、代金の支払を拒むことができない（567条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　他の契約不適合事由に基づく売主の責任</p>
+          <p class="p6 ind4">滅失又は損傷以外に契約不適合が生じていた場合に、契約不適合に基づく売主に対する請求をすることは可能である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　引渡し後の滅失・損傷が売主の責めに帰すべき事由による場合</p>
+          <p class="p6 ind4">引渡し後の滅失・損傷が売主の責めに帰すべき事由による場合は、買主は、目的物の滅失・損傷を理由として、上記の権利を行使できる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 種類物売買で目的物の特定がされていない場合</p>
+          <p class="p6 ind2">売主が契約の内容に適合しない目的物を選定して引き渡しても「特定」の効果が生じない。</p>
+          <p class="p6 ind2">この場合は、567条の適用外であり（同条１項括弧書参照）、買主は、引渡し時における契約不適合を理由とする権利主張をすることができる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　受領遅滞による危険の移転</p>
+          <p class="p6 ind1">売主が契約の内容に適合する目的物をもって、その引渡しの債務の履行を提供したにもかかわらず、買主がその履行を受けることを拒み、又は受けることができない場合において、その履行の提供があった時以後に当事者双方の責めに帰することができない事由によってその目的物が滅失し、又は損傷したときも、「１　引渡し後の滅失・損傷」と同様とする（567条２項）。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

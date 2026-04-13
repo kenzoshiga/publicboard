@@ -1,0 +1,821 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit38</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit38</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min37.html">前へ</a>
+      <a href="pu26min39.html">次へ</a>
+      <a href="pu26min38q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A04">第４編　債権総論</a>
+  <ul>
+    <li><a href="#A04-05">第５章　債権の消滅</a>
+      <ul>
+        <li><a href="#A04-05-01">第１節　弁済</a>
+          <ul>
+            <li><a href="#A04-05-01-1">Ⅰ　弁済の意義</a>
+              <ul>
+            </ul>
+          </li>
+            <li><a href="#A04-05-01-2">Ⅱ　弁済の要件</a>
+              <ul>
+            <li><a href="#A04-05-01-2-01">１　弁済をなし得る者</a></li>
+            <li><a href="#A04-05-01-2-02">２　弁済受領者</a></li>
+            <li><a href="#A04-05-01-2-03">３　弁済の方法</a></li>
+            </ul>
+          </li>
+            <li><a href="#A04-05-01-3">Ⅲ　弁済の効果</a>
+              <ul>
+            <li><a href="#A04-05-01-3-01">１　弁済の充当</a></li>
+            <li><a href="#A04-05-01-3-02">２　弁済による代位</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A04">
+  <h2>第４編　債権総論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A04-05">第５章　債権の消滅</h2>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>【債権の消滅類型】</p>
+      <p><img class="embed-img" src="min38-01.png" alt="min38-01.png"></p>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A04-05-01">第１節　弁済</h3>
+    <div class="p-card rank4-card">
+      <p id="A04-05-01-1" class="h6 ind0">Ⅰ　弁済の意義</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>：債務の本旨に従った給付を実現する債務者ないし第三者の行為</p>
+      <p>これにより債権は目的を達成して消滅する。</p>
+      <p>「履行」と同様の意味であるが、弁済は、債権の消滅という効果に、履行は、その実現過程に視点をおいた表現であるといえる。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A04-05-01-2" class="h6 ind0">Ⅱ　弁済の要件</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>弁済が有効となるためには、①弁済をなし得る者が、②弁済の受領権者に、③債務の本旨に適合した給付を実現することが必要である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A04-05-01-2-01">１　弁済をなし得る者</div>
+      <p><img class="embed-img" src="min38-02.png" alt="min38-02.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　債務者</p>
+          <p class="p6 ind1">債務者は弁済をしなければならない者であるから、弁済は債務者によってなされるのが通常である。債務者が債権者に債務の弁済をしたら、債権は消滅する（473条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　第三者弁済</p>
+          <p class="p6 ind1">：債務者以外の第三者による給付に弁済としての効果が認められること</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">原則として弁済は、第三者もすることができる（474条１項）。なぜなら、債権者は給付によってもたらされる結果を受けることに利益を有する者であるから、通常、第三者の弁済は何ら債権者の利益を害さないからである。</p>
+          <p class="p6 ind2">ここでいう「第三者」とは、他人の債務を自己の名で弁済する者をいうので、債務者の履行補助者・代理人は含まれない。</p>
+          <p class="p6 ind2">ただし、この原則には以下の３つの例外がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 第三者弁済が許されない場合</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　債務の性質がこれを許さないとき（474条４項）</p>
+          <p class="h6 ind3 nobold">②　当事者が第三者の弁済を禁止し、若しくは制限する旨の意思表示をしたとき（474条４項）</p>
+          <p class="h6 ind3 nobold">③　正当な利益を有する者でない第三者で、債務者又は債権者の意思に反するとき（474条２項本文、３項本文）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 債務の性質がこれを許さないとき（①）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　他人が給付を代替することが許されない場合</p>
+          <p class="p6 ind4">ex．ミュージシャンが公演を行う債務</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　債権者の同意がなければ第三者によることが許されない場合</p>
+          <p class="p6 ind4">ex．雇用契約における労務（625条２項）、寄託契約における保管（658条２項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 当事者が第三者の弁済を禁止し、若しくは制限する旨の意思表示をしたとき(②）</p>
+          <p class="p6 ind3">契約によって生じた債務の場合は契約当事者が、単独行為による債務の場合はその行為者が、第三者の弁済を認めない旨の意思表示（又は合意）をした場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 正当な利益を有する者でない第三者で、債務者又は債権者の意思に反するとき（③）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　正当な利益を有する者</p>
+          <p class="p6 ind4">ex．物上保証人、担保不動産の第三取得者、同一不動産の後順位抵当権者、借地上建物の賃借人（最判昭63.７.１）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　正当な利益を有しない者</p>
+          <p class="p6 ind4">ex．債務者と親族関係・友人関係にあるにすぎない者</p>
+          <p class="p6 ind4">なお、債務者の意思に反することを知らなかった債権者が、その旨を立証</p>
+          <p class="p6 ind4">したときは、弁済は有効となる（474条２項）。また、第三者は、債権者の意思に反して弁済をすることはできないが（474条３項本文）、第三者が債務者の委託を受けて弁済をする場合において、そのことを債権者が知っていたときは、受領を拒絶することはできない（474条３項ただし書）。</p>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A04-05-01-2-02">２　弁済受領者</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　弁済受領権者</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">弁済を受領することにより債権は消滅するので、債権者又は債権者から受領権限を与えられた者（ex．代理人・受任者）が、通常、弁済受領権者である。ただし、債権者であっても受領できない場合があり、債権者以外の者でも受領できる場合もある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 例外</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 債権者が、未成年者、成年被後見人、被保佐人であって、給付行為が法律行為である場合には、取り消されることがある（５条１項本文、２項、９条本文、13条１項１号、４項）。</p>
+          <p class="p6 ind3">また、その債権が差押えを受けた場合（481条１項）、破産手続開始の決定を受けた場合（破産法78条）、その債権の上に質権を設定した場合（366条参照）には弁済受領権限を失う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 法律の規定により受領権限を有する者がある。</p>
+          <p class="p6 ind3">ex．差押債権者（民執法155条参照）、破産管財人（破産法78条）、債権質権者（366条１項）、債権者代位権の行使者（423条１項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 受領権者としての外観を有する者（478条）、指図証券の所持人（520条の10）への弁済も有効とされる。</p>
+          <p class="p6 ind3"><img class="embed-img" src="min38-03.png" alt="min38-03.png"></p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　受領権者としての外観を有する者に対する弁済</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 受領権者としての外観を有する者に対する弁済は、弁済者が善意かつ無過失の場合に限り有効となる（478条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+          <p class="p6 ind2">弁済受領権限のない者に対する弁済は原則として無効であるが、債権者らしい外観を呈する者を債権者と信じてする弁済を有効として、弁済における債務者を保護する必要がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①受領権者としての外観を有する者に対する弁済であること、②弁済者の善意･無過失</p>
+          <p class="p6 ind4">真の権利者の帰責性は不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 受領権者としての外観を有する者に対する弁済であること（要件①）</p>
+          <p class="p6 ind3">ex．表見相続人、債権譲渡が無効な場合の債権の事実上の譲受人、無記名証券の持参人、預金証書と印鑑の持参人など</p><br>
+          <p class="p6 ind3">Ｑ　詐称代理人も受領権者としての外観を有する者に当たるか。</p><br>
+          <p class="p6 ind3">Ａ　肯定説（最判昭37.８.21・通説）</p>
+          <p class="p6 ind3">詐称代理人も受領権者としての外観を有する者に当たる。</p>
+          <p class="p6 ind3">（理由）</p>
+          <p class="h6 ind3 nobold">①受領権限一般への信頼の保護という478条の趣旨からすれば、債権者と名乗ったか、債権者の代理人と名乗ったかは重要でない。</p>
+          <p class="h6 ind3 nobold">②契約締結の場合は契約をするかしないかは自由であるのに対し、弁済の場合は債務者は弁済を強制されるので、表見代理では保護される範囲が狭くなり、債務者に酷である。</p><br>
+          <p class="p6 ind4">Ｂ　否定説</p>
+          <p class="p6 ind4">詐称代理人に対する弁済は、表見代理の規定によるべきである。</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">債権者であるという外観への信頼ではなく、受領についての代理権が授与されているという外観への信頼が問題なのであるから、表見代理の問題とすべきである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 弁済者の主観的要件（要件②）</p>
+          <p class="p6 ind3">善意･無過失を要する。この「善意」とは、単に無権利者であることを知らないということだけでなく、真の権利者であると信じることを要すると解される。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 効果</p>
+          <p class="p6 ind2">弁済が有効になる。債務者の債務は消滅し、第三者の弁済の場合には弁済による代位が生じる。</p>
+          <p class="p6 ind2">真正の債権者は債務者に履行を請求できなくなり、受領権者としての外観を有する者に対して不当利得返還請求権、損害賠償請求権を取得する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 二重譲渡と478条</p>
+          <p class="p6 ind2">債権が二重譲渡された場合の、劣後譲受人に対する弁済についても本条の適用がある。</p>
+          <p class="p6 ind2">判例は、債務者が無過失であるというためには、優先する債権譲受人の譲渡行為に瑕疵があるためその効力を生じないと誤信してもやむを得ない事情があるなど、劣後譲受人を真の債権者と信ずるにつき相当の理由のあることを必要とする（最判昭61.４.11）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　弁済が無効な場合</p>
+          <p class="p6 ind1">478条等が適用されなければ受領権限を有しない者への弁済は無効である。</p>
+          <p class="p6 ind1">ただし、受領権者以外の者に対する弁済も、債権者がこれによって利益を得た限度で有効となる（479条）。</p>
+          <p class="p6 ind1">例えば、ＡがＢに、ＢがＣに対し債権を有している場合、Ｃが無権限者Ｄに弁済したが、Ｄが受け取った金でＡに対しＢの債務を弁済すれば、ＢがＡに対する債務を免れた限度でＣの弁済が有効になる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　差押えを受けた債権の第三債務者の弁済</p>
+          <p class="p6 ind1">ＡのＢに対する債権をＡの債権者Ｃが差し押さえた場合のＢが「差押えを受　けた債権の第三債務者」である。Ｂは自己の債権者Ａに対しての弁済が禁止され（民執法145条1項）、ＢのＡに対する弁済は、Ｃに対抗することはできない。そして、Ｃは、その受けた損害の限度において更に弁済をすべき旨をＢに請求することができる（481条）。なお、ＢはＡに対して不当利得として弁済ししたものの償還を請求することとなる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A04-05-01-2-03">３　弁済の方法</div>
+      <p><img class="embed-img" src="min38-04.png" alt="min38-04.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　弁済の場所</p>
+          <p class="p6 ind1">弁済をすべき場所については、契約・慣習により定まるが、それがないときは以下に従う。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　特定物の引渡しでは、債権発生時にその物が存在した場所（484条１項前段）</p>
+          <p class="h6 ind3 nobold">②　特定物の引渡し以外では、債権者の現在の住所（484条１項後段・持参債務の原則）</p>
+          <p class="h6 ind3 nobold">③　売買代金について、売買目的物と同時に支払うべきときは、その引渡しの場所（574条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　弁済の時期（＝履行期、弁済期）</p>
+          <p class="p6 ind1">当事者の合意・法律の規定で決まる。</p>
+          <p class="p6 ind1">債務者は債権者を害さない限り期限の利益を放棄することができ（136条２項）、また、一定の事項が債務者に生じたときには、債務者は期限の利益を失う（137条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　弁済の費用</p>
+          <p class="p6 ind1">特約のない限り、債務者の負担である（485条本文）。</p>
+          <p class="p6 ind1">ただし、債権者が弁済の費用を増加させたときは、増加費用は債権者の負担となる（485条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　弁済の証拠</p>
+          <p class="p6 ind1">弁済がなされると債権は消滅するが、その証拠がないと、後日紛争が生じた場合に債務者は再度の請求を受けるおそれがあり、また、弁済者が求償ないし代位するときに不便である。そこで、民法は、弁済者に弁済の証明のための次の２つの権利を認めた。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 受取証書の交付請求権</p>
+          <p class="p6 ind2">弁済をする者は受取証書の交付を請求できる（486条）。</p>
+          <p class="p6 ind2">「弁済と引換えに」と規定されているように、一部弁済の場合にも請求することができる。</p>
+          <p class="p6 ind2">弁済と受取証書交付は同時履行である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 債権証書の返還請求権</p>
+          <p class="p6 ind2">全額弁済者は、債権証書の返還を請求できる（487条）。</p>
+          <p class="p6 ind2">一部弁済の場合は債権証書にその旨を記載すべきことを請求することができると解される。</p>
+          <p class="p6 ind2">弁済と債権証書返還は同時履行でない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　預金又は貯金の口座に対する払込による弁済</p>
+          <p class="p6 ind1">口座振込みによる弁済は払戻請求権取得時に効力が発生する（477条）。したがって、送金や入金記帳のミスがあった場合は弁済の効力は生じない。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A04-05-01-3" class="h6 ind0">Ⅲ　弁済の効果</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>弁済の主たる効果は、債務の消滅である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A04-05-01-3-01">１　弁済の充当</div>
+      <p><img class="embed-img" src="min38-05.png" alt="min38-05.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：債務者Ａが同一の債権者Ｂに対して、同種の給付（ex.金銭の支払）を目的とする数個の債務を負担する場合（ex.100万円の貸金債務と50万円の貸金債務）、弁済として提供されたものが債務の全部を消滅させるのに足りない場合（ex.50万円の提供）、当該弁済をいずれの債務に充てるべきかを決定すること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　充当の順序</p>
+          <p class="p6 ind1">充当の方法は、第一次的に当事者の合意によりすることができる（490条）。この場合には、充当の順序に制限はない。その合意がない場合、第二次的に当事者の一方（弁済者→弁済受領者の順で）の指定に従う（488条１項、２項）。そして、当事者が指定しない場合又は指定が効力を失った場合には、法律の規定（488条４項）による。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 指定充当（488条１項、２項、491条）</p>
+          <p class="p6 ind2">まず、弁済者が給付の時に、受領者に対する一方的意思表示によって指定する（488条１項、３項、491条）。</p>
+          <p class="p6 ind2">それがないときは弁済受領者が受領の時に指定するが、これに対して、弁済者が直ちに異議を述べれば、指定は効力を失い法定充当になる（488条２項、３項、４項、491条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定充当（488条４項、491条）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　弁済期にあるものとないものとでは、弁済期にあるものから充当する（488条４項１号、491条）。</p>
+          <p class="h6 ind3 nobold">②　すべての債務が弁済期にあるか弁済期にないときは、債務者のために弁済の利益の多いものから充当する（488条４項２号、491条）。</p>
+          <p class="h6 ind3 nobold">③　弁済の利益が等しいときには、弁済期が先に到来したもの又は先に到来すべきものから充当する（488条４項３号、491条）。</p>
+          <p class="h6 ind3 nobold">④　以上でも順位が決まらない場合は、債務額に応じて充当する（488条４項４号、491条）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　充当方法に対する制限</p>
+          <p class="p6 ind1">債務者が１個又は数個の債務につき、元本・利息・費用を支払うべきときは、費用・利息・元本の順で充当する（489条１項）。</p>
+          <p class="p6 ind1">この順序は、当事者の合意による充当で変更できる（490条）。しかし、489条は公平の観点から認められたものであるから、当事者の一方の指定で変更することはできない（大判大６.３.31）。</p>
+          <p class="p6 ind1">数個の債務があるときは、その費用相互間・利息相互間・元本相互間では、合意がなければ、指定充当がされ（489条２項、488条１項、２項）、指定がされない場合には法定充当の順序による（489条２項、488条４項）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A04-05-01-3-02">２　弁済による代位</div>
+      <p><img class="embed-img" src="min38-06.png" alt="min38-06.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">代位弁済者が債務者に対して取得する求償権を確保するために、弁済によって消滅するはずだった債権者の債務者に対する債権（以下「原債権」という。）及びその担保権を代位弁済者に移転させ、代位弁済者がその求償権の範囲内で原債権及びその担保権を行使することを認める制度（最判昭59.５.29）。</p>
+          <p class="p6 ind1">債務者としては弁済していない以上代位を認めても不利益でないし、債権者としても債権の満足を受けるので不利益はない。そこで、弁済者の求償権を確保する趣旨で認められた。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　種類</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意代位</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">：弁済をするについて正当な利益を有しない者による代位</p>
+          <p class="p6 ind3">※　「正当な利益」の意味は、次の法定代位を参照</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①弁済その他の行為によって債権者を満足させたこと</p>
+          <p class="h6 ind3 nobold">②弁済者が債務者に対して求償権を取得すること</p>
+          <p class="p6 ind4">　※債務者の承諾は不要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 対抗要件</p>
+          <p class="p6 ind3">任意代位による権利の移転は、法律上の移転であり債権譲渡ではないが、債務者や第三者が任意代位のあったことを知らずに弁済するなど、不測の損害を被る危険があることから、債権譲渡と同様に、通知・承諾を対抗要件とした（500条、467条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 法定代位</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 意義</p>
+          <p class="p6 ind3">：弁済をするについて正当な利益を有する者が、その弁済によって当然に債権者に代位すること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①弁済その他の行為によって債権者を満足させたこと</p>
+          <p class="h6 ind3 nobold">②弁済者が債務者に対して求償権を取得すること</p>
+          <p class="p6 ind4">　※対抗要件は不要である。この点のみが、任意代位と異なる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 弁済について正当な利益を有する者</p>
+          <p class="p6 ind3">「正当な利益」とは、弁済をするについて法律上の利害関係があることをいい、親族関係があるにすぎないなど、事実上の利害関係は含まれない。</p>
+          <p class="p6 ind3">具体的には、①弁済をしなければ債権者から執行を受ける者、②弁済をしなければ債務者に対する自己の権利の価値を失う者とに分けられる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①弁済をしなければ債権者から執行を受ける者</p>
+          <p class="p6 ind4">　ex．保証人、連帯保証人、連帯債務者、不可分債務者、物上保証人、担保目的物の第三取得者</p>
+          <p class="h6 ind3 nobold">②弁済をしなければ債務者に対する自己の権利の価値を失う者</p>
+          <p class="p6 ind4">　ex．後順位抵当権者、一般債権者（担保権が不利な時期に実行されるなどして、自らへの弁済額が減少する場合）</p>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代位の効果</p>
+          <p class="p6 ind1"><img class="embed-img" src="min38-07.png" alt="min38-07.png"></p>
+          <p class="p6 ind1">代位者は求償権の範囲内で、債権の効力及び担保として債権者の有した一切の権利を行使することができる（501条１項）。</p>
+          <p class="p6 ind1">債権の効力として有した権利－損害賠償請求権・債権者代位権・詐害行為取消権など</p>
+          <p class="p6 ind1">担保として有した権利－物的担保・人的担保</p>
+          <p class="p6 ind1">※　契約取消権・解除権は契約当事者たる地位に基づいて認められるものなので移転しない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　一部代位</p>
+          <p class="p6 ind1"><img class="embed-img" src="min38-08.png" alt="min38-08.png"></p>
+          <p class="p6 ind1">第三者により債権の一部のみが弁済された場合、代位者は、債権者の同意を得て弁済した価額に応じて債権者と共にその権利を行使することになる（502条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①一部代位者は、債権者と共同でなければ抵当権を実行できない（502条１項）。</p>
+          <p class="h6 ind3 nobold">②競落代金が債権者と一部弁済者の債権を満足させるに足りないときは、債権者が優先して配当を受ける（502条３項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　法定代位者相互の関係</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 保証人及び物上保証人と第三取得者</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 保証人及び物上保証人は担保目的物の第三取得者に対しては全額代位できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 第三取得者は保証人及び物上保証人に対して代位できない（501条３項１号）。</p>
+          <p class="p6 ind3">なぜなら、債務者が担保不動産を譲渡すると保証人及び物上保証人の代位の範囲が限定されるのは不当であるし、第三取得者は債務者の負担を引き継ぐ者だからである。</p>
+          <p class="p6 ind3">なお、この「第三取得者」は、債務者から取得した者に限られ、物上保証人から取得した者を含まない（501条３項１号括弧書、５号）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 保証人相互間</p>
+          <p class="p6 ind2">自己の権利に基づいて他の保証人に対して求償をすることができる範囲内で他の保証人に代位できる（501条２項括弧書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 第三取得者相互間</p>
+          <p class="p6 ind2">各不動産の価格に応じて他の第三取得者に代位できる（501条３項２号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 物上保証人相互間</p>
+          <p class="p6 ind2">各財産の価格に応じて他の物上保証人に代位できる（501条３項３号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 保証人・物上保証人間</p>
+          <p class="p6 ind2">頭数に応じて代位する。物上保証人が複数ある場合は、まず頭数に応じて保証人が負担する部分を除き、物上保証人相互間で各財産の価格に応じて負担する（501条３項４号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(6) 保証人が物上保証人を兼ねる場合の負担部分</p>
+          <p class="p6 ind2">＜判例＞　最判昭61.11.27</p>
+          <p class="p6 ind2">「複数の保証人及び物上保証人の中に二重の資格をもつ者が含まれる場合における代位の割合は、民法501条但書４号、５号［現、３項３号、４号］の基本的な趣旨・目的である公平の理念に基づいて、二重の資格をもつ者も一人と扱い、全員の頭数に応じた平等の割合であると解するのが相当である。」</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(7) 501条３項４号の代位の割合と異なる特約</p>
+          <p class="p6 ind2">保証人と物上保証人は、弁済による代位の割合について501条３項４号の代位の割合と異なる特約を結ぶことができる。かかる特約を当事者以外の者に対しても主張できるかについては争いがある。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

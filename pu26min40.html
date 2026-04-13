@@ -1,0 +1,1086 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit40</title>
+  <style>
+    :root{
+      --base-font: 16px;
+      --toc-bg:#f7f7f7;
+      --toc-border:#e0e0e0;
+      --outer-bg:#fbfcff;
+      --outer-border:#cfd8ff;
+      --inner-bg:#ffffff;
+      --inner-border:#ffffff;
+      --pcard-bg:#ffffff;
+      --pcard-border:#ffffff;
+      --accent:#2563eb;
+    }
+    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    header a{font-size: 0.9em;}
+    /* header 1行目を「タイトル左／リンク右」 */
+    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
+    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    main{padding:16px;max-width:980px;margin:0 auto;}
+    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
+    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
+    .toc{
+      background:var(--toc-bg);
+      border:1px solid var(--toc-border);
+      padding:10px 12px;
+      border-radius:10px;
+      font-size:0.82em;
+      line-height:1.7;
+      flex:1;
+      min-width:0;
+      /* PC用の高さ制御 */
+      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
+      overflow-y:auto;        /* PCでは内部スクロール可 */
+      -webkit-overflow-scrolling:touch;
+    }
+    .toc ul{margin:2px 0 2px 14px;padding:0;}
+    .toc li{margin:1px 0;}
+    .toc a{text-decoration:none;}
+    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
+    .sec-title{margin-top:28px;padding-top:6px;}
+    h1{ font-size:16px; margin:0; font-weight:700; }
+    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
+    h3{margin-top:12px;}
+    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
+    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
+    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
+    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
+    .inner p{margin:2px 0;line-height:1.25;}
+    .h6{font-weight:700;}
+    .nobold{font-weight:400;}
+    .sp{height:6px;}
+    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
+      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
+    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
+    .sec-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
+    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
+    .ind0{margin-left:0;}
+    .ind1{margin-left:0.200em;}
+    .ind2{margin-left:0.400em;}
+    .ind3{margin-left:0.600em;}
+    .ind4{margin-left:0.800em;}
+    .ind5{margin-left:1.000em;}
+    .ind6{margin-left:1.200em;}
+    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
+    *[id]{scroll-margin-top: 120px;}
+    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
+    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
+    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .toc-title{display:none;}
+    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
+    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
+      padding:4px 6px;cursor:pointer;font-size:0.80em;
+    }
+    /* ===== TOC Modal (mobile) ===== */
+    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
+    .toc-modal.is-open{ display:block; }
+    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
+    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
+    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .toc-modal__title{font-weight:700;}
+    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
+    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
+    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
+    /* モーダルが開いている間は本文スクロールを止める */
+    body.modal-open{overflow:hidden;touch-action:none;}
+    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
+    @media (max-width: 700px){header .toc{ display:none; }}
+    /* ===== 右寄せポップアップボタン ===== */
+    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
+    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
+    .popup-btn:hover{background:var(--accent);color:#fff;}
+    /* ===== 汎用ポップアップダイアログ ===== */
+    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
+    .link-dialog.is-open{display:block;}
+    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
+     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
+    .link-dialog__panel ul{margin:0;padding-left:16px;}
+    .link-dialog__panel li{margin:6px 0;}
+    .link-dialog__close{text-align:right;margin-top:10px;}
+    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
+    .dialog-text-only{color:#666;cursor:default;}
+    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
+    .kakomon a{text-decoration:none;}
+  </style>
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit40</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min39.html">前へ</a>
+      <a href="pu26min41.html">次へ</a>
+      <a href="pu26min40q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A05">第５編　契約総論</a>
+  <ul>
+    <li><a href="#A05-01">第１章　総説</a>
+      <ul>
+        <li><a href="#A05-01-01">第１節　契約の意義等</a>
+          <ul>
+            <li><a href="#A05-01-01-0-01">１　契約の意義</a></li>
+            <li><a href="#A05-01-01-0-02">２　契約自由の原則とその制限</a></li>
+            <li><a href="#A05-01-01-0-03">３　契約の種類</a></li>
+            <li><a href="#A05-01-01-0-04">４　事情変更の原則</a></li>
+          </ul>
+        </li>
+        <li><a href="#A05-01-02">第２節　契約の成立</a>
+          <ul>
+            <li><a href="#A05-01-02-0-01">１　契約成立の要件</a></li>
+            <li><a href="#A05-01-02-0-02">２　申込みと承諾による契約の成立</a></li>
+            <li><a href="#A05-01-02-0-03">３　契約成立の時期</a></li>
+          </ul>
+        </li>
+        <li><a href="#A05-01-03">第３節　契約の効力</a>
+          <ul>
+            <li><a href="#A05-01-03-1">Ⅰ　一般的効力</a>
+              <ul>
+            <li><a href="#A05-01-03-1-01">１　契約の一般的効力発生要件</a></li>
+            <li><a href="#A05-01-03-1-02">２　契約の一般的効力</a></li>
+            </ul>
+          </li>
+            <li><a href="#A05-01-03-2">Ⅱ　双務契約の効力</a>
+              <ul>
+            <li><a href="#A05-01-03-2-01">１　総説</a></li>
+            <li><a href="#A05-01-03-2-02">２　同時履行の抗弁権</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#A05-02">第２章　特殊な契約</a>
+      <ul>
+        <li><a href="#A05-02-01">第１節　定型約款</a>
+          <ul>
+            <li><a href="#A05-02-01-0-01">１　定義</a></li>
+            <li><a href="#A05-02-01-0-02">２　効果</a></li>
+            <li><a href="#A05-02-01-0-03">３　不当条項規制（548条の２第２項）</a></li>
+            <li><a href="#A05-02-01-0-04">４　開示義務・定型約款の変更</a></li>
+          </ul>
+        </li>
+        <li><a href="#A05-02-02">第２節　第三者のためにする契約</a>
+          <ul>
+            <li><a href="#A05-02-02-0-01">１　意義</a></li>
+            <li><a href="#A05-02-02-0-02">２　成立要件</a></li>
+            <li><a href="#A05-02-02-0-03">３　効果</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A05">
+  <h2>第５編　契約総論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A05-01">第１章　総説</h2>
+    <div class="p-card sec-card">
+      <h3 id="A05-01-01">第１節　契約の意義等</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-01-0-01">１　契約の意義</div>
+      <p>：相対立する複数の意思表示の合致によって成立する法律行為</p>
+      <p>広義には、物権の設定や身分関係の発生を目的とする合意も含む。</p>
+      <p>狭義には債権の発生を目的とする合意を指す。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-01-0-02">２　契約自由の原則とその制限</div>
+      <p>契約自由の原則は、私的自治の原則の派生原理として、民法の指導原理の１つである。</p>
+      <p>契約自由の原則の内容は、①契約締結の自由、②相手方選択の自由、③内容決定の自由、④方式の自由に分けられる。</p>
+      <p><img class="embed-img" src="min40-01.png" alt="min40-01.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　契約締結の自由</p>
+          <p class="p6 ind1">原則として、契約するかしないかは、個人の自由であるが、経済的弱者保護のため、以下のような制限がある。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　公共的性質を有する企業ないし業務については、事業者に承諾義務が課せられている（電気、ガス、運送等）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　経済的弱者を保護するために、当事者の一方からの請求があれば、相手方に正当事由がない限り、承諾をしたものとみなされる場合がある（建物買取請求権等）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　相手方選択の自由とは、契約の相手方を選択する自由をいう。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　契約の内容決定の自由とは、当事者は、強行法規又は公序良俗に反しない限り、契約の内容を自由に決定することができることをいう。</p>
+          <p class="p6 ind1">ただし、現実には既に出来上がった契約条件をそのまま受け入れるという形で締結されることも多い。このような契約を付合契約といい、そこで使われるあらかじめ作成された契約条項を約款ないし普通契約条項という。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　契約の方式の自由とは、契約の申込及び承諾には、何らの形式を必要としないことをいう。</p>
+          <p class="p6 ind1">もっとも、一定の形式が要求される場合がある。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-01-0-03">３　契約の種類</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　典型契約・非典型契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 典型契約（有名契約）とは、民法に定める13種類の契約をいう。</p>
+          <p class="p6 ind2">すなわち、贈与、売買、交換、消費貸借、使用貸借、賃貸借、雇用、請負、委任、寄託、組合、終身定期金、和解である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 非典型契約（無名契約）とは、典型契約以外の契約をいう。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　双務契約・片務契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 双務契約とは、契約当事者が互いに対価的意義を有する債務を負担する契約をいう。</p>
+          <p class="p6 ind2">ex．売買、交換、賃貸借、雇用、請負、有償委任、有償寄託、組合、和解</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 片務契約とは、一方の当事者のみが債務を負う契約、又は双方の当事者が債務を負担するが、それが対価的意義を有しない契約をいう。</p>
+          <p class="p6 ind2">ex．贈与、要物的消費貸借、使用貸借、無償委任、無償寄託</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 区別の実益</p>
+          <p class="p6 ind2">同時履行の抗弁権（533条）、危険負担（536）の規定は、双務契約にのみ適用される。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　有償契約・無償契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 有償契約とは、双方の当事者が対価的意義を有する財産上の出捐（経済的損失）をする契約をいう。</p>
+          <p class="p6 ind2">ex．売買、交換、賃貸借、利息付消費貸借、雇用、請負</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 無償契約とは、当事者の一方だけが給付をするにとどまる契約、又は双方が給付をしてもその間に対価的意義のない契約をいう。</p>
+          <p class="p6 ind2">ex．贈与、無利息消費貸借、使用貸借</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 区別の実益</p>
+          <p class="p6 ind2">有償契約については、その契約の性質が許さないときを除き、売買に関する規定が準用される（559条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　諾成契約・要物契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 諾成契約とは、当事者の意思表示の合致、すなわち、合意だけで成立する契約をいう。</p>
+          <p class="p6 ind2">ex．売買、交換、賃貸借、雇用、請負、委任、諾成的消費貸借、使用貸借</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要物契約とは、当事者の合意のほかに、物の引渡しその他の給付がなければ成立しない契約をいう。</p>
+          <p class="p6 ind2">ex．要物的消費貸借</p>
+          <p class="p6 ind2">要物契約を特約により諾成契約とすることは、契約自由の原則から差し支えない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 区別の実益</p>
+          <p class="p6 ind2">契約成立の時期について差異を生じる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　一時的契約・継続的契約・継続的供給契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 一時的契約（単発的契約）とは、１回の履行で契約関係が終了する契約をいう。</p>
+          <p class="p6 ind2">ex．通常の売買</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 継続的契約とは、契約に存続期間を観念でき、その間履行が繰り返される契約をいう。</p>
+          <p class="p6 ind2">ex．賃貸借、雇用、消費貸借、寄託</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 継続的供給契約とは、一定の期間、種類で定められた物を一定の代金で供給する契約をいい、これは売買の一種であるが、性質は継続的契約である。</p>
+          <p class="p6 ind2">ex．新聞、電気、ガス等の供給契約</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-01-0-04">４　事情変更の原則</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">：契約成立の際の基礎となった事情や環境がその後著しく変わったために、当初定められた契約の内容をそのまま維持し強制することが信義に反し不当な結果を生じる場合に、契約の内容を信義公平に合うように改訂したり、失効させたりすることを認めること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">契約は守られなければならないのが原則である。しかし、契約当時全く予見できなかった社会的事情の変動が生じてしまった場合、当事者に契約上の債務の履行を強制することはかえって正義公平に反する。そこで、信義則上契約を改訂したり失効させたりすることを認めた。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①当事者の予見しなかった、又は予見できなかった著しい基礎事情の変更が生じたこと、②基礎事情の変更が当事者の責めに帰することができない事由によって生じたこと、③契約内容を維持強制することが著しく正義公平の観念に反すること、が必要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 契約内容の改訂権</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 契約の解除権</p>
+          <p class="p6 ind2">契約内容の改訂権の主張が可能な場合には、まず契約の改訂の主張をするべきで、これをせずに直ちに契約の解除を主張することはできない（通説）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A05-01-02">第２節　契約の成立</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-02-0-01">１　契約成立の要件</div>
+      <p>契約は、通常は申込みと承諾という形式で成立する(522条)。</p>
+      <p>すなわち、ＡがＢに対して「甲建物を2000万円で買ってくれないか」といい、ＢがＡに対して「甲建物を2000万円で買う」と返事すれば、ＡＢ間に甲建物の売買契約が成立することになる（522条１項）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-02-0-02">２　申込みと承諾による契約の成立</div>
+      <p><img class="embed-img" src="min40-02.png" alt="min40-02.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　申込み</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">：これに応ずる承諾と合致して一定の契約を成立させることを目的とする、一方的な意思表示</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 申込みの効力</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 効力発生時期</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　特定人に対する申込みは相手方に到達したときから効力を生ずる（97条１項）。</p>
+          <p class="h6 ind3 nobold">ⅱ　不特定人に対する申込みは不特定人に了知することができる状態に達したときから効力を生ずる。</p>
+          <p class="p6 ind4">※　なお、必ずしも書面等により、明示的にされることは要しない（522条２項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 申込みの拘束力</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　承諾の期間を定めてした申込みは、撤回することができない（523条１項本文）。</p>
+          <p class="h6 ind3 nobold">ⅱ　承諾の期間を定めないでした申込みは、申込者が承諾の通知を受けるのに相当な期間を経過するまでは撤回することができない（525条１項本文）。</p>
+          <p class="h6 ind3 nobold">ⅲ　ⅰ及びⅱのいずれの申込みであっても、申込者が撤回をする権利を留保したときは、撤回が可能である（523条１項ただし書、525条１項ただし書）。</p>
+          <p class="h6 ind3 nobold">ⅳ　対話者間における承諾期間の定めのない申込みは上記ⅱにかかわらず、対話が継続している間はいつでも撤回することができる（525条２項）。また525条３項により、対話者関係終了の場合の規律が定められている。</p>
+          <p class="p6 ind4">※　申込みの撤回</p>
+          <p class="p6 ind4">契約の成否は、承諾の到達と申込みの撤回の到達の客観的な先後で決まることになる。承諾者は、その先後関係を知ることができないから、申込みの撤回の通知の延着があっても対応を求めることができない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 申込者の死亡・意思能力喪失・行為能力の喪失</p>
+          <p class="p6 ind3"><img class="embed-img" src="min40-03.png" alt="min40-03.png"></p>
+          <p class="p6 ind3">一般原則では、意思表示後に表意者が死亡したり、意思能力を喪失した常況にある者となったり、行為能力の制限を受けたりしたとしても、意思表示の効力に影響しない（97条３項)とされる。</p>
+          <p class="p6 ind3">しかし、申込みの場合には例外として、申込者がその事実が生じたとすればその申込みは効力を有しない旨の意思を表示していたとき、又はその相手方が承諾の通知を発するまでにその事実が生じたことを知ったときは、その申込みは、その効力を有しない（526条）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　承諾</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 承諾の意義</p>
+          <p class="p6 ind2">承諾は、必ずしも書面等により、明示的にされることは要しない（522条２項）。また、申込者に対する通知によってされるのを原則とするが、承諾の意思表示と認められるべき事実（意思実現）があれば、契約は成立する（527条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 承諾はいつまでにすべきか</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 承諾期間の定めのある申込みに対する承諾は、その期間内に限りすることができ、しかもその承諾は期間内に到達しなければならない（523条２項）。</p>
+          <p class="p6 ind3">もっとも、遅延した承諾は申込者において新たな申込みとみなすことができる（524条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 承諾期間の定めのない申込みに対する承諾は、取引慣行と信義則に従い、相当期間が経過するまでにしなければならない。</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-02-0-03">３　契約成立の時期</div>
+      <p>契約は債権関係という統一的な効果を生じさせる法律要件であるから、それを構成する法律事実が完全に具備した時に成立する。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　通常の契約</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 諾成契約</p>
+          <p class="p6 ind2">通常は承諾の効力発生時期である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要物契約</p>
+          <p class="p6 ind2">意思表示の効力が発生し、かつ物の引渡しその他の法律事実が具備された時である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　承諾の通知を必要としない場合</p>
+          <p class="p6 ind1">申込者の意思表示又は取引上の慣習により承諾の通知を必要としない場合には、契約は、承諾の意思表示と認めるべき事実があった時に成立する（527条）。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A05-01-03">第３節　契約の効力</h3>
+    <div class="p-card rank4-card">
+      <p id="A05-01-03-1" class="h6 ind0">Ⅰ　一般的効力</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-03-1-01">１　契約の一般的効力発生要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　当事者</p>
+          <p class="p6 ind1">当事者に関しては、自然人につき、その意思能力及び行為能力の存在、法人については、権利能力及び行為能力の範囲内であること、代理人による場合には、代理権の範囲内であることを要する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　契約の内容</p>
+          <p class="p6 ind1">契約の内容に関しては、それが可能であり、確定できるものであり、かつ、適法であって社会的妥当性のあることを要する。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-03-1-02">２　契約の一般的効力</div>
+      <p>契約より生じる以下の一般的効力により、債権者は債務者が債務を履行しない場合に様々な手段を採ることができる。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　現実的履行の強制</p>
+          <p class="p6 ind1">債務者が債務を履行しない場合、債権者は、国家的権力を使って債務の内容を強制的に実現することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　損害賠償の請求</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　契約の解除</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A05-01-03-2" class="h6 ind0">Ⅱ　双務契約の効力</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-03-2-01">１　総説</div>
+      <p>双務契約においては、双方の債務が互いに対価的な意義を有する。そのため、双方の債務は特別な関係にあるということができる。このことを、牽連関係又は牽連性という。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　成立上の牽連関係</p>
+          <p class="p6 ind1">双務契約の一方の債務が不能・不法などの理由で成立しないとき、若しくは錯誤又は制限行為能力や詐欺・強迫を理由に取り消されたときには、他方の債務もまた成立しない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　履行上の牽連関係</p>
+          <p class="p6 ind1">双務契約の各債務は、原則として一方の債務が履行されるまでは他方の債務も履行されなくてもよい。民法は、同時履行の抗弁権（533条）としてこれを規定している。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　存続上の牽連関係</p>
+          <p class="p6 ind1">双務契約上の各債務が完全に履行される前に、一方の債務が債務者の責めに帰することができない事由によって履行不能となって消滅した場合には、他の債務はいかなる影響を受けるかという問題である。すなわち、危険負担の問題である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-01-03-2-02">２　同時履行の抗弁権</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義・趣旨</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">双務契約から生じる両債務の対価的依存関係に基づいて、相手方が債務の履行を提供するまでは自己の債務の履行を拒むことができるものとし、各債務につき履行上の牽連関係を認めようとする制度である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 趣旨</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　公平の理念に基づく。</p>          <p class="h6 ind3 nobold">②　取引の簡易迅速な処理や訴訟の防止に役立つ。</p>
+          <p class="h6 ind3 nobold">③　両当事者の債務に実質的に担保的意義をもたせる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①１個の双務契約から生じた対立する債務が存在すること</p>
+          <p class="h6 ind3 nobold">②相手方の債務が弁済期にあること</p>
+          <p class="h6 ind3 nobold">③相手方が自己の債務の履行又はその提供をしないで請求してきたこと</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(1) １個の双務契約から生じた対立する債務が存在すること（要件①）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 債権関係の同一性</p>
+          <p class="p6 ind3">債務の同一性が失われない限り同時履行の抗弁権は認められる。</p>
+          <p class="p6 ind3">そのため、債権譲渡、債務引受けがあっても、債務の同一性は失われないので、同時履行の抗弁権は認められる（大判大６.11.10）。</p>
+          <p class="p6 ind3">一方の債務につき更改がなされた場合には債務の同一性がなくなり、同時履行の関係は消滅する（大判大10.６.２）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 双務契約以外における抗弁権</p>
+          <p class="p6 ind3">双務契約ではなくても、対立当事者の各債務の履行上の牽連関係を認めることが公平の原則ないし信義則に合致していれば同時履行の抗弁権を認めることが妥当である。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　法律の定めによって同時履行関係が認められているもの</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①解除による原状回復義務（546条）、②負担付贈与（553条）、③弁済と受取証書の交付（486条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　判例によって同時履行関係が認められているもの</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①契約が無効又は取り消された場合の当事者相互の返還義務（最判昭28.６.16、最判昭47.９.７）</p>
+          <p class="h6 ind3 nobold">②建物買取請求権（借地借家法13条、14条）が行使された場合における建物の敷地引渡義務と代金支払義務（大判昭18.２.18）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　判例によって同時履行関係に立たないとされたもの</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①造作買取請求権（借地借家法33条）が行使された場合の建物の明渡義務と代金支払義務（最判昭29.７.22）</p>
+          <p class="h6 ind3 nobold">②家屋の賃貸借終了に伴う賃借人の家屋明渡債務と賃貸人の敷金返還債務（最判昭49.９.２）</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相手方の債務が弁済期にあること（要件②）</p>
+          <p class="p6 ind2">同時履行の抗弁権が認められるためには相手方の債務が弁済期にあることが必要である。</p>
+          <p class="p6 ind2">当事者の一方が先履行義務を負っている場合には、その先履行義務者は、原則として同時履行の抗弁権を主張できない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 相手方が自己の債務の履行又はその提供をしないで請求してきたこと（要件③）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 相手方が債務の一部の履行又は不完全な履行の提供をした場合</p>
+          <p class="p6 ind3">請求された債務が可分であるときは、原則として、相手方が履行しない部分又はその履行の不完全な部分に相当するだけの債務の履行を拒むことができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 債務を履行しない意思が明確である場合</p>
+          <p class="p6 ind3">債務を履行しない意思が明確である当事者は、他の一方当事者が債務の履行を提供しなくても、同時履行の抗弁権を有しない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 履行の提供の継続</p>
+          <p class="p6 ind3">債務者が１度履行の提供をしたにもかかわらず、債権者が受領を拒んだ場合には、もはや同時履行の抗弁権を主張できないのか。これは、相手方の同時履行の抗弁権を失わせるためには債務者は履行の提供を継続する必要があるのかという問題である。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　再度の請求をする場合において提供の継続を必要とするか。</p>
+          <p class="p6 ind4">→　履行の提供の継続を要する（最判昭34.５.14・通説）。</p>
+          <p class="p6 ind4">（理由）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　債務者が履行の提供をしてもその債務は消滅しないので、両債務の履行上の牽連関係はなお存続し、他方の当事者は同時履行の抗弁権を主張できると解することが、公平に資する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　継続を不要とすると、債務者が一度提供しさえすればその後資産状態が悪化しようと目的物を他に転売しようと、債権者は反対債務の無条件の履行を強いられることになり酷である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　契約の解除をするには提供の継続を要するか。</p>
+          <p class="p6 ind4">→　解除の場合には、一度履行の提供がなされれば、履行の提供を継続することなく解除できる（大判昭３.５.31・通説）。</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">解除の場合は、解除する者は自己の債務を免れるのであるから、相手方は解除する者の債務の履行についての牽連関係がなく、従って同時履行の抗弁権を主張させる必要はない。</p>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　効力</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 行使の効力－引換給付判決</p>
+          <p class="p6 ind2">同時履行の抗弁権が適法に主張された場合は、「引換給付判決」がなされる（大判明44.12.11）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 同時履行の抗弁権の存在自体から生じる効果（存在の効力）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 相殺の無効</p>
+          <p class="p6 ind3">同時履行の抗弁権の付着する債権を自働債権として相殺に供することはできない（大判昭13.３.１）。相手方の同時履行の抗弁権を一方的に失わせてはいけないからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 履行遅滞</p>
+          <p class="p6 ind3">同時履行の抗弁権を有する債務者は履行遅滞とならない。履行しないことが違法でないからである。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　留置権との差異</p>
+          <p class="p6 ind1"><img class="embed-img" src="min40-04.png" alt="min40-04.png"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A05-02">第２章　特殊な契約</h2>
+    <div class="p-card sec-card">
+      <h3 id="A05-02-01">第１節　定型約款</h3>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p><img class="embed-img" src="min40-05.png" alt="min40-05.png"></p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-01-0-01">１　定義</div>
+      <p>約款とは、多数の契約に用いるためにあらかじめ定式化された契約条項の総体のこと（ex.保険約款、宅急便運送約款）をいい、事業者の活動を効率化し社会全体の効用を増すから、取引の実態やニーズに合致するものである。そこで民法では、約款のうち「定型約款」に関する規律を設けている（548条の２～548条の４）。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　定型約款</p>
+          <p class="p6 ind1">：定型取引において、契約の内容とすることを目的としてその特定の者により準備された条項の総体</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　定型取引</p>
+          <p class="p6 ind1">：ある特定の者が不特定多数の者を相手方として行う取引であってその内容の全部または一部が画一的であることが双方にとって合理的なもの</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-01-0-02">２　効果</div>
+      <p>以下のいずれかの場合には、定型約款の個別の条項についても合意をしたものとみなす（548条の２第１項各号）。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　定型約款を契約の内容とする合意をしたとき（１号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　定型約款準備者があらかじめその定型約款を契約の内容とする旨を相手方に表示していたとき（２号）</p>
+          <p class="p6 ind1">定型約款の内容のすべてを顧客が確認するのは現実的ではなく、準備者側の負担（費用など）も大きくなるため、このような規定が置かれた。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-01-0-03">３　不当条項規制（548条の２第２項）</div>
+      <p>上記２に該当する場合でも、相手方の権利を制限し、または相手方の義務を加重する条項であって、その定型取引の態様・実情・取引上の社会通念に照らして、信義則に反し、相手方の利益を一方的に害すると認められる条項については合意をしなかったものとみなされる（548条の２第２項）。</p>
+      <p>個別の条項を読まないであろう顧客が不利益にならないように規定されたものである。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-01-0-04">４　開示義務・定型約款の変更</div>
+      <p><img class="embed-img" src="min40-06.png" alt="min40-06.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　定型約款の開示義務（548条の３）</p>
+          <p class="p6 ind1">相手方から請求があった場合、準備者は、定型約款の内容を遅滞なく、相当な方法で示さなければならない。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 請求のタイミング</p>
+          <p class="p6 ind2">定型取引の合意前または定型取引の合意後相当の期間内</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 請求できない場合</p>
+          <p class="p6 ind2">準備者がすでに相手方に対し、定型約款を記載した書面または電磁的記録を交付・提供していたとき</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 請求を拒んだ場合の効果</p>
+          <p class="p6 ind2">定型約款の個別の条項について合意をしたものとみなされなくなる。</p>
+          <p class="p6 ind2">ただし、一時的な通信障害が発生した場合等には合意をしたものとみなされる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　定型約款の変更（548条の４）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 以下のいずれかの場合には、準備者が一方的に定型約款の変更ができる。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　定型約款の変更が、相手方の一般の利益に適合するとき</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　定型約款の変更が、契約をした目的に反せず、かつ、変更の必要性、変更後の内容の相当性、この条の規定により定型約款の変更をすることがある旨の定めの有無及びその内容その他の変更に係る事情に照らして合理的なものであるとき</p>
+          <p class="p6 ind4">多数の顧客と個別に合意することはほぼ不可能であるため、このような規定が置かれた。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 周知義務</p>
+          <p class="p6 ind2">準備者が(1)による変更をするときは、その効力発生時期を定め、かつ、定型約款を変更する旨・変更の内容・効力発生時期をインターネットの利用その他適切な方法により周知しなければならない。</p>
+          <p class="p6 ind2">効力発生時期までに周知しなければ、上記⑴②の定型約款変更の効力は生じない。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A05-02-02">第２節　第三者のためにする契約</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-02-0-01">１　意義</div>
+      <p><img class="embed-img" src="min40-07.png" alt="min40-07.png"></p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　当事者</p>
+          <p class="p6 ind1">第三者のためにする契約とは、例えば、Ａが自己所有の土地をＢに売り渡し、その代金はＢがＣに支払うことを内容とする契約をいう。</p>
+          <p class="p6 ind1">第三者のためにする契約の当事者のうちで、第三者に給付をすべきことを約する者、すなわち、第三者に対して直接に債務を負担するに至るべき者を「諾約者」（上記設例では、B）といい、その相手方たる契約の当事者を「要約者」（上記設例では、Ａ）、第三者を「受益者」（上記設例では、Ｃ）という。</p>
+          <p class="p6 ind1"><img class="embed-img" src="min40-08.png" alt="min40-08.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　原因関係</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 補償関係</p>
+          <p class="p6 ind2">要約者と諾約者の関係を指す。無償でもよい。第三者のためにする契約の内容となり、その欠缺・瑕疵などは、契約の効力に影響を及ぼす。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 対価関係</p>
+          <p class="p6 ind2">要約者と第三者との関係を指す。契約の内容とならず、その欠缺・瑕疵などは、契約の効力に影響しない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　第三者のためにする契約の特色</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 要約者と諾約者が、それぞれ自己の名においてする。要約者が第三者の代理人となるのではない（大判大７.１.28）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 第三者が諾約者に対する権利を取得する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 第三者が取得する権利は債権であるのが普通だが、それに限らない。第三者をして直接物権を取得させる契約も有効である。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-02-0-02">２　成立要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①要約者と諾約者との間に、契約の一般的成立要件が存すること、②第三者をして直接に権利を取得させることを内容とすること、が必要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">1.　要約者と諾約者との間に、契約の一般的成立要件が存すること（要件①）</p>
+          <p class="p6 ind1">対価関係は契約の成立に無関係である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　第三者をして直接に権利を取得させることを内容とすること（要件②）</p>
+          <p class="p6 ind1">第三者に権利を取得させるだけでなく、付随的な負担を伴うとすることも妨げない（大判大８.２.１）。この場合、第三者は一括して受益の意思表示をすることができるだけであって、負担を拒絶して利益だけを享受することはできない。</p>
+          <p class="p6 ind1">「第三者」は、契約当時に現存しなくてもよい（537条２項。最判昭37.６.26）。従って、胎児や設立中の会社などのためにする契約も有効である。また、第三者は特定していなくても、特定し得る者であればよい（537条２項。大判大７.11.５）。もっとも、受益の意思表示の時には現存し、かつ、特定していることが必要である。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A05-02-02-0-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　第三者(受益者)の地位</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 契約と第三者の地位</p>
+          <p class="p6 ind2">第三者は契約の当事者ではないから、取消権・解除権を有しない。</p>
+          <p class="p6 ind2">第三者が諾約者・要約者を欺いた場合には、相手方の詐欺ではなく、第三者の詐欺となる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 受益の意思表示前</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 受益の意思表示を不要とする特約の有効性</p>
+          <p class="p6 ind3">この受益の意思表示を不要とする特約は有効か（537条３項は強行規定か）という点につき争いがあるが、利益といえども強制されるべきではないこと、権利の放棄に遡及効は認められないことから、判例はこれを無効とする（大判大５.７.７）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 受益の意思表示をすることができる地位の性質</p>
+          <p class="p6 ind3">受益の意思表示をすることができる地位は、一種の形成権であり、相続・債権者代位権の目的となる（後者につき大判昭16.９.30）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 受益の意思表示と消滅時効</p>
+          <p class="p6 ind3">受益の意思表示をすることができる権利の消滅時効期間は、契約成立の時から10年、受益者が受益の意思表示をすることができることを知った時から5年である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 受益の意思表示後</p>
+          <p class="p6 ind2">第三者は、諾約者に対して契約の利益を受ける意思表示をしたときから、諾約者に対して直接に給付を請求する権利を有する（537条１項、３項）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 権利の確定</p>
+          <p class="p6 ind3">受益の意思表示がされた後は、契約当事者も第三者の取得した権利を消滅・変更させることはできない（538条１項）。よって、受益の意思表示の前であれば、契約当事者は、変更・消滅させることができる。また、受益の意思表示がされて、受益者の権利が確定した後は、諾約者が債務を履行しない場合でも、要約者は受益者の承諾を得なければ契約を解除することができない（538条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 権利の行使－債務者（諾約者）の抗弁権</p>
+          <p class="p6 ind3">債務者たる諾約者は、要約者に主張できた事由（契約の取消し、同時履行の抗弁権等）をすべて受益者たる第三者に主張できる（539条）。受益者の取得する権利はあくまで諾約者・要約者間の契約により生じたものであり、諾約者は不利益を負わされる理由はないからである。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　要約者の地位</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 諾約者との関係</p>
+          <p class="p6 ind2">要約者は、受益者への履行を求めることができ、これは受益者の受益の意思表示前においても認められる(大判大３.４.22)。</p>
+          <p class="p6 ind2">要約者は契約の当事者であるから、契約の取消しや解除をすることができ、また、意思の欠缺・意思表示の瑕疵の有無は、要約者を基準として決する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 受益者との関係</p>
+          <p class="p6 ind2">要約者・受益者間の対価関係は契約内容とならない。そのため、対価関係が無効であっても、第三者のためにする契約の効力は影響を受けない。従って、対価関係なしに、受益者が諾約者からの給付を受けた場合、それは、諾約者との関係では不当利得とならないが、要約者との関係では不当利得となり返還義務が生じる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　諾約者の地位</p>
+          <p class="p6 ind1">受益者に対して給付をする義務を負う。</p>
+          <p class="p6 ind1">受益者へは契約についての抗弁を対抗できることになる（539条）。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>
