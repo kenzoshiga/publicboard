@@ -1,0 +1,1143 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit37</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+    img {max-width: 100%; height: auto; display: block;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit37</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min36q.html">前へ</a>
+      <a href="pu26min38q.html">次へ</a>
+      <a href="pu26min37.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h31-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-17-ア)</div>
+          <p class="qtext">1　Ａが種類物である商品甲をＢに売却することによって将来有することになる一切の代金債権をＣに譲渡したとしても、その債権譲渡契約は、譲渡の目的が特定されていないから、無効である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h31-17-ih11-05-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-17-イ)(H11-05-4)</div>
+          <p class="qtext">2　将来発生すべき債権を目的とする債権譲渡契約は、その目的とされる債権が発生する相当程度の可能性が契約締結時に認められないときは、無効である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-17-ih11-05-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h11-05-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-05-1)</div>
+          <p class="qtext">3　ＡのＢに対する債権をＣが譲り受けようとしている。Ａの有する債権が、ＢにＡの肖像画を描かせることを内容とするものである場合、Ｃは、債権を取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-05-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h11-05-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-05-5)</div>
+          <p class="qtext">4　ＡのＢに対する債権をＣが譲り受けようとしている。ＡのＢに対する債権が民法上の扶養請求権である場合、Ｃは、債権を取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-05-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h04-05-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-05-1)</div>
+          <p class="qtext">5　債権については、一定の範囲内の者以外の者に対しては譲渡することができない旨の譲渡の制限はすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-05-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r03-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-12-エ)</div>
+          <p class="qtext">6　当事者が譲渡を禁止する旨の意思表示をした債権を目的とする質権の設定は、その意思表示がされたことを質権者が知っていたときは、無効である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h31-17-eh22-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(改)(H31-17-エ)(H22-17-イ)</div>
+          <p class="qtext">7　譲渡制限特約が付された債権が譲渡された場合において、譲受人がその特約を知っていたときは、譲渡人は、譲渡が無効であることを主張して、債務者に対し、その債務の履行を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-17-eh22-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h22-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-17-ア)</div>
+          <p class="qtext">8　譲渡禁止の特約のある債権を譲り受けた者がその特約を知らなかったことにつき過失がある場合には、それが重大な過失とはいえないときであっても、当該譲受人は、当該債権を取得することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h09-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-05-オ)</div>
+          <p class="qtext">9　ＡがＢに対する金銭債権をＣに譲渡した後、その債権を更にＤに譲渡した。ＡからＣへの譲渡について確定日付のない通知がされ、他方、ＡからＤへの譲渡について確定日付のある通知がされたが、Ａ・Ｂ間には、当該債権について譲渡禁止特約があり、Ｄが債権を譲り受けた際、その特約を知っていた場合、Ｂは、Ｄの請求を拒むことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h31-17-oh19-18-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(改)(H31-17-オ)(H19-18-イ)</div>
+          <p class="qtext">10　譲渡制限特約が付された債権について差押えをした者は、その特約を知っていた場合であっても、転付命令を得て当該債権を取得することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-17-oh19-18-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h22-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-06-エ)</div>
+          <p class="qtext">11　債権譲渡の債務者に対する通知は、意思表示であるといえる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h29-17-ah22-16-ih08-06-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-17-ア)(H22-16-イ)(H08-06-3)</div>
+          <p class="qtext">12　債権の譲受人は、譲渡人に代位して、当該債権の債務者に対する債権譲渡の通知をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-17-ah22-16-ih08-06-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h31-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-17-ウ)</div>
+          <p class="qtext">13　債権の譲受人が譲渡人の委託を受け、債務者に対し、譲渡人の代理人として債権の譲渡の通知をしたときは、譲受人は、その債権の譲渡を債務者に対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h22-16-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-16-ア)</div>
+          <p class="qtext">14　ＡのＤに対する債権がＡからＢへ、ＢからＣへと順次譲渡された場合において、ＡがＤに対して債権譲渡の通知をしないときは、Ｃは、Ｂの資力の有無にかかわらず、Ｂに代位して、債権譲渡の通知をするようにＡに請求する権利を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-16-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h14-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-17-イ)</div>
+          <p class="qtext">15　連帯債務者全員に対する債権を譲渡した場合、一部の債務者に通知をしたときは、通知をしていない債務者に対しても債権譲渡を対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h13-15-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-15-オ)</div>
+          <p class="qtext">16　債権者が主たる債務者に対し債権譲渡の通知をした場合には、その通知に確定日付がなくても、債権の譲受人は、保証人に対し、債権の譲渡を対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-15-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h08-06-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-06-2)</div>
+          <p class="qtext">17　Ａが債務者甲に対して有する債権をＢに譲渡し、Ｂがその債権をＣに譲渡した。ＢがＣへの譲渡を甲に通知した後に、ＡがＢへの譲渡を甲に通知した場合であっても、Ｃは、甲に債権の譲受けを対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-06-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h03-18-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-18-ウ)(改)</div>
+          <p class="qtext">18　債権が譲渡された場合において、債務者は、譲渡後であっても、債権譲渡が対抗要件を具備するときまでに譲渡人に弁済したときは、譲受人にその旨を対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-18-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h04-05-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-05-5)</div>
+          <p class="qtext">19　債権の譲渡を第三者に対抗するための債務者の承諾は、債権の譲渡人又は譲受人のいずれに対するものであってもよい。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-05-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h08-06-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-06-5)(改)</div>
+          <p class="qtext">20　Ａが債務者甲に対して有する債権をＢに譲渡し、Ｂがその債権をＣに譲渡した。甲が、ＡからＢ及びＢからＣへの債権譲渡についてあらかじめ承諾をしていれば、譲渡後に改めて通知又は承諾がなくても、Ｃは、甲に債権の譲受けを対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-06-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-r03-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-12-オ)</div>
+          <p class="qtext">21　ＡがＢのためにＣに対する債権を目的とする質権を設定し、Ｃに確定日付のある証書によってその通知をしたときは、Ｂは、その後にこの債権を差し押さえたＡの他の債権者に対し、質権の設定を対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h08-06-4h03-18-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-06-4)(H03-18-オ)(改)</div>
+          <p class="qtext">22　Ａが債務者甲に対して有する債権をＢに譲渡し、Ｂがその債権をＣに譲渡した。ＡＢ間の譲渡について甲の承諾が口頭によるものであったときは、ＢＣ間の譲渡につき確定日付がある証書による通知がされたときであっても、Ａからその債権を二重に譲り受けたＥに対しては、Ｃは、債権の譲受けを対抗することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-06-4h03-18-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h07-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-07-イ)</div>
+          <p class="qtext">23　ＡがＢに対して金銭を貸し付け、この貸金債権の担保のためにＣ所有の不動産に抵当権が設定されてその登記がされた後、Ａが、その貸金債権をＤに譲渡した。ＡがＢに対して確定日付のある債権譲渡の通知をした場合には、抵当権の移転の登記がされていなくても、Ｄは、その後にＡから債権譲渡を受けたＥに対し、抵当権の取得を主張することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h03-18-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-18-イ)</div>
+          <p class="qtext">24　債権が二重に譲渡され、先の譲渡については確定日付証書によらない通知が、後の譲渡については確定日付証書による通知がされた場合でも、債務者に対する関係では、先の譲受人が優先する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-18-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h04-05-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-05-4)(改)</div>
+          <p class="qtext">25　ＡのＢに対する債権がＡからＣとＡからＤとに二重に譲渡された場合において、それぞれ確定日付ある証書によりその旨の通知がＢにされたときは、ＣとＤとの間の優劣は、それぞれの確定日付の前後によって決せられる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-25</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-05-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h14-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-17-エ)</div>
+          <p class="qtext">26　同一の債権につき、確定日付に先後のある複数の債権譲渡通知が同時に債務者に到達した場合、後れた日付の通知に係る譲受人も、債務者に対し、当該債権全額の支払を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-26</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h09-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-05-ア)</div>
+          <p class="qtext">27　ＡがＢに対する金銭債権をＣに譲渡した後、その債権を更にＤに譲渡した。ＡからＣへの譲渡について確定日付のない通知がされ、その到達後にＡからＤへの譲渡についても確定日付のない通知がされた場合において、Ｂが、Ｃに対して債務を弁済したときは、Ｂは、免責される。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-27</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h14-17-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H14-17-オ)</div>
+          <p class="qtext">28　確定日付のない通知を受けた債務者が当該譲受人に弁済をした後に、債権者が当該債権を第二の譲受人に譲渡し、債務者が確定日付のある通知を受けた場合、第二の譲受人は、債務者に対し、当該債権の支払を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-28</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h14-17-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h22-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-17-ウ)</div>
+          <p class="qtext">29　法人が金銭債権を譲渡した場合には、民法上の債務者への通知又は債務者の承諾によらなくても、特別法により債権譲渡の登記をすれば、その譲渡を債務者に対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-29</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h10-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-06-イ)</div>
+          <p class="qtext">30　第三者が債権者との間で債務引受けをする場合、債務者の承諾を要する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-30</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h03-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-14-ア)</div>
+          <p class="qtext">31　甲は、乙との契約により、乙が丙に対して負っている金銭債務の履行を引き受けた。甲が債務の履行を引受けたことにより乙は免責されるので、丙は、乙に対して請求することができなくなる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-31</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h03-14-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-14-ウ)</div>
+          <p class="qtext">32　甲は、乙との契約により、乙が丙に対して負っている金銭債務の履行を引き受けた。丁が乙の債務の保証をしている場合には、丁の保証債務は、甲が履行の引受けをすることによっては、影響を受けない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min37.html#(リンク)">Unit37-32</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-14-u">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h31-17-a">
+  <div class="dlg-head"><div class="dlg-title">(H31-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権の譲渡は、その意思表示の時に債権が現に発生していることを要しない（民法<span class="mono">466条の6</span>第1項）。また、Ａが種類物である商品甲をＢに売却することによって将来有することになる一切の代金債権は、発生原因となる取引の種類、発生期間等で特定されている。したがって、債権譲渡契約は有効である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-17-ih11-05-4">
+  <div class="dlg-head"><div class="dlg-title">(H31-17-イ)(H11-05-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権の譲渡は、その意思表示の時に債権が現に発生していることを要しない（民法<span class="mono">466条の6</span>第1項）。また、判例（最判平11.1.29）は、「右契約の締結時において右債権の発生の可能性が低かったことは、右契約の効力を当然に左右するものではないと解するのが相当である」としている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-05-1">
+  <div class="dlg-head"><div class="dlg-title">(H11-05-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権は譲り渡すことができるが、債権の性質がこれを許さないときは、この限りでない（民法<span class="mono">466条</span>1項）。自己の肖像画を描かせることを内容とする債権は、債権者の変更によって給付内容が変わるため、これを他人に譲り渡すことはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-05-5">
+  <div class="dlg-head"><div class="dlg-title">(H11-05-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>扶養を受ける権利は、処分することができない（民法<span class="mono">881条</span>）。債権はその性質上許される場合にのみ譲渡すできるのであり（民法<span class="mono">466条</span>1項ただし書）、扶養を受ける権利は権利者固有の権利であるため、扶養請求権は譲渡することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-05-1">
+  <div class="dlg-head"><div class="dlg-title">(H04-05-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権譲渡を制限する特約は債権的効力を有する（民法<span class="mono">466条</span>2項）。譲受人の範囲を限定する旨の譲渡制限特約も有効である（民法<span class="mono">466条</span>2項参照、大判昭2.12.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-12-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権の譲渡禁止又は制限の意思表示があっても、原則として債権譲渡は有効である（民法<span class="mono">466条</span>2項）。譲渡制限の意思表示がされたことを知り、又は重大な過失によって知らなかった譲受人その他の第三者に対しては、債務者は、その債務の履行を拒むことができるにすぎない（同条3項）。したがって、本記述の質権の設定は、その効力を妨げられない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-17-eh22-17-i">
+  <div class="dlg-head"><div class="dlg-title">(改)(H31-17-エ)(H22-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権の譲渡禁止又は制限の意思表示があっても、原則として債権譲渡は有効である（民法<span class="mono">466条</span>2項）。また、判例（最判平21.3.27）は、「債務者に譲渡の無効を主張する意思があることが明らかであるなどの特段の事情がない限り、その無効を主張することは許されない」としている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-17-a">
+  <div class="dlg-head"><div class="dlg-title">(H22-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>譲渡制限の意思表示があっても、債権譲渡は有効である（民法<span class="mono">466条</span>2項）。このことは、債権の譲受人が譲渡制限特約の存在を知らなかったことについて過失があっても同様である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H09-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡制限の意思表示があっても、債権譲渡は有効である（民法<span class="mono">466条</span>2項）が、譲渡制限の意思表示がされたことを知り、又は重大な過失によって知らなかった譲受人その他の第三者に対しては、債務者は、その債務の履行を拒むことができる（民法<span class="mono">466条</span>3項）。本記述においてＤは、債権の譲渡禁止特約について悪意であるため、ＢはＤの請求を拒むことができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-17-oh19-18-i">
+  <div class="dlg-head"><div class="dlg-title">(改)(H31-17-オ)(H19-18-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>譲渡禁止の特約のある債権であっても、差押債権者の善意・悪意を問わず、これを差し押え、かつ、転付命令によって移転することができ、債務者は譲渡禁止特約を差押債権者に対抗できない（民法<span class="mono">466条の4</span>第1項、<span class="mono">466条</span>3項、最判昭45.4.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H22-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権譲渡の通知（民法<span class="mono">467条</span>）は、一定の事実の通知により、法が一律に対抗要件の付与という効果を与えるものであり、観念の通知である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-17-ah22-16-ih08-06-3">
+  <div class="dlg-head"><div class="dlg-title">(H29-17-ア)(H22-16-イ)(H08-06-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権譲渡の通知は、譲受人が譲渡人に代位して行うことはできない（大判昭5.10.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-17-u">
+  <div class="dlg-head"><div class="dlg-title">(H31-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡の通知について、譲受人が譲渡人の代理人として債務者に通知をすることはできる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-16-a">
+  <div class="dlg-head"><div class="dlg-title">(H22-16-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権の譲受人が、譲渡人に代位して、債権譲渡の通知（民法<span class="mono">467条</span>）をすることはできない（大判昭5.10.10）。しかし、ＡのＤに対する債権がＡからＢへ、ＢからＣへと順次譲渡された場合、Ｃは、ＢがＡに対して有する債権譲渡通知請求権を代位行使することができる（大判大8.6.26）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-17-i">
+  <div class="dlg-head"><div class="dlg-title">(H14-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>連帯債務者全員に対する債権を譲渡した場合、一部の債務者に対する通知は、その者に対してのみ効力を生じ、他の連帯債務者には効力を生じない（民法<span class="mono">441条</span>、大判大8.12.15）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-15-o">
+  <div class="dlg-head"><div class="dlg-title">(H13-15-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>主たる債務者に対する債権が譲渡され、対抗要件が備わったときには、保証人に対する債権もそれに随伴し保証人に対しても対抗力を生ずる（大判大6.7.2、民法<span class="mono">467条</span>参照）。この場合、当該通知又は承諾には、確定日付がなくても債権の譲受人は保証人に対抗することができる（大判大元.12.27）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-06-2">
+  <div class="dlg-head"><div class="dlg-title">(H08-06-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡の対抗要件である「通知」（民法<span class="mono">467条</span>1項）は、債権譲渡と同時であることを要せず、債権譲渡の後にされたものであっても有効である。よって、本記述の通知は有効であり、Ｃは甲に債権の譲受けを対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-18-u">
+  <div class="dlg-head"><div class="dlg-title">(H03-18-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡があった場合、債務者は、対抗要件具備時までに譲渡人に対して生じた事由をもって譲受人に対抗することができる（民法<span class="mono">468条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-05-5">
+  <div class="dlg-head"><div class="dlg-title">(H04-05-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡の対抗要件となる債務者の承諾（民法<span class="mono">467条</span>1項）の相手方は、譲渡人、譲受人のいずれでもよい（大判大6.10.2）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-06-5">
+  <div class="dlg-head"><div class="dlg-title">(H08-06-5)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡の対抗要件となる債務者の承諾（民法<span class="mono">467条</span>1項）は、事前の承諾であっても債権と譲受人が特定していれば有効である（最判昭28.5.29）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-12-o">
+  <div class="dlg-head"><div class="dlg-title">(R03-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権質の対抗要件は債権譲渡の対抗要件（民法<span class="mono">467条</span>）と同様である（民法<span class="mono">364条</span>）。債務者以外の第三者に対する対抗要件は、確定日付のある証書による通知・承諾である（民法<span class="mono">467条</span>2項）。本記述では、譲渡人であるＡが債務者であるＣに対し、確定日付のある証書によって通知をしているため、Ｂは、質権の設定を対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-06-4h03-18-o">
+  <div class="dlg-head"><div class="dlg-title">(H08-06-4)(H03-18-オ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権譲渡の対抗要件となる「通知・承諾」の方法は自由であり、書面、口頭のいずれでもよいが、債務者以外の第三者に対抗するためには、確定日付のある証書によってしなければならない（民法<span class="mono">467条</span>2項）。よって、本肢においてＣはＥに対して、債権の譲受けを対抗することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H07-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権が譲渡された場合、その債権を被担保債権とする担保権等の権利も譲受人に移転する（随伴性）。この点、債権譲渡についての対抗要件（民法<span class="mono">467条</span>2項）を備えれば、抵当権等の従たる権利の移転についても債務者その他の第三者に対抗することができる。よって、債権の第一譲受人Ｄは、債権の第二譲受人Ｅに抵当権の取得を主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-18-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-18-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>二重譲渡の優劣が、確定日付ある証書による通知・承諾によって決まると、当該通知・承諾の効果は債務者にも及び、債務者は第三者対抗要件を備えた者のみを債権者と認め弁済することとなる（大連判大8.3.28）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-05-4">
+  <div class="dlg-head"><div class="dlg-title">(H04-05-4)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権が二重に譲渡された場合における譲受人間の優劣については、確定日付ある通知が債務者に到達した日時、又は確定日付ある債務者の承諾の日時の先後によって決すべきである（最判昭49.3.7）。よって、確定日付の前後によって決まるのではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-17-e">
+  <div class="dlg-head"><div class="dlg-title">(H14-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権が二重譲渡され、確定日付のある各譲渡通知が同時に債務者に到達した場合、各譲受人は債務者に対し、当該債権全額の支払を請求できる（最判昭55.1.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H09-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権が二重に譲渡された場合における譲受人間の優劣については、確定日付ある通知又は承諾の先後によって決するため、本記述のＣ・Ｄはいずれも債権の取得を対抗できない。もっとも、Ｃ・Ｄともに債権譲渡の通知はしているため、双方ともＢに対する権利行使は有効にすることができ（民法<span class="mono">467条</span>1項）、Ｂがそれに応えて弁済した場合は、有効な弁済となり、Ｂは免責される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h14-17-o">
+  <div class="dlg-head"><div class="dlg-title">(H14-17-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>確定日付のない通知を受けた債務者が、当該譲受人に弁済をすれば、債権は消滅する。その後に当該債権が第二の譲受人に譲渡され、債務者が確定日付のある通知を受けた場合でも、第二の譲受人は既に消滅した債権を譲り受けたものであるから、優先する余地はなく（大判昭7.12.6）、債務者に対し、当該債権の支払を請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-17-u">
+  <div class="dlg-head"><div class="dlg-title">(H22-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>法人が金銭債権を譲渡した場合、譲渡の登記をもって債務者以外の第三者に対する対抗要件とすることができる（動産債権譲渡特例法<span class="mono">1条</span>、<span class="mono">4条</span>）。そして、債務者に譲渡を対抗するためには、譲渡人若しくは譲受人が、債務者に登記事項証明書（動産債権譲渡特例法<span class="mono">11条</span>2項）を交付して登記された旨を通知し、又は債務者が承諾する必要がある（動産債権譲渡特例法<span class="mono">4条</span>2項）。よって、債権譲渡の登記をするだけでは譲渡を債務者に対抗できない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-06-i">
+  <div class="dlg-head"><div class="dlg-title">(H10-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>免責的債務引受は、債権者と引受人となる者の契約ですることができ、債権者が債務者に対してその契約をした旨を通知した時に、その効力を生ずる（民法<span class="mono">472条</span>2項）。また、併存的債務引受についても、債権者と引受人となる者の契約でできる（民法<span class="mono">470条</span>2項）。いずれも債務者の承諾は不要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-14-a">
+  <div class="dlg-head"><div class="dlg-title">(H03-14-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>履行引受けがあっても、引受人は、債務の履行（弁済等）をすべき義務を、債務者に対して負うに過ぎず、債務者は依然乙のままである。よって、債権者である丙は、債務者である乙に履行を請求できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-14-u">
+  <div class="dlg-head"><div class="dlg-title">(H03-14-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>履行引受けがあっても、債務者は依然乙のままなので、乙の債務を保証している丁は、甲の履行引受けによって影響を受けない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

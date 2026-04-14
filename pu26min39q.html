@@ -1,0 +1,868 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit39</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+    img {max-width: 100%; height: auto; display: block;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit39</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min38q.html">前へ</a>
+      <a href="pu26min40q.html">次へ</a>
+      <a href="pu26min39.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h02-03-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-03-ア)</div>
+          <p class="qtext">1　特定物を給付すべき債務については、債務者は、債権者に対し、弁済の準備ができたことを通知して受領を催告すれば、債務不履行の責任を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-03-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h18-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-17-イ)</div>
+          <p class="qtext">2　債務者が、本来の給付に代えて自己の所有する不動産の所有権を移転する合意を債権者とした場合には、当該不動産が本来の給付と同価値かそれ以上の価値があるものでなければ債務は消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h18-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-17-ウ)</div>
+          <p class="qtext">3　債務者が、本来の給付に代えて自己の所有する動産の所有権を移転する合意を債権者とした場合には、当該動産が引き渡されない限り所有権移転の効果は生じない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h10-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-06-オ)</div>
+          <p class="qtext">4　債務者が代物弁済をする場合、債権者の承諾を要する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r03-16-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-16-ウ)</div>
+          <p class="qtext">5　教授：　次に、代物弁済について考えてみましょう。代物弁済の契約が締結された場合には、代物弁済の契約で定められた給付が現実になくても、弁済と同一の効力は生じますか。<br>学生：　代物弁済の契約が締結されれば、代物弁済の契約で定められた給付が現実になくても、弁済と同一の効力は生じます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-16-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h04-10-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-10-イ)</div>
+          <p class="qtext">6　当事者間で合意した代物弁済の目的物の所有権移転の時期が経過しただけでは、代物弁済の効果は生じない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-10-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h02-07-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-07-4)</div>
+          <p class="qtext">7　自動車の売買契約において、買主甲が売主乙に代金の一部の支払にかえて、丙から買受けた自己所有の中古自動車を引渡すことを約したが、その中古自動車の引渡が不能となったときには、乙は、直ちに契約を解除することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-07-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h18-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H18-17-ア)</div>
+          <p class="qtext">8　債務者が、本来の給付に代えて自己の所有する動産の所有権を移転する合意を債権者とした場合において、当該動産を債権者に引き渡した後に当該動産に欠陥があることが判明したときは、債権者は、債務者に対して当該欠陥から生じた損害について損害賠償請求をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r03-17-ah05-06-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-17-ア)(H05-06-ア)</div>
+          <p class="qtext">9　時効によって債権が消滅した場合において、その消滅時効期間が経過する以前にその債権の債務者が債権者に対する反対債権を有していたときは、その消滅時効期間が経過する以前に反対債権の弁済期が現実に到来していたかどうかにかかわらず、時効によって消滅した債権の債権者は、その債権を自働債権とし、その反対債権を受働債権として、相殺することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-17-ah05-06-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h24-16-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-16-4)</div>
+          <p class="qtext">10　債権の消滅時効が完成してその援用がされた後にそのことを知らずに当該債権を譲り受けた者は、時効完成前に譲り受けたとすれば相殺適状にあった場合に限り、当該債権を自働債権として、相殺をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-16-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h05-06-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-06-オ)</div>
+          <p class="qtext">11　弁済期の定めのない債権は自働債権として相殺することはできるが、これを受働債権として直ちに相殺をすることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-06-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r03-17-oh24-16-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-17-オ)(H24-16-2)</div>
+          <p class="qtext">12　債権につき、弁済期が到来していれば、その債権の債務者が同時履行の抗弁権を有していても、その債権の債権者は、その債権を自働債権として、相殺をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-17-oh24-16-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h04-06-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-06-2)</div>
+          <p class="qtext">13　同時履行の抗弁権の付いた債権を自働債権として相殺をするには、自己の反対債務の履行の提供をすることを要する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-06-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r03-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-17-イ)</div>
+          <p class="qtext">14　債務不履行に基づく損害賠償請求権を受働債権とする相殺は、その損害賠償請求権が人の生命又は身体の侵害によるものであっても、することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h05-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-06-イ)</div>
+          <p class="qtext">15　不法行為の加害者は、不法行為に基づく損害賠償請求権を受働債権として、自己の有する債権と相殺することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h04-01-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-01-2)</div>
+          <p class="qtext">16　債務者が債務不履行による損害賠償債務を相殺により消滅させることはできるが、加害者が不法行為による損害賠償債務を相殺により消滅させることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-01-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r03-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-17-ウ)</div>
+          <p class="qtext">17　債権が第三者に差し押さえられた場合において、被差押債権の債務者がその差押え前に被差押債権の債権者に対する反対債権を取得しており、その差押え後にその反対債権と被差押債権が相殺に適するようになったときは、その反対債権と被差押債権の弁済期の前後にかかわらず、被差押債権の債務者は、その反対債権による相殺をもって差押債権者に対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h02-16-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-16-2)</div>
+          <p class="qtext">18　相殺の意思表示には、条件を付することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-16-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-r03-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-17-エ)</div>
+          <p class="qtext">19　相殺は、双方の債務の履行地が異なるときであっても、することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h20-10-ur04-09-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-10-ウ)(R04-09-ウ)</div>
+          <p class="qtext">20　ＡがＢに対する債権を担保するためにＢ所有の土地に1番抵当権の設定を受け、Ｃがその土地の上に2番抵当権の設定を受けた場合において、ＡがＢを単独で相続したときは、Ａの抵当権は消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-10-ur04-09-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h16-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-08-エ)</div>
+          <p class="qtext">21　ＢがＡからその所有する建物を賃借し、引渡しを受けた後、これを買い受けた場合において、Ｂが所有権移転の登記をする前に、ＣがＡからその建物を二重に買い受けて所有権移転の登記をしたときは、その賃借権は、Ｃとの関係においても確定的に消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min39.html#(リンク)">Unit39-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-08-e">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h02-03-a">
+  <div class="dlg-head"><div class="dlg-title">(H02-03-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>弁済の提供によって、債務者は債務不履行による責任を免れる（民法<span class="mono">492条</span>）。そして、弁済の提供は、原則として、現実の提供が必要である（民法<span class="mono">493条</span>本文）。よって、弁済の準備ができたことを通知して受領を催告するだけでは、債務不履行責任を免れるとはいえない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-17-i">
+  <div class="dlg-head"><div class="dlg-title">(H18-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>代物弁済において、本来の給付と代物給付とは、同価値でなくともよい（大判大10.11.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-17-u">
+  <div class="dlg-head"><div class="dlg-title">(H18-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>代物弁済は債権者と弁済者の合意で成立する。代物弁済の目的物の所有権は代物弁済契約の成立時に移転する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-06-o">
+  <div class="dlg-head"><div class="dlg-title">(H10-06-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代物弁済には債権者と弁済者の合意で成立するため、債務者が代物弁済をする場合、債権者の承諾が必要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-16-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-16-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>弁済者が、債権者との間で、債務者の負担した給付に代えて他の給付をすることにより債務を消滅させる旨の契約をした場合において、その弁済者が当該他の給付をしたときは、その給付は、弁済と同一の効力を有する（民法<span class="mono">482条</span>）。代物弁済は諾成契約であって、弁済者と債権者の間の合意のみによって成立し、これにより、代物給付義務が発生する。そして、代物弁済の合意に基づき弁済者による代物の給付が完了したときにはじめて、債権の消滅という効果が発生する。よって、代物弁済の契約が締結されただけでは弁済と同一の効力が生じない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-10-i">
+  <div class="dlg-head"><div class="dlg-title">(H04-10-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代物弁済による債務の消滅は、合意した給付行為があったときに生じる（民法<span class="mono">482条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-07-4">
+  <div class="dlg-head"><div class="dlg-title">(H02-07-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>代物弁済は諾成契約であり、代物が給付されたときに弁済と同一の効力を有する（民法<span class="mono">482条</span>）。本肢においては、代金の一部の支払にかえて、中古自動車を引渡すことを約した点で、一部代物弁済の合意がなされている（民法<span class="mono">482条</span>参照）。よって、中古自動車の引渡が不能となったときには、売買契約の履行が一部不能となったとして、契約の一部解除をすることができる（民法<span class="mono">542条</span>2項1号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-17-a">
+  <div class="dlg-head"><div class="dlg-title">(H18-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>代物弁済も一種の有償契約であることから、売買の契約内容不適合の規定が準用され（民法<span class="mono">559条</span>）、追完請求・解除・損害賠償請求をすることができると解される（民法<span class="mono">566条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-17-ah05-06-a">
+  <div class="dlg-head"><div class="dlg-title">(R03-17-ア)(H05-06-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>時効によって消滅した債権がその消滅以前に相殺に適するようになっていた場合には、その債権者は、相殺をすることができる（民法<span class="mono">508条</span>）。また、判例は、「当事者の相殺に対する期待を保護するという民法<span class="mono">508条</span>の趣旨に照らせば、同条が適用されるためには、消滅時効が援用された自働債権はその消滅時効期間が経過する以前に受働債権と相殺適状にあったことを要すると解される」としている（最判平25.2.28）。よって、消滅時効期間が経過する以前に反対債権の弁済期が現実に到来していなかった場合には、民法<span class="mono">508条</span>は適用されず、相殺はその効力を有しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-16-4">
+  <div class="dlg-head"><div class="dlg-title">(H24-16-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>既に消滅時効にかかった他人の債権を譲り受け、これを自働債権として相殺することは許されない（最判昭36.4.14）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-06-o">
+  <div class="dlg-head"><div class="dlg-title">(H05-06-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相殺の要件の一つとして、自働債権が弁済期にあることが必要である。そして、期限の定めのない債務は成立と同時に弁済期にあるから、このような債権はいつでも相殺できる（大判昭17.11.19）。これに対して、自働債権が弁済期にあれば、受働債権については、弁済期未到来であっても、債務者は期限の利益を放棄することにより（民法<span class="mono">136条</span>2項）、相殺をすることができる（大判昭8.5.30）。従って、本記述は受働債権として直ちに相殺をすることはできないとする点で誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-17-oh24-16-2">
+  <div class="dlg-head"><div class="dlg-title">(R03-17-オ)(H24-16-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相手方の抗弁権を無視することはできないため、同時履行の抗弁権（民法<span class="mono">533条</span>）が付着する債権を自働債権として相殺することはできない（大判昭13.3.1）。なお、受働債権に抗弁権が付着していることは、相殺の妨げとならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-06-2">
+  <div class="dlg-head"><div class="dlg-title">(H04-06-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>同時履行の抗弁権の付いた債権を自働債権とする相殺は、一方的な意思表示により相手方の抗弁権を奪うことになるので許されない。同時履行の抗弁権の付着する債権を自働債権として相殺をするには、債権者は、自己の反対債務の履行の提供をして債務者の同時履行の抗弁権を消滅させる必要がある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-17-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>①悪意による不法行為に基づく損害賠償の債務と②人の生命又は身体の侵害による損害賠償の債務の債務者は、相殺をもって債権者に対抗することができない（民法509 条1 号、2 号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-06-i">
+  <div class="dlg-head"><div class="dlg-title">(H05-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>①悪意による不法行為に基づく損害賠償の債務と②人の生命又は身体の侵害による損害賠償の債務の債務者は、相殺をもって債権者に対抗することができない（民法509 条1 号、2 号）。しかし、不法行為により生じた債務であっても、過失による物的損害に基づく損害賠償債権のような場合は、相殺をすることができる。従って、本肢は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-01-2">
+  <div class="dlg-head"><div class="dlg-title">(H04-01-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相殺をもって債権者に対抗できない受働債権の範囲は、①加害者の「悪意による不法行為に基づく損害賠償請求権」と②債務者の「人の生命又は身体の侵害による損害賠償請求権」である（⺠法509 条1号、2号）。よって、受働債権が債務不履行による損害賠償債務であっても、②に該当すれば相殺できない。また、受働債権が不法行為による損害賠償債務であっても、①に該当しなければ相殺できる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-17-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>差押えを受けた債権の第三債務者は、差押え後に取得した債権による相殺をもって差押債権者に対抗することはできないが、差押え前に取得した債権による相殺をもって対抗することができる（民法<span class="mono">511条</span>1項）。また、判例は、「第三債務者は、その債権が差押後に取得されたものでないかぎり、自働債権および受働債権の弁済期の前後を問わず、相殺適状に達しさえすれば、差押後においても、これを自働債権として相殺をなしうる」としている（最大判昭45.6.24）。民法<span class="mono">511条</span>1項後段の趣旨は、差押え前に反対債権を取得した第三債務者には、この債権を用いて自己の負担する債務を消滅させる利益があり、この相殺への期待は保護されるべきということにある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-16-2">
+  <div class="dlg-head"><div class="dlg-title">(H02-16-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相殺の意思表示には、条件を付することができない（民法<span class="mono">506条</span>1項後段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-17-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相殺は、双方の債務の履行地が異なるときであっても、することができる。この場合において、相殺をする当事者は、相手方に対し、これによって生じた損害を賠償しなければならない（民法<span class="mono">507条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-10-ur04-09-u">
+  <div class="dlg-head"><div class="dlg-title">(H20-10-ウ)(R04-09-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権者がその債務者所有の土地に1番抵当権を有しており、その土地に他者の2番抵当権がある場合において、債権者が債務者を単独で相続したときは、被担保債権が混同により消滅し（民法<span class="mono">520条</span>本文）、付従性によって1番抵当権も消滅する。よって、Ａの抵当権は消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-08-e">
+  <div class="dlg-head"><div class="dlg-title">(H16-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の賃借人が賃貸人からその不動産を譲り受けたが、所有権移転登記をする前に、第三者が当該不動産を二重に譲り受けて所有権移転登記をした場合、いったん混同（民法<span class="mono">520条</span>本文）により消滅した賃借権は、第三者の所有権取得によって、同人に対する関係では消滅しなかったことになる（最判昭40.12.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

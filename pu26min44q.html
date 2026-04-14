@@ -1,0 +1,943 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit44</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+    img {max-width: 100%; height: auto; display: block;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit44</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min43q.html">前へ</a>
+      <a href="pu26min45q.html">次へ</a>
+      <a href="pu26min44.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r02-19-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-19-ア)</div>
+          <p class="qtext">1　書面でする消費貸借契約の貸主は、借主に対して目的物を交付するまでは、契約の解除をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-19-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h27-19-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-19-ア)</div>
+          <p class="qtext">2　消費貸借が成立した場合、貸主は目的物を貸し渡す債務を負い、借主は目的物を返還する債務を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-19-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-r02-19-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-19-ウ)</div>
+          <p class="qtext">3　消費貸借契約において利息に関する特約がなかった場合は、貸主は、借主に対して法定利率による利息を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-19-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h27-19-ih01-13-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-19-イ)(H01-13-2)(改)</div>
+          <p class="qtext">4　利息付きの金銭消費貸借における利息は、特約のない限り、借主がその目的物を受け取った日の翌日から発生する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-19-ih01-13-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h19-04-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-04-ア)</div>
+          <p class="qtext">5　Ａは、平成17年1月30日、Ｂとの間で、弁済期を平成18年1月30日、利息を年10パーセントとする約定によりＢから100万円を借り受ける旨の契約を締結し、同日、全額の交付を受けるとともに、自己所有の土地建物にＢのために抵当権を設定した（抵当権の設定の登記を完了したものとする。）。また、ＡＢ間の金銭消費貸借契約には特約は付されていない。この事例に関し、ＡがＢに対して支払うべき利息は、平成17年1月31日から発生する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-04-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r02-19-oh27-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-19-オ)(H27-19-エ)</div>
+          <p class="qtext">6　貸主から引き渡された物が種類又は品質に関して契約の内容に適合しないものであるときは、借主は、その物の価額を返還することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-19-oh27-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h09-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-08-イ)</div>
+          <p class="qtext">7　消費貸借契約における借主の返還債務に期限の定めがない場合、貸主は、いつでも、相当の期間を定めて、返還の催告をすることができ、その催告があったときは、借主は、その催告期間中に返還しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-r02-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-19-エ)</div>
+          <p class="qtext">8　消費貸借契約において返還の時期が定められていなかった場合において、貸主が期間を明示せずに返還の催告をしたときであっても、借主が催告を受けた時から返還の準備をするのに相当な期間を経過したときは、借主は、返還義務について遅滞の責任を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r02-19-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-19-イ)</div>
+          <p class="qtext">9　借主は、消費貸借契約において返還の時期が定められていた場合であっても、いつでも返還をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-19-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h27-19-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-19-オ)</div>
+          <p class="qtext">10　利息付きの金銭消費貸借における借主は、返還の時期が定められている場合であっても、その期限前に返還をすることができ、このときには、残元本のほか、実際に返還をする日までの利息を支払えば足りる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-19-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h27-19-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H27-19-ウ)(改)</div>
+          <p class="qtext">11　書面でする消費貸借の成立後、借主が貸主から目的物を受け取る前に、当事者の一方が破産手続開始の決定を受けたときは、消費貸借の効力は失われる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h27-19-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h07-01-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-01-1)</div>
+          <p class="qtext">12　借主が破産手続開始の決定を受けた場合、消費貸借の予約契約は当然に終了する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-01-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h24-18-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H24-18-エ）</div>
+          <p class="qtext">13　使用貸借は、寄託と同様に、借主（受寄者）が目的物を受け取ることによって、その効力を生ずる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-18-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r04-18-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-18-ア)</div>
+          <p class="qtext">14　使用貸借に関して。契約の本旨に反する借主の使用又は収益によって生じた損害の賠償請求権については、貸主が返還を受けた時から1年を経過するまでの間は、時効は、完成しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-18-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r04-18-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-18-イ)</div>
+          <p class="qtext">15　使用貸借に関して。借主が目的物の通常の必要費を支出したときは、貸主にその償還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-18-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r04-18-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-18-ウ)</div>
+          <p class="qtext">16　使用貸借に関して。借主が目的物の改良のための費用を支出したときは、それによる目的物の価格の増加が現存していなくても、貸主は、その支出した金額の償還をしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-18-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h07-01-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-01-2)</div>
+          <p class="qtext">17　借主が破産手続開始の決定を受けた場合、不動産の使用貸借契約は当然に終了する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-01-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r04-18-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-18-オ)</div>
+          <p class="qtext">18　使用貸借に関して。期間及び使用収益の目的の定めのない使用貸借は、貸主がいつでも解除することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-18-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h25-19-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(改)(H25-19-ア)</div>
+          <p class="qtext">19　使用貸借契約においては、返還の時期並びに使用及び収益の目的を定めなかったときは、貸主は、いつでも、契約の解除をして返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-19-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h24-18-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-18-ウ)</div>
+          <p class="qtext">20　使用貸借における貸主は、寄託における寄託者と同様に、当事者が目的物の返還の時期を定めたときであっても、いつでもその返還を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-18-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h09-08-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-08-ウ)</div>
+          <p class="qtext">21　使用貸借契約における借主の目的物返還債務に期限の定めがない場合で、当該契約に使用目的が定められている場合、その目的に従った使用収益が終了していなくても、これをするに足る期間が経過したときは、借主は、貸主の請求があれば、直ちに目的物を返還しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-08-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r04-18-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-18-エ)</div>
+          <p class="qtext">22　使用貸借に関して。借主が死亡したときは、使用貸借は終了する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-18-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h24-18-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-18-イ)</div>
+          <p class="qtext">23　使用貸借は、委任と同様に、当事者のいずれか一方の死亡によって終了する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-18-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h24-18-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-18-オ)</div>
+          <p class="qtext">24　使用貸借における貸主は、賃貸借における賃貸人と同様に、借主（賃借人）が契約又はその目的物の性質によって定まった用法に従わずに目的物の使用又は収益をしたときであっても、原則として催告をしなければ契約の解除をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min44.html#(リンク)">Unit44-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-18-o">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r02-19-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-19-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、書面でする消費貸借契約の貸主は、目的物を交付するまでは契約を解除できるとしている点で、誤っている。書面でする消費貸借の借主は、貸主から金銭その他の物を受け取るまで、契約の解除をすることができる。この場合において、貸主は、その契約の解除によって損害を受けたときは、借主に対し、その賠償を請求することができる（民法<span class="mono">587条の2</span>第2項）。よって、書面でする消費貸借の貸主が、借主に対して目的物を交付するまで、契約の解除をすることができるわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-19-a">
+  <div class="dlg-head"><div class="dlg-title">(H27-19-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>消費貸借には、①要物契約としての消費貸借②諾成的消費貸借がある（民法<span class="mono">587条</span>、<span class="mono">587条の2</span>）。①の場合、契約成立時には貸主の目的物の引渡しが完了しており、貸主の債務は残っていない。また、消費貸借の借主は、受け取った物と種類、品質及び数量の同じ物を返還しなければならないのであって、目的物そのものを返還する債務を負うわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-19-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-19-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、法定利率による利息を請求できるとしている点で、誤っている。貸主は、特約がなければ、借主に対して利息を請求することができない（民法<span class="mono">589条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-19-ih01-13-2">
+  <div class="dlg-head"><div class="dlg-title">(H27-19-イ)(H01-13-2)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>利息の特約ある消費貸借の利息は、借主がその目的物を受け取った日から発生する（民法<span class="mono">589条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-04-a">
+  <div class="dlg-head"><div class="dlg-title">(H19-04-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>利息の特約ある消費貸借の利息は、借主がその目的物を受け取った日から発生する（民法<span class="mono">589条</span>2項）。よって、ＡがＢに対して支払うべき利息は、ＡがＢから100万円の交付を受けた日である平成17年1月30日から発生する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-19-oh27-19-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-19-オ)(H27-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>借主に対する利息を請求できる特約（民法<span class="mono">589条</span>1項）の有無にかかわらず、貸主から引き渡された物が種類又は品質に関して契約の内容に適合しないものであるときは、借主は、その物の価額を返還することができる（民法<span class="mono">590条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H09-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>返還時期の定めのない消費貸借の場合、貸主は相当の期間を定めて返還の催告ができ（民法<span class="mono">591条</span>1項）、借主はその催告期間中に返還しなければならない。そして、遅滞の責任はその相当期間経過後に生じる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-19-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、本記述と同様の事案において、催告に一定の時期や期間を、当事者が明示していなくとも、その催告の時から返還の準備をするのに相当の期間が経過した後には、借主は遅滞の責めに任ずるとしている（大判昭5.1.29）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-19-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-19-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>借主は、返還の時期の定めの有無にかかわらず、いつでも返還をすることができる（民法<span class="mono">591条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-19-o">
+  <div class="dlg-head"><div class="dlg-title">(H27-19-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>消費貸借の借主は、返還の時期の定めの有無にかかわらず、いつでも目的物を返還できる（民法<span class="mono">591条</span>2項）。また、返還の時期の定めがあり、返還時期前の返還によって貸主が損害を受けたときは、借主に損害賠償請求することができる（民法<span class="mono">591条</span>3項）。本記述からは、貸主に損害が生じているかがわからないため、返還日までの利息を支払えば足りるとはいえない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h27-19-u">
+  <div class="dlg-head"><div class="dlg-title">(H27-19-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>書面でする消費貸借は、借主が貸主から金銭その他の物を受け取る前に当事者の一方が破産手続開始の決定を受けたときは、その効力を失う（民法<span class="mono">587条の2</span>第3項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-01-1">
+  <div class="dlg-head"><div class="dlg-title">(H07-01-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>消費貸借の予約とは、当事者間で将来消費貸借契約を締結するという債務を負担する契約をいう。消費貸借の予約は、書面でする消費貸借と同様、借主が貸主から目的物を受け取る前に当事者の一方が破産手続開始の決定を受けたときは、その効力を失う（民法<span class="mono">587条の2</span>第3項）と解される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-18-e">
+  <div class="dlg-head"><div class="dlg-title">（H24-18-エ） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>使用貸借は、当事者の一方がある物を引き渡すことを約し、相手方がその受け取った物について無償で使用及び収益をして契約が終了したときに返還をすることを約することによって、その効力を生ずる諾成契約である（民法<span class="mono">593条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-18-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-18-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">600条</span>2項により、本記述は正しい。契約の本旨に反する使用又は収益によって生じた損害賠償の請求権については、貸主が返還を受けた時から1年を経過するまでの間は、時効は完成しない（民法<span class="mono">600条</span>2項）。その趣旨は、借主の占有下にある目的物の状況把握が困難な使用貸借継続中に損害賠償請求権の消滅時効が完成することを防ぐという点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-18-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-18-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、借主が目的物の通常の必要費を支出したときは、貸主にその償還を請求することができるとしている点で、誤っている。民法<span class="mono">595条</span>1項。借主は、借用物の通常の必要費を負担する（民法<span class="mono">595条</span>1項）。使用貸借は無償契約であり、貸主は借主の使用を妨げない義務を負うにとどまるためである。よって、借主が通常の必要費を支出したとき、貸主にその償還を請求することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-18-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-18-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、目的物の価格の増加が現存していなくても、貸主は、その支出した金額の償還をしなければならないとしている点で、誤っている。民法<span class="mono">595条</span>2項、<span class="mono">583条</span>2項、<span class="mono">196条</span>2項本文。借主が、目的物の改良のために支出した金額その他の有益費については、その価格の増加が現存する場合に限り、貸主の選択に従い、その支出した金額又は増価額を償還させることができる。ただし、裁判所は、貸主の請求により、その償還について相当の期限を許与することができる（民法<span class="mono">595条</span>2項、<span class="mono">583条</span>2項、<span class="mono">196条</span>2項本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-01-2">
+  <div class="dlg-head"><div class="dlg-title">(H07-01-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>使用貸借の借主の破産手続開始決定は使用貸借の終了事由とはされていない（民法<span class="mono">597条</span>参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-18-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-18-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>当事者が使用貸借の期間並びに使用及び収益の目的を定めなかったときは、貸主は、いつでも契約の解除をすることができる（民法<span class="mono">598条</span>2項）。使用貸借が無償契約であることに基づくものである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-19-a">
+  <div class="dlg-head"><div class="dlg-title">(改)(H25-19-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>当事者が使用貸借の期間並びに使用及び収益の目的を定めなかったときは、貸主は、いつでも契約の解除をして（民法<span class="mono">598条</span>2項）、返還を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-18-u">
+  <div class="dlg-head"><div class="dlg-title">(H24-18-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>期間の定めのある使用貸借は、その期間が満了することによって終了する（民法<span class="mono">597条</span>1項）。よって、貸主は、期間が満了した時に目的物の返還を請求できるのであり、いつでも返還請求できるわけではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-08-u">
+  <div class="dlg-head"><div class="dlg-title">(H09-08-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>期間の定めのない使用貸借で使用・収益の目的を定めた場合、その目的に従い借主が使用・収益をするのに足りる期間を経過したときは、貸主は契約の解除をすることができ（民法<span class="mono">598条</span>1項、<span class="mono">597条</span>2項）、この場合、貸主は目的物の返還を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-18-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-18-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>使用貸借は、借主の死亡によって終了する（民法<span class="mono">597条</span>3項）。借主自身に対する信頼に基づいて無償でなされたものだからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-18-i">
+  <div class="dlg-head"><div class="dlg-title">(H24-18-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>使用貸借は、借主の死亡によって終了する（民法<span class="mono">597条</span>3項）が、貸主の死亡によっては終了しない。他方で、委任の場合は、当事者のいずれか一方の死亡によって終了すると規定されている（民法<span class="mono">653条</span>１号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-18-o">
+  <div class="dlg-head"><div class="dlg-title">(H24-18-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>使用貸借の借主が用法遵守義務に違反した場合、貸主は直ちに契約を解除できる（民法<span class="mono">594条</span>3項）。貸主の催告は不要である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

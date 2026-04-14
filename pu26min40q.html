@@ -1,0 +1,868 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit40</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+    img {max-width: 100%; height: auto; display: block;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit40</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min39q.html">前へ</a>
+      <a href="pu26min41q.html">次へ</a>
+      <a href="pu26min40.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h15-20-ah08-05-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-20-ア)(H08-05-ア)</div>
+          <p class="qtext">1　教授：　東京に住むＡは、京都に住むＢに対し、「今月末までに返事をいただきたい。」との承諾の期間を定めて、売買契約の申込みをしたが、その申込みがＢに到達した後に気が変わって、その申込みを撤回する旨の通知を出した場合、Ａの申込みの効力は、どうなりますか。<br>学生：　承諾の期間を定めて契約の申込みをした場合には、その申込みを撤回することはできないので、Ａの申込みは、承諾の期間内は有効です。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-20-ah08-05-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h15-20-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-20-イ)</div>
+          <p class="qtext">2　教授：　Ａが承諾の期間を定めないで契約の申込みをした場合、Ａは、その申込みを撤回することができますか。<br>学生：　承諾の期間を定めないで契約の申込みをした場合には、Ａは、Ｂからの承諾の通知を受け取る前であればいつでも、その申込みを撤回することができます。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-20-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h31-18-3h08-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-18-3)(H08-05-オ)</div>
+          <p class="qtext">3　隔地者であるＡとＢとの間の契約の成立に関して。Ａは、Ｂに対して申込みの通知を発した後に死亡し、Ｂは、その通知が到達する前にその事実を知った。その直後、Ｂは承諾の意思表示をした。この場合、ＡＢ間に契約が成立する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-18-3h08-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h31-18-4h15-20-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H31-18-4)(H15-20-エ)</div>
+          <p class="qtext">4　隔地者であるＡとＢとの間の契約の成立に関して。Ａは、Ｂに対して承諾の期間を定めて契約の申込みの通知を発したが、その通知は、交通事情により到達が遅れたため、承諾期間経過後にＢに到達した。Ｂは、Ａに対して延着の通知をするとともに、承諾の意思表示をした。この場合、ＡＢ間に契約が成立する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h31-18-4h15-20-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h08-05-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-05-イ)</div>
+          <p class="qtext">5　ＡＢ間の契約締結交渉において、ＡがＢに対して書面を郵送して申込みの意思表示をした。その際、Ａは、承諾の通知を受ける期間の末日を2月5日と定めた。Ｂが承諾の通知を2月4日に発し、これが2月6日に到達した場合、Ａがこの承諾を新たな申込みとみなして、これに対する承諾をすれば、契約は成立する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-05-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h21-18-eh04-06-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-18-エ)(H04-06-4)</div>
+          <p class="qtext">6　売主は、売買代金債権を第三者に譲渡したとしても、それによって買主に対する同時履行の抗弁権を失わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-18-eh04-06-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h04-06-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-06-1)</div>
+          <p class="qtext">7　同時履行の抗弁権は、契約の解除又は取消しによる原状回復義務についても認められる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-06-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h21-18-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-18-ウ)</div>
+          <p class="qtext">8　売主が買主に対して目的物引渡債務についての弁済の提供をした後に代金の支払請求をした場合には、その提供が継続されていないときであっても、買主は、同時履行の抗弁を主張することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-18-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h04-06-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-06-3)</div>
+          <p class="qtext">9　同時履行の抗弁権を有する債務者が履行期を徒過した場合には、相手方は自己の反対債務の履行の提供をするまでは契約を解除することはできないが、損害賠償を請求することはできる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-06-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-r02-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-17-ア)</div>
+          <p class="qtext">10　定型約款準備者と相手方が定型約款を契約の内容とする旨の合意をした場合であっても、定型約款の個別の条項の一部について、相手方がその内容を認識していなかったときは、その条項については合意をしたものとはみなされない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-r02-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-17-イ)</div>
+          <p class="qtext">11　ある特定の者が不特定多数の者を相手方として行う取引であっても、その内容の一部のみが当事者双方にとって画一的であることが合理的であるにすぎない場合には、その取引は、定型取引に該当しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r02-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-17-ウ)</div>
+          <p class="qtext">12　定型約款準備者は、定型取引合意の際に相手方に対して定型約款を記載した書面を交付していた場合であっても、定型取引合意の後相当期間内に相手方から請求があったときは、定型約款の内容を示さなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r02-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-17-エ)</div>
+          <p class="qtext">13　定型約款準備者が定型取引合意の前に相手方から定型約款の内容を示すことを請求されたにもかかわらず、正当な事由がないのにその請求を拒んでいたときは、定型約款の個別の条項が合意されたものとみなされることはない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r02-17-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-17-オ)</div>
+          <p class="qtext">14　定型約款の変更が相手方の一般の利益に適合する場合には、定型約款準備者が適切な方法による周知をしなかったときであっても、定型約款準備者が定めた効力発生時期に効力を生ずる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-17-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r04-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-17-ア)</div>
+          <p class="qtext">15　第三者のためにする契約に関して。ＡとＢが、Ｃを受益者とする第三者のためにする契約を締結した場合には、その契約の成立時にＣが現に存在しないとしても、そのことを理由にその効力は妨げられない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r04-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-17-ウ)</div>
+          <p class="qtext">16　第三者のためにする契約に関して。ＡとＢが、Ｂの所有する建物の所有権をＣに移転する旨のＣを受益者とする第三者のためにする契約を締結したときは、当該建物の所有権は、Ｃの受益の意思表示をした時期にかかわらず、その契約の成立時に、Ｃに移転する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r04-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-17-エ)</div>
+          <p class="qtext">17　第三者のためにする契約に関して。ＡとＢが、Ａを諾約者とし、Ｂを要約者として、Ｃを受益者とする第三者のためにする契約を締結した場合において、Ｃが受益の意思表示をした後に、ＡがＣに対する履行をしないときは、ＢはＣの承諾を得ることなく、契約を解除することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r04-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-17-イ)</div>
+          <p class="qtext">18　第三者のためにする契約に関して。ＡとＢが、Ａを諾約者とし、Ｂを要約者として、Ｃを受益者とする第三者のためにする契約を締結した場合には、Ａが錯誤を理由にその意思表示の取消しをしたとしても、Ｃは自らが当該錯誤について善意かつ無過失であることを主張して、その契約に基づく履行を求めることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-r04-17-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R04-17-オ)</div>
+          <p class="qtext">19　第三者のためにする契約に関して。ＡとＢが、Ｂの所有する動産をＡに譲渡し、Ａがその代金をＣに支払う旨の第三者のためにする契約を締結した場合には、ＡはＢが当該動産を引き渡すまで、Ｃに対する代金の支払を拒絶することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r04-17-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h09-13">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H09-13）</div>
+          <p class="qtext">20　次のアからオまでの記述のうち、「その権利」が目的物の留置権である場合には正しい記述となるが、目的物の引渡債務についての同時履行の抗弁権である場合には誤った記述となるものの組合せは、後記1から5までのうちどれか。（H09-13）<br><br>ア　相手方の債務が弁済期にないときは、その権利を主張することができない。<br><br>イ　所有者は、相当の担保を提供して、その権利の消滅を請求することができる。<br><br>ウ　その権利は、その成立後に目的物を譲り受けた者にも主張することができる。<br><br>エ　その権利が引渡請求に対する抗弁として主張されても、引換給付の判決はされない。<br><br>オ　その権利に基づき、目的物の競売を申し立てることができる。<br><br>1　アイエ　　2　アウオ　　3　アエオ　　4　イウエ　　5　イウオ</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-13">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h18-18">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H18-18）</div>
+          <p class="qtext">21　次の対話は、第三者のためにする契約に関する教授と学生との対話である。教授の質問に対する次のアからオまでの学生の解答のうち、判例の趣旨に照らし正しいものの組合せは、後記1から5までのうちどれか。（H18-18）<br><br>教授：　ＡとＢが、Ｂが第三者に対してある給付をする旨の契約を締結する場合において、その第三者が特定していないときでも、ＡＢ間の契約は成立しますか。<br>学生：ア　ＡＢ間の合意の内容は、Ｂが第三者に対して直接ある給付をすることを内容とするものですから、契約締結時にその第三者が特定し、存在することが必要です。したがって、契約締結時に第三者が特定又は存在していない場合には、ＡＢ間の契約は成立しません。<br><br>教授：　それでは、ＡＢ間でＢがＣに対してある給付をする旨の契約が成立した場合には、Ａは、Ｂに対してどのような権利を有しますか。<br>学生：イ　Ａは、Ｂに対して、Ｃに対する債務を履行するよう請求する権利を有します。この権利は、ＡＢ間の契約に始期又は条件が付されていない限り、Ｃが受益の意思表示をする以前であっても発生します。<br><br>教授：　では、Ｃは、だれに対して受益の意思表示をする必要がありますか。<br>学生：ウ　Ｃの受益の意思表示は、Ｂに対する権利を取得するという効果を生ずる要件ですから、Ｂに対してされなければなりませんが、黙示の意思表示でもかまいません。<br><br>教授：　ＡＢ間の合意で、Ｃに対して、Ｂに金銭を支払うという負担付きでＢに対する権利を取得させるということはできますか。<br>学生：エ　はい。しかし、自己の意思とは関係なく金銭を支払う義務を負わされるＣの立場を考慮して、Ｃは、負担部分を除いて受益の意思表示をすることもできるとされています。<br><br>教授：　ＡＢ間の契約の締結に際して、ＡがＢを欺罔していた場合には、Ｂは、Ｃが受益の意思表示をした後であっても、ＡＢ間の契約を取り消し、これをＣに対抗することができますか。<br>学生：オ　ＣがＡの欺罔行為について善意の場合には、Ｂは、ＡＢ間の契約の取消しをＣに対抗することができません。<br><br>1　アエ　　　2　アオ　　　3　イウ　　　4　イオ　　　5　ウエ</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min40.html#(リンク)">Unit40-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h18-18">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h15-20-ah08-05-a">
+  <div class="dlg-head"><div class="dlg-title">(H15-20-ア)(H08-05-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>承諾の期間を定めてした申込みは、撤回することができない（民法<span class="mono">523条</span>1項本文）。Ａは「今月末まで」として、承諾の期間を定めて申込みをしているので、撤回することができない。従って、本解答は正しい。なお、申込者がこの期間内に承諾の通知を受けなかったときは、申込みは効力を失う（民法<span class="mono">523条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-20-i">
+  <div class="dlg-head"><div class="dlg-title">(H15-20-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>承諾の期間を定めないでした申込みは、申込者が承諾の通知を受けるのに相当な期間を経過するまでは、撤回することができない（民法<span class="mono">525条</span>1項本文）。従って、通知を受け取る前であればいつでもとしている点で、本解答は誤っている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-18-3h08-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H31-18-3)(H08-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>一般原則では、意思表示後に表意者が死亡したり、意思能力を喪失した常況にある者となったり、行為能力の制限を受けたりしたとしても、意思表示の効力に影響しない（民法<span class="mono">97条</span>3項）。しかし、申込みの場合には例外として、申込者がその事実が生じたとすればその申込みは効力を有しない旨の意思を表示していたとき、又はその相手方が承諾の通知を発するまでにその事実が生じたことを知ったときは、その申込みは、その効力を有しない（民法<span class="mono">526条</span>）。本肢のＢは、申込みの通知の到達前にＡ死亡の事実を知ったのであるから、民法<span class="mono">526条</span>が適用され、ＡＢ間の契約は成立しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h31-18-4h15-20-e">
+  <div class="dlg-head"><div class="dlg-title">(H31-18-4)(H15-20-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>申込者が承諾期間の定めのある申込みに対してその期間内に承諾の通知を受けなかったときは、その申込みは、その効力を失う（民法<span class="mono">523条</span>2項）。そして、契約の申込み及び承諾の延着については特に規定はなく、遅延した承諾は申込者において新たな申込みとみなすことができるため（民法<span class="mono">524条</span>）、本肢のＢの意思表示は新たな申込みとなるが、これに対してＡの承諾はなく、この時点では契約は成立していない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-05-i">
+  <div class="dlg-head"><div class="dlg-title">(H08-05-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>契約の申込みに対して承諾の期間内に承諾の通知を受けなかったときは、その申込みは、その効力を失い（民法<span class="mono">523条</span>2項）、契約は成立しない。しかし、契約の申込みをした者は、承諾期間に遅延した承諾を新たな申込みとみなすことができ（民法<span class="mono">524条</span>）、契約の申込みをした者が承諾することによって契約が成立する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-18-eh04-06-4">
+  <div class="dlg-head"><div class="dlg-title">(H21-18-エ)(H04-06-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>同時履行の抗弁権（民法<span class="mono">533条</span>）は、契約当事者の抗弁権であるから、債権譲渡や債務引受けがあったとしても、契約の同一性は失われず、同時履行の抗弁権は存続する（大判大6.11.10参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-06-1">
+  <div class="dlg-head"><div class="dlg-title">(H04-06-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>解除による原状回復義務については、同時履行の抗弁権の規定（民法<span class="mono">533条</span>）が準用されている（民法<span class="mono">546条</span>）。また、契約が取り消された場合の当事者相互の返還義務についても、同時履行の関係が認めてられている（最判昭28.6.16、最判昭47.9.7）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-18-u">
+  <div class="dlg-head"><div class="dlg-title">(H21-18-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>判例は、「双務契約の当事者の一方は相手方の履行の提供があつても、その提供が継続されない限り同時履行の抗弁権を失うものではない」とする（最判昭34.5.14等）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-06-3">
+  <div class="dlg-head"><div class="dlg-title">(H04-06-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>同時履行の抗弁権を有する者は、履行しないことが違法ではないため、債務不履行の責任（民法<span class="mono">415条</span>）を負わない（最判昭29.7.27参照）。よって、本肢の債権者には損害賠償請求も認められない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-17-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、相手方が個別の条項の一部の内容を認識していなかったときは、その条項については合意をしたとはみなされないとしている点で、誤っている。定型取引を行うことの合意をした者は、定型約款を契約の内容とする旨の合意をしたときは、定型約款の個別の条項についても合意したものとみなされる（民法<span class="mono">548条の2</span>第1項1号）。「定型約款を契約の内容とする旨の合意をしたとき」とは、定型約款を契約に組み入れることの合意をしたことを意味し、相手方が定型約款の個別の条項の内容について認識している必要はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-17-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、定型取引に該当しないとしている点で、誤っている。民法<span class="mono">548条の2</span>第1項柱書かっこ書。「定型取引」とは、ある特定の者が不特定多数の者を相手方として行う取引であって、その内容の全部又は一部が画一的であることがその双方にとって合理的なものをいう（民法<span class="mono">548条の2</span>第1項柱書かっこ書）。よって、ある特定の者が不特定多数の者を相手方として行う取引であり、その内容の一部のみが当事者双方にとって画一的であることが合理的である場合には、その取引は定型取引に該当する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-17-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、定型約款の内容を示さなければならないとしている点で、誤っている。民法<span class="mono">548条の3</span>第1項ただし書。定型約款準備者が既に相手方に対して定型約款を記載した書面を交付し、又はこれを記録した電磁的記録を提供していたときは、定型約款準備者は、定型約款の内容を示す義務を負わない（民法<span class="mono">548条の3</span>第1項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-17-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">548条の3</span>第2項により、本記述は正しい。定型約款準備者が定型約款取引合意の前にされた相手方からの開示請求を拒んだときは、一時的な通信障害が生じた場合その他正当な事由がある場合を除き、定型約款の個別条項についての合意がなされたとみなされない（民法<span class="mono">548条の3</span>第2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-17-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-17-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">548条の4</span>第3項参照により、本記述は正しい。定型約款の変更が相手方の一般の利益に適合する場合（民法<span class="mono">548条の4</span>第1項1号）には、定型約款準備者は適切な方法による周知をする義務を負うが（民法<span class="mono">548条の4</span>第2項）、この場合において周知は効力発生要件とされていない（民法<span class="mono">548条の4</span>第3項参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-17-a">
+  <div class="dlg-head"><div class="dlg-title">(R04-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>第三者のためにする契約は、その成立の時に第三者が現に存しない場合又は第三者が特定していない場合であっても、そのためにその効力を妨げられない（民法<span class="mono">537条</span>2項）。本記述におけるＣの具体例としては、胎児や設立中の法人が挙げられる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-17-u">
+  <div class="dlg-head"><div class="dlg-title">(R04-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、当該建物の所有権は、Ｃの受益の意思表示をした時期にかかわらず、その契約の成立時に、Ｃに移転するとしている点で、誤っている。第三者のためにする契約の場合において、第三者の権利は、その第三者が債務者に対して同項の契約の利益を享受する意思を表示した時に発生する（民法<span class="mono">537条</span>3項）。また、第三者が取得する「直接にその給付を請求する権利」（民法<span class="mono">537条</span>1項）は、債権に限られず、諾約者から物権を直接取得することができる。よって、契約の成立時ではなく、Ｃの受益の意思表示がされた時点で、Ｃに当該建物の所有権が移転する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-17-e">
+  <div class="dlg-head"><div class="dlg-title">(R04-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、ＢはＣの承諾を得ることなく契約を解除することができるとしている点で、誤っている。第三者のためにする契約により第三者の権利が発生した後に、債務者がその第三者に対する債務を履行しない場合には、当該契約の相手方は、その第三者の承諾を得なければ、契約を解除することができない（民法<span class="mono">538条</span>2項）。よって、ＢはＣの承諾を得なければ、契約を解除することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-17-i">
+  <div class="dlg-head"><div class="dlg-title">(R04-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、Ｃは自らが当該錯誤について善意かつ無過失であることを主張して、その契約に基づく履行を求めることができるとしている点で、誤っている。民法<span class="mono">539条</span>。債務者は、第<span class="mono">537条</span>第1項の契約〔注：第三者のためにする契約〕に基づく抗弁をもって、その契約の利益を受ける第三者に対抗することができる（民法<span class="mono">539条</span>）。受益者は、新たな利害関係を有するに至った者ではないので、民法<span class="mono">95条</span>4項の「第三者」には当たらない。よって、諾約者Ａは、受益者Ｃの善意・悪意を問わず、錯誤に基づく取消しを主張することができるので、Ｃは、履行を求めることができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r04-17-o">
+  <div class="dlg-head"><div class="dlg-title">(R04-17-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者は、第三者のためにする契約（民法<span class="mono">537条</span>）に基づく抗弁をもって、その契約の利益を受ける第三者に対抗することができる（民法<span class="mono">539条</span>）。よって、ＡはＢに対する同時履行の抗弁権を、Ｃに対しても主張することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-13">
+  <div class="dlg-head"><div class="dlg-title">（H09-13） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：5</div>
+    <p>ア　いずれの場合も正しい。留置権は、債権が弁済期にないときは、行使することができない（民法<span class="mono">295条</span>1項ただし書）。他方、同時履行の抗弁権も、相手方の債務が弁済期にないときは、主張することができない（民法<span class="mono">533条</span>ただし書）。<br><br>イ　留置権である場合は正しいが、同時履行の抗弁権である場合には誤っている。債務者は、相当の担保を供して、留置権の消滅を請求することができる（民法<span class="mono">301条</span>）。他方、同時履行の抗弁権には、このような規定はない。なぜならば、両者はともに公平を基本理念としつつも、公平を要求する目的が異なるからである。すなわち、留置権の目的は債権担保であるが、同時履行の抗弁権の目的は双務契約の当事者の一方のみが先履行を要求されることを避けるためである。<br><br>ウ　留置権である場合には正しいが、同時履行の抗弁権である場合には誤っている。留置権は、独立の物権であるという性質上、何人に対してもこれを行使することができる（対世的効力）。他方、同時履行の抗弁権では、債権法上の抗弁権であるという性質上、契約の相手方に対してのみ行使することができる。<br><br>エ　いずれの場合も誤っている。裁判所は物の引渡請求に対する留置権の抗弁を理由ありと認めるときは、その物に関して生じた債権の弁済と引換えに物の引渡しを命ずべきものとされている（最判昭33.3.13）。また、裁判所は双務契約当事者の一方が訴えをもって単純に相手方に債務の履行を請求した場合、相手方が同時履行の抗弁権を主張したときは、双方の債務の履行を引換えに相手方にその履行を命ずる裁判をするべきものとしている（大判明44.12.11）。<br><br>オ　留置権である場合には正しいが、同時履行の抗弁権である場合には誤っている。留置権には、「形式的競売」（民執法<span class="mono">195条</span>）が認められている。他方、同時履行の抗弁権である場合にはこのような制度はない。<br><br>以上により、留置権である場合には正しいが、同時履行の抗弁権である場合には誤っている記述はイ、ウ、オであり、従って、正解は肢5となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h18-18">
+  <div class="dlg-head"><div class="dlg-title">（H18-18） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：3</div>
+    <p>ア　解答：誤り。第三者のためにする契約の第三者は、契約成立の時には現存・特定していることを要しない（民法<span class="mono">537条</span>2項）。従って、本解答は誤っている。<br><br>イ　解答：正しい。要約者は諾約者に対して、第三者に債務を履行すべきことを請求する権利を有するが、この権利は始期又は条件のない限り契約の成立とともに発生する。すなわち、第三者が受益の意思表示をする前にも存在する（大判大3.4.22）。従って、本解答は正しい。<br><br>ウ　解答：正しい。第三者の権利は、第三者が諾約者に対して契約の利益を享受する意思を表示しなければ発生しないが（民法<span class="mono">537条</span>3項）、この受益の意思表示は、黙示の意思表示でもよいとされる（大判昭18.4.16）。従って、本解答は正しい。<br><br>エ　解答：誤り。第三者に権利を取得させるだけではなく、付随的な負担を伴うとすることも可能であるが（大判大8.2.1、大判大14.7.10）、このような場合、第三者は負担を拒絶して利益だけを享受することはできない。従って、本解答は誤っている。<br><br>オ　解答：誤り。債務者たる諾約者は、契約に基づく抗弁をもって、その契約の利益を受ける第三者に対抗することができる（民法<span class="mono">539条</span>）。つまり、意思表示の瑕疵を理由として諾約者が契約の無効や取消を主張した場合には、受益者である第三者の善意・悪意を問わず、無効・取消の効果を主張することができる。従って、本解答は誤っている。<br><br>以上により、正しい解答はイとウであり、従って、正解は肢3となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>

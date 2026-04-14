@@ -1,0 +1,943 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit33</title>
+  <style>
+    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
+    /* ===== header ===== */
+    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
+    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+    header h1{font-size:16px;margin:0;font-weight:700;}
+    header a{color:var(--accent);text-decoration:none;font-size:13px;}
+    /* ===== header 2-row layout ===== */
+    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
+    /* ===== header 1行目ナビ ===== */
+    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hnav{display:flex;gap:24px;font-size:14px;}
+    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .hnav a:hover{text-decoration:underline;}
+    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .hsize{display:flex;gap:6px;align-items:center;}
+    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* header tools (進捗＋全操作) */
+    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
+    /* ===== main ===== */
+    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
+    .list{display:grid;gap:10px;}
+    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
+    /* ===== 問題ヘッダ ===== */
+    .qhead{position:relative;display:block;}
+    /* 解答ボタン右上固定 */
+    .qhead > .btn{position:absolute;top:0;right:0;}
+    /* 左エリア */
+    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
+    /* 問題番号 */
+    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
+    /* 問題文 */
+    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
+    /* ===== multi-step check（問題文上） ===== */
+    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
+    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
+    .qstep[data-level="0"]{color:var(--muted);}
+    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
+    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
+    /* ===== meta ===== */
+    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
+    .pill a{color:var(--accent);text-decoration:none;}
+    /* ===== button ===== */
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+    /* ===== dialog ===== */
+    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
+    dialog::backdrop{background:rgba(0,0,0,.35);}
+    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
+    .dlg-title{font-weight:700;font-size:14px;}
+    .dlg-body{padding:14px;background:#fff;}
+    .dlg-body p{margin:0 0 10px;line-height:1.75;}
+    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
+    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
+    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
+    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
+    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
+    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
+    img {max-width: 100%; height: auto; display: block;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit33</h1>
+      <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min32q.html">前へ</a>
+      <a href="pu26min34q.html">次へ</a>
+      <a href="pu26min33.html">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r05-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-17-ア)</div>
+          <p class="qtext">1　ＡがＢに対して債権を有しており、その債権を保全するために必要があるときは、Ａは、Ｂが有する債権者代位権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-1</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h17-17-ih24-06-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-17-イ)(H24-06-イ)</div>
+          <p class="qtext">2　Ｂの債権者であるＡは、ＢがＣに対して負っている債務について、Ｂが消滅時効を援用し得る地位にあるのにこれを援用しないときは、Ｂに代位して消滅時効を援用することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-2</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-17-ih24-06-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h04-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-13-エ)</div>
+          <p class="qtext">3　Ａは、その所有する不動産につき、債権者Ｂとの間で抵当権設定契約を締結したが、その登記をしないうちに、この不動産をＣに売却して所有権移転の登記をした。Ａ・Ｃ間の売買契約と同時に買戻しの特約がされている場合でも、Ｂは、Ａに代位して買戻権を行使することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-3</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h01-05-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-05-4)</div>
+          <p class="qtext">4　物権的請求権は、債権者代位によって行使することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-4</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-05-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h12-07-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-07-イ)</div>
+          <p class="qtext">5　不動産がＡからＢへ、ＢからＣへと順次売却されたが、それらの所有権移転の登記が未了の間に、Ｄが契約書等を偽造して、その不動産につきＡからＤへの所有権移転の登記を経由してしまった場合、Ｃは、Ｂの債権者として、ＢがＡに代位してＤに対し行使し得る所有権移転の登記の抹消請求権を代位行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-5</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-07-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h24-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-22-ウ)</div>
+          <p class="qtext">6　財産分与請求権は、協議や審判によって具体的内容が形成されるまでは、その範囲及び内容が不確定・不明確であるから、離婚した当事者の一方は、財産分与請求権を保全するために、他方の当事者に属する権利を代位行使することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-6</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h17-17-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-17-ウ)</div>
+          <p class="qtext">7　ＢとＣとの離婚後、ＢＣ間で、ＣがＢに対して財産分与として500万円を支払う旨の合意が成立したが、Ｂがその支払を求めない場合には、Ｂの債権者であるＡは、Ｂに代位してＣに対し、これを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-7</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-17-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h17-17-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-17-ア)</div>
+          <p class="qtext">8　ＡがＢに対して有する金銭債権を被保全債権として債権者代位権を行使する場合には、その被保全債権が発生する前からＢがＣに対して有していた金銭債権を債権者代位権の目的とすることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-8</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-17-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h29-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-17-エ)</div>
+          <p class="qtext">9　債務者が既に自ら権利を行使している場合には、その行使の方法又は結果の良否にかかわらず、債権者は重ねて債権者代位権を行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-9</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h02-05-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-05-3)</div>
+          <p class="qtext">10　ＡはＢに対し、ＢはＣに対し、それぞれ債権を有している。Ａは裁判上のみならず、裁判外でも債権者代位権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-10</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-05-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h29-17-oh06-08-uh02-05-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-17-オ)(H06-08-ウ)(H02-05-2)</div>
+          <p class="qtext">11　債権者は、被代位権利を行使する場合において、被代位権利が金銭債権であるときは、第三債務者に対し、その支払を自己に対してすることを求めることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-11</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-17-oh06-08-uh02-05-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h17-17-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-17-オ)</div>
+          <p class="qtext">12　Ｂの債権者であるＡがＢのＣに対する動産の引渡請求権を代位行使する場合には、Ａは、Ｃに対し、その動産を自己に直接引き渡すよう請求することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-12</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-17-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h06-08-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-08-イ)</div>
+          <p class="qtext">13　債権者ＡがＢに対する金銭債権を保全するために、ＢのＣに対する金銭債権を代位行使した結果、Ｃから金銭の支払いを受けた場合には、Ａは、ＢのＡに対する債務と相殺することによって、Ｃから受け取った金銭をＢに返還する義務を免れることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-13</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-08-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h06-08-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-08-ア)</div>
+          <p class="qtext">14　債権者ＡがＢに対する50万円の金銭債権を保全するために、ＢのＣに対する100万円の貸金返還請求権を代位行使するに当たっては、ＢのＣに対する債権が1個の契約に基づくものであっても、Ａは、Ｃに対し、自己の債権額50万円に限って支払いを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-14</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-08-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r05-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-17-エ)</div>
+          <p class="qtext">15　ＡがＢに対して甲債権を有し、ＢがＣに対して乙債権を有している場合には、Ａが、Ｃに対して乙債権の代位行使に係る訴えを提起し、Ｂに対して訴訟告知をした後であっても、Ｂは、乙債権を第三者Ｄに譲渡することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-15</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h29-17-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-17-イ)</div>
+          <p class="qtext">16　債権者が被代位権利を行使し、その事実を債務者が了知した場合であっても、当該債務者は、被代位権利について、自ら取立てその他の処分をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-16</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-17-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h10-05-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-05-5)</div>
+          <p class="qtext">17　第三者Ｃが債権者Ａに対する債権を保全するために債権者代位権を行使し、Ａに代位して債務者Ｂに対し債務の履行を請求した場合に、ＢがＡに対して弁済したときは、その弁済は効力を有する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-17</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-05-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-r05-17-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-17-オ)</div>
+          <p class="qtext">18　ＡがＢに対して金銭債権である甲債権を有し、ＢがＣに対して金銭債権である乙債権を有している場合において、Ａが、乙債権を代位行使して、自己にその金銭の支払をするように求めたときは、ＣがＢに対して乙債権につき同時履行の抗弁権を有していても、Ｃは、Ａに対して、その同時履行の抗弁権をもって対抗することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-18</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-17-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h05-06-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-06-エ)</div>
+          <p class="qtext">19　乙の債権者甲が債権者代位権を行使して丙に対して請求した場合には、丙は、乙に対して有する債権を自働債権としてする相殺を甲に対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-19</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-06-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-r05-17-ih06-08-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-17-イ)(H06-08-オ)</div>
+          <p class="qtext">20　甲土地につき、ＡがＢに対して所有権移転登記手続請求権を有し、ＢがＣに対して所有権移転登記手続請求権を有しており、ＡがＢのＣに対する所有権移転登記手続請求権を代位行使することができるときは、Ａは、Ｃに対し、甲土地につき、ＣからＡへの所有権移転登記手続をすることを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-20</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-17-ih06-08-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h17-17-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-17-エ)</div>
+          <p class="qtext">21　土地がＣからＢへ、ＢからＡへと順次譲渡された場合において、ＢがＣに対して所有権の移転の登記を請求しないときは、Ａは、Ｂが無資力でなくても、ＢのＣに対する所有権移転登記請求権を代位行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-21</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-17-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h06-08-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-08-エ)</div>
+          <p class="qtext">22　賃借人Ａが賃貸人であるＢの所有する建物の賃貸借契約をしたが引渡しを受けていない場合において、その建物をＣが権原なく占有しているときは、Ａは、Ｃに対し、ＢのＣに対する所有権に基づく建物の返還請求権を代位行使して、直接自己に引き渡すことを請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-22</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-08-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h22-16-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-16-ウ)</div>
+          <p class="qtext">23　Ｄが不動産をＢに売却した後に死亡し、Ａ及びＣがＤを共同相続した場合において、Ｂへの所有権の移転の登記手続にＡが協力せず、Ｂも売買代金の支払を拒絶しているときは、Ｃは、Ｂの資力の有無にかかわらず、Ｂに代位して、Ａに対する登記請求権を行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-23</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-16-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h22-16-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-16-オ)</div>
+          <p class="qtext">24　Ａ所有の不動産をＢが賃借し、さらにＣがＢから転借している場合において、Ｄが不動産の使用を妨害しているにもかかわらず、その妨害の排除をＡが請求せず、ＢもまたＡに代位してその請求をしないときは、Ｃは、Ａ及びＢの資力の有無にかかわらず、ＡのＤに対する妨害排除請求権をＡに代位して行使するＢの権利を、Ｂに代位して行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+              <a href="pu26min33.html#(リンク)">Unit33-24</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-16-o">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r05-17-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者は、自己の債権を保全するため必要があるときは、債務者に属する権利（被代位権利）を行使することができる（民法<span class="mono">423条</span>1項）。債務者の一身に専属する権利及び差押えを禁じられた権利に代位することはできないが（民法<span class="mono">423条</span>１項ただし書）、債権者代位権はこれらに該当せず、債権者代位権の代位行使も認められている（最判昭39.4.17）。よって、Ａは、Ｂが有する債権者代位権を代位行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-17-ih24-06-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-17-イ)(H24-06-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>消滅時効の援用権も債権者代位権の被代位権利の対象となる（最判昭43.9.26）。よって、ＡはＢに代位して消滅時効を援用することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H04-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債務者の一身に専属する権利・差押を禁じられた権利を除いて、債権者は、債務者に属する権利を行使することができる（民法<span class="mono">423条</span>1項）。すなわち、代金債権など金銭債権をはじめとして、買戻権などの形成権についても代位行使が可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-05-4">
+  <div class="dlg-head"><div class="dlg-title">(H01-05-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権者代位権の被代位権利は、一身専属権・差押を禁じられた権利を除き、債務者に属する権利である（民法<span class="mono">423条</span>1項）。よって、物権的請求権も債権者代位権の行使の対象になる（最判昭39.4.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-07-i">
+  <div class="dlg-head"><div class="dlg-title">(H12-07-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>Ｄは無権利者であるので、これに対してＡは所有権移転登記の抹消請求権を有し、ＢはＡの抹消請求権を代位行使することができる。また、債権者代位権（民法<span class="mono">423条</span>）の代位行使も認められているため（最判昭39.4.17）、ＣはＢの債権者として、Ｂの有する債権者代位権を代位行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H24-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>協議又は協議に代わる処分等により、その範囲及び内容が具体的に形成される場合には、財産分与請求権を保全するために、債権者代位権を行使することができる。しかし、その範囲及び内容が具体的に形成される前の財産分与請求権については、債権者代位権を行使することはできない（最判昭55.7.11）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-17-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-17-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>離婚の際の財産分与請求権（民法<span class="mono">768条</span>1項）は、協議により具体的内容が形成された場合には、債権者代位権の目的となり得る。本記述では、財産分与の具体的内容が形成されているため、ＡはＢに代位して、500万円の支払を請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-17-a">
+  <div class="dlg-head"><div class="dlg-title">(H17-17-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権者代位権については、被保全債権の発生する前から債務者が有していた債権でなければその目的とすることができないという制限はない。よって、ＡはＢに対する債権が発生する前からＢがＣに対して有していた金銭債権を債権者代位権の目的とすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-17-e">
+  <div class="dlg-head"><div class="dlg-title">(H29-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債務者がすでに自ら権利を行使している場合には、その行使の方法・結果にかかわらず、債権者は、債務者を排除し又は債務者と重複して債権者代位権を行使することはできない（最判昭28.12.14）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-05-3">
+  <div class="dlg-head"><div class="dlg-title">(H02-05-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者代位権は、裁判上のみならず裁判外でも行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-17-oh06-08-uh02-05-2">
+  <div class="dlg-head"><div class="dlg-title">(H29-17-オ)(H06-08-ウ)(H02-05-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>被代位権利が金銭の支払又は動産の引渡しを目的とする場合、債権者代位権を行使した債権者は、第三債務者に対し、直接自己への給付を求めることができる（民法<span class="mono">423条の3</span>前段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-17-o">
+  <div class="dlg-head"><div class="dlg-title">(H17-17-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>被代位権利が金銭の支払又は動産の引渡しを目的とする場合、債権者代位権を行使した債権者は、第三債務者に対し、直接自己への給付を求めることができる（民法<span class="mono">423条の3</span>前段）。よって、ＡはＣに対し、当該動産を自己に直接引き渡すよう請求することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-08-i">
+  <div class="dlg-head"><div class="dlg-title">(H06-08-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>被代位権利が金銭の支払又は動産の引渡しを目的とする場合、債権者代位権を行使した債権者は、第三債務者に対し、直接自己への給付を求めることができる（民法<span class="mono">423条の3</span>前段）。この場合、金銭を受領した債権者は、これと自己が有する債務者に対する金銭債権とを相殺することによって、受け取った金銭を返還する義務を免れることができると解されている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-08-a">
+  <div class="dlg-head"><div class="dlg-title">(H06-08-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者代位権の行使の範囲は、債権の保全に必要な限度に限られるべきであって、債権者が債務者に対する金銭債権に基づいて債務者の第三債務者に対する金銭債権を代位行使する場合においては、債権者は自己の債権額の範囲においてのみ債務者の債権を行使することができる（民法<span class="mono">423条の2</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-17-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者が被代位権利を行使した場合であっても、債務者は、被代位権利について、自ら取立てその他の処分をすることを妨げられない（民法<span class="mono">423条の5</span>前段）。そして、債権者は、被代位権利の行使に係る訴えを提起したときは、遅滞なく、債務者に対し、訴訟告知をしなければならない（民法<span class="mono">423条の6</span>）が、当該訴訟告知がなされても債務者は被代位権利について処分権限を失うわけではない。よって、ＡがＣに対して乙債権の代位行使に係る訴えを提起し、Ｂに対して訴訟告知をした後であっても、Ｂは乙債権を第三者のＤに譲渡することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-17-i">
+  <div class="dlg-head"><div class="dlg-title">(H29-17-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者が被代位権利を行使した場合であっても、債務者は、被代位権利について、自ら取立てその他の処分をすることを妨げられない。この場合においては、相手方も、被代位権利について、債務者に対して履行をすることを妨げられない（民法<span class="mono">423条の5</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-05-5">
+  <div class="dlg-head"><div class="dlg-title">(H10-05-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者が被代位権利を行使した場合であっても、債務者は、被代位権利について、自ら取立てその他の処分をすることを妨げられない。この場合においては、相手方も、被代位権利について、債務者に対して履行をすることを妨げられない（民法<span class="mono">423条の5</span>）。よって、相手方が任意にその債務を債務者に履行することは許される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-17-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-17-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>債権者が被代位権利を行使したときは、相手方は、債務者に対して主張することができる抗弁をもって、債権者に対抗することができる（民法<span class="mono">423条の4</span>）。よって、相手方であるＣは、債務者であるＢに対して主張できる同時履行の抗弁権をもって、債権者であるＡに対して対抗することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-06-e">
+  <div class="dlg-head"><div class="dlg-title">(H05-06-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>債権者代位権の場合、第三債務者は債務者自らが権利行使する場合に比べて不利な地位におかれるべきではないから、第三債務者は、債務者に対して主張することができた抗弁をもって債権者に対抗することができる（民法423 条の4）。また、債権者が債務者の金銭債権を行使する場合には、第三債務者は、債務者に対する反対債権と相殺することができる（大判昭11.3.23）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-17-ih06-08-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-17-イ)(H06-08-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、ＡはＣに対し、甲土地につきＣからＡへの所有権移転登記手続をすることを請求できるとしている点で、誤っている。登記又は登録をしなければ権利の得喪及び変更を第三者に対抗することができない財産を譲り受けた者は、その譲渡人が第三者に対して有する登記手続又は登録手続をすべきことを請求する権利を行使しないときは、その権利を行使することができる（民法<span class="mono">423条の7</span>）。したがって、所有権移転登記手続請求権も債権者代位権行使の対象となるが、これによって直接にＣからＡに登記名義が移転するのではない。被代位権利が金銭の支払又は動産の引渡しを目的とするものである場合には、債権者への直接の支払い又は引渡しを請求することができるが（民法<span class="mono">423条の3</span>前段）、本記述の被代位権利はＢのＣに対する所有権移転登記手続請求権であるため、ＡはＣに対し、甲土地につきＣからＡへの所有権移転登記手続をすることを請求することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-17-e">
+  <div class="dlg-head"><div class="dlg-title">(H17-17-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の買主は、売主が現登記名義人に対する移転登記請求権を行使しない場合に、これを代位行使することができる（民法<span class="mono">423条の7</span>）。よって、ＡはＢのＣに対する所有権移転登記請求権を代位行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-08-e">
+  <div class="dlg-head"><div class="dlg-title">(H06-08-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>賃借権の保全のための債権者代位権の行使も認められる。建物の賃借人が、その賃借権を保全するため賃貸人たる建物所有者に代位して建物の不法占拠者に対しその明渡しを請求することができ、この場合、直接自己に対してその明渡しをなすべきことを請求することができると解されている（最判昭29.9.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-16-u">
+  <div class="dlg-head"><div class="dlg-title">(H22-16-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の売主Ｄの共同相続人の一人であるＣは、相続した代金債権を保全するために、買主Ｂが登記手続を拒絶している他の共同相続人であるＡに対して有する所有権移転登記請求権を代位行使することができる。この場合、買主Ｂの資力の有無は問われない（最判昭50.3.6）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-16-o">
+  <div class="dlg-head"><div class="dlg-title">(H22-16-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の賃借人は、自己の賃借権を保全するため、賃貸人の妨害排除請求権を代位行使できる（大判昭4.12.16）。また、債権者代位権の代位行使も認められる。よって、転借人Ｃは、Ｂが有する債権者代位権をさらに代位行使することができる。なお、不動産の賃借人が対抗要件を備えた場合、賃借人自身が不動産賃借権に基づく妨害排除請求権及び返還請求権を有する（民法<span class="mono">605条の4</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'steps::' + location.pathname;
+  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
+  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
+    function renderStep(btn, level, cardEl){
+      btn.dataset.level = String(level);
+      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
+      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+      btn.setAttribute('aria-label', `チェック段階 ${level}`);
+      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      const card = cardEl || btn.closest('.q');
+      if (card){
+        card.classList.remove('lv1');
+        if (level === 1) card.classList.add('lv1');
+      }
+    }
+  // ===== font-size (buttons only) =====
+  const FONT_KEY = 'baseFontPx::' + location.pathname;
+  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
+  function clampFont(n){
+    n = Number(n);
+    if (!Number.isFinite(n)) n = FONT_DEFAULT;
+    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+  }
+  function getCurrentFont(){
+    return parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--base-font'),
+      10
+    ) || FONT_DEFAULT;
+  }
+  function applyFont(px, save){
+    px = clampFont(px);
+    document.documentElement.style.setProperty('--base-font', px + 'px');
+    if (save){
+      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
+    }
+  }
+  function loadFont(){
+    let saved = null;
+    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
+    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+    applyFont(px, false);
+  }
+  function ensureHeaderTools(){
+    const wrap = document.querySelector('header .wrap');
+    if (!wrap) return;
+    // 既に2段構造なら何もしない
+    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
+    // 既存要素を退避（h1 と a）
+    const h1 = wrap.querySelector('h1');
+    const a  = wrap.querySelector('a');
+    // 中身を組み立て直す
+    wrap.innerHTML = '';
+    // 1段目：タイトル左／テキストへ右
+    const row1 = document.createElement('div');
+    row1.className = 'hrow1';
+    if (h1) row1.appendChild(h1);
+    if (a)  row1.appendChild(a);
+    wrap.appendChild(row1);
+    // 2段目：文字サイズボタン＋全操作
+    const row2 = document.createElement('div');
+    row2.className = 'hrow2';
+    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+    const size = document.createElement('div');
+    size.className = 'hsize';
+    const bDec = document.createElement('button');
+    bDec.type = 'button';
+    bDec.className = 'btn';
+    bDec.id = 'btn-font-dec';
+    bDec.textContent = '-';
+    const bStd = document.createElement('button');
+    bStd.type = 'button';
+    bStd.className = 'btn';
+    bStd.id = 'btn-font-std';
+    bStd.textContent = 'Aa';
+    const bInc = document.createElement('button');
+    bInc.type = 'button';
+    bInc.className = 'btn';
+    bInc.id = 'btn-font-inc';
+    bInc.textContent = '+';
+    size.appendChild(bDec);
+    size.appendChild(bStd);
+    size.appendChild(bInc);
+    row2.appendChild(size);
+    // 全操作
+    const bClear = document.createElement('button');
+    bClear.type = 'button';
+    bClear.className = 'btn';
+    bClear.id = 'btn-clear';
+    bClear.textContent = 'reset';
+    const bAll1 = document.createElement('button');
+    bAll1.type = 'button';
+    bAll1.className = 'btn';
+    bAll1.id = 'btn-all1';
+    bAll1.textContent = '全済';
+    const bAll2 = document.createElement('button');
+    bAll2.type = 'button';
+    bAll2.className = 'btn';
+    bAll2.id = 'btn-all2';
+    bAll2.textContent = '全再';
+    row2.appendChild(bClear);
+    row2.appendChild(bAll1);
+    row2.appendChild(bAll2);
+    wrap.appendChild(row2);
+  }
+  function ensureFontTools(tools){
+    if (document.getElementById('fs-up')) return;
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'btn small';
+    down.id = 'fs-down';
+    down.textContent = '-';
+    down.addEventListener('click', () =>
+      applyFont(getCurrentFont() - FONT_STEP, true)
+    );
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'btn small';
+    reset.id = 'fs-reset';
+    reset.textContent = 'Aa';
+    reset.addEventListener('click', () =>
+      applyFont(FONT_DEFAULT, true)
+    );
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'btn small';
+    up.id = 'fs-up';
+    up.textContent = '+';
+    up.addEventListener('click', () =>
+      applyFont(getCurrentFont() + FONT_STEP, true)
+    );
+    tools.prepend(up);
+    tools.prepend(reset);
+    tools.prepend(down);
+  }
+  function updateProgress(){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    let c1 = 0, c2 = 0;
+    all.forEach(id => {
+      const lv = clampLevel(saved[id]);
+      if (lv >= 1) c1++;
+      if (lv >= 2) c2++;
+    });
+    const prog = document.getElementById('prog');
+    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+  }
+  function ensureStepButtons(){
+    const saved = loadSteps();
+    document.querySelectorAll('section.q[id]').forEach(sec => {
+      const qid = sec.id;
+      const head = sec.querySelector('.qhead');
+      const left = sec.querySelector('.left');
+      if (!head || !left) return;
+      // 既に生成済みならスキップ
+      if (head.querySelector('button.qstep')) return;
+      // ===== チェックUI作成 =====
+      const wrap = document.createElement('div');
+      wrap.className = 'qcheck';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qstep';
+      btn.setAttribute('data-qid', qid);
+      wrap.appendChild(btn);
+      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+      left.prepend(wrap);
+      // ===== 保存済みレベル取得 =====
+      const level = clampLevel(saved[qid]);
+      // ===== 描画（card要素を渡す） =====
+      renderStep(btn, level, sec);
+    });
+    updateProgress();
+  }
+  function setAllLevels(level){
+    const all = getAllQuestionIds();
+    const saved = loadSteps();
+    all.forEach(id => { saved[id] = clampLevel(level); });
+    saveSteps(saved);
+    document.querySelectorAll('button.qstep').forEach(btn => {
+      renderStep(btn, clampLevel(level));
+    });
+    updateProgress();
+  }
+  function cycleLevel(current){ return (current + 1) % 3; }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
+    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
+    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
+    const stepBtn = e.target.closest('button.qstep');
+    if (stepBtn){
+      const qid = stepBtn.getAttribute('data-qid');
+      const saved = loadSteps();
+      const cur = clampLevel(saved[qid]);
+      const next = cycleLevel(cur);
+      saved[qid] = next;
+      saveSteps(saved);
+      renderStep(stepBtn, next);
+      updateProgress();
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) {
+    const dlg = closeBtn.closest('dialog');
+    if (dlg) dlg.close(); return; } });
+  document.querySelectorAll('dialog').forEach(d =>
+    d.addEventListener('close', () => {
+      const a = document.activeElement;
+      if (a && a.blur) a.blur();
+    })
+  );
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
+</script>
+</body></html>
