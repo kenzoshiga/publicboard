@@ -1,793 +1,1020 @@
 ﻿<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>民法 Unit45</title>
-  <style>
-    :root{--base-font:16px;--bg:#f7f8fb; --paper:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --ok:#16a34a; --ng:#dc2626;}
-    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;background:var(--bg);color:var(--text);font-size:var(--base-font);}
-    /* ===== header ===== */
-    header{position:sticky;top:0;background:rgba(247,248,251,.92);backdrop-filter: blur(8px);border-bottom:1px solid var(--line);z-index:10;}
-    header .wrap{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;}
-    header h1{font-size:16px;margin:0;font-weight:700;}
-    header a{color:var(--accent);text-decoration:none;font-size:13px;}
-    /* ===== header 2-row layout ===== */
-    header .wrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:block; /* ←2段にする */}
-    /* ===== header 1行目ナビ ===== */
-    .hrow1{display:flex;align-items:center;justify-content:space-between;gap:16px;}
-    .hnav{display:flex;gap:24px;font-size:14px;}
-    .hnav a{color:var(--accent);text-decoration:none;font-weight:500;}
-    .hnav a:hover{text-decoration:underline;}
-    .hrow2{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-    .hsize{display:flex;gap:6px;align-items:center;}
-    .hsize .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
-    .hrow2 .btn{padding:6px 9px;border-radius:10px;font-size:12px;}
-    /* header tools (進捗＋全操作) */
-    .htools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
-    .hprog{font-size:12px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:5px 10px;border-radius:999px;white-space:nowrap;}
-    .btn.small{padding:6px 9px;border-radius:10px;font-size:12px;}
-    /* ===== main ===== */
-    main{max-width:1100px;margin:16px auto;padding:0 16px 40px;}
-    .list{display:grid;gap:10px;}
-    .q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;scroll-margin-top:70px;}
-    /* ===== 問題ヘッダ ===== */
-    .qhead{position:relative;display:block;}
-    /* 解答ボタン右上固定 */
-    .qhead > .btn{position:absolute;top:0;right:0;}
-    /* 左エリア */
-    .left{width:100%;padding-right:90px; /* ボタン幅分確保 */}
-    /* 問題番号 */
-    .qid{font-size:12px;color:var(--muted);white-space:nowrap;}
-    /* 問題文 */
-    .qtext{line-height:1.75;margin:6px 0 0;padding-left:1.6em;text-indent:-1.6em;}
-    /* ===== multi-step check（問題文上） ===== */
-    .qcheck{display:flex;align-items:center;gap:8px;margin:6px 0 6px 0;}
-    .qstep{width:24px;height:24px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;}
-    .qstep[data-level="0"]{color:var(--muted);}
-    .qstep[data-level="1"]{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);font-weight:700;}
-    .qstep[data-level="2"]{border-color:#bfdbfe;background:#eff6ff;color:var(--accent);font-weight:700;}
-    /* ===== meta ===== */
-    .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
-    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;}
-    .pill a{color:var(--accent);text-decoration:none;}
-    /* ===== button ===== */
-    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:7px 10px;border-radius:10px;font-size:12px;cursor:pointer;white-space:nowrap;}
-    /* ===== dialog ===== */
-    dialog{width:min(820px, 92vw);border:none;border-radius:14px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.18);}
-    dialog::backdrop{background:rgba(0,0,0,.35);}
-    .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;}
-    .dlg-title{font-weight:700;font-size:14px;}
-    .dlg-body{padding:14px;background:#fff;}
-    .dlg-body p{margin:0 0 10px;line-height:1.75;}
-    .dlg-foot{padding:12px 14px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:flex-end;gap:10px;}
-    .badge{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;margin-bottom:10px;}
-    .badge.ok{border-color:#bbf7d0;background:#f0fdf4;color:var(--ok);}
-    .badge.ng{border-color:#fecaca;background:#fef2f2;color:var(--ng);}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;}
-    .q.lv1 .qtext{color:#D3D3D3;   /* グレー */}
-    .fsbtn{padding:4px 6px;border-radius:10px;font-size:0.80em;}
-    img {max-width: 100%; height: auto; display: block;}
-  </style>
-</head>
-<body>
-<header>
-  <div class="wrap">
-    <div class="hrow1">
-    <h1>民法 Unit45</h1>
-      <div class="hnav">
-      <a href="pu_index.html">トップへ</a>
-      <a href="pu26min44q.html">前へ</a>
-      <a href="pu_index.html">次へ</a>
-      <a href="pu26min45.html">テキストへ</a>
-      </div>
-    </div>
-    <div class="hrow2">
-      <div class="hsize">
-        <button class="btn" id="btn-font-dec">-</button>
-        <button class="btn" id="btn-font-std">Aa</button>
-        <button class="btn" id="btn-font-inc">+</button>
-      </div>
-      <button class="btn" id="btn-clear">reset</button>
-      <button class="btn" id="btn-all1">全済</button>
-      <button class="btn" id="btn-all2">全再</button>
-    </div>
-  </div>
-</header>
-<main><div class="list">
-
-    <!-- 1 -->
-    <section class="q" id="q-h18-13-u">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H18-13-ウ)</div>
-          <p class="qtext">1　土地の賃貸借は、1筆の土地の一部を目的とすることができるが、地上権は、1筆の土地の一部を目的として設定することができない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-02">賃貸借の成立</a>
-            </span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>民法 Unit45</title>
+    <link rel="stylesheet" href="css/styleq.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <div class="hrow1">
+          <h1>民法 Unit45</h1>
+          <div class="hnav">
+            <a href="pu_index.html">トップへ</a>
+            <a href="pu26min44q.html">前へ</a>
+            <a href="pu_index.html">次へ</a>
+            <a href="pu26min45.html">テキストへ</a>
           </div>
         </div>
-        <button class="btn" data-open="dlg-h18-13-u">解答・解説</button>
-      </div>
-    </section>
-
-    <!-- 2 -->
-    <section class="q" id="q-h03-11-4">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H03-11-4)</div>
-          <p class="qtext">2　地上権は地下部分に限って設定することができるが、土地の賃貸借はその対象を地下部分に限ることができない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-02">賃貸借の成立</a>
-            </span>
+        <div class="hrow2">
+          <div class="hsize">
+            <button class="btn" id="btn-font-dec">-</button>
+            <button class="btn" id="btn-font-std">Aa</button>
+            <button class="btn" id="btn-font-inc">+</button>
           </div>
+          <button class="btn" id="btn-clear">reset</button>
+          <button class="btn" id="btn-all1">全済</button>
+          <button class="btn" id="btn-all2">全再</button>
         </div>
-        <button class="btn" data-open="dlg-h03-11-4">解答・解説</button>
       </div>
-    </section>
-
-    <!-- 3 -->
-    <section class="q" id="q-r03-19-ah02-17-4">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(R03-19-ア)(H02-17-4)</div>
-          <p class="qtext">3　契約により動産の賃貸借の存続期間を100年と定めたとしても、その期間は、50年となる。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-03-0-01">賃貸借契約成立時の存続期間</a>
-            </span>
+    </header>
+    <main>
+      <div class="list">
+        <!-- 1 -->
+        <section class="q" id="q-h18-13-u">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H18-13-ウ)</div>
+              <p class="qtext">
+                1　土地の賃貸借は、1筆の土地の一部を目的とすることができるが、地上権は、1筆の土地の一部を目的として設定することができない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-02">賃貸借の成立</a>
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h18-13-u">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-r03-19-ah02-17-4">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 4 -->
-    <section class="q" id="q-h22-10-a">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H22-10-ア)(改)</div>
-          <p class="qtext">4　建物の所有を目的としない賃借権の存続期間は、50年を超えない範囲内で定めることができるが、永小作権の存続期間は、20年以上50年以下としなければならない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-03-0-01">賃貸借契約成立時の存続期間</a>
-            </span>
+        <!-- 2 -->
+        <section class="q" id="q-h03-11-4">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H03-11-4)</div>
+              <p class="qtext">
+                2　地上権は地下部分に限って設定することができるが、土地の賃貸借はその対象を地下部分に限ることができない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-02">賃貸借の成立</a>
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h03-11-4">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h22-10-a">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 5 -->
-    <section class="q" id="q-h02-17-2">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H02-17-2)</div>
-          <p class="qtext">5　駐車を目的として土地を賃借する場合には、存続期間を1週間と定めることができる。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-03-0-01">賃貸借契約成立時の存続期間</a>
-            </span>
+        <!-- 3 -->
+        <section class="q" id="q-r03-19-ah02-17-4">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(R03-19-ア)(H02-17-4)</div>
+              <p class="qtext">
+                3　契約により動産の賃貸借の存続期間を100年と定めたとしても、その期間は、50年となる。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-03-0-01"
+                    >賃貸借契約成立時の存続期間</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-r03-19-ah02-17-4">
+              解答・解説
+            </button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h02-17-2">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 6 -->
-    <section class="q" id="q-h02-17-3">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H02-17-3)</div>
-          <p class="qtext">6　木造の建物の所有を目的として土地を賃借する場合において、存続期間を10年と定めたときは、その定めは無効であって、存続期間は30年となる。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#min45-q6">借地借家法による修正</a>
-            </span>
+        <!-- 4 -->
+        <section class="q" id="q-h22-10-a">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H22-10-ア)(改)</div>
+              <p class="qtext">
+                4　建物の所有を目的としない賃借権の存続期間は、50年を超えない範囲内で定めることができるが、永小作権の存続期間は、20年以上50年以下としなければならない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-03-0-01"
+                    >賃貸借契約成立時の存続期間</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h22-10-a">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h02-17-3">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 7 -->
-    <section class="q" id="q-h02-17-5">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H02-17-5)</div>
-          <p class="qtext">7　ビルの一室を事務所として賃借する場合において、存続期間を半年と定めたときは、その定めは無効であって、存続期間は1年となる。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#min45-q6">借地借家法による修正</a>
-            </span>
+        <!-- 5 -->
+        <section class="q" id="q-h02-17-2">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H02-17-2)</div>
+              <p class="qtext">
+                5　駐車を目的として土地を賃借する場合には、存続期間を1週間と定めることができる。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-03-0-01"
+                    >賃貸借契約成立時の存続期間</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h02-17-2">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h02-17-5">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 8 -->
-    <section class="q" id="q-h03-11-1">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H03-11-1)</div>
-          <p class="qtext">8　地上権においては土地所有権者は土地を地上権者が利用し得る状態におく義務を負わないが、賃貸借においては土地の賃貸人はこの義務を負う。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-01">目的物を使用収益させる義務（601条）</a>
-            </span>
+        <!-- 6 -->
+        <section class="q" id="q-h02-17-3">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H02-17-3)</div>
+              <p class="qtext">
+                6　木造の建物の所有を目的として土地を賃借する場合において、存続期間を10年と定めたときは、その定めは無効であって、存続期間は30年となる。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#min45-q6">借地借家法による修正</a>
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h02-17-3">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h03-11-1">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 9 -->
-    <section class="q" id="q-h25-10-u">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H25-10-ウ)</div>
-          <p class="qtext">9　ＡがＢ所有の甲土地の利用権として賃借権を有する場合、地上権を有する場合いずれについても、ＢはＡに対し、甲土地の使用及び収益に必要な修繕をする義務を負う。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-01">目的物を使用収益させる義務（601条）</a>
-            </span>
+        <!-- 7 -->
+        <section class="q" id="q-h02-17-5">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H02-17-5)</div>
+              <p class="qtext">
+                7　ビルの一室を事務所として賃借する場合において、存続期間を半年と定めたときは、その定めは無効であって、存続期間は1年となる。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#min45-q6">借地借家法による修正</a>
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h02-17-5">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h25-10-u">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 10 -->
-    <section class="q" id="q-h07-05-5">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H07-05-5)</div>
-          <p class="qtext">10　借家契約の目的である建物が損傷した場合には、借家人は、特約がない限り、その建物の修繕義務を負う。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-01">目的物を使用収益させる義務（601条）</a>
-            </span>
+        <!-- 8 -->
+        <section class="q" id="q-h03-11-1">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H03-11-1)</div>
+              <p class="qtext">
+                8　地上権においては土地所有権者は土地を地上権者が利用し得る状態におく義務を負わないが、賃貸借においては土地の賃貸人はこの義務を負う。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-01"
+                    >目的物を使用収益させる義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h03-11-1">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h07-05-5">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 11 -->
-    <section class="q" id="q-r03-19-u">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(R03-19-ウ)</div>
-          <p class="qtext">11　賃貸人は、賃借人の責めに帰すべき事由によって修繕が必要となったときでも、賃貸物の使用及び収益に必要な修繕をする義務を負う。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-01">目的物を使用収益させる義務（601条）</a>
-            </span>
+        <!-- 9 -->
+        <section class="q" id="q-h25-10-u">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H25-10-ウ)</div>
+              <p class="qtext">
+                9　ＡがＢ所有の甲土地の利用権として賃借権を有する場合、地上権を有する場合いずれについても、ＢはＡに対し、甲土地の使用及び収益に必要な修繕をする義務を負う。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-01"
+                    >目的物を使用収益させる義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h25-10-u">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-r03-19-u">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 12 -->
-    <section class="q" id="q-r03-19-e">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(R03-19-エ)</div>
-          <p class="qtext">12　賃借人は、賃借物について賃貸人の負担に属する必要費を支出したときは、賃貸人に対して、直ちにその償還を請求することができる。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-02">費用償還義務（608条）</a>
-            </span>
+        <!-- 10 -->
+        <section class="q" id="q-h07-05-5">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H07-05-5)</div>
+              <p class="qtext">
+                10　借家契約の目的である建物が損傷した場合には、借家人は、特約がない限り、その建物の修繕義務を負う。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-01"
+                    >目的物を使用収益させる義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h07-05-5">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-r03-19-e">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 13 -->
-    <section class="q" id="q-h25-18-a">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H25-18-ア)</div>
-          <p class="qtext">13　賃借人が支出した必要費の償還は、賃貸人が目的物の返還を受けた時から1年以内に請求しなければならないが、この1年の期間とは別に、賃借人が必要費を支出した時から消滅時効が進行する。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-02">費用償還義務（608条）</a>
-            </span>
+        <!-- 11 -->
+        <section class="q" id="q-r03-19-u">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(R03-19-ウ)</div>
+              <p class="qtext">
+                11　賃貸人は、賃借人の責めに帰すべき事由によって修繕が必要となったときでも、賃貸物の使用及び収益に必要な修繕をする義務を負う。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-01"
+                    >目的物を使用収益させる義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-r03-19-u">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h25-18-a">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 14 -->
-    <section class="q" id="q-h18-19-u">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H18-19-ウ)</div>
-          <p class="qtext">14　Ａが自己所有の甲建物をＢに賃貸して引き渡した。Ｂが甲建物について有益費を支出した後に、Ａが甲建物をＣに譲渡したときは、有益費の償還請求は、Ａに対してしなければならない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-02">費用償還義務（608条）</a>
-            </span>
+        <!-- 12 -->
+        <section class="q" id="q-r03-19-e">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(R03-19-エ)</div>
+              <p class="qtext">
+                12　賃借人は、賃借物について賃貸人の負担に属する必要費を支出したときは、賃貸人に対して、直ちにその償還を請求することができる。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-02"
+                    >費用償還義務（608条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-r03-19-e">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h18-19-u">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 15 -->
-    <section class="q" id="q-h08-11-5">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H08-11-5)</div>
-          <p class="qtext">15　Ａは、債務者Ｂに対する貸付債権を担保するため、Ｂ所有の家屋に抵当権を設定した。その後、Ｃは、Ｂとの間でその家屋について、賃貸借契約を締結し、引渡しを受けて居住を始め、屋根の修繕費用を支出した。Ａが抵当権を実行した事例において、Ｃが抵当権に基づく差押えの前に屋根の修繕工事をした場合において、Ｃが買受人に家屋を明け渡したときは、Ｃは、買受人に対し、修繕費用の償還請求をすることができない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-02">費用償還義務（608条）</a>
-            </span>
+        <!-- 13 -->
+        <section class="q" id="q-h25-18-a">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H25-18-ア)</div>
+              <p class="qtext">
+                13　賃借人が支出した必要費の償還は、賃貸人が目的物の返還を受けた時から1年以内に請求しなければならないが、この1年の期間とは別に、賃借人が必要費を支出した時から消滅時効が進行する。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-02"
+                    >費用償還義務（608条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h25-18-a">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h08-11-5">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 16 -->
-    <section class="q" id="q-h25-18-u">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H25-18-ウ)</div>
-          <p class="qtext">16　賃借人は、必要費を支出した場合であっても、賃借物を留置することはできない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-1-02">費用償還義務（608条）</a>
-            </span>
+        <!-- 14 -->
+        <section class="q" id="q-h18-19-u">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H18-19-ウ)</div>
+              <p class="qtext">
+                14　Ａが自己所有の甲建物をＢに賃貸して引き渡した。Ｂが甲建物について有益費を支出した後に、Ａが甲建物をＣに譲渡したときは、有益費の償還請求は、Ａに対してしなければならない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-02"
+                    >費用償還義務（608条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h18-19-u">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h25-18-u">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 17 -->
-    <section class="q" id="q-h03-11-2">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(H03-11-2)</div>
-          <p class="qtext">17　地上権の設定契約も土地の賃貸借契約も、対価の支払を要件とする有償の契約である。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-2-01">賃料支払義務（601条）</a>
-            </span>
+        <!-- 15 -->
+        <section class="q" id="q-h08-11-5">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H08-11-5)</div>
+              <p class="qtext">
+                15　Ａは、債務者Ｂに対する貸付債権を担保するため、Ｂ所有の家屋に抵当権を設定した。その後、Ｃは、Ｂとの間でその家屋について、賃貸借契約を締結し、引渡しを受けて居住を始め、屋根の修繕費用を支出した。Ａが抵当権を実行した事例において、Ｃが抵当権に基づく差押えの前に屋根の修繕工事をした場合において、Ｃが買受人に家屋を明け渡したときは、Ｃは、買受人に対し、修繕費用の償還請求をすることができない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-02"
+                    >費用償還義務（608条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h08-11-5">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-h03-11-2">解答・解説</button>
-      </div>
-    </section>
+        </section>
 
-    <!-- 18 -->
-    <section class="q" id="q-r03-19-o">
-      <div class="qhead">
-        <div class="left">
-          <div class="qid">(R03-19-オ)</div>
-          <p class="qtext">18　賃借物の一部が滅失し、使用及び収益をすることができなくなった場合であっても、それが賃貸人の責めに帰すべき事由によるものでなければ、その賃料が減額されることはない。</p>
-          <div class="meta">
-            <span class="pill">テキスト：
-<a href="pu26min45.html#A06-06-04-2-01">賃料支払義務（601条）</a>
-            </span>
+        <!-- 16 -->
+        <section class="q" id="q-h25-18-u">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H25-18-ウ)</div>
+              <p class="qtext">
+                16　賃借人は、必要費を支出した場合であっても、賃借物を留置することはできない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-1-02"
+                    >費用償還義務（608条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h25-18-u">解答・解説</button>
           </div>
-        </div>
-        <button class="btn" data-open="dlg-r03-19-o">解答・解説</button>
+        </section>
+
+        <!-- 17 -->
+        <section class="q" id="q-h03-11-2">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(H03-11-2)</div>
+              <p class="qtext">
+                17　地上権の設定契約も土地の賃貸借契約も、対価の支払を要件とする有償の契約である。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-2-01"
+                    >賃料支払義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-h03-11-2">解答・解説</button>
+          </div>
+        </section>
+
+        <!-- 18 -->
+        <section class="q" id="q-r03-19-o">
+          <div class="qhead">
+            <div class="left">
+              <div class="qid">(R03-19-オ)</div>
+              <p class="qtext">
+                18　賃借物の一部が滅失し、使用及び収益をすることができなくなった場合であっても、それが賃貸人の責めに帰すべき事由によるものでなければ、その賃料が減額されることはない。
+              </p>
+              <div class="meta">
+                <span class="pill"
+                  >テキスト：
+                  <a href="pu26min45.html#A06-06-04-2-01"
+                    >賃料支払義務（601条）</a
+                  >
+                </span>
+              </div>
+            </div>
+            <button class="btn" data-open="dlg-r03-19-o">解答・解説</button>
+          </div>
+        </section>
       </div>
-    </section>
+    </main>
+    <!-- ========= dialogs ========= -->
 
-</div></main>
-<!-- ========= dialogs ========= -->
+    <dialog id="dlg-h18-13-u">
+      <div class="dlg-head">
+        <div class="dlg-title">(H18-13-ウ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          賃貸借は、物の一部についても成立するので、1筆の土地の一部を目的とすることができる。また、地上権においても1筆の土地の一部を目的として設定することも可能である。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h18-13-u">
-  <div class="dlg-head"><div class="dlg-title">(H18-13-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>賃貸借は、物の一部についても成立するので、1筆の土地の一部を目的とすることができる。また、地上権においても1筆の土地の一部を目的として設定することも可能である。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h03-11-4">
+      <div class="dlg-head">
+        <div class="dlg-title">(H03-11-4) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          地上権は、土地の上下一定の範囲を目的として設定することができる（民法<span
+            class="mono"
+            >269条の2</span
+          >）。一方、賃貸借契約の内容は、原則として当事者の合意によるため、賃貸借の対象を地下部分に限ることも可能である。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h03-11-4">
-  <div class="dlg-head"><div class="dlg-title">(H03-11-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>地上権は、土地の上下一定の範囲を目的として設定することができる（民法<span class="mono">269条の2</span>）。一方、賃貸借契約の内容は、原則として当事者の合意によるため、賃貸借の対象を地下部分に限ることも可能である。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-r03-19-ah02-17-4">
+      <div class="dlg-head">
+        <div class="dlg-title">(R03-19-ア)(H02-17-4) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          賃貸借の存続期間は、50年を超えることができず、これより長い期間を定めても、その期間は50年とされる（民法<span
+            class="mono"
+            >604条</span
+          >1項）。その趣旨は、50年と長期にすることで経済活動の不都合を避けつつ、長期にわたる賃貸借が賃借物の所有権にとって過度な負担となることを防止する点にある。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-r03-19-ah02-17-4">
-  <div class="dlg-head"><div class="dlg-title">(R03-19-ア)(H02-17-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>賃貸借の存続期間は、50年を超えることができず、これより長い期間を定めても、その期間は50年とされる（民法<span class="mono">604条</span>1項）。その趣旨は、50年と長期にすることで経済活動の不都合を避けつつ、長期にわたる賃貸借が賃借物の所有権にとって過度な負担となることを防止する点にある。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h22-10-a">
+      <div class="dlg-head">
+        <div class="dlg-title">(H22-10-ア)(改) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          賃借権の存続期間は、50年を超えない範囲で定めることができる（民法<span
+            class="mono"
+            >604条</span
+          >1項）。また、永小作権の存続期間は、20年以上50年以下としなければならない（民法<span
+            class="mono"
+            >278条</span
+          >1項）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h22-10-a">
-  <div class="dlg-head"><div class="dlg-title">(H22-10-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>賃借権の存続期間は、50年を超えない範囲で定めることができる（民法<span class="mono">604条</span>1項）。また、永小作権の存続期間は、20年以上50年以下としなければならない（民法<span class="mono">278条</span>1項）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h02-17-2">
+      <div class="dlg-head">
+        <div class="dlg-title">(H02-17-2) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          民法上、賃貸借の存続期間は、50年を超えることができない（民法<span
+            class="mono"
+            >604条</span
+          >1項前段）。しかし、存続期間の最短期について制限はない。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h02-17-2">
-  <div class="dlg-head"><div class="dlg-title">(H02-17-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>民法上、賃貸借の存続期間は、50年を超えることができない（民法<span class="mono">604条</span>1項前段）。しかし、存続期間の最短期について制限はない。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h02-17-3">
+      <div class="dlg-head">
+        <div class="dlg-title">(H02-17-3) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          建物所有目的の地上権又は土地賃借権を借地権という（借地借家法<span
+            class="mono"
+            >2条</span
+          >1号）。借地権の存続期間は30年とされるが、契約でこれより長い期間を定めたときは、その期間となる（借地借家法<span
+            class="mono"
+            >3条</span
+          >）。よって、借地権においては、30年を下回る存続期間の定めは無効であり、存続期間を定めなかったものとみなされるため、存続期間は30年となる。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h02-17-3">
-  <div class="dlg-head"><div class="dlg-title">(H02-17-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>建物所有目的の地上権又は土地賃借権を借地権という（借地借家法<span class="mono">2条</span>1号）。借地権の存続期間は30年とされるが、契約でこれより長い期間を定めたときは、その期間となる（借地借家法<span class="mono">3条</span>）。よって、借地権においては、30年を下回る存続期間の定めは無効であり、存続期間を定めなかったものとみなされるため、存続期間は30年となる。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h02-17-5">
+      <div class="dlg-head">
+        <div class="dlg-title">(H02-17-5) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          建物の賃貸借については、借家として、借地借家法の適用があり、期間を1年未満とする建物の賃貸借は、期間の定めがないものとみなされる（借地借家法<span
+            class="mono"
+            >29条</span
+          >1項）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h02-17-5">
-  <div class="dlg-head"><div class="dlg-title">(H02-17-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>建物の賃貸借については、借家として、借地借家法の適用があり、期間を1年未満とする建物の賃貸借は、期間の定めがないものとみなされる（借地借家法<span class="mono">29条</span>1項）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h03-11-1">
+      <div class="dlg-head">
+        <div class="dlg-title">(H03-11-1) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          地上権設定者は、地上権者の土地使用を受忍し妨害しないという消極的義務を負うが、地上権者の使用に適する状態におくべき積極的義務を負わない。一方、賃貸人は、賃借人に目的物を使用収益させる義務を負う（民法<span
+            class="mono"
+            >601条</span
+          >）。すなわち、目的物を賃貸人に引き渡し、使用収益に適する状態におかなければならない。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h03-11-1">
-  <div class="dlg-head"><div class="dlg-title">(H03-11-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>地上権設定者は、地上権者の土地使用を受忍し妨害しないという消極的義務を負うが、地上権者の使用に適する状態におくべき積極的義務を負わない。一方、賃貸人は、賃借人に目的物を使用収益させる義務を負う（民法<span class="mono">601条</span>）。すなわち、目的物を賃貸人に引き渡し、使用収益に適する状態におかなければならない。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h25-10-u">
+      <div class="dlg-head">
+        <div class="dlg-title">(H25-10-ウ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          地上権設定者は、特約がある場合を除き、土地の使用収益に必要な修繕をする義務を負わないと解されている。一方、賃借権の場合、賃貸人は、賃貸物の使用及び収益に必要な修繕をする義務を負う（民法<span
+            class="mono"
+            >606条</span
+          >1項）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h25-10-u">
-  <div class="dlg-head"><div class="dlg-title">(H25-10-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>地上権設定者は、特約がある場合を除き、土地の使用収益に必要な修繕をする義務を負わないと解されている。一方、賃借権の場合、賃貸人は、賃貸物の使用及び収益に必要な修繕をする義務を負う（民法<span class="mono">606条</span>1項）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h07-05-5">
+      <div class="dlg-head">
+        <div class="dlg-title">(H07-05-5) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          賃貸人は、原則として、賃貸物の使用・収益に必要な修繕義務を負う（民法<span
+            class="mono"
+            >606条</span
+          >1項）。賃借人による修繕が認められる場合もあるが（民法<span
+            class="mono"
+            >607条の2</span
+          >）、修繕義務を負っているわけではない。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h07-05-5">
-  <div class="dlg-head"><div class="dlg-title">(H07-05-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>賃貸人は、原則として、賃貸物の使用・収益に必要な修繕義務を負う（民法<span class="mono">606条</span>1項）。賃借人による修繕が認められる場合もあるが（民法<span class="mono">607条の2</span>）、修繕義務を負っているわけではない。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-r03-19-u">
+      <div class="dlg-head">
+        <div class="dlg-title">(R03-19-ウ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          民法<span class="mono">606条</span
+          >1項ただし書。賃貸人は、賃貸物の使用及び収益に必要な修繕をする義務を負う。ただし、賃借人の責めに帰すべき事由によってその修繕が必要となったときは、この限りでない。同条項ただし書の趣旨は、このような場合にまで賃貸人に修繕義務を課すことが公平の観点から妥当でないという点にある。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-r03-19-u">
-  <div class="dlg-head"><div class="dlg-title">(R03-19-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>民法<span class="mono">606条</span>1項ただし書。賃貸人は、賃貸物の使用及び収益に必要な修繕をする義務を負う。ただし、賃借人の責めに帰すべき事由によってその修繕が必要となったときは、この限りでない。同条項ただし書の趣旨は、このような場合にまで賃貸人に修繕義務を課すことが公平の観点から妥当でないという点にある。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-r03-19-e">
+      <div class="dlg-head">
+        <div class="dlg-title">(R03-19-エ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          民法<span class="mono">608条</span
+          >1項により、本記述は正しい。賃借人は、賃借物について賃貸人の負担に属する必要費を支出したときは、賃貸人に対し、直ちにその償還を請求することができる。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-r03-19-e">
-  <div class="dlg-head"><div class="dlg-title">(R03-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>民法<span class="mono">608条</span>1項により、本記述は正しい。賃借人は、賃借物について賃貸人の負担に属する必要費を支出したときは、賃貸人に対し、直ちにその償還を請求することができる。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h25-18-a">
+      <div class="dlg-head">
+        <div class="dlg-title">(H25-18-ア) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ok">解答：正しい</div>
+        <p>
+          賃借人が支出した必要費の償還は、賃貸人が、目的物の返還を受けた時から1年以内に請求しなければならない（民法<span
+            class="mono"
+            >622条</span
+          >、<span class="mono">600条</span
+          >1項）。また、必要費は直ちにその償還を請求することができるので（民法<span
+            class="mono"
+            >608条</span
+          >1項）、当該除斥期間とは別に、賃借人が支出した必要費の償還請求権の消滅時効は、賃借人が必要費を支出した時から進行する（民法<span
+            class="mono"
+            >166条</span
+          >1項2号）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h25-18-a">
-  <div class="dlg-head"><div class="dlg-title">(H25-18-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ok">解答：正しい</div>
-    <p>賃借人が支出した必要費の償還は、賃貸人が、目的物の返還を受けた時から1年以内に請求しなければならない（民法<span class="mono">622条</span>、<span class="mono">600条</span>1項）。また、必要費は直ちにその償還を請求することができるので（民法<span class="mono">608条</span>1項）、当該除斥期間とは別に、賃借人が支出した必要費の償還請求権の消滅時効は、賃借人が必要費を支出した時から進行する（民法<span class="mono">166条</span>1項2号）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h18-19-u">
+      <div class="dlg-head">
+        <div class="dlg-title">(H18-19-ウ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          Ｂは引渡しを受けており、建物賃貸借の対抗要件を具備しているため（借地借家法<span
+            class="mono"
+            >31条</span
+          >1項）、新所有者Ｃが賃貸人の地位を承継する（民法<span class="mono"
+            >605条の2</span
+          >第1項）。有益費償還に係る債務は、譲受人又はその承継人が承継する（民法<span
+            class="mono"
+            >605条の2</span
+          >第4項）。そして、有益費支出後に賃貸人が交替した場合、有益費償還請求は、有益費支出当時の賃貸人ではなく、契約終了時の賃貸人になすべきだとされる（最判昭46.2.19）。従って、本記述の場合、Ｂは新所有者Ｃに有益費償還請求をしなければならない。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h18-19-u">
-  <div class="dlg-head"><div class="dlg-title">(H18-19-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>Ｂは引渡しを受けており、建物賃貸借の対抗要件を具備しているため（借地借家法<span class="mono">31条</span>1項）、新所有者Ｃが賃貸人の地位を承継する（民法<span class="mono">605条の2</span>第1項）。有益費償還に係る債務は、譲受人又はその承継人が承継する（民法<span class="mono">605条の2</span>第4項）。そして、有益費支出後に賃貸人が交替した場合、有益費償還請求は、有益費支出当時の賃貸人ではなく、契約終了時の賃貸人になすべきだとされる（最判昭46.2.19）。従って、本記述の場合、Ｂは新所有者Ｃに有益費償還請求をしなければならない。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h08-11-5">
+      <div class="dlg-head">
+        <div class="dlg-title">(H08-11-5) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          賃借人が支出した費用償還請求権は、賃貸人が返還を受けた時から1年以内に行使しなければならない（民法<span
+            class="mono"
+            >622条</span
+          >、<span class="mono">600条</span
+          >）。よって、賃借人Ｃが買受人に家屋を明け渡した時から1年以内であれば、買受人に対して修繕費用の償還請求をすることができる。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h08-11-5">
-  <div class="dlg-head"><div class="dlg-title">(H08-11-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>賃借人が支出した費用償還請求権は、賃貸人が返還を受けた時から1年以内に行使しなければならない（民法<span class="mono">622条</span>、<span class="mono">600条</span>）。よって、賃借人Ｃが買受人に家屋を明け渡した時から1年以内であれば、買受人に対して修繕費用の償還請求をすることができる。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h25-18-u">
+      <div class="dlg-head">
+        <div class="dlg-title">(H25-18-ウ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          賃借人が賃借物について必要費を支出した場合、賃借人はこの償還請求権に基づいて賃借物を留置することができる（大判昭14.4.28）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h25-18-u">
-  <div class="dlg-head"><div class="dlg-title">(H25-18-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>賃借人が賃借物について必要費を支出した場合、賃借人はこの償還請求権に基づいて賃借物を留置することができる（大判昭14.4.28）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-h03-11-2">
+      <div class="dlg-head">
+        <div class="dlg-title">(H03-11-2) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          地上権は地代を要素としない点で、賃料を要素とする賃借権と異なる（民法<span
+            class="mono"
+            >266条</span
+          >1項参照、<span class="mono">601条</span>）。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-h03-11-2">
-  <div class="dlg-head"><div class="dlg-title">(H03-11-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>地上権は地代を要素としない点で、賃料を要素とする賃借権と異なる（民法<span class="mono">266条</span>1項参照、<span class="mono">601条</span>）。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
+    <dialog id="dlg-r03-19-o">
+      <div class="dlg-head">
+        <div class="dlg-title">(R03-19-オ) 解答・解説</div>
+        <button class="btn" data-close>閉じる</button>
+      </div>
+      <div class="dlg-body">
+        <div class="badge ng">解答：誤り</div>
+        <p>
+          本記述は、賃貸人の責めに帰すべき事由によるものでなければ、その賃料が減額されることはないとしている点で、誤っている。民法<span
+            class="mono"
+            >611条</span
+          >1項。賃借物の一部が滅失その他の事由により使用及び収益をすることができなくなった場合において、それが賃借人の責めに帰することができない事由によるものであるときは、賃料は、その使用及び収益をすることができなくなった部分の割合に応じて、減額される。その趣旨は、当事者間の公平を図ることにある。
+        </p>
+      </div>
+      <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+    </dialog>
 
-<dialog id="dlg-r03-19-o">
-  <div class="dlg-head"><div class="dlg-title">(R03-19-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
-  <div class="dlg-body">
-    <div class="badge ng">解答：誤り</div>
-    <p>本記述は、賃貸人の責めに帰すべき事由によるものでなければ、その賃料が減額されることはないとしている点で、誤っている。民法<span class="mono">611条</span>1項。賃借物の一部が滅失その他の事由により使用及び収益をすることができなくなった場合において、それが賃借人の責めに帰することができない事由によるものであるときは、賃料は、その使用及び収益をすることができなくなった部分の割合に応じて、減額される。その趣旨は、当事者間の公平を図ることにある。</p>
-  </div>
-  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
-</dialog>
-
-<script>
-  const STORAGE_KEY = 'steps::' + location.pathname;
-  function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
-  function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
-  function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
-  function clampLevel(v){ v = Number(v || 0); if (v < 0) return 0; if (v > 2) return 2; return v; }
-    function renderStep(btn, level, cardEl){
-      btn.dataset.level = String(level);
-      btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
-      btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
-      btn.setAttribute('aria-label', `チェック段階 ${level}`);
-      // <br> 起動時は btn.closest が効かないことがあるので card を優先
-      const card = cardEl || btn.closest('.q');
-      if (card){
-        card.classList.remove('lv1');
-        if (level === 1) card.classList.add('lv1');
+    <script>
+      const STORAGE_KEY = 'steps::' + location.pathname;
+      function loadSteps() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        } catch (e) {
+          return {};
+        }
       }
-    }
-  // ===== font-size (buttons only) =====
-  const FONT_KEY = 'baseFontPx::' + location.pathname;
-  const FONT_MIN = 12, FONT_MAX = 24, FONT_STEP = 1, FONT_DEFAULT = 16;
-  function clampFont(n){
-    n = Number(n);
-    if (!Number.isFinite(n)) n = FONT_DEFAULT;
-    return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
-  }
-  function getCurrentFont(){
-    return parseInt(
-      getComputedStyle(document.documentElement)
-        .getPropertyValue('--base-font'),
-      10
-    ) || FONT_DEFAULT;
-  }
-  function applyFont(px, save){
-    px = clampFont(px);
-    document.documentElement.style.setProperty('--base-font', px + 'px');
-    if (save){
-      try { localStorage.setItem(FONT_KEY, String(px)); } catch(e){}
-    }
-  }
-  function loadFont(){
-    let saved = null;
-    try { saved = localStorage.getItem(FONT_KEY); } catch(e){}
-    const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
-    applyFont(px, false);
-  }
-  function ensureHeaderTools(){
-    const wrap = document.querySelector('header .wrap');
-    if (!wrap) return;
-    // 既に2段構造なら何もしない
-    if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2')) return;
-    // 既存要素を退避（h1 と a）
-    const h1 = wrap.querySelector('h1');
-    const a  = wrap.querySelector('a');
-    // 中身を組み立て直す
-    wrap.innerHTML = '';
-    // 1段目：タイトル左／テキストへ右
-    const row1 = document.createElement('div');
-    row1.className = 'hrow1';
-    if (h1) row1.appendChild(h1);
-    if (a)  row1.appendChild(a);
-    wrap.appendChild(row1);
-    // 2段目：文字サイズボタン＋全操作
-    const row2 = document.createElement('div');
-    row2.className = 'hrow2';
-    // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
-    const size = document.createElement('div');
-    size.className = 'hsize';
-    const bDec = document.createElement('button');
-    bDec.type = 'button';
-    bDec.className = 'btn';
-    bDec.id = 'btn-font-dec';
-    bDec.textContent = '-';
-    const bStd = document.createElement('button');
-    bStd.type = 'button';
-    bStd.className = 'btn';
-    bStd.id = 'btn-font-std';
-    bStd.textContent = 'Aa';
-    const bInc = document.createElement('button');
-    bInc.type = 'button';
-    bInc.className = 'btn';
-    bInc.id = 'btn-font-inc';
-    bInc.textContent = '+';
-    size.appendChild(bDec);
-    size.appendChild(bStd);
-    size.appendChild(bInc);
-    row2.appendChild(size);
-    // 全操作
-    const bClear = document.createElement('button');
-    bClear.type = 'button';
-    bClear.className = 'btn';
-    bClear.id = 'btn-clear';
-    bClear.textContent = 'reset';
-    const bAll1 = document.createElement('button');
-    bAll1.type = 'button';
-    bAll1.className = 'btn';
-    bAll1.id = 'btn-all1';
-    bAll1.textContent = '全済';
-    const bAll2 = document.createElement('button');
-    bAll2.type = 'button';
-    bAll2.className = 'btn';
-    bAll2.id = 'btn-all2';
-    bAll2.textContent = '全再';
-    row2.appendChild(bClear);
-    row2.appendChild(bAll1);
-    row2.appendChild(bAll2);
-    wrap.appendChild(row2);
-  }
-  function ensureFontTools(tools){
-    if (document.getElementById('fs-up')) return;
-    const down = document.createElement('button');
-    down.type = 'button';
-    down.className = 'btn small';
-    down.id = 'fs-down';
-    down.textContent = '-';
-    down.addEventListener('click', () =>
-      applyFont(getCurrentFont() - FONT_STEP, true)
-    );
-    const reset = document.createElement('button');
-    reset.type = 'button';
-    reset.className = 'btn small';
-    reset.id = 'fs-reset';
-    reset.textContent = 'Aa';
-    reset.addEventListener('click', () =>
-      applyFont(FONT_DEFAULT, true)
-    );
-    const up = document.createElement('button');
-    up.type = 'button';
-    up.className = 'btn small';
-    up.id = 'fs-up';
-    up.textContent = '+';
-    up.addEventListener('click', () =>
-      applyFont(getCurrentFont() + FONT_STEP, true)
-    );
-    tools.prepend(up);
-    tools.prepend(reset);
-    tools.prepend(down);
-  }
-  function updateProgress(){
-    const all = getAllQuestionIds();
-    const saved = loadSteps();
-    let c1 = 0, c2 = 0;
-    all.forEach(id => {
-      const lv = clampLevel(saved[id]);
-      if (lv >= 1) c1++;
-      if (lv >= 2) c2++;
-    });
-    const prog = document.getElementById('prog');
-    if (prog) prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
-  }
-  function ensureStepButtons(){
-    const saved = loadSteps();
-    document.querySelectorAll('section.q[id]').forEach(sec => {
-      const qid = sec.id;
-      const head = sec.querySelector('.qhead');
-      const left = sec.querySelector('.left');
-      if (!head || !left) return;
-      // 既に生成済みならスキップ
-      if (head.querySelector('button.qstep')) return;
-      // ===== チェックUI作成 =====
-      const wrap = document.createElement('div');
-      wrap.className = 'qcheck';
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'qstep';
-      btn.setAttribute('data-qid', qid);
-      wrap.appendChild(btn);
-      // ===== 挿入（← 先にDOMへ入れるのが重要） =====
-      left.prepend(wrap);
-      // ===== 保存済みレベル取得 =====
-      const level = clampLevel(saved[qid]);
-      // ===== 描画（card要素を渡す） =====
-      renderStep(btn, level, sec);
-    });
-    updateProgress();
-  }
-  function setAllLevels(level){
-    const all = getAllQuestionIds();
-    const saved = loadSteps();
-    all.forEach(id => { saved[id] = clampLevel(level); });
-    saveSteps(saved);
-    document.querySelectorAll('button.qstep').forEach(btn => {
-      renderStep(btn, clampLevel(level));
-    });
-    updateProgress();
-  }
-  function cycleLevel(current){ return (current + 1) % 3; }
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('#btn-clear')) { setAllLevels(0); return; }
-    if (e.target.closest('#btn-all1')) { setAllLevels(1); return; }
-    if (e.target.closest('#btn-all2')) { setAllLevels(2); return; }
-    const stepBtn = e.target.closest('button.qstep');
-    if (stepBtn){
-      const qid = stepBtn.getAttribute('data-qid');
-      const saved = loadSteps();
-      const cur = clampLevel(saved[qid]);
-      const next = cycleLevel(cur);
-      saved[qid] = next;
-      saveSteps(saved);
-      renderStep(stepBtn, next);
+      function saveSteps(obj) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+      }
+      function getAllQuestionIds() {
+        return Array.from(document.querySelectorAll('section.q[id]')).map(
+          (sec) => sec.id,
+        );
+      }
+      function clampLevel(v) {
+        v = Number(v || 0);
+        if (v < 0) return 0;
+        if (v > 2) return 2;
+        return v;
+      }
+      function renderStep(btn, level, cardEl) {
+        btn.dataset.level = String(level);
+        btn.textContent = level === 0 ? '' : level === 1 ? '済' : '再';
+        btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
+        btn.setAttribute('aria-label', `チェック段階 ${level}`);
+        // <br> 起動時は btn.closest が効かないことがあるので card を優先
+        const card = cardEl || btn.closest('.q');
+        if (card) {
+          card.classList.remove('lv1');
+          if (level === 1) card.classList.add('lv1');
+        }
+      }
+      // ===== font-size (buttons only) =====
+      const FONT_KEY = 'baseFontPx::' + location.pathname;
+      const FONT_MIN = 12,
+        FONT_MAX = 24,
+        FONT_STEP = 1,
+        FONT_DEFAULT = 16;
+      function clampFont(n) {
+        n = Number(n);
+        if (!Number.isFinite(n)) n = FONT_DEFAULT;
+        return Math.max(FONT_MIN, Math.min(FONT_MAX, n));
+      }
+      function getCurrentFont() {
+        return (
+          parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue(
+              '--base-font',
+            ),
+            10,
+          ) || FONT_DEFAULT
+        );
+      }
+      function applyFont(px, save) {
+        px = clampFont(px);
+        document.documentElement.style.setProperty('--base-font', px + 'px');
+        if (save) {
+          try {
+            localStorage.setItem(FONT_KEY, String(px));
+          } catch (e) {}
+        }
+      }
+      function loadFont() {
+        let saved = null;
+        try {
+          saved = localStorage.getItem(FONT_KEY);
+        } catch (e) {}
+        const px = saved ? parseInt(saved, 10) : FONT_DEFAULT;
+        applyFont(px, false);
+      }
+      function ensureHeaderTools() {
+        const wrap = document.querySelector('header .wrap');
+        if (!wrap) return;
+        // 既に2段構造なら何もしない
+        if (wrap.querySelector('.hrow1') && wrap.querySelector('.hrow2'))
+          return;
+        // 既存要素を退避（h1 と a）
+        const h1 = wrap.querySelector('h1');
+        const a = wrap.querySelector('a');
+        // 中身を組み立て直す
+        wrap.innerHTML = '';
+        // 1段目：タイトル左／テキストへ右
+        const row1 = document.createElement('div');
+        row1.className = 'hrow1';
+        if (h1) row1.appendChild(h1);
+        if (a) row1.appendChild(a);
+        wrap.appendChild(row1);
+        // 2段目：文字サイズボタン＋全操作
+        const row2 = document.createElement('div');
+        row2.className = 'hrow2';
+        // 文字サイズ（見た目だけ。実際にフォントサイズ変更するなら後でJS追加）
+        const size = document.createElement('div');
+        size.className = 'hsize';
+        const bDec = document.createElement('button');
+        bDec.type = 'button';
+        bDec.className = 'btn';
+        bDec.id = 'btn-font-dec';
+        bDec.textContent = '-';
+        const bStd = document.createElement('button');
+        bStd.type = 'button';
+        bStd.className = 'btn';
+        bStd.id = 'btn-font-std';
+        bStd.textContent = 'Aa';
+        const bInc = document.createElement('button');
+        bInc.type = 'button';
+        bInc.className = 'btn';
+        bInc.id = 'btn-font-inc';
+        bInc.textContent = '+';
+        size.appendChild(bDec);
+        size.appendChild(bStd);
+        size.appendChild(bInc);
+        row2.appendChild(size);
+        // 全操作
+        const bClear = document.createElement('button');
+        bClear.type = 'button';
+        bClear.className = 'btn';
+        bClear.id = 'btn-clear';
+        bClear.textContent = 'reset';
+        const bAll1 = document.createElement('button');
+        bAll1.type = 'button';
+        bAll1.className = 'btn';
+        bAll1.id = 'btn-all1';
+        bAll1.textContent = '全済';
+        const bAll2 = document.createElement('button');
+        bAll2.type = 'button';
+        bAll2.className = 'btn';
+        bAll2.id = 'btn-all2';
+        bAll2.textContent = '全再';
+        row2.appendChild(bClear);
+        row2.appendChild(bAll1);
+        row2.appendChild(bAll2);
+        wrap.appendChild(row2);
+      }
+      function ensureFontTools(tools) {
+        if (document.getElementById('fs-up')) return;
+        const down = document.createElement('button');
+        down.type = 'button';
+        down.className = 'btn small';
+        down.id = 'fs-down';
+        down.textContent = '-';
+        down.addEventListener('click', () =>
+          applyFont(getCurrentFont() - FONT_STEP, true),
+        );
+        const reset = document.createElement('button');
+        reset.type = 'button';
+        reset.className = 'btn small';
+        reset.id = 'fs-reset';
+        reset.textContent = 'Aa';
+        reset.addEventListener('click', () => applyFont(FONT_DEFAULT, true));
+        const up = document.createElement('button');
+        up.type = 'button';
+        up.className = 'btn small';
+        up.id = 'fs-up';
+        up.textContent = '+';
+        up.addEventListener('click', () =>
+          applyFont(getCurrentFont() + FONT_STEP, true),
+        );
+        tools.prepend(up);
+        tools.prepend(reset);
+        tools.prepend(down);
+      }
+      function updateProgress() {
+        const all = getAllQuestionIds();
+        const saved = loadSteps();
+        let c1 = 0,
+          c2 = 0;
+        all.forEach((id) => {
+          const lv = clampLevel(saved[id]);
+          if (lv >= 1) c1++;
+          if (lv >= 2) c2++;
+        });
+        const prog = document.getElementById('prog');
+        if (prog)
+          prog.textContent = `1以上:${c1}/${all.length} ・ 2:${c2}/${all.length}`;
+      }
+      function ensureStepButtons() {
+        const saved = loadSteps();
+        document.querySelectorAll('section.q[id]').forEach((sec) => {
+          const qid = sec.id;
+          const head = sec.querySelector('.qhead');
+          const left = sec.querySelector('.left');
+          if (!head || !left) return;
+          // 既に生成済みならスキップ
+          if (head.querySelector('button.qstep')) return;
+          // ===== チェックUI作成 =====
+          const wrap = document.createElement('div');
+          wrap.className = 'qcheck';
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'qstep';
+          btn.setAttribute('data-qid', qid);
+          wrap.appendChild(btn);
+          // ===== 挿入（← 先にDOMへ入れるのが重要） =====
+          left.prepend(wrap);
+          // ===== 保存済みレベル取得 =====
+          const level = clampLevel(saved[qid]);
+          // ===== 描画（card要素を渡す） =====
+          renderStep(btn, level, sec);
+        });
+        updateProgress();
+      }
+      function setAllLevels(level) {
+        const all = getAllQuestionIds();
+        const saved = loadSteps();
+        all.forEach((id) => {
+          saved[id] = clampLevel(level);
+        });
+        saveSteps(saved);
+        document.querySelectorAll('button.qstep').forEach((btn) => {
+          renderStep(btn, clampLevel(level));
+        });
+        updateProgress();
+      }
+      function cycleLevel(current) {
+        return (current + 1) % 3;
+      }
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('#btn-clear')) {
+          setAllLevels(0);
+          return;
+        }
+        if (e.target.closest('#btn-all1')) {
+          setAllLevels(1);
+          return;
+        }
+        if (e.target.closest('#btn-all2')) {
+          setAllLevels(2);
+          return;
+        }
+        const stepBtn = e.target.closest('button.qstep');
+        if (stepBtn) {
+          const qid = stepBtn.getAttribute('data-qid');
+          const saved = loadSteps();
+          const cur = clampLevel(saved[qid]);
+          const next = cycleLevel(cur);
+          saved[qid] = next;
+          saveSteps(saved);
+          renderStep(stepBtn, next);
+          updateProgress();
+          return;
+        }
+        const openBtn = e.target.closest('[data-open]');
+        if (openBtn) {
+          const dlg = document.getElementById(
+            openBtn.getAttribute('data-open'),
+          );
+          if (dlg) dlg.showModal();
+          return;
+        }
+        const closeBtn = e.target.closest('[data-close]');
+        if (closeBtn) {
+          const dlg = closeBtn.closest('dialog');
+          if (dlg) dlg.close();
+          return;
+        }
+      });
+      document.querySelectorAll('dialog').forEach((d) =>
+        d.addEventListener('close', () => {
+          const a = document.activeElement;
+          if (a && a.blur) a.blur();
+        }),
+      );
+      function bindFontButtons() {
+        const dec = document.getElementById('btn-font-dec');
+        const std = document.getElementById('btn-font-std');
+        const inc = document.getElementById('btn-font-inc');
+        if (dec) {
+          dec.addEventListener('click', () => {
+            applyFont(getCurrentFont() - FONT_STEP, true);
+          });
+        }
+        if (std) {
+          std.addEventListener('click', () => {
+            applyFont(FONT_DEFAULT, true);
+          });
+        }
+        if (inc) {
+          inc.addEventListener('click', () => {
+            applyFont(getCurrentFont() + FONT_STEP, true);
+          });
+        }
+      }
+      loadFont();
+      bindFontButtons();
+      ensureHeaderTools();
+      ensureStepButtons();
       updateProgress();
-      return;
-    }
-    const openBtn = e.target.closest('[data-open]');
-    if (openBtn) { const dlg = document.getElementById(openBtn.getAttribute('data-open')); if (dlg) dlg.showModal(); return; }
-    const closeBtn = e.target.closest('[data-close]');
-    if (closeBtn) {
-    const dlg = closeBtn.closest('dialog');
-    if (dlg) dlg.close(); return; } });
-  document.querySelectorAll('dialog').forEach(d =>
-    d.addEventListener('close', () => {
-      const a = document.activeElement;
-      if (a && a.blur) a.blur();
-    })
-  );
-    function bindFontButtons(){
-      const dec = document.getElementById('btn-font-dec');
-      const std = document.getElementById('btn-font-std');
-      const inc = document.getElementById('btn-font-inc');
-      if (dec) {
-        dec.addEventListener('click', () => {
-          applyFont(getCurrentFont() - FONT_STEP, true);
-        });
-      }
-      if (std) {
-        std.addEventListener('click', () => {
-          applyFont(FONT_DEFAULT, true);
-        });
-      }
-      if (inc) {
-        inc.addEventListener('click', () => {
-          applyFont(getCurrentFont() + FONT_STEP, true);
-        });
-      }
-    }
-    loadFont();
-    bindFontButtons();
-    ensureHeaderTools();
-    ensureStepButtons();
-    updateProgress();
-</script>
-</body></html>
+    </script>
+  </body>
+</html>

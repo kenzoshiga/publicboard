@@ -1,0 +1,313 @@
+:root {
+  --base-font: 16px;
+  --bg: #f7f8fb;
+  --paper: #fff;
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+  --ok: #16a34a;
+  --ng: #dc2626;
+}
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    'Noto Sans JP',
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--base-font);
+}
+/* ===== header ===== */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(247, 248, 251, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  z-index: 10;
+}
+header .wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+header h1 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
+}
+header a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+}
+/* ===== header 2-row layout ===== */
+header .wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: block; /* ←2段にする */
+}
+/* ===== header 1行目ナビ ===== */
+.hrow1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.hnav {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+.hnav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.hnav a:hover {
+  text-decoration: underline;
+}
+.hrow2 {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.hsize {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.hsize .btn {
+  padding: 6px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.hrow2 .btn {
+  padding: 6px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+/* header tools (進捗＋全操作) */
+.htools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.hprog {
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.btn.small {
+  padding: 6px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+/* ===== main ===== */
+main {
+  max-width: 1100px;
+  margin: 16px auto;
+  padding: 0 16px 40px;
+}
+.list {
+  display: grid;
+  gap: 10px;
+}
+.q {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  scroll-margin-top: 70px;
+}
+/* ===== 問題ヘッダ ===== */
+.qhead {
+  position: relative;
+  display: block;
+}
+/* 解答ボタン右上固定 */
+.qhead > .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* 左エリア */
+.left {
+  width: 100%;
+  padding-right: 90px; /* ボタン幅分確保 */
+}
+/* 問題番号 */
+.qid {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+/* 問題文 */
+.qtext {
+  line-height: 1.75;
+  margin: 6px 0 0;
+  padding-left: 1.6em;
+  text-indent: -1.6em;
+}
+/* ===== multi-step check（問題文上） ===== */
+.qcheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 6px 0;
+}
+.qstep {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+}
+.qstep[data-level='0'] {
+  color: var(--muted);
+}
+.qstep[data-level='1'] {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: var(--ok);
+  font-weight: 700;
+}
+.qstep[data-level='2'] {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: var(--accent);
+  font-weight: 700;
+}
+/* ===== meta ===== */
+.meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+}
+.pill a {
+  color: var(--accent);
+  text-decoration: none;
+}
+/* ===== button ===== */
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* ===== dialog ===== */
+dialog {
+  width: min(820px, 92vw);
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+.dlg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.dlg-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+.dlg-body {
+  padding: 14px;
+  background: #fff;
+}
+.dlg-body p {
+  margin: 0 0 10px;
+  line-height: 1.75;
+}
+.dlg-foot {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  margin-bottom: 10px;
+}
+.badge.ok {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: var(--ok);
+}
+.badge.ng {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: var(--ng);
+}
+.mono {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, 'Noto Sans Mono CJK JP',
+    monospace;
+}
+.q.lv1 .qtext {
+  color: #d3d3d3; /* グレー */
+}
+.fsbtn {
+  padding: 4px 6px;
+  border-radius: 10px;
+  font-size: 0.8em;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

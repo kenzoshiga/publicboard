@@ -4,118 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>民法 Unit44</title>
-  <style>
-    :root{
-      --base-font: 16px;
-      --toc-bg:#f7f7f7;
-      --toc-border:#e0e0e0;
-      --outer-bg:#fbfcff;
-      --outer-border:#cfd8ff;
-      --inner-bg:#ffffff;
-      --inner-border:#ffffff;
-      --pcard-bg:#ffffff;
-      --pcard-border:#ffffff;
-      --accent:#2563eb;
-    }
-    body{font-family:system-ui,-apple-system,'Segoe UI',Meiryo,sans-serif;line-height:1.7;margin:0; font-size: var(--base-font);}
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;z-index:10;}
-    .wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
-    header a{font-size: 0.9em;}
-    /* header 1行目を「タイトル左／リンク右」 */
-    .wrap.hrow1{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-    .hnav{display:flex;gap:24px;align-items:center;white-space:nowrap;}
-    .hnav a{color:var(--accent);font-size:14px;text-decoration:none;font-weight:500;}
-    .hnav a:hover{text-decoration:underline;}
-    main{padding:16px;max-width:980px;margin:0 auto;}
-    .toc-wrap{display:flex;align-items:flex-start;gap:10px;}
-    .toc-toggle{margin-left:auto;white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.86em;}
-    .toc{
-      background:var(--toc-bg);
-      border:1px solid var(--toc-border);
-      padding:10px 12px;
-      border-radius:10px;
-      font-size:0.82em;
-      line-height:1.7;
-      flex:1;
-      min-width:0;
-      /* PC用の高さ制御 */
-      max-height:min(40vh, 400px);       /* 固定にする（vhは使わない） */
-      overflow-y:auto;        /* PCでは内部スクロール可 */
-      -webkit-overflow-scrolling:touch;
-    }
-    .toc ul{margin:2px 0 2px 14px;padding:0;}
-    .toc li{margin:1px 0;}
-    .toc a{text-decoration:none;}
-    .toplink{margin-left:10px;font-size:0.9em;text-decoration:none;}
-    .sec-title{margin-top:28px;padding-top:6px;}
-    h1{ font-size:16px; margin:0; font-weight:700; }
-    h2{margin-top:10px;padding-top:6px;border-top:2px solid #eee;}
-    h3{margin-top:12px;}
-    .blk{border:1px solid #ddd;border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff;}
-    .outer{background:var(--outer-bg);border-color:var(--outer-border);}
-    .outer-title{font-weight:800;margin:0 0 8px 0;text-decoration:underline;}
-    .inner{background:var(--inner-bg);border-color:var(--inner-border);margin:8px 0 0 0;}
-    .inner p{margin:2px 0;line-height:1.25;}
-    .h6{font-weight:700;}
-    .nobold{font-weight:400;}
-    .sp{height:6px;}
-    .p-card{border:1px solid var(--pcard-border);background:var(--pcard-bg);border-radius:10px;
-      padding-top:8px; padding-right:2px;padding-bottom:8px;padding-left:4px;margin:12px 0;}
-    .p-card .p-card{margin:10px 0;padding-left:1px;padding-right:1px;}
-    .sec-card{border-color:#ffffff;background:#ffffff;}
-    .sec-card .p-card{border-color:#ffffff;background:#ffffff;}
-    .sec-card .inner{border-color:#ffffff;background:#ffffff;}
-    .ind0{margin-left:0;}
-    .ind1{margin-left:0.200em;}
-    .ind2{margin-left:0.400em;}
-    .ind3{margin-left:0.600em;}
-    .ind4{margin-left:0.800em;}
-    .ind5{margin-left:1.000em;}
-    .ind6{margin-left:1.200em;}
-    h1, h2, h3, h4, h5, h6 {scroll-margin-top: 120px;}
-    *[id]{scroll-margin-top: 120px;}
-    img.embed-img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:8px;}
-    table.tbl{border-collapse:collapse;width:100%;margin:8px 0;}
-    table.tbl td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;}
-    body.toc-hidden .toc{display:none;}
-    body.toc-hidden .toc-title{display:none;}
-    .ctrl-wrap{display:flex; gap:8px; align-items:center;}
-    .btn-ctrl{white-space:nowrap;border:1px solid #ccc;background:#fff;border-radius:10px;
-      padding:4px 6px;cursor:pointer;font-size:0.80em;
-    }
-    /* ===== TOC Modal (mobile) ===== */
-    .toc-modal{position:fixed;inset:0;z-index:9999;display:none;}
-    .toc-modal.is-open{ display:block; }
-    .toc-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:0;}
-    .toc-modal__panel{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;z-index:0;}
-    .toc-modal__head{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-    .toc-modal__title{font-weight:700;}
-    .toc-modal__close{border:1px solid #ccc;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-size:0.9em;white-space:nowrap;}
-    .toc-modal__body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;}
-    #tocModal .toc{max-height:none !important;overflow:visible !important;border:0;background:transparent;padding:0;border-radius:0;}
-    /* モーダルが開いている間は本文スクロールを止める */
-    body.modal-open{overflow:hidden;touch-action:none;}
-    /* 画面が小さいときは、ヘッダ内の小目次は非表示（＝モーダルを使う） */
-    @media (max-width: 700px){header .toc{ display:none; }}
-    /* ===== 右寄せポップアップボタン ===== */
-    .popup-wrap{text-align:right; /* 右寄せ */margin:8px 0;}
-    .popup-btn{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:4px 10px;font-size:0.85em;cursor:pointer;}
-    .popup-btn:hover{background:var(--accent);color:#fff;}
-    /* ===== 汎用ポップアップダイアログ ===== */
-    .link-dialog{position:fixed;inset:0;z-index:10000;display:none;}
-    .link-dialog.is-open{display:block;}
-    .link-dialog__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35);}
-     .link-dialog__panel{text-decoration:none;font-size:14px;font-weight:400;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;padding:16px;width:min(90%,400px);max-height:70vh;overflow:auto;}
-    .link-dialog__panel ul{margin:0;padding-left:16px;}
-    .link-dialog__panel li{margin:6px 0;}
-    .link-dialog__close{text-align:right;margin-top:10px;}
-    .link-dialog__close button{border:1px solid #ccc;background:#fff;border-radius:8px;padding:4px 8px;cursor:pointer;}
-    .dialog-text-only{color:#666;cursor:default;}
-    .kakomon{text-align:right;font-size:0.8em;text-decoration:none}
-    .kakomon a{text-decoration:none;}
-    .jobun {border: 1px solid #000;padding: 12px;background-color: #f5f5f5;white-space: pre-line;display: inline-block; font-size:16px;padding: 6px;margin: 12px;line-height: 1.4;}
-    .jobun::before {content: "";display: block;margin-top: -1.8em;}
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
@@ -690,7 +579,7 @@
       <div class="blk inner">
         <div class="p-card">
           <p class="h6 ind0">1.　使用貸借の終了時期</p>
-          <p class="p6 ind1"><img class="embed-img" src="min44-07.png" alt="min44-07.png"></p>
+          <p class="p6 ind1"><img class="embed-img" src="img/min44-07.png" alt="min44-07.png"></p>
         </div>
         <div class="p-card">
           <p class="h6 ind0">2.　借主の死亡（597条３項）</p>
