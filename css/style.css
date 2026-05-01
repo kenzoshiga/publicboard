@@ -425,3 +425,18 @@ body.modal-open {
   display: block;
   margin-top: -1.8em;
 }
+.ftnote {
+  border: none;
+  background-color: #DCDCDC;
+  white-space: pre-line;
+  display: inline-block;
+  font-size: 13px;
+  padding: 6px;
+  margin: 12px 24px 12px 12px;
+  line-height: 1.4;
+}
+.ftnote::before {
+  content: "";
+  display: block;
+  margin-top: -1.8em;
+}
