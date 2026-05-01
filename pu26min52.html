@@ -1,0 +1,595 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit52</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit52</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min51.html">前へ</a>
+      <a href="pu26min53.html">次へ</a>
+      <a href="pu26min52q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#top">本文</a>
+  <ul>
+    <li><a href="#A00-00-04">第４節　特殊の不法行為</a>
+      <ul>
+            <li><a href="#A00-00-04-1">Ⅰ　責任無能力者の監督義務者等の責任</a>
+              <ul>
+            <li><a href="#A00-00-04-1-01">１　責任の意義</a></li>
+            <li><a href="#A00-00-04-1-02">２　責任の要件</a></li>
+            <li><a href="#A00-00-04-1-03">３　効果</a></li>
+            <li><a href="#A00-00-04-1-04">４　一般不法行為（709条）との関係</a></li>
+            </ul>
+          </li>
+            <li><a href="#A00-00-04-2">Ⅱ　使用者責任</a>
+              <ul>
+            <li><a href="#A00-00-04-2-01">１　意義</a></li>
+            <li><a href="#A00-00-04-2-02">２　責任の要件</a></li>
+            <li><a href="#A00-00-04-2-03">３　効果</a></li>
+            <li><a href="#A00-00-04-2-04">４　法人の不法行為</a></li>
+            </ul>
+          </li>
+            <li><a href="#A00-00-04-3">Ⅲ　注文者の責任</a>
+              <ul>
+            <li><a href="#A00-00-04-3-01">１　意義</a></li>
+            <li><a href="#A00-00-04-3-02">２　成立</a></li>
+            </ul>
+          </li>
+            <li><a href="#A00-00-04-4">Ⅳ　土地工作物責任</a>
+              <ul>
+            <li><a href="#A00-00-04-4-01">１　意義</a></li>
+            <li><a href="#A00-00-04-4-02">２　責任を負う者</a></li>
+            <li><a href="#A00-00-04-4-03">３　責任の要件</a></li>
+            <li><a href="#A00-00-04-4-04">４　効果</a></li>
+            </ul>
+          </li>
+            <li><a href="#A00-00-04-5">Ⅵ　共同不法行為</a>
+              <ul>
+            <li><a href="#A00-00-04-5-01">１　意義</a></li>
+            <li><a href="#A00-00-04-5-02">２　狭義の共同不法行為（719条１項前段）</a></li>
+            <li><a href="#A00-00-04-5-03">３　効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+    <div class="p-card sec-card">
+      <h3 id="A00-00-04">第４節　特殊の不法行為</h3>
+    <div class="blk outer">
+
+      <p>一般不法行為（709条）の成立要件と異なる特殊の要件によって成立する不法行為を特殊の不法行為という。民法上には、責任無能力者の監督義務者等の責任（714条）、使用者等の責任（715条）、土地の工作物等の占有者及び所有者の責任（717条）、動物の占有者等の責任（718条）がある。</p>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-1" class="h6 ind0">Ⅰ　責任無能力者の監督義務者等の責任</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-01">１　責任の意義</div>
+      <p>責任無能力者の監督義務者の責任（714条）とは、712条又は713条により責任無能力者が責任を負わない場合に、この監督義務を負う者及び監督義務者に代わって責任無能力者を監督する者が、責任無能力者が第三者に加えた損害を賠償するものである。</p>
+      <p>714条の責任の趣旨は、監督義務者には、責任無能力者が社会生活を送るについて保護・監督すべき義務があるにもかかわらず、その監督義務を十分に尽くさなかったために生じた加害行為につき、監督義務者の責任を認めることによって被害者の救済を図ろうとするところにある。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-02">２　責任の要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　責任無能力者の行為が、責任能力を除く一般不法行為（709条）の要件を具備していること（要件①）。</p>
+          <p class="p6 ind1">本人の行為が責任無能力以外の理由によって、不法行為を構成しないものとされる場合には（例えば、正当防衛等その行為が違法性を欠く場合）、714条の監督義務者の責任も問題となり得ない（最判昭37.２.27）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　行為者本人が責任を負わないこと（要件②）。</p>
+          <p class="p6 ind1">行為者に責任能力があればその者が賠償責任を負う（709条）ことになり、714条の適用はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　監督義務者がその義務を怠らなかったことの立証がないこと（要件③）。</p>
+          <p class="p6 ind1">この立証責任は監督義務者にある（大判昭18.４.９）。</p>
+          <p class="p6 ind1">責任無能力者の違法な加害行為が存在するということは、これを監督する者の監督が不十分とみて立証責任を転換し、監督義務者に反証による免責の機会を与えるものである。</p>
+          <p class="p6 ind1">これによって、監督義務者に容易に責任を負わせることができ、被害者の救済になる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　監督義務を怠らなくても損害が生ずべきであったことの立証がないこと（要件④）。</p>
+          <p class="p6 ind1">要件③と同様に、この立証責任は監督義務者側にある。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-03">３　効果</div>
+      <p>法定の監督義務者又は代理監督者が責任無能力者の行為について損害賠償責任を負う。</p>
+      <p>監督義務者：親権者（820条）、未成年後見人（857条）、成年後見人（858条）</p>
+      <p>代理監督者：託児所・幼稚園の保母、小学校の教員等</p>
+      <p>また、代理監督者が責任を負う場合であっても、監督義務者が、その者に付託したことにつき過失のないことを立証しない限り、監督義務者も同時に責任を負う。この場合の両者の責任は、不真正連帯債務となると解されている。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-04">４　一般不法行為（709条）との関係</div>
+      <p>Ｑ　行為者本人が責任能力を有する場合、監督義務者は714条の責任を負わない。ではこの場合、監督義務者は714条の反対解釈により常に責任を免れるのか、それとも709条の責任を負う場合があるのか。これは、714条が709条といかなる関係に立つのかという問題である。</p>
+      <p>→　併存責任説（最判昭49.３.22・通説）</p>
+      <p>未成年者が責任能力を有する場合であっても、監督義務者の義務違反と当該未成年者の不法行為によって生じた結果との間に相当因果関係を認めることができるときは、監督義務者につき709条に基づく不法行為が成立する。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-2" class="h6 ind0">Ⅱ　使用者責任</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-01">１　意義</div>
+      <p>使用者責任とは、被用者が事業の執行について第三者に損害を加えた場合に、使用者が負う損害賠償責任をいう（715条１項）。</p>
+      <p>使用者は、他人を使用することによって利益を得る可能性があるにもかかわらず、それによる損害の賠償を負担しないのは不公平であるという「報償責任の原理」から認められた責任と解されている（通説）。</p>
+      <p>なお、使用者に代わって事業を監督する者（代理監督者）も同様の責任を負う（715条２項）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-02">２　責任の要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　使用関係－「ある事業のために他人を使用」していること（要件①）</p>
+          <p class="p6 ind1">「事業」とは、企業活動である必要はない。日常的に仕事と呼ばれるほどのものであれば、すべて「事業」に含まれる（ex. 庭の手入れ）。営利性、有償性、継続性はすべて不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　「事業の執行について」なされたこと（要件②）</p>
+          <p class="p6 ind1">この要件は、報償責任の原理から、責任の範囲を使用者が被用者の活動により利益を得ている範囲に限定するためにある。</p>
+          <p class="p6 ind1">具体的には、(1)その行為が使用者の事業に含まれていることと、(2)その行為が被用者の担当している職務に含まれていることが必要である。</p>
+          <p class="p6 ind1">※　被用者の職務の範囲</p>
+          <p class="p6 ind1">職務の範囲内かどうかは、厳密には使用者と被用者の内部関係で定まるものである。しかし、内部関係により「事業の執行について」に当たるかどうかが決められてしまうとすれば、被害者側には知ることができない事情により使用者責任が問えるかどうかが決まってしまうことになり、被害者の保護に欠ける結果となってしまう。そこで、不法行為法の理念である被害者保護の見地からは、内部関係にとらわれない基準が必要である。</p>
+          <p class="p6 ind1">※　外形標準説（判例）</p>
+          <p class="p6 ind1">「事業の執行について」とは、被用者の職務執行行為そのものには属しないが、その行為の外形から観察して、被用者の職務の範囲内の行為に属するものとみられる場合をも包含する（最判昭40.11.30）。</p>
+          <p class="p6 ind1">もっとも、被用者の職務の範囲外であることについて相手方に悪意又は重過失ある場合には、本条の適用はない（最判昭42.11.２）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　被用者が第三者に損害を加えたこと（要件③）</p>
+          <p class="p6 ind1">ここにいう「第三者」とは、加害者と使用者を除くすべての者をいい、被害者も被用者で、加害者とは業務執行の共同担当者であり、しかも当人にも事故発生について過失があるという場合でも、使用者は本条による責任を免れない（最判昭32.４.30）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　使用者が免責事由を立証しないこと（要件④）</p>
+          <p class="p6 ind1">使用者は選任及び監督に相当の注意を払っていたこと（双方の立証が必要）、又は相当の注意をしても損害が生ずべきであったことを立証すれば免責される。もっとも、この立証に成功することはほとんどない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　使用者の損害賠償責任</p>
+          <p class="p6 ind1">この場合、被用者自身は709条による損害賠償責任を負う。</p>
+          <p class="p6 ind1">Ｑ　使用者責任と被用者の責任とはいかなる関係にあるか。</p>
+          <p class="p6 ind1">→　不真正連帯債務説（最判昭46.９.30・通説）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　求償権</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 趣旨（715条３項）</p>
+          <p class="p6 ind2">使用者又は代理監督者が715条１項に基づいて賠償責任を果した場合には、これらの者は被用者に求償することができる（715条３項）。</p>
+          <p class="p6 ind2">使用者責任は被害者保護のために報償責任の原理から特に使用者に賠償責任を課したものであるから、使用者が賠償した場合は被用者にその額を求償できるとした。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 求償権の制限</p>
+          <p class="p6 ind2">Ｑ　被用者の不法行為について使用者にも一定の帰責事由がある場合には、使用者の全額求償を認めることは被用者に酷である。そこで、使用者の求償権を制限することができるのかが問題となる。</p>
+          <p class="p6 ind2">→　制限することができる（最判昭51.７.８・通説）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">被用者を使用することにより多大な利益を上げている使用者が、生じた損害の全部を被用者に転嫁することは信義誠実の原則（１条２項）に反する。</p>
+        </div>
+        <div class="p-card" id="min52-q4">
+          <p class="h6 ind1">(3) 複数の使用者間における求償関係</p>
+          <p class="p6 ind2">＜判例＞　最判平3.10.25</p>
+          <p class="p6 ind2"><img class="embed-img" src="min52-01.png" alt="min52-01.png"></p>
+          <p class="p6 ind2">使用者の一方は、当該加害者の過失割合に従って定められる負担部分のうち、右の責任の割合に従って定められる自己の負担部分を超えて損害を賠償したときは、その超える部分につき、使用者の他方に対して負担部分の限度で求償することができる。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-04">４　法人の不法行為</div>
+      <p>法人法78条は、代表機関が職務行為について第三者に損害を与えた場合には、法人自身がその賠償責任を負うことを定める。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　要件</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 法人の代表機関の行為であること</p>
+          <p class="p6 ind2">代表機関でない被用者の行為については、法人は715条の使用者責任を負う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) その行為が不法行為（709条以下）の要件を備えていること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 職務を行うについて他人に損害を加えたこと</p>
+          <p class="p6 ind2">「職務を行うについて」の判断基準は、外形標準説（大判大７.３.27、最判昭41.６.21）をとる。</p>
+          <p class="p6 ind2">外形上職務に属する行為の他、職務行為と適当な牽連関係に立つ行為も含む。そして、職務行為かどうかは客観的に行為の外形から判断されなければならない。</p>
+          <p class="p6 ind2">ただし、当該行為が職務行為に属さないことを相手方が知っていたか、又はこれを知らないことにつき重大な過失があったときは、法人は責任を負わない（最判昭50.7.14）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 法人の賠償責任</p>
+          <p class="p6 ind2">法人は理事が第三者に与えた損害を賠償する義務を負う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 理事の個人責任</p>
+          <p class="p6 ind2">法人が不法行為責任を負う場合、機関個人も不法行為責任（709条）を負うことに争いはない（法人と不真正連帯債務を負う）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-3" class="h6 ind0">Ⅲ　注文者の責任</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-3-01">１　意義</div>
+      <p>請負人がその仕事について第三者に損害を加えても、注文者は原則としてその損害を賠償する責任を負わない（716条）。もっとも、注文者が請負人に対してした注文又は指図に過失があったときは責任を負う（同条ただし書）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-3-02">２　成立</div>
+      <p>注文者の責任を問うためには、請負人につき不法行為が成立することが必要である。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-4" class="h6 ind0">Ⅳ　土地工作物責任</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-4-01">１　意義</div>
+      <p>土地の工作物の設置又は保存に瑕疵があることによって他人に損害が生じたときは、第１次的には工作物の占有者が、占有者が損害の発生を防止するのに必要な注意をしたときは第２次的に所有者が負う責任である（717条１項）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-4-02">２　責任を負う者</div>
+      <p>１次的：占有者（過失責任）</p>
+      <p>２次的：所有者（無過失責任）</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-4-03">３　責任の要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①土地の工作物に設置又は保存の瑕疵があること、②損害が土地の工作物の瑕疵に起因すること、が必要である。</p>
+          <p class="p6 ind4">土地の工作物とは、土地に接着して築造された設備をいい、建物、橋、トンネル、電柱、石垣は、「土地の工作物」に当たるが、工場内の機械は土地の工作物とはいえない（大判大元.12.６）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-4-04">４　効果</div>
+      <p>第１次的に占有者が損害賠償責任を、占有者が損害発生防止に必要な注意をしたことを立証したときは第２次的に所有者が損害賠償責任を負う（717条１項）。</p>
+      <p>損害の原因について他にその責任を負う者があるときは、占有者又は所有者は、その者に対して求償権を行使することができる（717条３項）。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-5" class="h6 ind0">Ⅵ　共同不法行為</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-5-01">１　意義</div>
+      <p>数人の者が共同の不法行為によって他人に損害を加えたとき、及び共同行為者のうち誰が実際に損害を加えたか明らかでないときは、それぞれの行為者が、生じた損害について連帯して責任を負う（719条１項）。</p>
+      <p>共同不法行為者に、損害全部についての責任を負わせることで被害者救済を図るものである。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-5-02">２　狭義の共同不法行為（719条１項前段）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">狭義の共同不法行為とは、共同者全員がいずれも損害の発生に加担している場合をいう。</p>
+          <p class="p6 ind1">ex. 数人が共同して殴打した</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　成立要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①各人の行為がそれぞれ独立して不法行為の要件を備えていること、②各行為者の間に関連共同性があること、が必要である。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-5-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　責任の連帯性</p>
+<div class="jobun">
+（連帯債務者に対する履行の請求）
+第436条　債務の目的がその性質上可分である場合において、法令の規定又は当事者の意思表示によって数人が連帯して債務を負担するときは、債権者は、その連帯債務者の１人に対し、又は同時に若しくは順次に全ての連帯債務者に対し、全部又は一部の履行を請求することができる。
+</div>
+          <p class="p6 ind1">共同不法行為者は、各自が連帯して賠償責任を負う。436条は、「法令の規定」による連帯債務も含めて規律していることから、共同不法行為の場合にも、原則として連帯債務に関する規定が適用される（最判昭57.３.４・通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賠償の範囲</p>
+          <p class="p6 ind1">共同不法行為者は、それぞれ、共同不法行為と相当因果関係にある全損害について責任を負う。</p>
+        </div>
+        <div class="p-card" id="min52-q10">
+          <p class="h6 ind0">3.　過失相殺</p><br>
+          <p class="p6 ind1">Ｑ１　交通事故の被害者が医師の過失により被害を拡大するに至ったときに、交通事故の加害者の責任と医師の責任との関係</p>
+          <p class="p6 ind1">→　交通事故とその後の医療事故とのいずれもが被害者の死亡という不可分の１個の結果を招来し、この結果については相当因果関係にあるときは、両者は共同不法行為に当たるから、各不法行為者は被害者の被った損害の全額について連帯して責任を負うべきであり、この共同不法行為における過失相殺は、各不法行為の加害者と被害者との間における過失の割合に応じてすべきであるとした判例がある（最判平13.３.13）。</p><br>
+          <p class="p6 ind1">Ｑ２　複数の加害者の過失及び被害者の過失が競合する場合の過失相殺の可否</p>
+          <p class="p6 ind1">→　複数の加害者の過失及び被害者の過失が競合する一つの交通事故において、その交通事故の原因となったすべての過失の割合（以下「絶対的過失割合」という。）を認定することができるときには、絶対的過失割合に基づく被害者の過失による過失相殺をした損害賠償額について、加害者らは連帯して共同不法行為に基づく賠償責任を負うものと解すべきである。これに反し、各加害者と被害者との関係ごとにその間の過失の割合に応じて相対的に過失相殺をすることは、被害者が共同不法行為者のいずれからも全額の損害賠償を受けられるとすることによって被害者保護を図ろうとする719条の趣旨に反することになる（最判平15.７.11）。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

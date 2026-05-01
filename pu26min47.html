@@ -1,0 +1,611 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit47</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit47</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min46.html">前へ</a>
+      <a href="pu26min48.html">次へ</a>
+      <a href="pu26min47q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-06">第６章　賃貸借</a>
+      <ul>
+        <li><a href="#A06-06-05">第５節　賃貸借の終了</a>
+          <ul>
+            <li><a href="#A06-06-05-1">Ⅰ　賃貸借の終了原因</a>
+              <ul>
+            <li><a href="#A06-06-05-1-01">１　存続期間の満了</a></li>
+            <li><a href="#A06-06-05-1-02">２　解約申入れ（617条）</a></li>
+            <li><a href="#A06-06-05-1-03">３　解除</a></li>
+            <li><a href="#A06-06-05-1-04">４　目的物の滅失朽廃等による使用不能</a></li>
+            <li><a href="#A06-06-05-1-05">５　混同（520条）</a></li>
+            <li><a href="#A06-06-05-1-06">６　賃貸人・賃借人が死亡したとき</a></li>
+            </ul>
+          </li>
+            <li><a href="#A06-06-05-2">Ⅱ　費用等の返還</a>
+              <ul>
+            <li><a href="#A06-06-05-2-01">１　有益費</a></li>
+            <li><a href="#A06-06-05-2-02">２　敷金</a></li>
+            <li><a href="#A06-06-05-2-03">３　返還義務を負う者</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A06-06-06">第６節　敷金</a>
+          <ul>
+            <li><a href="#A06-06-06-0-01">１　意義</a></li>
+            <li><a href="#A06-06-06-0-02">２　敷金の効力</a></li>
+            <li><a href="#A06-06-06-0-03">３　敷金と当事者の変更</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-06">第６章　賃貸借</h2>
+    <div class="p-card sec-card">
+      <h3 id="A06-06-05">第５節　賃貸借の終了</h3>
+    <div class="p-card rank4-card">
+      <p id="A06-06-05-1" class="h6 ind0">Ⅰ　賃貸借の終了原因</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-01">１　存続期間の満了</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　民法による原則</p>
+          <p class="p6 ind1">期間の満了により賃貸借は当然に終了する。ただし、黙示の更新（619条）がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　借地借家法による修正</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 借地関係</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 借地では期間の定めのない借地権は存在しないため、期間満了が原則的な終了原因である。</p>
+          <p class="p6 ind3">期間が満了し合意により更新されない場合でも、法定更新となる場合がある（借地借家法５条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 建物買取請求権（借地借家法13条１項）</p>
+          <p class="p6 ind3">存続期間が満了した場合、契約の更新がないときは、借地権者は、借地権設定者に対して、建物その他借地権者が権原により土地に附属させた物を時価で買い取るべきことを請求することができる。</p>
+          <p class="p6 ind3">判例は、債務不履行解除の場合につき、建物買取請求権を否定する（最判昭35.２.9）。</p>
+          <p class="p6 ind3">借家人による建物買取請求権の代位行使も、判例（最判昭38.４.23）は認めていない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 借家関係</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 期間の定めのある借家権の場合</p>
+          <p class="p6 ind3">期間の満了が終了原因となるが、法定更新となる場合がある（借地借家法26条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 造作買取請求権（借地借家法33条１項）</p>
+          <p class="p6 ind3">建物の賃貸人の同意を得て建物に付加した畳、建具その他の造作がある場合には、建物賃借人は期間満了又は解約申入れにより契約が終了するときに、建物賃貸人に対し、造作を時価で買い取るべきことを請求することができる。もっとも、これは任意規定である（借地借家法37条）。</p>
+          <p class="p6 ind3">債務不履行解除により終了する場合、判例は造作買取請求権を否定する（大判昭13.３.１）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min47q.html#q-h07-01-3" title="H7-1-3">過去問</a></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-02">２　解約申入れ（617条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　民法の原則</p>
+          <p class="p6 ind1">当事者が賃貸借の期間を定めなかったときは、各当事者は、いつでも解約の申入れができる（617条１項柱書前段）。</p>
+          <p class="p6 ind1">ただ、解約申入れにより直ちに効果が生ずるのではなく、土地ならば１年、建物ならば３か月、貸席・動産については１日が経過した後に契約が終了する（617条１項柱書後段１号～３号）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　借地借家法による修正</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 借地の場合、期間の定めのないものはないので（借地借家法３条参照）、解約申入れによる終了は問題とならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 期間の定めのない借家権の場合</p>
+          <p class="p6 ind2">賃貸人が解約申入れをした場合においては、６か月を経過することによって当該賃貸借は終了する（借地借家法27条１項）。正当事由を具備することが必要である（借地借家法28条）。正当事由の判断基準については、借地借家法28条が定めている。</p>
+          <p class="p6 ind2">借家人が解約申入れをした場合には、民法の原則どおり３か月を経過することによって当該賃貸借は終了する（民法617条１項２号）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min47q.html#q-h25-19-i" title="H25-19-イ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-03">３　解除</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　賃借人による解除事由</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 賃借人の意思に反する保存行為により、賃借した目的を達することができない場合（607条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 不可抗力により２年以上賃料より少ない収益しかあがらない場合（610条）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 賃借物の一部が滅失その他の事由により使用及び収益をすることができなくなった場合において、残存する部分のみでは賃借人が賃借をした目的を達することができない場合（611条２項）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賃貸人による解除事由</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 612条２項（賃借権の無断譲渡・転貸）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 債務不履行解除</p>
+          <p class="p6 ind2">賃借人の債務不履行（ex. 賃料不払）については、賃貸借の節に規定がないため問題となる。</p>
+          <p class="p6 ind2">→　541条説（大判昭７.７.７・通説）</p>
+          <p class="p6 ind2">賃貸借の節に規定がない以上、解除の一般原則である541条によるべきである。</p>
+          <p class="p6 ind2">ただし、賃貸借が当事者の信頼関係を基礎とする継続的契約であることから、解除権の発生には信頼関係の破壊が認められる程度の債務不履行が必要である（最判昭39.７.28）。</p>
+          <p class="p6 ind2">他方、信頼関係の破壊が著しい場合には無催告解除も認められる（最判昭27.４.25）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　解除の効果</p>
+<div class="jobun">
+（賃貸借の解除の効力）
+第620条　賃貸借の解除をした場合には、その解除は、将来に向かってのみその効力を生ずる。この場合においては、損害賠償の請求を妨げない。
+</div>
+          <p class="p6 ind1">賃貸人又は賃借人の債務不履行を理由に解除されれば、契約は将来に向かって消滅する（620条）。遡及効はない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-04">４　目的物の滅失朽廃等による使用不能</div>
+<div class="jobun">
+（賃借物の全部滅失等による賃貸借の終了）
+第616条の２　賃借物の全部が滅失その他の事由により使用及び収益をすることができなくなった場合には、賃貸借は、これによって終了する。
+</div>
+      <p>一般的には、債務不履行・危険負担の問題があり得るが、使用収益させる債務及び賃料債務の性質に鑑みると、賃貸借契約を存続させる意味はないし、適切でもないから、616条の２は、全部滅失等の場合に賃貸借契約が終了することとしている。</p>
+<div class="kakomon"><a href="pu26min47q.html#q-h07-05-4" title="H7-5-4">過去問</a></div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-05">５　混同（520条）</div>
+      <p>賃借人が賃貸人を相続するなどして賃借人と賃貸人の地位が同一人に帰した場合には、原則として、混同（520条）により賃借権は消滅する。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-1-06">６　賃貸人・賃借人が死亡したとき</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　賃貸人・賃借人の死亡は、終了原因ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賃借人が死亡した場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 賃借人が死亡した場合、使用貸借（597条３項）とは異なり契約は終了しない。また、賃借権は相続される。</p>
+          <p class="p6 ind2">賃借権が共同相続された場合、賃料債務は反対の事情のない限り不可分債務となるので、賃貸人は、共同相続人の１人に賃料全額を請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 内縁の妻等による賃借権の承継等</p>
+          <p class="p6 ind2">居住用建物の賃貸借につき賃借人が死亡した場合、相続権を持たない内縁配偶者・事実上の養子は建物を明け渡さなければならないのが原則である。</p>
+          <p class="p6 ind2">しかし、これらの者の居住権を保護する必要がある。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 相続人がいない場合</p>
+          <p class="p6 ind3">借地借家法36条によりこれらの者への賃借権の承継が認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 相続人がいる場合</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　賃貸人からの明渡請求に対し内縁配偶者等はこれを拒絶できるか。</p>
+          <p class="p6 ind4">→　同居人は、相続人が承継した借家権を援用して家主に対抗できる（最判昭37.12.25）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　相続人からの明渡請求に対してはどうか。</p>
+          <p class="p6 ind4">→　この場合、権利濫用の法理により内縁配偶者を保護した判例がある（最判昭39.10.13）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　内縁配偶者に居住が認められる場合、賃料債務を負担するのは誰か。</p>
+          <p class="p6 ind4">→　相続人が負担する（最判昭42.２.21）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min47q.html#q-h18-19-e" title="H18-19-エ">過去問</a></div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A06-06-05-2" class="h6 ind0">Ⅱ　費用等の返還</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-2-01">１　有益費</div>
+      <p>賃借人が賃借物について有益費を支出したときは、賃貸人は、賃貸借の終了の時に、民法196条２項の規定に従い、その償還をしなければならない（608条２項本文）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-2-02">２　敷金</div>
+      <p>敷金（受け取った敷金の額から賃貸借に基づいて生じた賃借人の賃貸人に対する金銭の給付を目的とする債務の額を控除した残額）は、次の①又は②に該当するときに返還しなければならない（622条の２第１項柱書）。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①賃貸借が終了し、賃借物の返還を受けたとき（622条の２第１項１号）</p>
+          <p class="h6 ind3 nobold">②賃借人が適法に賃借権を譲り渡したとき（622条の２第１項２号）</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-05-2-03">３　返還義務を負う者</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則</p>
+          <p class="p6 ind1">賃貸人である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賃貸人たる地位の移転があった場合</p>
+          <p class="p6 ind1">新賃貸人である目的不動産の譲受人、承継人は費用償還債務（608条）及び敷金返還債務（622条の２第１項）を承継するため、賃貸借契約が終了したときは、これらの者が返還する（605条の２第４項、605条の３後段）。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A06-06-06">第６節　敷金</h3>
+    <div class="blk outer">
+
+<div class="jobun">
+第４款　敷金
+第622条の２　賃貸人は、敷金（いかなる名目によるかを問わず、賃料債務その他の賃貸借に基づいて生ずる賃借人の賃貸人に対する金銭の給付を目的とする債務を担保する目的で、賃借人が賃貸人に交付する金銭をいう。以下この条において同じ。）を受け取っている場合において、次に掲げるときは、賃借人に対し、その受け取った敷金の額から賃貸借に基づいて生じた賃借人の賃貸人に対する金銭の給付を目的とする債務の額を控除した残額を返還しなければならない。
+一　賃貸借が終了し、かつ、賃貸物の返還を受けたとき。
+二　賃借人が適法に賃借権を譲り渡したとき。
+２　賃貸人は、賃借人が賃貸借に基づいて生じた金銭の給付を目的とする債務を履行しないときは、敷金をその債務の弁済に充てることができる。この場合において、賃借人は、賃貸人に対し、敷金をその債務の弁済に充てることを請求することができない。
+</div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-06-0-01">１　意義</div>
+      <p>敷金とは、いかなる名目によるかを問わず、賃料債務その他の賃借権に基づいて生ずる賃借人の賃貸人に対する金銭の給付を目的とする債務を担保する目的で、賃借人から賃貸人に交付される金銭をいう（622条の２第１項括弧書）。</p>
+      <p>その法的性質は賃貸借契約に付随する要物契約であり、停止条件付金銭所有権の移転を内容とする。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-06-0-02">２　敷金の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　敷金により担保される債務の種類</p>
+          <p class="p6 ind1">敷金により担保される債務は、賃料債務のほか、賃貸借契約をめぐって賃借人の負う一切の債務が含まれる(622条の２第１項括弧書参照)。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賃貸借契約継続中の敷金の充当の要否</p>
+          <p class="p6 ind1">賃貸借契約継続中は賃借人の債務に敷金を充当するかどうかは賃貸人の自由であって、敷金には触れないで延滞賃料全額を請求することができる。</p>
+          <p class="p6 ind1">一方、賃借人から賃貸人に対し、敷金を延滞賃料の弁済に充てることを請求することはできない(622条の２第２項)。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　敷金返還義務の発生時期</p>
+          <p class="p6 ind1">敷金は賃貸借に基づいて生ずる賃借人の賃貸人に対するすべての金銭債務を担保するためのものであり、これらの金銭債務がある場合、賃貸人は敷金を充てることができ、その残額を賃借人に返還しなければならない（622条の２第１項柱書）。</p>
+          <p class="p6 ind1">敷金の返還時期は、①賃貸借が終了し、賃借物の返還を受けたとき（622条の２第１項１号）、②賃借人が適法に賃借権を譲り渡したとき（622条の２第１項２号）である。</p>
+        </div>
+<div class="kakomon"><a href="pu26min47q.html#q-h29-18-e" title="H29-18-エ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-06-0-03">３　敷金と当事者の変更</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　賃貸目的物の所有権移転と敷金</p>
+          <p class="p6 ind1">賃借権が対抗力を有する場合、目的不動産が譲渡されると、譲受人は当然賃貸人たる地位も承継するが、その場合譲受人は敷金関係も承継するかが問題となる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 賃貸借の継続中の移転</p>
+          <p class="p6 ind2">敷金関係も承継される（605条の２第４項、最判昭44.７.17・通説）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 譲渡の際、敷金により担保されるべき賃借人の債務がある場合</p>
+          <p class="p6 ind3">譲渡の際に、旧賃貸人のもとに、敷金によって担保されるべき賃借人の債務があるときは、それは当然に控除されて譲受人はその残額だけについて承継する（最判昭44.７.17）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 新所有者による承継の否認</p>
+          <p class="p6 ind3">賃貸人の地位が新賃貸人に移転する場合(605条の２第１項、605条の３前段)、新所有者が敷金の承継を否認するには新・旧賃貸人、賃借人の三者の合意を要する（大判昭11.11.27）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 賃貸借終了後の場合</p>
+          <p class="p6 ind2">賃貸借終了後の所有権移転の場合には敷金関係の当然承継はなく、その移転のためには、 新旧所有者の合意のみならず賃借人の承諾をも要する（最判昭48.２.２）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　賃借権の移転と敷金</p>
+          <p class="p6 ind1">賃借人が適法に賃借権を譲り渡した場合に、敷金は承継されず、賃貸人に返還義務が生ずる（622条の２第１項２号）。</p>
+          <div class="sp"></div>
+        </div>
+<div class="kakomon"><a href="pu26min47q.html#q-h18-19-o" title="H18-19-オ">過去問</a></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

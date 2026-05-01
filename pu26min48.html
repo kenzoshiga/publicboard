@@ -1,0 +1,548 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit48</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit48</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min47.html">前へ</a>
+      <a href="pu26min49.html">次へ</a>
+      <a href="pu26min48q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-07">第７章　請負</a>
+      <ul>
+
+        <li><a href="#A06-07-00-0-01">１　意義</a></li>
+
+        <li><a href="#A06-07-00-0-02">２　請負の成立</a></li>
+
+        <li><a href="#A06-07-00-0-03">３　請負の効力</a></li>
+
+        <li><a href="#A06-07-00-0-04">４　請負の終了</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-07">第７章　請負</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-07-00-0-01">１　意義</div>
+      <p>請負とは、当事者の一方（請負人）がある仕事を完成することを約し、相手方（注文者）がその仕事の結果に対してその報酬を支払うことを約する契約をいう（632条）。</p>
+      <p>諾成・双務・有償契約である。</p>
+      <p>請負は、仕事の完成が主目的であり労務の提供自体が目的ではない。この点で雇用・委任等の労務の提供を主目的とする他の労務供給契約と異なる。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-07-00-0-02">２　請負の成立</div>
+      <p>諾成、不要式の契約であるから、仕事の完成と報酬について合意が成立すれば、契約が成立し、かつ、効力が生じる。書面の作成は効力発生要件ではない。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-07-00-0-03">３　請負の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　請負人の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 仕事完成義務</p>
+          <p class="p6 ind2">請負人は約束した仕事を完成させる義務を負う（632条）。</p>
+          <p class="p6 ind2">仕事完成義務の履行として適当な時期に着手し、また期限があればそれまでに完成しなければならない。着手しなかったり、仕事が遅延・中止した場合には、注文者は債務不履行を理由に損害賠償請求（415条）をすることができ、更に契約の解除ができる（541条、542条）。</p>
+          <p class="p6 ind2">請負人は、各場合に応じ、注文者の指図に従って仕事をしなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 下請負人の使用</p>
+          <p class="p6 ind2">請負は労務の供給それ自体を目的とせず、労務は仕事完成の手段にすぎない。</p>
+          <p class="p6 ind2">よって、請負人は原則として自由に下請負人・履行補助者を使用できる。</p>
+          <p class="p6 ind2">ただし、これらの者の行為については請負人が責任を負わねばならない。</p>
+          <p class="p6 ind2">下請禁止特約があっても、下請契約は当然に無効とはならず、ただ元請負人が特約違反の責任を負うにすぎない（大判明45.３.16）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 完成物引渡義務</p>
+          <p class="p6 ind2">請負が物に関するときは、完成した物を引き渡す義務がある。</p>
+          <p class="p6 ind2">ただ、この義務は、仕事完成義務に含めて考えれば足り、これと独立して論ずる必要はない、とする見解が多数説である。</p>
+        </div>
+        </div>
+        <div class="p-card" id="min48-q1">
+          <p class="h6 ind0">2.　建築請負契約における建物所有権の帰属</p>
+          <p class="p6 ind1">請負人が完成させた目的物の所有権は誰に帰属するのかが問題となる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 特約がある場合</p>
+          <p class="p6 ind2">所有権の帰属につき特約があれば、それに従う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 特別な事情がある場合</p>
+          <p class="p6 ind2">建物完成前に請負代金の全額が支払われていたような特別な事情がある場合には、完成と同時に注文者に建物所有権が移転する。</p>
+<div class="kakomon"><a href="pu26min48q.html#q-h06-17-e" title="H6-17-エ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min48-q3">
+          <p class="h6 ind1">(3) 特約又は特別な事情がない場合</p>
+          <p class="p6 ind2">上記（1）及び（2）のような特約又は特別な事情がない場合には、完成建物の所有権は誰に帰属するのか、明文なく問題となる。</p><br>
+          <p class="p6 ind2">Ａ　請負人帰属説</p>
+          <p class="p6 ind2">材料を注文者・請負人のいずれが提供したかを基準とする（判例・通説）。</p>
+          <p class="h6 ind3 nobold">①　請負人が自己の材料をもって目的物を完成させたときは、引渡しによって初めて注文者に所有権が移転する（大判大３.12.26）。</p>
+          <p class="h6 ind3 nobold">②　注文者が主要部分を供給した場合は注文者に原始的に帰属する（大判昭７.５.９）。</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">請負人の報酬請求権を確保させるべき。</p><br>
+          <p class="p6 ind4">Ｂ　注文者帰属説</p>
+          <p class="p6 ind4">材料をいずれが提供したかを問わず、目的物完成と同時に注文者に所有権が帰属する。</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="h6 ind3 nobold">①当事者間の合理的意思解釈として、注文者・請負人とも請負人に所有権を取得させる意思はないはずである。</p>
+          <p class="h6 ind3 nobold">②敷地利用権を有さない請負人がその敷地の上に建物を所有すると、所有権に基づく建物収去を求められてしまう。むしろ請負人の保護は、同時履行の抗弁（533条）、留置権（295条）、不動産工事の先取特権（327条）、あるいは、引渡しと同時に注文者名義で保存登記し、直ちに抵当権を設定する方法によって図るべきである。</p>
+<div class="kakomon"><a href="pu26min48q.html#q-h11-16-e" title="H11-16-エ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　目的物の滅失・損傷による危険の移転（559条、567条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原則</p>
+          <p class="p6 ind2">仕事の目的物の滅失・損傷に関する危険は、目的物の引渡しによって請負人から注文者に移転する。</p>
+          <p class="p6 ind2">注文者への引渡し後に双方の責めに帰することができない事由により目的が滅失・損傷した場合、注文者は、当該滅失・損傷を理由とする①履行の追完請求、②報酬減額請求、③損害賠償請求、④解除ができないということである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 請負人の責めに帰すべき事由による場合</p>
+          <p class="p6 ind2">目的物の引渡し後の滅失・損傷が請負人の責めに帰すべき事由による場合には、注文者による上記①～④が認められる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　請負人の担保責任（634条以下）</p>
+<div class="jobun">
+（請負人の担保責任の制限）
+第636条　請負人が種類又は品質に関して契約の内容に適合しない仕事の目的物を注文者に引き渡したとき（その引渡しを要しない場合にあっては、仕事が終了した時に仕事の目的物が種類又は品質に関して契約の内容に適合しないとき）は、注文者は、注文者の供した材料の性質又は注文者の与えた指図によって生じた不適合を理由として、履行の追完の請求、報酬の減額の請求、損害賠償の請求及び契約の解除をすることができない。ただし、請負人がその材料又は指図が不適当であることを知りながら告げなかったときは、この限りでない。
+（目的物の種類又は品質に関する担保責任の期間の制限）
+第637条　前条本文に規定する場合において、注文者がその不適合を知った時から１年以内にその旨を請負人に通知しないときは、注文者は、その不適合を理由として、履行の追完の請求、報酬の減額の請求、損害賠償の請求及び契約の解除をすることができない。
+２　前項の規定は、仕事の目的物を注文者に引き渡した時（その引渡しを要しない場合にあっては、仕事が終了した時）において、請負人が同項の不適合を知り、又は重大な過失によって知らなかったときは、適用しない。
+</div>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">請負人の担保責任は、原則として有償契約一般に準用されている売買についての規定を準用している。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 要件</p>
+          <p class="p6 ind2">請負人の担保責任が認められる要件は、仕事の目的物が契約の内容に適合しないことである（636条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 効果</p>
+          <p class="p6 ind2">注文者は、請負人に対して、履行の追完の請求、報酬の減額の請求、損害賠償の請求及び契約の解除をすることができる（559条、562条～564条、636条）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 追完請求権（559条、562条）</p>
+          <p class="p6 ind3">注文者は契約不適合を理由として目的物の修補を請求することができる。</p>
+          <p class="p6 ind3">注文者は、目的物を第三者に譲渡した場合にも修補請求権を有する（大判大４.12.28）。</p>
+        </div>
+        <div class="p-card" id="min48-q4">
+          <p class="h6 ind2 nobold">(b) 損害賠償請求権（559条、564条、415条）</p>
+          <p class="p6 ind3">注文者には、追完とともにする損害賠償請求、追完に代わる損害賠償請求が認められる。</p>
+          <p class="p6 ind3">追完に代わる損害賠償請求をするには、原則として、追完請求を先にしなければならない。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　損害賠償請求権の発生時期</p>
+          <p class="p6 ind4">建物の建築請負契約において、修補に代わる損害賠償請求権は建物の引渡しを受けた時に発生し、期限の定めのない債権としてその発生の時から弁済期にある（最判昭54.３.20）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　同時履行の抗弁権</p>
+          <p class="p6 ind4">報酬請求権と損害賠償請求権とは同時履行の関係に立つ（533条）。</p>
+          <p class="p6 ind4">注文者は、修補に代わる損害賠償債権をもって報酬全額と同時履行を主張することができるが、この主張は「契約不適合の程度や各契約当事者の交渉態度等に鑑み、契約不適合の修補に代わる損害賠償債権をもって報酬残債権全額の支払を拒むことが信義則に反すると認められるときは」、制限される（最判平９.２.14）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　修補が認められない場合の損害賠償請求権</p>
+          <p class="p6 ind4">請負契約の目的の建物に重大な契約不適合があるため建て替えざるを得ない場合には、注文者は、請負人に対し、建物の建替えに要する費用相当額の損害賠償を請求できる（最判平14.９.24）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-h19-20-ah26-18-e" title="H19-20-ア">過去問</a></div>
+        </div>
+        <div class="p-card" id="min48-q6">
+          <p class="h6 ind2 nobold">(c) 契約解除権（559条、564条、541、542条）</p>
+          <p class="p6 ind3">仕事の目的物に契約不適合があるときは、注文者は契約の解除をすることができる。この場合、解除のうえ損害賠償を請求することもできる。</p>
+          <p class="p6 ind3">請負の解除には遡及効がある。</p>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-h26-18-i" title="H26-18-イ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min48-q8">
+          <p class="h6 ind1">(4) 例外的に契約不適合責任が排除又は軽減される場合</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 契約不適合が、注文者の供給した材料の性質又は注文者の与えた指図によって生じたとき（636条）</p>
+          <p class="p6 ind3">目的物の種類又は品質に関する契約不適合が注文者の供給した材料の性質又は注文者の与えた指図によって生じたときは、担保責任を負わない（636条本文）。</p>
+          <p class="p6 ind3">ただし、請負人がその材料又は指図の不適当なことを知ってこれを告げなかったときは担保責任を負う（636条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 担保責任免除の特約</p>
+          <p class="p6 ind3">担保責任に関する規定は任意規定であり、当事者間で担保責任を一切負わない旨の契約、あるいは軽減の特約は、一般には有効である。ただし、請負人が知りながら告げなかった事実については、請負人はその責任を免れることはできない（559条、572条）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-r05-18-e" title="R5-18-エ">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 権利行使の期間（637条）</p>
+          <p class="p6 ind2">注文者がその不適合を知った時から１年間以内に契約不適合の旨を請負人に通知しなければ、その不適合を理由とする追完請求権、報酬減額請求権、損害賠償請求権、解除権を失う（637条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 知った時から1年以内であり、引渡し時や仕事終了時からではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) ただし、請負人が目的物を引き渡した時に契約不適合であることを知っていた時又は知らなかったことにつき重大な過失があったときには期間の制限は及ばない（637条２項）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card" id="min48-q10">
+          <p class="h6 ind0">5.　注文者の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 報酬支払義務</p>
+          <p class="p6 ind2">報酬の支払時期は、特約のない限り、仕事の目的物の引渡しと同時である（633条本文）。ただし、目的物の引渡しを必要としない場合は、仕事終了時である（同条ただし書、624条１項）。</p>
+          <p class="p6 ind2">報酬請求権は、上記のように後払が原則であるが、その場合でも、契約の成立と同時に発生する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 注文者が受ける利益の割合に応じた報酬</p>
+<div class="jobun">
+（注文者が受ける利益の割合に応じた報酬）
+第634条　次に掲げる場合において、請負人が既にした仕事の結果のうち可分な部分の給付によって注文者が利益を受けるときは、その部分を仕事の完成とみなす。この場合において、請負人は、注文者が受ける利益の割合に応じて報酬を請求することができる。
+一　注文者の責めに帰することができない事由によって仕事を完成することができなくなったとき。
+二　請負が仕事の完成前に解除されたとき。
+</div>
+          <p class="p6 ind2">注文者の責めに帰することができない事由によって仕事を完成することができなくなったときや、請負が仕事の完成前に解除されたときであっても、請負人が既にした仕事の結果のうち可分な部分の給付によって注文者が利益を受けるときは、その部分を仕事の完成とみなし、請負人は、注文者が受ける利益の割合に応じて報酬を請求することができる（634条1号、2号）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-r05-18-a" title="R5-18-ア">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-07-00-0-04">４　請負の終了</div>
+<div class="jobun">
+（注文者による契約の解除）
+第641条　請負人が仕事を完成しない間は、注文者は、いつでも損害を賠償して契約の解除をすることができる。
+（注文者についての破産手続の開始による解除）
+第642条　注文者が破産手続開始の決定を受けたときは、請負人又は破産管財人は、契約の解除をすることができる。ただし、請負人による契約の解除については、仕事を完成した後は、この限りでない。
+２　前項に規定する場合において、請負人は、既にした仕事の報酬及びその中に含まれていない費用について、破産財団の配当に加入することができる。
+３　第１項の場合には、契約の解除によって生じた損害の賠償は、破産管財人が契約の解除をした場合における請負人に限り、請求することができる。この場合において、請負人は、その損害賠償について、破産財団の配当に加入する。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　一般的な終了原因</p>
+          <p class="p6 ind1">仕事の完成によって終了するほか、債務不履行による解除など契約の一般的終了原因によって終了する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　請負に特殊の解除権</p>
+        <div class="p-card" id="min48-q13">
+          <p class="h6 ind1">(1) 注文者の任意の解除権（641条）</p>
+          <p class="p6 ind2">請負契約は、元々、注文者の利益のために締結されるもので注文者が仕事の完成を必要としないと考えるに至った場合にまで請負人に仕事を継続させることは、注文者にとっても社会経済上も不利益である。そこで、請負人の利益にも配慮して損害賠償を条件として、注文者の解除権が認められている。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 仕事を完成しない間であることが必要である。</p>
+          <p class="p6 ind3">仕事が完成した場合、引渡しが未了でも本条の解除権は行使できない。</p>
+          <p class="p6 ind3">目的物が可分であって、完成した部分だけでも当事者にとって利益があるときは、未完成の部分についてのみ契約を解除することができる（大判昭７.４.30）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 請負人の損害を賠償しなければならない。</p>
+          <p class="p6 ind3">解除権を行使するには損害賠償の提供は要しない（大判明37.10.１・通説）。解除後に生じる損害を賠償すれば足りる。</p>
+          <p class="p6 ind3">損害賠償の範囲は、支出した費用のほか仕事を完成すれば得たであろう利益を含む。</p>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-r05-18-i" title="R5-18-イ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min48-q16">
+          <p class="h6 ind1">(2) 注文者についての破産手続の開始による請負人の解除権（642条）</p>
+          <p class="p6 ind2">注文者が破産手続開始の決定を受けたときは、請負人又は破産管財人は、契約の解除をすることができる（642条１項本文）。</p>
+          <p class="p6 ind2">これが認められた趣旨は、注文者が破産手続開始の決定を受け、将来報酬を支払ってもらえる見込みもないのに、請負人に仕事完成を要求するのは酷であるという点にある。</p>
+          <p class="p6 ind2">なお、642条１項ただし書では、既に請負人の仕事が完成している場合には、請負人に解除権を与える必要がないとして、請負人による解除権行使に制限が設けられている。</p>
+          <div class="sp"></div>
+        </div>
+<div class="kakomon"><a href="pu26min48q.html#q-r05-18-u" title="R5-18-ウ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

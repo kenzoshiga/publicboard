@@ -1,0 +1,767 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit49</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit49</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min48.html">前へ</a>
+      <a href="pu26min50.html">次へ</a>
+      <a href="pu26min49q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-08">第８章　委任</a>
+      <ul>
+
+        <li><a href="#A06-08-00-0-01">１　委任の意義</a></li>
+
+        <li><a href="#A06-08-00-0-02">２　委任の成立</a></li>
+
+        <li><a href="#A06-08-00-0-03">３　委任の効力</a></li>
+
+        <li><a href="#A06-08-00-0-04">４　委任の終了</a></li>
+      </ul>
+    </li>
+    <li><a href="#A06-09">第９章　寄託</a>
+      <ul>
+
+        <li><a href="#A06-09-00-0-01">１　寄託の意義</a></li>
+
+        <li><a href="#A06-09-00-0-02">２　寄託の成立</a></li>
+
+        <li><a href="#A06-09-00-0-03">３　寄託の効力</a></li>
+
+        <li><a href="#A06-09-00-0-04">４　寄託の終了</a></li>
+
+        <li><a href="#A06-09-00-0-05">５　混合寄託</a></li>
+
+        <li><a href="#A06-09-00-0-06">６　消費寄託</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-08">第８章　委任</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-08-00-0-01">１　委任の意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">委任とは、当事者の一方（委任者）が、相手方（受任者）に、「法律行為」をすることを委託し、相手方がこれを承諾することによって成立する契約をいう（643条）。</p>
+          <p class="p6 ind1">「法律行為でない事務」を委託した場合（ex. 医師に対する診療の委託、幼児の養育の委託）は準委任という（656条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　法的性質</p>
+          <p class="p6 ind1">原則として、諾成・無償・片務契約である。もっとも、有償の特約（報酬を支払う旨の特約）がある場合には、諾成・有償・双務契約である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代理との関係</p>
+          <p class="p6 ind1">委任が法律行為の委任を目的とする場合には同時に代理権の授与を伴うことが多い。</p>
+          <p class="p6 ind1">しかし、委任は一定の事務の処理を目的とする委任者･受任者間の契約であり、代理権の授与は代理人が本人に直接効果を生じる法律行為をすることができる権限を本人によって授与されることであって、両者に必然的な関係はない。</p>
+          <p class="p6 ind1">従って、委任契約と代理権の授与は別個の行為として独立に取り扱うべきである（通説）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-h09-21-u" title="H9-21-ウ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-08-00-0-02">２　委任の成立</div>
+      <p>委任は当事者の一方（委任者）が、事務の処理を相手方（受任者）に委託し、相手方がこれを承諾することにより成立する諾成契約である（643条）。</p>
+      <p>契約に際しては、委任状が交付されるのが通常であるが、これは第三者に対し受任者の権限を示すためのものであり、委任契約の成立に不可欠のものではない。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-08-00-0-03">３　委任の効力</div>
+      <div class="blk inner">
+        <div class="p-card" id="min49-q2">
+          <p class="h6 ind0">1.　受任者の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 善管注意義務（644条）</p>
+          <p class="p6 ind2">委任が当事者間の信頼関係を基礎としていることから、有償・無償を問わず、受任者に善管注意義務が要求される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 事務処理義務の一身専属性</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 復受任者の選任</p>
+          <p class="p6 ind3">受任者は、①委任者の許諾を得たとき、又は②やむを得ない事由があるときでなければ、復受任者を選任することができない（644条の２第１項）。</p>
+          <p class="p6 ind3">受任者は、自ら委任事務を処理し、他人に任せてはならないのが原則である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 代理権を有する復受任者の権利義務</p>
+          <p class="p6 ind3">代理権を有する受任者が代理権を有する復受任者を選任したときは、復受任者は、委任者に対して、その権限の範囲内において、受任者と同一の権利を有し、義務を負う（644条の２第２項）。受任者又は復受任者が代理権を有しない場合は、通常は委任者と復受任者の間に権利義務は生じない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 事務処理に付随する義務</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 委任事務処理の報告義務（645条）</p>
+          <p class="p6 ind3">受任者は、委任者の請求があるときは、いつでも委任事務の処理の状況を報告し、委任が終了した後は、遅滞なくその経過及び結果を報告しなければならない（645条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 受領物の引渡義務等（646条）</p>
+          <p class="p6 ind3">受任者は、委任事務を処理するに当たって受け取った金銭等及び収取した果実を委任者に引き渡さなければならず、また、委任者のために自己の名で取得した権利を委任者に移転しなければならない（646条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 金銭を消費した場合の責任（647条）</p>
+          <p class="p6 ind3">受任者は、委任者に引き渡すべき金銭又は委任者の利益のために用いるべき金銭を自己のために消費したときは、その消費した日以後の利息を支払わなければならず、なお損害があるときは、その賠償の責任を負う（647条）。</p>
+          <p class="p6 ind3">この場合において、受任者の故意・過失の有無、損害の証明の有無を問わず、当然に法定利息を請求でき、さらに損害の立証さえあれば法定利息以上の損害賠償をも請求できる点で、419条の例外となっている。</p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-h14-15-a" title="H14-15-ア">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min49-q7">
+          <p class="h6 ind0">2.　委任者の義務</p>
+<div class="jobun">
+第648条（受任者の報酬）
+１　受任者は、特約がなければ、委任者に対して報酬を請求することができない。
+２　受任者は、報酬を受けるべき場合には、委任事務を履行した後でなければ、これを請求することができない。ただし、期間によって報酬を定めたときは、第624条第２項の規定を準用する。
+３　受任者は、次に掲げる場合には、既にした履行の割合に応じて報酬を請求することができる。
+一　委任者の責めに帰することができない事由によって委任事務の履行をすることができなくなったとき。
+二　委任が履行の中途で終了したとき。
+（成果等に対する報酬）
+第648条の２　委任事務の履行により得られる成果に対して報酬を支払うことを約した場合において、その成果が引渡しを要するときは、報酬は、その成果の引渡しと同時に、支払わなければならない。
+２　第634条の規定は、委任事務の履行により得られる成果に対して報酬を支払うことを約した場合について準用する。
+</div>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 有償委任における報酬支払義務（648条）</p>
+          <p class="p6 ind2">特約がなければ、無償が原則である（648条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 報酬支払の時期</p>
+          <p class="p6 ind3">報酬支払の時期は、特約がなければ、委任事務履行後、すなわち後払いが原則である（648条２項本文）。ただし、期間をもって報酬を定めたときは、その期間の経過した後に請求することができる（同条２項ただし書）。</p>
+          <p class="p6 ind3">委任事務の履行により得られる成果に対して報酬を支払う成果完成型の委任契約の場合、その成果が引渡しを要するときは、報酬は、その成果の引渡しと同時に、支払わなければならない（648条の２第１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 委任が委任者の帰責事由によらずに委任事務の履行をすることができなくなった場合又は委任が履行の中途で終了した場合（履行割合型委任）</p>
+          <p class="p6 ind3">受任者は、既にした履行の割合に応じて報酬を請求することができる（同条３項）。当事者双方に帰責事由がない場合のみならず、受任者に帰責事由がある場合にも、割合報酬を請求することができる。なお、委任者に帰責事由がある場合は、危険負担の適用の問題となる（536条2項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 委任が委任者の帰責事由によらずに委任事務の成果を完成することができなくなった場合又は委任が成果の完成前に終了した場合（成果完成型）</p>
+          <p class="p6 ind3">既にした成果が可分で、可分な部分の給付によって委任者が利益を受ける場合は、委任者が受ける利益の割合に応じて、受任者は報酬を請求することができる（648条の２第２項、634条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 費用前払義務（649条）</p>
+          <p class="p6 ind2">委任事務につき費用を要するときは、委任者は、受任者の請求により、その前払をしなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 立替費用の償還義務（650条１項）</p>
+          <p class="p6 ind2">受任者は、委任事務処理に必要と認められる費用を支出したときは、委任者に対し、その費用及び支出の日以後の利息の償還を請求することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 債務の代弁済の義務（650条２項）</p>
+          <p class="p6 ind2">受任者は、委任事務処理に必要と認められる債務を負担したときは、委任者に対し、自己に代わってその弁済をすることを請求でき、その債務が弁済期にないときは、委任者に対し、担保を提供させることができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 損害賠償義務（650条３項）</p>
+          <p class="p6 ind2">受任者は、委任事務を処理するため自己に過失なく損害を受けたときは、委任者に対し、その賠償を請求できる。</p>
+          <p class="p6 ind2">委任者の故意・過失を要しないが、受任者の無過失が要件となる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-h05-07-o" title="H5-7-オ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-08-00-0-04">４　委任の終了</div>
+<div class="jobun">
+第651条（委任の解除）
+１　委任は、各当事者がいつでもその解除をすることができる。
+２　前項の規定により委任の解除をした者は、次に掲げる場合には、相手方の損害を賠償しなければならない。ただし、やむを得ない事由があったときは、この限りでない。
+一　相手方に不利な時期に委任を解除したとき。
+二　委任者が受任者の利益（専ら報酬を得ることによるものを除く。）をも目的とする委任を解除したとき。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　契約一般の終了原因</p>
+          <p class="p6 ind1">契約一般の終了原因（委任事務の終了、委任事務の履行不能、期限の満了など）によって終了する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　各当事者の無理由解除権（651条）</p>
+          <p class="p6 ind1">委任は各当事者がいつでも解除することができる（同条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">委任は当事者間の信頼関係を基礎とする契約であるから、相手方を信頼できなくなったときは、委任者・受任者のいずれからでも特別の理由がなくても自由に解約できるとするものである。</p>
+          <p class="p6 ind2">委任契約の解除は将来に向かってのみその効力を生じる（遡及効はない。652条、620条）。</p>
+          <p class="p6 ind2">当事者が特約で解除権の放棄を約するのは、公序良俗に反しない限り、契約自由の原則から自由であると解されている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 損害賠償の要否</p>
+          <p class="p6 ind2">当事者の一方が相手方に不利な時期に委任の解除をしたとき又は委任者が受任者の利益（専ら報酬を得ることによるものを除く）をも目的とする委任を解除したときは、その損害を賠償しなければならない（この場合には、故意・過失を問わない）。ただし、やむを得ない事由（ex.受任者が著しく不誠実な行動に出た）があったときは、賠償責任は生じない（同条２項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　当事者の死亡等（653条）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　委任者又は受任者が死亡した場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　委任者又は受任者が破産手続開始の決定を受けた場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　受任者が後見開始の審判を受けた場合</p>
+          <p class="p6 ind4">委任者の後見開始は、終了原因ではない。</p>
+          <p class="p6 ind4">※　653条は強行規定ではないので、当事者の特約により本条の各終了事由を排除することは可能である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　委任終了の際の特別措置</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 受任者の善処義務（654条）</p>
+          <p class="p6 ind2">委任が終了しても、急迫の事情があるときは、受任者・その相続人・法定代理人は、委任者･その相続人･法定代理人が委任事務を処理することができるに至るまで、必要な処分をしなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 委任終了の対抗要件（655条）</p>
+          <p class="p6 ind2">委任の終了事由は、これを相手方に通知したとき、又は相手方がこれを知ったときでなければ、これをもって相手方に対抗することができない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-r05-19-o" title="R5-19-オ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-card chap-card">
+    <h2 id="A06-09">第９章　寄託</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-01">１　寄託の意義</div>
+<div class="jobun">
+（寄託）
+第657条　寄託は、当事者の一方がある物を保管することを相手方に委託し、相手方がこれを承諾することによって、その効力を生ずる。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義・法的性質</p>
+          <p class="p6 ind1">寄託とは、当事者の一方（寄託者）がある物を保管することを相手方（受寄者）に委託し、相手方がこれを承諾することで成立する契約をいう（657条）。</p>
+          <p class="p6 ind1">諾成・双務契約である。また、原則は、無償契約であるが（無償寄託）、報酬の支払が約される場合には、有償契約となる（有償寄託）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　他の契約との区別</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 労務－保管</p>
+          <p class="p6 ind2">寄託は、労務供給契約の一種である点で、雇用・請負・委任と共通性を有するが、労務の内容がもっぱら保管に限定される点で特色を有する。そこで、コインロッカーや貸駐車場のように、労務を提供することなく保管場所だけを提供する場合は、賃貸借であり寄託ではない。また、寄託は契約の中心的な目的が物の保管であることを要し、担保のために質権者が目的物を占有しても寄託とはならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 処分権の有無</p>
+          <p class="p6 ind2">受寄者は占有権を取得するだけで処分権は取得しない。この点で消費貸借と異なる。</p>
+          <p class="p6 ind2">これに対して、消費寄託ならば、処分権も取得する（666条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 受寄者と寄託者からの譲受人と対抗関係</p>
+          <p class="p6 ind2">Ｑ　寄託物を寄託者から譲り受けた者は、｢引渡し｣（178条）なく、その所有権取得を受寄者に対抗できるか。</p>
+          <p class="p6 ind2">→　引渡不要説（最判昭29.８.31）</p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-h20-17-a" title="H20-17-ア">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-02">２　寄託の成立</div>
+      <p>寄託は、当事者間の合意があれば、寄託物の交付がなくても効力が生ずる諾成契約の一種である。</p>
+      <p>契約の成立に要式は不要であるが、書面によって寄託した場合、別段の規律が及ぶことがある。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-03">３　寄託の効力</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　受寄者の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 目的物の保管義務</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 注意義務</p>
+          <p class="p6 ind3">報酬の有無により注意義務の程度が異なる点が特徴である。</p>
+          <p class="p6 ind3">無報酬の受寄者は、「自己の財産に対するのと同一の注意」をもって保管すればよい（659条）。</p>
+          <p class="p6 ind3">有償の受寄者は、「善良な管理者の注意」義務（善管注意義務・400条）を負う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 寄託物使用・再寄託の原則禁止（658条）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　寄託物の原則使用禁止</p>
+          <p class="p6 ind4">受寄者は、寄託者の承諾を得なければ、寄託物を自ら使用することができない（658条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　再寄託の原則禁止</p>
+          <p class="p6 ind4">受寄者は、寄託者の承諾を得たとき、又はやむを得ない事由があるときでなければ、寄託物を第三者に保管させること（再寄託・復寄託）ができない（658条２項）。</p>
+          <p class="p6 ind4">適法に第三者に保管させる場合、再受寄者は、寄託者に対し、その権限の範囲内で、受寄者と同一の権利を有し、義務を負う（658条３項）。</p>
+          <p class="p6 ind4">違法に再寄託した場合、それ自体が債務不履行である。これにより損害が生じたときは、再受寄者に故意・過失がなくとも、受寄者は責任を免れない。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 通知義務等（660条）</p>
+<div class="jobun">
+（受寄者の通知義務等）
+第660条　寄託物について権利を主張する第三者が受寄者に対して訴えを提起し、又は差押え、仮差押え若しくは仮処分をしたときは、受寄者は、遅滞なくその事実を寄託者に通知しなければならない。ただし、寄託者が既にこれを知っているときは、この限りでない。
+２　第三者が寄託物について権利を主張する場合であっても、受寄者は、寄託者の指図がない限り、寄託者に対しその寄託物を返還しなければならない。ただし、受寄者が前項の通知をした場合又は同項ただし書の規定によりその通知を要しない場合において、その寄託物をその第三者に引き渡すべき旨を命ずる確定判決（確定判決と同一の効力を有するものを含む。）があったときであって、その第三者にその寄託物を引き渡したときは、この限りでない。
+３　受寄者は、前項の規定により寄託者に対して寄託物を返還しなければならない場合には、寄託者にその寄託物を引き渡したことによって第三者に損害が生じたときであっても、その賠償の責任を負わない。
+</div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 通知義務（660条1項）</p>
+          <p class="p6 ind3">寄託物について権利を主張する第三者が受寄者に対して訴えを提起し、又は差押え、仮差押え若しくは仮処分をしたときは、寄託者が既にこれを知っているときを除き、受寄者は、遅滞なくその事実を寄託者に通知しなければならない。これは、寄託者に防御の機会を与えるためである。</p>
+          <p class="p6 ind3">なお、寄託者が既に知っているときは、通知は不要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 返還義務（660条２項）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　原則</p>
+          <p class="p6 ind4">第三者が寄託物について権利を主張する場合であっても、原則として、受寄者は、寄託者の指図がない限り、寄託者に寄託物を返還しなければならない（660条２項本文）。これにより、受寄者は、原則として、第三者に寄託物を引渡すこと拒否することができる。</p>
+          <p class="p6 ind4">この場合において、受寄者が寄託物を返還し、これにより第三者に損害が生じたときであっても、受寄者は賠償責任を負わない（660条３項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　寄託者への返還を要しない場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①受寄者が上記(2)(a)（660条１項）の通知をし、又は通知を要しない場合において、②寄託物を第三者に引き渡すべきことを命じた確定判決（同一の効力を有するものを含む。）があるときは、寄託者に寄託物を返還することを要しない（660条２項ただし書）。この場合、受寄者は、第三者に寄託物を引き渡したとしても、寄託者に対し、返還義務の不履行による責任を負わない。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 委任の規定の準用（665条）</p>
+<div class="jobun">
+（委任の規定の準用）
+第665条　第646条から第648条まで、第649条並びに第650条第１項及び第２項の規定は、寄託について準用する。
+</div>
+          <p class="p6 ind2">寄託契約では、委任の規定を多く準用している。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　受寄者の金銭等の受取物の引渡義務（646条１項）</p>
+          <p class="p6 ind4">受寄者には収益権がない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　受寄者の権利移転義務（646条２項）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　寄託者に引き渡すべき金銭を消費した場合の賠償義務（647条）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 物権的返還請求権との関係等</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 物権的返還請求権との関係</p>
+          <p class="p6 ind3">寄託物返還請求権が消滅時効により消滅しても、寄託者は、受寄者が寄託物を時効取得するまでは、所有権に基づく物権的返還請求権を行使できる（大判大11.８.21）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 受寄者の返還拒絶権</p>
+          <p class="p6 ind3">有償の場合、受寄者は報酬の支払があるまで寄託物の返還を拒むことができる（大判明36.10.31）。受寄者は、寄託物について留置権を有する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 寄託物返還の場所（664条）</p>
+          <p class="p6 ind3">寄託物の返還は、その保管をすべき場所でしなければならない。ただし、受寄者が正当な事由によってその物を保管する場所を変更したときは、現在の場所で返還をすることができる。</p>
+          <p class="p6 ind3">寄託物の返還は取立債務となり、484条の例外となる。ただ、これは任意規定であり、特約で持参債務とすることもできる。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　寄託者の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 有償寄託における報酬支払義務（665条・648条）</p>
+          <p class="p6 ind2">受寄者は、特約がない限り寄託者に報酬を請求できない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 損害賠償義務（661条）</p>
+          <p class="p6 ind2">寄託者は、寄託物の性質又は瑕疵によって生じた損害を受寄者に賠償しなければならない（661条本文）。しかし、寄託者が過失なくその性質若しくは瑕疵を知らなかったとき、又は受寄者がこれを知っていたときは、免責される（661条ただし書）。</p>
+          <p class="p6 ind2">委任者の責任は無過失責任（650条３項）であるが、寄託の場合には、寄託者の無過失により免責される場合が認められている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 委任の規定の準用（665条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 費用前払義務（649条）</p>
+          <p class="h6 ind2 nobold">(b) 立替費用償還義務（650条１項）</p>
+          <p class="h6 ind2 nobold">(c) 債務の代弁済義務（650条２項）</p>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-04">４　寄託の終了</div>
+<div class="jobun">
+（寄託物受取り前の寄託者による寄託の解除等）
+第657条の2　寄託者は、受寄者が寄託物を受け取るまで、契約の解除をすることができる。この場合において、受寄者は、その契約の解除によって損害を受けたときは、寄託者に対し、その賠償を請求することができる。
+２　無報酬の受寄者は、寄託物を受け取るまで、契約の解除をすることができる。ただし、書面による寄託については、この限りでない。
+３　受寄者（無報酬で寄託を受けた場合にあっては、書面による寄託の受寄者に限る。）は、寄託物を受け取るべき時期を経過したにもかかわらず、寄託者が寄託物を引き渡さない場合において、相当の期間を定めてその引渡しの催告をし、その期間内に引渡しがないときは、契約の解除をすることができる。
+（寄託者による返還請求等）
+第662条　当事者が寄託物の返還時期を定めたときであっても、寄託者はいつでもその返還を請求することができる。
+２　前項に規定する場合において、受寄者は、寄託者がその時期の前に返還を請求したことによって 損害を受けたときは、寄託者に対し、その賠償を請求することができる。
+（寄託物の返還の時期）
+第663条　当事者が寄託物の返還の時期を定めなかったときは、受寄者は、いつでもその返還をすることができる。
+２　返還の時期の定めがあるときは、受寄者は、やむを得ない事由がなければ、その期限前に返還をすることができない。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　寄託物受取り前の解除</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 寄託者による解除</p>
+          <p class="p6 ind2">寄託者は、受寄者が寄託物を受け取るまで、契約の解除をすることができる（657条の2第1項前段）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 受寄者による解除</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 無償寄託</p>
+          <p class="p6 ind3">無報酬の受寄者は、寄託物を受け取るまで、契約の解除をすることができる（657条の2第2項本文）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 有償寄託及び書面による無償寄託</p>
+          <p class="p6 ind3">有償寄託の受寄者及び書面による無償寄託の受寄者は、寄託物を受け取るべき時期を経過しても寄託者が寄託物を引渡さない場合、相当の期間を定めて引渡しの催告をし、その期間内に引渡しがないときは、契約の解除をすることができる（657条の2第3項）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　契約一般の終了原因</p>
+          <p class="p6 ind1">契約一般の終了原因によって終了する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　寄託者の返還請求権</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 寄託者の返還請求権</p>
+          <p class="p6 ind2">返還時期の定めの有無および無償寄託・有償寄託にかかわらず、寄託者はいつでも返還請求をすることができる（662条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 受寄者の請求権</p>
+          <p class="p6 ind2">受寄者は、寄託者がその時期の前に返還を請求したことによって損害を受けたときは、寄託者に対し、その賠償を請求することができる（662条２項）。</p>
+          <p class="p6 ind2">また、有償寄託の場合には、寄託者の返還請求により、受寄者の責めに帰することができない事由により終了したものとして、受寄者は保管した期間の割合に応じて報酬を請求することができる（665条、648条３項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　受寄者の返還権（663条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 返還時期の定めがない場合</p>
+          <p class="p6 ind2">受寄者は、いつでも、返還することができる（663条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 返還時期の定めがある場合</p>
+          <p class="p6 ind2">返還時期の定めがある場合、受寄者からは、やむを得ない事由がなければ、期限前に返還することができない（663条２項）。</p><br>
+          <p class="p6 ind2">【寄託の終了　まとめ】</p>
+          <p class="p6 ind2"><img class="embed-img" src="min49-01.png" alt="min49-01.png"></p>
+        </div>
+<div class="kakomon"><a href="pu26min49q.html#q-h20-17-i" title="H20-17-イ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-05">５　混合寄託</div>
+<div class="jobun">
+（混合寄託）
+第665条の2　複数の者が寄託した物の種類及び品質が同一である場合、受寄者は、各寄託者の承諾を得たときに限り、これらを混合して保管することができる。
+２　前項の規定に基づき受寄者が複数の寄託者からの寄託物を混合して保管したときは、寄託者は、その寄託した物と同じ数量の物の返還を請求することができる。
+３　前項に規定する場合において、寄託物の一部が滅失したときは、寄託者は、混合して保管されている総寄託物に対するその寄託した物の割合に応じた数量の物の返還を請求することができる。この場合においては、損害賠償の請求を妨げない。
+</div>
+      <p>混合寄託とは、受寄者が、複数の寄託者から種類及び品質が同一の物の寄託を受け、これらを混合して保管し、寄託されたものと同数量のものを返還する寄託をいう（665条の２）。</p>
+      <p>ex.倉庫寄託</p>
+      <p>混合寄託は、寄託物の所有権や処分権が受寄者に移転しない点で、消費寄託（666条）と異なる。</p>
+      <p>混合寄託の要件として、すべての寄託者の承諾が必要である。</p>
+      <p>寄託者は、寄託した数量の物の返還を請求することができる（665条の２第２項）。共有物の分割に関する256条と整合させたものである。</p>
+      <p>また、寄託物の一部が滅失した場合、総寄託物に対する各自が寄託した物の割合に応じて物の返還を請求することができる（同条３項）。寄託物の一部滅失のリスクを各寄託者に案分して負担させ、寄託者間の法律関係を明確にするものである。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-09-00-0-06">６　消費寄託</div>
+<div class="jobun">
+（消費寄託）
+第666条　受寄者が契約により寄託物を消費することができる場合には、受寄者は、寄託された物と種類、品質及び数量の同じ物をもって返還しなければならない。
+２　第590条及び第592条の規定は、前項に規定する場合について準用する。
+３　第591条第２項及び第３項の規定は、預金又は貯金に係る契約により金銭を寄託した場合について準用する。
+</div>
+      <p>消費寄託とは、受寄者が寄託物を消費し、同種・同等・同量の物を返還すればよい寄託をいう（666条）。</p>
+      <p>ex. 銀行預金</p>
+      <p>消費寄託は、目的物の占有と処分権が移転する点で消費貸借と共通する｡そこで、消費貸借における貸主の引渡義務（590条）及び借主の価額償還義務（592条）の規定が消費寄託に準用されている（666条２項）。</p>
+      <p></p>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

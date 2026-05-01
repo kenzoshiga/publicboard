@@ -1,0 +1,811 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit50</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit50</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min49.html">前へ</a>
+      <a href="pu26min51.html">次へ</a>
+      <a href="pu26min50q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-10">第10章　組合</a>
+      <ul>
+
+        <li><a href="#A06-10-00-0-01">１　組合の意義</a></li>
+
+        <li><a href="#A06-10-00-0-02">２　組合の成立</a></li>
+
+        <li><a href="#A06-10-00-0-03">３　業務執行</a></li>
+
+        <li><a href="#A06-10-00-0-04">４　組合代理（670条の２）</a></li>
+
+        <li><a href="#A06-10-00-0-05">５　財産関係</a></li>
+
+        <li><a href="#A06-10-00-0-06">６　組合員の変動</a></li>
+
+        <li><a href="#A06-10-00-0-07">７　組合の解散・清算</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li><a href="#A07">第７編　不法行為等</a>
+  <ul>
+    <li><a href="#A07-01">第１章　事務管理</a>
+      <ul>
+
+        <li><a href="#A07-01-00-0-01">１　意義</a></li>
+
+        <li><a href="#A07-01-00-0-02">２　成立要件</a></li>
+
+        <li><a href="#A07-01-00-0-03">３　効果</a></li>
+
+        <li><a href="#A07-01-00-0-04">４　緊急事務管理</a></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-10">第10章　組合</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-01">１　組合の意義</div>
+<div class="jobun">
+（他の組合員の債務不履行）
+第667条の２　第533条及び第536条の規定は、組合契約については、適用しない。
+２　組合員は、他の組合員が組合契約に基づく債務の履行をしないことを理由として、組合契約を解除することができない。
+（委任の規定の準用）
+第671条　第644条から第650条までの規定は、組合の業務を決定し、又は執行する組合員について準用する。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">組合契約とは、２人以上の当事者がそれぞれ出資をして共同の事業を営むことを約する契約をいう（667条。ex.株式会社設立のための発起人組合）。</p>
+          <p class="p6 ind1">諾成・双務・有償の契約である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　特徴</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　組合の団体的性格等の特殊性から、同時履行の抗弁権の規定（533条）、危険負担の規定（536条）は適用されない（667条の２第１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　債務不履行を理由として、組合契約を解除することはできない（667条の２第２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　組合員の一人に意思表示の無効・取消しの原因があっても、他の組合員間の組合契約の効力に影響はない（667条の３）。</p>
+          <p class="p6 ind4">※　かかる組合の特殊性を重視し組合を双務契約ではなく、「合同行為」であると解する見解もある。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h26-19-a" title="H26-19-ア">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-02">２　組合の成立</div>
+      <p>２人以上の当事者による合意によって成立する諾成かつ不要式の契約である。</p>
+      <p>組合契約においては、①２人以上の者が、②出資をして、③共同の事業を営む目的の下に、④合意をすることが必要である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-03">３　業務執行</div>
+<div class="jobun">
+（業務の決定及び執行の方法）
+第670条　組合の業務は、組合員の過半数をもって決定し、各組合員がこれを執行する。
+２　組合の業務の決定及び執行は、組合契約の定めるところにより、１人又は数人の組合員又は第三者に委任することができる。
+３　前項の委任を受けた者（以下「業務執行者」という。）は、組合の業務を決定し、これを執行する。この場合において、業務執行者が数人あるときは、組合の業務は、業務執行者の過半数をもって決定し、各業務執行者がこれを執行する。
+４　前項の規定にかかわらず、組合の業務については、総組合員の同意によって決定し、又は総組合員が執行することを妨げない。
+５　組合の常務は、前各項の規定にかかわらず、各組合員又は各業務執行者が単独で行うことができる。ただし、その完了前に他の組合員又は業務執行者が異議を述べたときは、この限りでない。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則</p>
+          <p class="p6 ind1">組合員の過半数で業務を決定し、各組合員が業務を執行する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　委任がある場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 組合契約で、業務決定・執行を、組合員または第三者（業務執行者）に委任することができる。</p>
+          <p class="p6 ind2">業務執行者は、1人でも複数でもよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 業務執行者が複数の場合、業務執行者の過半数で業務を決定し、各業務執行者が業務を執行する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 業務執行者がいる場合でも、①組合員全員の同意による業務決定、②組合員全員による業務執行はすることができる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　常務</p>
+          <p class="p6 ind1">原則として、各組合員または各業務執行者が単独でできる。ただし、完了前に他の組合員または業務執行者が異議を述べたときは、上記1.や2.の方法による。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h26-19-i" title="H26-19-イ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-04">４　組合代理（670条の２）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　業務執行者を定めていないとき</p>
+          <p class="p6 ind1">各組合員は、組合員の過半数の同意を得れば、他の組合員を代理することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　業務執行者を定めているとき</p>
+          <p class="p6 ind1">業務執行者のみが組合員を代理できる。</p>
+          <p class="p6 ind1">業務執行者が複数の場合、各業務執行者は、業務執行者の過半数の同意を得れば、組合員を代理することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　常務の代理</p>
+          <p class="p6 ind1">常務は、各組合員または各業務執行者が単独で各組合を代理できる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h26-19-u" title="H26-19-ウ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-05">５　財産関係</div>
+<div class="jobun">
+（組合員の組合の業務及び財産状況に関する検査）
+第673条　各組合員は、組合の業務の決定及び執行をする権利を有しないときであっても、その業務及び組合財産の状況を検査することができる。
+（組合の債権者の権利の行使）
+第675条　組合の債権者は、組合財産についてその権利を行使することができる。
+２　組合の債権者は、その選択に従い、各組合員に対して損失分担の割合又は等しい割合でその権利を行使することができる。ただし、組合の債権者がその債権の発生の時に各組合員の損失分担の割合を知っていたときは、その割合による。
+第676条（組合員の持分の処分及び組合財産の分割）
+１　組合員は、組合財産についてその持分を処分したときは、その処分をもって組合及び組合と取引をした第三者に対抗することができない。
+２　組合員は、組合財産である債権について、その持分についての権利を単独で行使することができない。
+３　組合員は、清算前に組合財産の分割を求めることができない。
+（組合財産に対する組合員の債権者の権利の行使の禁止）
+第677条　組合員の債権者は、組合財産についてその権利を行使することができない。
+</div>
+      <p>組合には、出資された財産や事業の過程で取得した財産などの組合財産があるので、それに対する組合員の権利関係を考えておく必要がある。</p>
+      <div class="blk inner">
+        <div class="p-card" id="min50-q6">
+          <p class="h6 ind0">1.　組合財産</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) ｢共有｣（668条）の意義</p>
+          <p class="p6 ind2">668条にいう｢共有｣の意義につき争いがある。</p>
+          <p class="p6 ind2">→　一般に「合有」と解されている。</p>
+          <p class="p6 ind2"><img class="embed-img" src="min50-01.png" alt="min50-01.png"></p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 分割請求・持分処分の制限</p>
+          <p class="p6 ind2">組合員は組合財産についてその持分を処分したときは、その処分をもって組合及び取引をした第三者に対抗することができず（676条１項）、清算前に組合財産の分割を求めることもできない（676条３項）。</p>
+          <p class="p6 ind2">ただし、総組合員の合意による組合財産の分割は許される（大判大２.６.28）。</p>
+          <p class="p6 ind2">組合員は脱退の際に持分の払戻請求権をもつ（681条２項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h26-19-o" title="H26-19-オ">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　組合の債権</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 総説</p>
+          <p class="p6 ind2">組合債権も、総組合員に合有的に帰属し、各組合員は潜在的持分を有するにすぎない。よって、組合債権は各組合員の分割債権とはならず（大判昭13.２.12）、以下のような性質をもつことになる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 組合員の債権者の権利の行使の禁止（677条）</p>
+          <p class="p6 ind2">組合員の債権者は、組合財産に対して権利を行使することができない。例えば、組合の債務者はその債務と組合員に対する債権とを相殺することができず、組合員の側からも、組合債権と自己固有の債務とを相殺することはできない（これは676条１項の処分に当たることになる）。</p>
+          <p class="p6 ind2">これに対して、組合の債権者が、その債権と組合員に対して負っている債務とを相殺することは禁じられていない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 債権の行使</p>
+          <p class="p6 ind2">債権は業務執行者が行使する。業務執行者がいなければ、全組合員が共同して行使する。組合債権の一部でも自己の権利として単独で取り立てることはできない（676条２項。大判昭13.２.12）。</p>
+        </div>
+        </div>
+        <div class="p-card" id="min50-q7">
+          <p class="h6 ind0">3.　組合の債務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 混同の有無</p>
+          <p class="p6 ind2">組合員が組合に対して債権を有するに至っても、その債権と組合員としての組合債務についての負担部分との混同は生じない（大判昭11.２.25）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 債権者の権利行使</p>
+          <p class="p6 ind2">組合の債権者は、組合財産についてその権利を行使することができ、組合財産のほか、組合員個人の財産に対しても強制執行することができる（675条）。</p>
+          <p class="p6 ind2">この場合、組合員の責任は出資額等によって限定されることがない（無限責任）。ただし、組合員は損益分配の割合に基づき分割して債務を負う。</p>
+          <p class="p6 ind2">組合債務の引当は、①組合財産、②各組合員個人の財産（分割して債務を負うのであり、連帯するのではない）ということになるが、両者の間には主従の差はない。すなわち、②は補充責任ではなく、組合財産に対する強制執行前であっても、組合員個人に対してその責任を追及することができる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h18-20-o" title="H18-20-オ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min50-q8">
+          <p class="h6 ind0">4.　損益分配（674条）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 内部的割合</p>
+          <p class="p6 ind2">割合は組合契約で定める。出資の価額に対応する必要はないが、あらかじめ定めがない限り出資の価額に応じて定める（674条１項）。</p>
+          <p class="p6 ind2">損失分担の割合と利益分配の割合が異なってもよく、損失を分担しない者がいてもよい（大判明44.12.26）。</p>
+          <p class="p6 ind2">利益又は損失の一方についてのみ割合を定めたときは、その割合は、共通であるものと推定される（674条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 組合の債権者との関係</p>
+          <p class="p6 ind2">組合の債権者は、損失分担の割合又は等しい割合のいずれかを選択して各組合員に対して、その権利を行使することができる（675条２項本文）。ただし、債権発生時に損失分担割合を知っていたときは、損失分担割合によって権利を行使することになる（同項ただし書）。</p>
+          <p class="p6 ind2">等しい割合による権利行使を認めているのは、内部の取り決めにすぎない損失分担を知らなかった債権者を保護するためである。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h18-20-u" title="H18-20-ウ">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　組合の業務及び財産状況に関する検査（673条）</p>
+          <p class="p6 ind1">各組合員は、組合の業務の決定及び執行をする権利を有しないときであっても、その業務及び組合財産の状況を検査することができる(673条)。組合財産は総組合員の共有財産であることから、業務の決定及び執行をする権利を有しない組合員にも業務及び財産状況の調査が認められる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-06">６　組合員の変動</div>
+<div class="jobun">
+（業務執行組合員の辞任及び解任）
+第672条　組合契約の定めるところにより１人又は数人の組合員に業務の決定及び執行を委任したときは、その組合員は、正当な事由がなければ、辞任することができない。
+２　前項の組合員は、正当な事由がある場合に限り、他の組合員の一致によって解任することができる。
+（組合員の加入）
+第677条の２　組合員は、その全員の同意によって、又は組合契約の定めるところにより、新たに組合員を加入させることができる。
+２　前項の規定により組合の成立後に加入した組合員は、その加入前に生じた組合の債務については、これを弁済する責任を負わない。
+（脱退した組合員の責任等）
+第680条の２　脱退した組合員は、その脱退前に生じた組合の債務について、従前の責任の範囲内でこれを弁済する責任を負う。この場合において、債権者が全部の弁済を受けない間は、脱退した組合員は、組合に担保を供させ、又は組合に対して自己に免責を得させることを請求することができる。
+２　脱退した組合員は、前項に規定する組合の債務を弁済したときは、組合に対して求償権を有する。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　加入</p>
+          <p class="p6 ind1">組合員全員の同意によって、又は組合契約の定めるところにより、新たに組合員を加入させることができる（677条の２第１項）。組合の成立後に加入した組合員は、加入前に生じた組合の債務については責任を負わない（同条２項）。</p>
+          <p class="p6 ind1">組合員の加入があっても、組合の同一性は持続する。</p>
+          <p class="p6 ind1">加入の結果、その者は組合財産につき出資に応じて持分を有することになり、 既存組合員の持分の比率は当然に減縮する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　組合員たる地位の譲渡</p>
+          <p class="p6 ind1">民法には規定がないが、組合契約ないし組合員全員の同意により許容されている限り有効である。</p>
+        </div>
+        <div class="p-card" id="min50-q10">
+          <p class="h6 ind0">3.　脱退</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 任意脱退（678条）</p>
+          <p class="p6 ind2">組合契約で組合の存続期間を定めなかったとき、又はある組合員の終身の間組合が存続すべきことを定めたときは、各組合員はいつでも脱退することができる。ただし、組合に不利な時期に脱退するには、やむを得ない事由がなければならない（同条１項）。</p>
+          <p class="p6 ind2">また、組合の存続期間を定めた場合であっても、各組合員は、やむを得ない事由があるときは、脱退することができる（同条２項）。</p>
+          <p class="p6 ind2">やむを得ない事由があっても任意の脱退を許さない旨の定めは無効である（最判平11.2.23）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h18-20-e" title="H18-20-エ">過去問</a></div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 非任意脱退（679条、680条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 組合員の死亡（679条１号）</p>
+          <p class="p6 ind3">ただし、組合員が死亡したときは相続人がその地位を承継する旨の組合契約は有効であると解される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 破産手続開始の決定（679条２号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 後見開始の審判（679条３号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 除名（679条４号、680条）</p>
+          <p class="p6 ind3">正当な事由ある場合に限り、他の組合員の一致をもってすることができる。ただし、除名した組合員にその旨を通知しなければ、これをもってその組合員に対抗することができない（680条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 脱退の効果</p>
+          <p class="p6 ind2">将来に向かって生ずる。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 持分</p>
+          <p class="p6 ind3">脱退した組合員が組合財産について持っていた持分は、当然に他の組合員に帰属し、他の組合員は持分を拡大することになる。</p>
+          <p class="p6 ind3">脱退した組合員の持分は、その出資の種類を問わず、金銭で払い戻すことができる（681条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 脱退した組合員の責任（680条の２）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　脱退した組合員は脱退後に生じた組合債務については責任を負わないが、脱退前に生じたものにはなお責任を負う。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　脱退前に生じた債務について責任を負う場合、脱退した組合員は、債権者が全部の弁済を受けない間、以下のいずれかを請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　組合に担保を供させること</p>
+          <p class="h6 ind3 nobold">②　組合に自己を免責させること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　脱退した組合員が脱退前の債務を弁済した場合、組合に求償できる。</p>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　業務執行組合員の辞任及び解任</p>
+          <p class="p6 ind1">組合契約の定めるところにより１人又は数人の組合員に業務の決定及び執行を委任したときは、その組合員は、正当な事由がなければ、辞任することができない（672条１項）。ただし、正当な事由がある場合に限り、他の組合員の一致によって解任することができる（672条２項）。671条が644条～650条の委任に関する規定を業務執行組合員に準用しているのに対し、672条は651条の規定の準用を排除している。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-10-00-0-07">７　組合の解散・清算</div>
+<div class="jobun">
+（組合の解散事由）
+第682条　組合は、次に掲げる事由によって解散する。
+一　組合の目的である事業の成功又はその成功の不能
+二　組合契約で定めた存続期間の満了
+三　組合契約で定めた解散の事由の発生
+四　総組合員の同意
+第685条（組合の清算及び清算人の選任）
+１　組合が解散したときは、清算は、総組合員が共同して、又はその選任した清算人がこれをする。
+２　清算人の選任は、組合員の過半数で決する。
+（清算人の業務の決定及び執行の方法）
+第686条　第670条第３項から第５項まで並びに第670条の２第２項及び第３項の規定は、清算人について準用する。
+（組合員である清算人の辞任及び解任）
+第687条　第672条の規定は、組合契約の定めるところにより組合員の中から清算人を選任した場合について準用する。
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　解散</p>
+          <p class="p6 ind1">組合の解散とは、組合契約の終了であって、組合が本来の活動をやめて清算を開始することをいう。</p>
+          <p class="p6 ind1">解散が行われても、清算の目的の範囲内で、組合はなお存続する。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 組合の解散事由</p>
+          <p class="p6 ind2"><img class="embed-img" src="min50-02.png" alt="min50-02.png"></p>
+          <p class="p6 ind2">※　債務不履行による解除（541条以下）や、担保責任による解除（ex. 562条）はすることができない（667条の２。大判明44.12.26）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 解散の効果</p>
+          <p class="p6 ind2">将来に向かってのみ生ずる（684条、620条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　清算（685条～688条）</p>
+          <p class="p6 ind1">組合が解散したときは、総組合員の共同で、又は、組合員の過半数をもって選任された清算人が、清算にあたる（685条）。</p>
+          <p class="p6 ind1">【組合と一般社団法人・権利能力なき社団の異同】</p>
+          <p class="p6 ind1"><img class="embed-img" src="min50-03.png" alt="min50-03.png"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<section class="sec-title" id="A07">
+  <h2>第７編　不法行為等</h2>
+  <div class="p-card chap-card">
+    <h2 id="A07-01">第１章　事務管理</h2>
+    <div class="blk outer">
+      <div class="outer-title" id="A07-01-00-0-01">１　意義</div>
+      <p>事務管理とは、法律上の義務がないのに他人のためにその事務を処理する行為をいう。</p>
+      <p>このような行為は、「相互扶助」の見地からは望ましい側面を有するものの、他人の生活への干渉という面において、「個人主義」｢自由主義｣の観点からは望ましくない。そこで、この「個人主義」と「相互扶助」という相反する要請を調整するために、事務管理の規定が定められた。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　法的性質</p>
+          <p class="p6 ind1">事務管理は私人の意思の自治を認める制度ではないから、準法律行為の一種である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　意思表示・法律行為の規定の適用</p>
+          <p class="p6 ind1">事務管理は、意思表示ないし法律行為ではないから、意思の欠缺及び意思表示の瑕疵に関する規定（93条～96条）は、適用も類推適用もされない。</p>
+          <p class="p6 ind1">法律行為ではないため、本人にも管理者にも、行為能力は不要である。ただし、管理者は、管理意思を有するための意思能力を有することは必要である（通説）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A07-01-00-0-02">２　成立要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①他人の「事務の管理」をすること、②法律上の義務がないこと、③「他人のために」すること、④本人の意思又は利益に反することが明らかでないこと、が必要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">1.　他人の「事務の管理」をすること（697条１項）〔要件①〕</p>
+          <p class="p6 ind1">「事務」とは、人の生活に必要な一切の仕事をいい、他人の家屋の修繕のような事実行為であると、修繕のためにする契約のような法律行為であるとを問わない。</p>
+          <p class="p6 ind1">保存・利用・改良行為だけではなく、処分行為も含む（大判明32.12.25・通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　法律上の義務がないこと（697条１項）〔要件②〕</p>
+          <p class="p6 ind1">本人との関係で法律上の義務が存在しないことが必要である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　「他人のために」すること（697条１項）〔要件③〕</p>
+          <p class="p6 ind1">「他人のために」することとは、他人の利益を図るために事務を管理することをいう。</p>
+          <p class="p6 ind1">そして、「他人のために」するとは、自己のためにすることと併存してもさしつかえない。</p>
+          <p class="p6 ind1">共有者の１人が費用の全部を支払うのは、他の共有者の負担部分については義務なくして他人の事務を管理したものである（大判大８.６.26）。</p>
+          <p class="p6 ind1">なお、本人が誰であるかを知らなくても、事務管理は成立し得る。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　本人の意思又は利益に反することが明らかでないこと〔要件④〕</p>
+          <p class="p6 ind1">本人の意思や利益に反することが判明した場合、それ以上事務管理を継続してはならない（700条ただし書）。</p>
+          <p class="p6 ind1">もっとも、強行法規又は公序良俗に反する場合には、たとえ本人の意思に反することが明らかであっても、事務管理は成立し得る。</p>
+          <p class="p6 ind1">ex．自殺未遂者の拒否に反して医師を招いても、事務管理は成立する。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-r04-19-u" title="R4-19-ウ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A07-01-00-0-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　違法性阻却</p>
+          <p class="p6 ind1">事務管理が成立すれば、管理行為によって本人に損害を与えても、不法行為にならない。もっとも、事務管理が成立する場合でも、善管注意義務に違反したような場合には、債務の不履行による責任が管理者に生ずる。</p>
+        </div>
+        <div class="p-card" id="min50-q12">
+          <p class="h6 ind0">2.　事務管理者の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 中心的義務</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 管理継続義務（700条）</p>
+          <p class="p6 ind3">管理者は、いったん事務管理を始めた以上は、本人又はその相続人若しくは法定代理人が管理をすることができるに至るまで、事務管理を継続しなければならない（700条本文）。</p>
+          <p class="p6 ind3">ただし、事務管理の継続が本人の意思に反し、又は本人に不利であることが明らかな場合は、事務管理を中止しなければならない（700条ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 管理の方法</p>
+          <p class="p6 ind3">管理者は、本人の意思を知っているとき、又はこれを推知することができるときは、その意思に従って事務管理をしなければならない（697条２項）。</p>
+          <p class="p6 ind3">本人の意思を知ることができないとき、又は本人の意思が強行法規若しくは公序良俗に反し、これを尊重すべきではないときは、事務の性質に従い、最も本人の利益に適合する方法によって、その事務を管理すべきである（697条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 善管注意義務</p>
+          <p class="p6 ind3">管理者は原則として、善良な管理者の注意をもって管理することを要する（698条の反対解釈）。</p>
+          <p class="p6 ind3">ただし、緊急事務管理の場合は、注意義務が軽減される（698条）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 付随的義務</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 通知義務（699条）</p>
+          <p class="p6 ind3">管理者は、本人が既に知っているときを除き、事務管理を始めたことを遅滞なく本人に通知しなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 報告義務（701条、645条）</p>
+          <p class="p6 ind3">本人の請求があるときは、いつでも事務管理の状況を報告し、また、事務管理が終了した後は、遅滞なくその経過及び結果を報告しなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 引渡義務（701条、646条）</p>
+          <p class="p6 ind3">事務の管理にあたり、受け取った金銭その他の物、及び収取した果実を本人に引き渡し、また、本人のために自己の名で取得した権利を本人に移転しなければならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 金銭消費の責任（701条、647条）</p>
+          <p class="p6 ind3">管理者が本人に引き渡すべき金銭又は本人の利益のために用いるべき金銭を自己のために消費したときは、その消費した日以後の利息を支払わなければならず、なお損害があるときはその賠償の責任を負う。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-r04-19-e" title="R4-19-エ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min50-q16">
+          <p class="h6 ind0">3.　本人の義務</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 有益費償還義務（702条１項）</p>
+          <p class="p6 ind2">「有益な費用」には当然に必要費も含まれる。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 事務管理が本人の意思に反しない場合</p>
+          <p class="p6 ind3">管理者は、本人のために有益な費用を支出したときは、本人に対し、その償還を請求することができる（701条１項）。また、管理人が有益な債務を負担した場合には、本人に対し、その債務が弁済期にあるときは、自己に代わって弁済することを請求でき、弁済期にないときは、相当の担保を供させることができる（702条２項、650条２項）。</p>
+          <p class="p6 ind3">本人は、管理者に有益な費用を償還し、有益な債務については、管理者に代わって弁済するか担保を供与しなければならない（702条１項、２項、650条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 事務管理が本人の意思に反する場合</p>
+          <p class="p6 ind3">本人が現に利益を受けている限度に縮減される（702条３項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 報酬の支払・損害の賠償</p>
+          <p class="p6 ind2">Ｑ　事務管理者は、本人に対して報酬の支払や損害賠償を請求することができるか。</p>
+          <p class="p6 ind2">→　明文規定がないので、否定（通説）。</p>
+          <p class="p6 ind2">管理者に対して損害賠償請求等を認めなければ不都合な場合は、本人の有益費償還義務を広く認めることで解決すべきである。</p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-r04-19-i" title="R4-19-イ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min50-q19-2">
+          <p class="h6 ind0">4.　対外的効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 事務管理者による行為の効果の帰属</p>
+          <p class="p6 ind2">管理者が自己の名で法律行為をした場合は、その効果は管理者・相手方間に生じ、本人・相手方間には生じない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 事務管理と代理</p>
+          <p class="p6 ind2">Ｑ　管理者が本人の名で（代理人として）法律行為をした場合にその効果が本人に帰属するか。</p>
+          <p class="p6 ind2">→　代理権否定説（最判昭36.11.30・通説）</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">事務管理は本人・管理者間の対内的関係を定めるものにすぎない。</p><br>
+          <p class="p6 ind2">【委任と事務管理の比較】</p>
+          <p class="p6 ind2"><img class="embed-img" src="min50-04.png" alt="min50-04.png"></p>
+        </div>
+<div class="kakomon"><a href="pu26min50q.html#q-h07-03-a" title="H7-3-ア">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A07-01-00-0-04">４　緊急事務管理</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">緊急事務管理とは、本人の身体（生命を含む）、名誉又は財産に対する急迫の危害を免れさせるための事務管理をいう（698条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　効果</p>
+          <p class="p6 ind1">悪意又は重過失がなければ、事務管理者は損害賠償責任を負わない。</p>
+          <p class="p6 ind1">ex. 川で溺れる者を救助する際、救助者の軽過失で溺れる者を岩にぶつけて負傷させた場合</p>
+          <p class="p6 ind1">緊急事務管理において管理者の責任が軽減されるのは、緊急の場合には、とっさの判断に基づいて迅速に管理をすることが必要であるとともに、管理による利益の帰属すべき本人が相当程度のリスクを負担するのはやむを得ないことだからである。</p>
+          <div class="sp"></div>
+<div class="kakomon"><a href="pu26min50q.html#q-r04-19-o" title="R4-19-オ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

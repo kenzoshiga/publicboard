@@ -1,0 +1,708 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit54</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit54</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min53.html">前へ</a>
+      <a href="pu_index.html">次へ</a>
+      <a href="pu26min54q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#top">本文</a>
+  <ul>
+    <li><a href="#A00-00-04">第４節　婚姻の解消</a>
+      <ul>
+            <li><a href="#A00-00-04-1">Ⅰ　死亡及び失踪宣告による婚姻の解消</a>
+              <ul>
+            <li><a href="#A00-00-04-1-01">１　死亡</a></li>
+            <li><a href="#A00-00-04-1-02">２　失踪宣告</a></li>
+            </ul>
+          </li>
+            <li><a href="#A00-00-04-2">Ⅱ　離婚制度</a>
+              <ul>
+            <li><a href="#A00-00-04-2-01">１　序説</a></li>
+            <li><a href="#A00-00-04-2-02">２　協議離婚</a></li>
+            <li><a href="#A00-00-04-2-03">３　調停離婚・審判離婚</a></li>
+            <li><a href="#A00-00-04-2-04">４　裁判離婚</a></li>
+            <li><a href="#A00-00-04-2-05">５　離婚の効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+    <li><a href="#A00-00-05">第５節　内縁</a>
+      <ul>
+            <li><a href="#A00-00-05-0-01">１　意義</a></li>
+            <li><a href="#A00-00-05-0-02">２　成立</a></li>
+            <li><a href="#A00-00-05-0-03">３　効果</a></li>
+            <li><a href="#A00-00-05-0-04">４　解消</a></li>
+          </ul>
+        </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+    <div class="p-card sec-card">
+      <h3 id="A00-00-04">第４節　婚姻の解消</h3>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-1" class="h6 ind0">Ⅰ　死亡及び失踪宣告による婚姻の解消</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-01">１　死亡</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　死亡配偶者との間の法律関係</p>
+          <p class="p6 ind1">夫婦の一方が死亡すると、婚姻関係は当然に消滅する。死亡配偶者との間に存していた身分上・財産上の関係はすべて解消し、婚姻から生じていた一切の法律上の効果が失われる（例えば、同居・協力・扶助の義務、貞操義務は消滅し、再婚が可能になる）。また、死亡配偶者の財産について相続が開始する（890条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　死亡配偶者以外の者との間の法律関係</p>
+          <p class="p6 ind1">これに対し、死亡配偶者以外の者との間の法律関係には何ら影響が及ばないが、民法は特に、次の事項について規定を置いている。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 姻族関係</p>
+          <p class="p6 ind2">夫婦の一方の死亡により婚姻が解消しても、生存配偶者と死亡配偶者の血族との姻族関係は当然には消滅しない。生存配偶者が「姻族関係を終了させる意思を表示したとき」に初めて消滅する（728条２項）。なお、死亡配偶者の血族の側からこれを消滅させる方法はない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 復氏</p>
+          <p class="p6 ind2">婚姻の際に氏を改めた生存配偶者は、他方配偶者の死亡によって当然に婚姻前の氏に復するわけではない。生存配偶者は、いつでも自由に戸籍上の復氏届をすることが可能であり、それによって初めて旧氏に復する（751条１項）。この復氏と姻族関係の終了とは別個の制度であり、いずれか一方のみをすることも、双方ともすることも、また、しないことも自由である。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h29-20-i" title="H29-20-イ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-1-02">２　失踪宣告</div>
+      <p>夫婦の一方が失踪宣告を受けた場合、死亡したものとみなされるから（31条）、死亡の場合と同様の効果を生じる。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A00-00-04-2" class="h6 ind0">Ⅱ　離婚制度</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-01">１　序説</div>
+      <p>離婚は、夫婦関係を人為的に消滅させるものであり、この点で夫婦一方の死亡による自然的消滅と異なる。</p>
+      <div class="blk inner">
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-02">２　協議離婚</div>
+      <p>夫婦はその協議で離婚することができる（763条）。協議離婚が成立するためには、以下に挙げる要件を具備することを必要とする。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　要件</p>
+        <div class="p-card" id="min54-q4">
+          <p class="h6 ind1">(1) 形式的要件－届出</p>
+          <p class="p6 ind2">協議離婚も婚姻と同様に届出によって成立する。そして、届出の方式も婚姻の届出に準ずる（764条、739条）。</p>
+          <p class="p6 ind2">夫婦の間に成年に達しない子がいるときは、次のⅰⅱのいずれかに該当することを認めた後でなければ、受理することができない（改正民法765条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　親権者の定めがされていること</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　親権者の指定を求める家事審判又は家事調停の申立てがされていること</p>
+          <p class="p6 ind4">この規定に違反した届書、及び方式違反の届書は受理されないが、誤って受理された場合であっても、離婚は有効に成立する（765条２項）。</p>
+          <p class="p6 ind4">協議離婚においても、その届出は、いわゆる創設的届出であるため、夫婦間に離婚の合意が成立しても、届出がなされない限り、離婚は成立しない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-r03-20-o" title="R3-20-オ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min54-q5">
+          <p class="h6 ind1">(2) 実質的要件</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 協議離婚にいう「協議」とは、離婚意思の合致をいい、これが実質的要件あるが、離婚意思とは何かについては、学説上争いがある。</p><br>
+          <p class="p6 ind3">Ｑ　離婚意思の内容</p><br>
+          <p class="p6 ind3">Ａ　形式的意思説（判例）</p>
+          <p class="p6 ind3">離婚届出に向けられた意思で足りる。</p>
+          <p class="p6 ind3">法律上の婚姻関係解消後、その夫婦関係を事実上残すことも可能であるから、離婚などの解消的身分行為には届出意思でよいという考えである。</p><br>
+          <p class="p6 ind3">Ｂ　実質的意思説</p>
+          <p class="p6 ind3">習俗上の夫婦の結合を解消する意思まで必要である。</p>
+          <p class="p6 ind3">事実上の関係をできるだけ法律上の形式に反映させるべきであり、婚姻の事実が存続する以上は、離婚を無効として婚姻を法律上のものとすべきだという考えである。</p>
+          <p class="p6 ind3">※　判例は、形式的意思説を採ると解されており、以下のような事案において離婚を有効としている。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①債権者の強制執行を免れるための協議離婚（最判昭44.11.14）</p>
+          <p class="h6 ind3 nobold">②氏の変更のための協議離婚（最判昭38.11.28）</p>
+          <p class="h6 ind3 nobold">③生活扶助を受けるための協議離婚（最判昭57.３.26）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 離婚意思を届出意思で足りると解する以上、離婚意思及び意思能力は届出時に存在することを要する。従って、届書を作成後、届出前に離婚意思を撤回することは可能である。ただし、その届出が受理されると、協議離婚無効の合意に相当する審判又は判決を得て戸籍を訂正する他ない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h25-20-oh21-22-uh14-18-ih03-09-e" title="H25-20-オ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min54-q6">
+          <p class="h6 ind0">2.　協議離婚の無効・取消し</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 協議離婚の無効</p>
+          <p class="p6 ind2">協議離婚の無効については、婚姻無効（742条）と異なり、民法に規定はないが、当事者の意思に基づかない離婚届は受理されても無効であるのは当然である。離婚意思がない例としては、当事者の一方又は双方が不和の間に届出がなされたとき、いったん協議が成立したがその届出前に翻意したときなどがある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 無効な離婚の追認</p>
+          <p class="p6 ind2">無効な離婚の届出がなされた後に、当事者間に離婚の協議が成立したときは、当事者の明示又は黙示の意思表示によってその届出を有効なものとすることができる（最判昭42.12.８）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 協議離婚の取消し</p>
+          <p class="p6 ind2">詐欺・強迫による離婚は、取り消すことができる。この取消権は、当事者が詐欺を発見し、若しくは強迫を免れた後３か月を経過し、又は追認したときは消滅する（764条、747条）。</p>
+          <p class="p6 ind2">離婚の取消しにおける、請求の手続、離婚取消審判・判決の性質、効力、戸籍届出との関係などは婚姻の取消しと同様である。しかし、離婚の取消しは遡及効があり、婚姻が引き続き継続していたものとされる点で、婚姻の取消しと異なる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h03-09-u" title="H3-9-ウ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-03">３　調停離婚・審判離婚</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　調停離婚</p>
+          <p class="p6 ind1">当事者間に離婚の協議が整わない場合において、人事に関する訴訟事件については調停前置主義が採られていることから（家事事件手続法257条）、まず当事者は家庭裁判所に調停の申立てをすることになるが、この申立てをせずに離婚の訴えを提起しても、調停に付されることになる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　審判離婚</p>
+          <p class="p6 ind1">調停が成立するには当事者が合意しなければならない。しかし、合意が成立しないが、調停の結果離婚を認めるのが相当と判断したときは、家庭裁判所が職権で離婚を認める審判をすることができる（家事事件手続法284条）。これを審判離婚という。</p>
+<div class="ftnote">
+例えば、当事者間に離婚の合意はあるが、財産分与や子の監護方法などについて多少の相違がある場合、単なる嫌がらせなどのために調停期日に出頭しない場合などに、それまでの手続を徒労に帰することのないために意義を有する
+</div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-04">４　裁判離婚</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">夫婦の一方は、770条１項各号所定の事由（離婚原因）がある場合には、家庭裁判所に離婚の訴えを提起することができ（770条）、判決によって認められると離婚が成立する。これを裁判離婚という。</p>
+        </div>
+        <div class="p-card" id="min54-q10">
+          <p class="h6 ind0">2.　離婚原因</p>
+          <p class="p6 ind1">裁判離婚は、請求事由が一定の法定原因に該当する場合に認められる。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 不貞行為（770条１項１号）</p>
+          <p class="p6 ind2">不貞行為は、配偶者自身の自由意思に基づいたものであることを要し、それに至る理由や相手方の任意性は問わない。判例には、夫からの生活扶助を断たれたため、自己と子の生活費を得るために売春行為を続け、父親不明の子を生んだ場合に、不貞行為に当たるとするもの（最判昭38.６.４）、夫が他人と共謀して強姦を働いた場合に不貞行為を認めたもの（最判昭48.11.15）がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 悪意の遺棄（770条１項２号）</p>
+          <p class="p6 ind2">悪意の遺棄とは、正当な理由なく同居・協力・扶助義務を履行しないことをいう。</p>
+          <p class="p6 ind2">この場合の悪意とは、単に事実の認識があることにとどまらず、その行為によって夫婦生活を破壊するかもしれないとの害意をもつことを意味すると解される。遺棄とは、ある程度決定的な婚姻生活の放棄の意味であり、別居や扶養義務の不履行があっても、それが一時的なものならば遺棄とはならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) ３年以上の生死不明（770条１項３号）</p>
+          <p class="p6 ind2">３年の起算時は、最後の消息があった時である。生死不明の原因ないし過失の有無は問わない。</p>
+          <p class="p6 ind2">長期の生死不明の場合は失踪宣告による婚姻の解消もあるが、本号による離婚判決が確定した後に生死不明者が生還しても婚姻が当然に復活するわけではない点で、失踪宣告が取り消された場合とは異なる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) その他婚姻を継続し難い重大な事由（770条１項４号）</p>
+          <p class="p6 ind2">１号から3号までに掲げる事由がなくても、「その他婚姻を継続し難い重大な事由があるとき」には離婚請求ができる。</p>
+          <p class="p6 ind2">本号の事由に該当するとされる具体例としては次のようなものがある。</p>
+<div class="ftnote">
+「強度の精神病にかかり回復の見込みがないとき」（旧民法770条1項4号）は離婚原因から削除された。裁判実務では配偶者の精神障害の状況を「その他婚姻を継続し難い重大な事由があるとき」（770条1項4号）に係る事情として考慮する傾向があり、独立して列挙する必要がないと考えられたためである。
+</div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　１号、２号に匹敵する有責主義的離婚原因であって、１号、２号の列挙事由に含まれていないもの。例えば、配偶者が重罪によって処刑されたとき、配偶者より同居に堪えない重大な侮辱・虐待を受けたとき</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②　いわゆる「破綻」の場合、配偶者の忌むべき疾病、著しい怠惰や浪費癖、アルコールや麻薬などの中毒、性的不能、理由のない性交拒否、著しい性格の不一致など</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h21-22-a" title="H21-22-ア">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min54-q12">
+          <p class="h6 ind0">3.　有責配偶者（婚姻の破綻につき責任を有する配偶者）からの離婚請求の可否</p>
+          <p class="p6 ind1">判例は、かつては、有責配偶者からの離婚請求を否定していたが、次第に緩和し、以下の要件を満たす場合に有責配偶者からの離婚請求が認められるとした（最大判昭62.９.２）。そして、以下の要件をみたせば、有責配偶者からの離婚請求があっても拒否できないとした。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①夫婦の別居が両当事者の年齢及び同居期間との対比において相当の長期間に及んでいること</p>
+          <p class="h6 ind3 nobold">②夫婦間に未成熟の子が存在しないこと</p>
+          <p class="h6 ind3 nobold">③相手方配偶者が離婚により、精神的・社会的・経済的に極めて苛酷な状況に置かれる等、離婚請求を認容することが著しく社会正義に反するといえるような特段の事情が認められないこと</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h01-18-2" title="H1-18-2">過去問</a></div>
+        </div>
+        <div class="p-card" id="min54-q13">
+          <p class="h6 ind0">4.　離婚請求の請求棄却（770条２項）</p>
+          <p class="p6 ind1">770条１項１号から３号の事由があっても当然に離婚が認められるわけではなく、裁判所の裁量でかかる事由に基づく離婚請求を棄却できる（同条２項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h01-18-1" title="H1-18-1">過去問</a></div>
+        <div class="p-card" id="min54-q14">
+          <p class="h6 ind0">5.　離婚判決と手続</p>
+          <p class="p6 ind1">離婚請求が認容される場合、夫婦間に未成年の子があるときは、裁判所が父母の双方又は一方を親権者と定める（819条２項）。</p>
+          <p class="p6 ind1">離婚は、判決の確定によって効力を生じるが、原告はその確定の日から10日以内に戸籍上の届出をしなければならない（戸籍法77条、63条）。この届出は報告的届出であるから、これによって離婚が成立するのではない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h01-18-5" title="H1-18-5">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-04-2-05">５　離婚の効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　基本的効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 再婚</p>
+          <p class="p6 ind2">離婚により、婚姻から生じる一切の身分上の義務は将来に向かって消滅する。従って、再婚も可能になる。また、婚姻障害は残る（735条後段）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 姻族関係の終了</p>
+          <p class="p6 ind2">離婚により、姻族関係は無条件に終了する（728条１項）。この点、特別の意思表示を必要とする死亡の場合と異なる（同条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 復氏</p>
+          <p class="p6 ind2">婚姻によって氏を改めていた者は婚姻前の氏に復するが（767条１項）、離婚の日から３か月以内に届け出ることにより、離婚の際に称していた氏を称することができる（同条２項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min54q.html#q-h07-18-o" title="H7-18-オ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min54-q19">
+          <p class="h6 ind0">2.　子の取扱い</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 親権者</p>
+          <p class="p6 ind2">協議離婚をする場合には、父母の協議によりその双方又は一方を親権者と定める（改正民法819条１項）。協議が調わないとき、又は協議をすることができないときは、家庭裁判所は、父又は母の請求によって、協議に代わる審判をすることができる（改正民法819条５項）。</p>
+          <p class="p6 ind2">親権者の定めがされていなくても、親権者の指定を求める家事審判又は家事調停の申立てがされている場合には離婚届書は受理される（改正民法765条１項）。</p>
+          <p class="p6 ind2">父母が婚姻中は、父母は原則として共同で親権を行使するが（818条２項、824条の２第１項）、令和6年改正によって、離婚後は、子の利益のため、共同親権又は単独親権の選択が可能となった。裁判上の離婚の場合には、裁判所が父母の双方又は一方を親権者と定め（改正民法819条２項）、調停離婚・審判離婚の場合はこれに準じる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 監護者その他監護に必要な事項</p>
+          <p class="p6 ind2">父母が協議上の離婚をするときは、子の監護をすべき者又は子の監護の分掌、父又は母と子との交流（※）、子の監護に要する費用の分担その他の子の監護について必要な事項は、その協議で定める（改正民法766条１項前段）。この場合においては、子の利益を最も優先して考慮しなければならない（改正民法766条１項後段）。</p>
+<div class="ftnote">
+監護の分掌：子の監護を父母が分担すること
+</div>
+<div class="ftnote">
+(※)改正前条文にあった「面会」の文言を削除した。現代の親子交流には、直接の対面以外にも、ビデオ通話・メールなどの方法があるためである。
+</div>
+          <p class="p6 ind2">協議不調又は協議不能のときは、家庭裁判所が定めることになる（766条２項）。この規定は、裁判離婚においても準用される（771条）。</p>
+          <p class="p6 ind2">子の監護は、多くの場合親権者になった者がこれを行うが、監護だけを親権者以外の者に行わせるのが子の福祉と利益に合致する場合があるので、親権者と別に監護者その他監護に必要な事項を定めておくことができる旨が規定されている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 婚姻中（離婚前）の親子交流</p>
+          <p class="p6 ind2">766条（749条、771条及び788条において準用する場合を含む。）の場合のほか、子と別居する父又は母その他の親族と当該子との交流について必要な事項は、父母の協議で定める。この場合においては、子の利益を最も優先して考慮しなければならない（改正民法817条の13第１項）。協議不調・協議不能の場合には父又は母の請求により、家庭裁判所が当該事項を定める（同条２項）。</p>
+          <p class="p6 ind2">家庭裁判所は、必要があると認めるときは、父又は母の請求により、上記の規定による定めを変更することができる（同条３項）。また、家庭裁判所は、子の利益のため特に必要があると認めるときに限り、父母以外の親族と子との交流を実施する旨を定めることもできる（同条４項）。</p>
+<div class="ftnote">
+改正前には、婚姻中の父母の別居時の親子交流についての明文の規定がなかったが、①離婚に先立って別居をすることは少なくないこと、②親子交流の継続は別居時にも重要なことから婚姻中の父母の別居時の親子交流について規定を設けた。
+</div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 父母以外の親族と子との交流</p>
+          <p class="p6 ind2">家庭裁判所が離婚後の子の監護に関する事項の定め又は変更（改正民法766条２項、３項）をする場合において、子の利益のため特に必要があると認めるときは、子の監護について必要な事項（同条１項）として父母以外の親族と子との交流を実施する旨を定めることができる（改正民法766条の２第１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(5) 父母以外の親族による子との交流の請求</p>
+          <p class="p6 ind2">上記(3)及び(4)の父母以外の親族と子との交流の審判の請求権者は次の者である（改正民法817条の13第５項、766条の２第２項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　父又は母</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　父母以外の子の親族（子の直系尊属及び兄弟姉妹以外の者にあっては、過去に当該子を監護していた者に限る。）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱによる請求は、その者と子との交流についての定めをするため他に適当な方法がないときに限って認められる（改正民法817条の13第５項ただし書、766条の２第２項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(6) 子の氏</p>
+          <p class="p6 ind2">父母の離婚によって子の氏には影響はない。</p>
+        </div>
+        </div>
+        <div class="p-card" id="min54-q21">
+          <p class="h6 ind0">3.　財産分与請求権</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">離婚をした者の一方は、相手方に対して財産の分与を請求できる（768条１項、771条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 決定方法</p>
+          <p class="p6 ind2">財産分与をするかどうか、及びその額・方法は、まず当事者が協議して定めるべきである。</p>
+          <p class="p6 ind2">協議が調わないとき、又は協議ができないときは、当事者は家庭裁判所に対して審判を請求することができる（768条２項本文）。ただし、離婚の時から５年を経過すると、この請求はできなくなる（同項ただし書）。</p>
+          <p class="p6 ind2">請求を受けた家庭裁判所は、離婚後の当事者間の財産上の衡平を図るため、当事者双方がその婚姻中に取得し、又は維持した財産の額及びその取得又は維持についての各当事者の寄与の程度、婚姻の期間、婚姻中の生活水準、婚姻中の協力及び扶助の状況、各当事者の年齢、心身の状況、職業及び収入その他一切の事情を考慮して、分与をさせるべきかどうか並びに分与の額及び方法を定める（改正民法768条３項前段）。この場合において、婚姻中の財産の取得又は維持についての各当事者の寄与の程度は、その程度が異なることが明らかでないときは、相等しいものとする（改正民法768条３項後段）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 財産分与と慰謝料請求</p>
+          <p class="p6 ind2">判例は、財産分与請求と慰謝料請求とはその本質を異にすることを認めながら、財産分与に損害賠償を含ませることができるとしている。</p>
+          <p class="p6 ind2">また、財産分与に損害賠償を含んだ趣旨と解されないか、又は請求者の精神的苦痛を慰謝するに足りない場合には、別個に慰謝料を請求することができるとしている（最判昭46.７.23）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 離婚請求と財産分与の申立て</p>
+          <p class="p6 ind2">離婚請求に附帯して財産分与の申立てがされた場合において、裁判所が離婚請求を認容する判決をするに当たり、当事者が婚姻中にその双方の協力によって得たものとして分与を求める財産の一部につき、財産分与についての裁判をしないことは許されない（最判令４.12.26）。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A00-00-05">第５節　内縁</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-05-0-01">１　意義</div>
+      <p>内縁とは、社会的には夫婦と認められる実質を有しながら、婚姻の届出をしない男女の関係をいう。</p>
+      <p>当初、内縁について判例は、婚姻の予約と解し、その不当破棄を債務不履行と構成した（大連判大４.１.26）。その後、学説は、内縁を婚姻に準ずるものと捉える見解が通説を占めるようになり、判例も、内縁の破棄を不法行為とも構成するようになった（最判昭33.４.11）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-05-0-02">２　成立</div>
+      <p>内縁の成立には、夫婦関係を成立させようとする合意と夫婦共同生活の存在が必要である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-05-0-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　婚姻の強制の禁止</p>
+          <p class="p6 ind1">内縁が成立し、将来婚姻を届け出る合意がある場合でも、婚姻の届出を請求し、その履行を強制することはできない（大連判大４.１.26）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　一般的効果</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 内容</p>
+          <p class="p6 ind2">婚姻の本来的効果のうち、夫婦共同生活の実体があることを前提として認められる効果、第三者に影響を及ぼすことのない効果は、準用を認めてよいが、婚姻届があることにより画一的に認められる効果、第三者の地位ないし社会公共の秩序に影響を与える効果は、消極的に解される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 準用が認められるもの</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①同居・協力・扶助義務、②貞操義務、③日常家事債務の連帯責任、④帰属不明財産の共有推定、⑤離婚に伴う財産分与等</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 準用が認められないもの</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①氏の共通、②夫婦財産契約、③姻族関係の発生、④準正、⑤相続等</p><br>
+          <p class="p6 ind4">Ｑ　内縁の夫婦の一方が死亡した場合、法律上の夫婦の離婚に伴う財産分与に関する768条を類推適用できるか。</p>
+          <p class="p6 ind4">→　否定説（最判平12.３.10）</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">現行法は、婚姻解消時の財産の精算及び扶養について法律上の夫婦については、離婚による場合には財産分与制度により、一方が死亡した場合には相続制度により処理するものとしており、内縁当事者の一方の死亡の場合に財産分与を認めることは民法の体系に反する。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 内縁配偶者の地位は、第三者の侵害からも保護される。</p>
+          <p class="p6 ind2">ex. 生命侵害を受けた者の内縁配偶者の損害賠償請求権（大判昭７.10.６）</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A00-00-05-0-04">４　解消</div>
+      <p>内縁は、婚姻の届出により発展的に解消する。その他、当事者の一方の死亡、事実上の合意又は一方的意思表示によっても解消する。</p>
+      <div class="blk inner">
+        <div class="p-card" id="min54-q28">
+          <p class="h6 ind0">1.　死亡による解消</p>
+          <p class="p6 ind1">法律上の婚姻の場合と同じく、当事者の一方の死亡（これに準じる失踪宣告）によって解消する。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 内縁配偶者の相続権</p>
+          <p class="p6 ind2">否定される。ただし、相続人不存在の場合には、「被相続人と生計を同じくしていた者」の資格において、遺産の全部又は一部の分与を受けることができる（958条の２）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 内縁の配偶者の居住権</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 相続人がいない場合</p>
+          <p class="p6 ind3">居住用建物の賃借権を承継できる（借地借家法36条）。</p>
+          <p class="p6 ind3">持家についても、特別縁故者として、家屋所有権の分与を受けることができる（958条の２）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 相続人がいる場合</p>
+          <p class="p6 ind3">家屋の所有権又は賃借権を相続した者が、被相続人の内縁の配偶者に対し明渡請求をすることは、権利濫用となる（最判昭39.10.13）。また、賃貸人からの明渡請求に対し内縁配偶者は、相続人の承継した賃借権を援用して拒むことができる（最判昭42.２.21）。</p>
+          <p class="p6 ind3">内縁の夫婦が共同の営業に使用していた居住・事業用の建物については、特段の事情のない限り当事者間で一方が死亡した場合には他方が単独で使用する旨の合意が成立していたと推認され、その単独使用による利益について内縁当事者を相続した他の共有者に対して不当利得返還請求を負うことはない（最判平10.２.26）。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　当事者の意思による解消</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 合意による解除</p>
+          <p class="p6 ind2">理由のいかんを問わず、相互間の合意によって解消できる。</p>
+          <p class="p6 ind2">事実上共同生活が行われなくなっても解消する。当事者間の黙示の合意が認められるからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 一方的意思表示による解消</p>
+          <p class="p6 ind2">内縁当事者の一方は、理由のいかんを問わず、いつでも一方的意思表示により解消できる。</p>
+          <p class="p6 ind2">正当な理由なくして内縁関係を破棄した者は、相手方に対して、精神的・財産的損害を賠償する義務を負う（大連判大４.１.26）。</p>
+          <div class="sp"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>

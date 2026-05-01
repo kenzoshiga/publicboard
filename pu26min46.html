@@ -1,0 +1,642 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit46</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit46</h1>
+    <div class="hnav">
+      <a href="pu_index.html">トップへ</a>
+      <a href="pu26min45.html">前へ</a>
+      <a href="pu26min47.html">次へ</a>
+      <a href="pu26min46q.html">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A06">第６編　契約各論</a>
+  <ul>
+    <li><a href="#A06-06">第６章　賃貸借</a>
+      <ul>
+        <li><a href="#A06-06-04">第４節　賃貸借の効力</a>
+          <ul>
+            <li><a href="#A06-06-04-1">Ⅲ　賃借人の第三者に対する関係</a>
+              <ul>
+            <li><a href="#A06-06-04-1-01">１　賃貸人の変更－目的物の新所有者との関係</a></li>
+            <li><a href="#A06-06-04-1-02">２　無権限の侵奪者に対する関係</a></li>
+            </ul>
+          </li>
+            <li><a href="#A06-06-04-2">Ⅳ　賃借権の譲渡・転貸</a>
+              <ul>
+            <li><a href="#A06-06-04-2-01">１　意義</a></li>
+            <li><a href="#A06-06-04-2-02">２　612条の定める原則</a></li>
+            <li><a href="#A06-06-04-2-03">３　612条の制限</a></li>
+            <li><a href="#A06-06-04-2-04">４　転貸借を賃貸人に対抗できる場合の効果（613条）</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('tocToggle');
+  if (!btn) return;
+  // 既存(PC用)の「ヘッダ内目次」切替：従来どおりlocalStorageで保持
+  var KEY_HIDE = 'tocHidden';
+  // モーダル要素
+  var modal = document.getElementById('tocModal');
+  var modalBody = document.getElementById('tocModalBody');
+  var closeBtn = document.getElementById('tocModalClose');
+  var backdrop = document.getElementById('tocModalBackdrop');
+  // 元の目次(ヘッダ内)をコピーしてモーダルに入れる（初回だけ）
+  function ensureModalContent(){
+    if (!modalBody || modalBody._filled) return;
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    // tocの中身を複製（id衝突回避のため、モーダル内ではidを消す）
+    var clone = toc.cloneNode(true);
+    clone.removeAttribute('id');
+    var idNodes = clone.querySelectorAll('[id]');
+    for (var i=0;i<idNodes.length;i++) idNodes[i].removeAttribute('id');
+    modalBody.appendChild(clone);
+    modalBody._filled = true;
+  }
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
+  // ===== Modal open/close =====
+  function openModal(){
+    ensureModalContent();
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+    btn.textContent = '目次を閉じる';
+    // フォーカス
+    if (closeBtn) closeBtn.focus();
+    // Escで閉じる
+    document.addEventListener('keydown', onKeyDown);
+  }
+  function closeModal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('modal-open');
+    btn.textContent = '目次を表示';
+    document.removeEventListener('keydown', onKeyDown);
+    btn.focus();
+  }
+  function onKeyDown(e){
+    if (e.key === 'Escape') closeModal();
+  }
+  function modalOpenNow(){
+    return modal && modal.classList.contains('is-open');
+  }
+  // モーダル内のリンクを押したら「閉じて本文へ」
+  function setupModalLinkClose(){
+    if (!modalBody) return;
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      // ページ内アンカー(#...)のみ対象
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        closeModal();
+        // クリック後のジャンプはブラウザに任せる（閉じてから実行される）
+      }
+    });
+  }
+  // ===== TOC link auto-hide =====
+  function hideTOC_PC(){
+    // PC用：ヘッダ内TOCを非表示へ戻す
+    document.body.classList.add('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, '1'); }catch(e){}
+    syncPC();
+  }
+
+  function closeTOC_AfterJump(){
+    // スマホ：モーダルなら閉じる
+    if (isMobile()){
+      if (modalOpenNow()) closeModal();
+      return;
+    }
+    // PC：非表示へ
+    hideTOC_PC();
+  }
+
+  // PCヘッダ内TOCのリンクをクリックしたら自動で閉じる（ページ内アンカーのみ）
+  var tocRoot = document.getElementById('toc');
+  if (tocRoot){
+    tocRoot.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // ジャンプ自体はブラウザに任せる（閉じてから飛ばす）
+        closeTOC_AfterJump();
+      }
+    });
+  }
+
+  // モーダル内（スマホ）のリンク押下でも「確実に」閉じる（既存処理の保険）
+  if (modalBody){
+    modalBody.addEventListener('click', function(e){
+      var a = e.target.closest && e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#'){
+        // 既存の closeModal() があっても二重で問題なし
+        closeTOC_AfterJump();
+      }
+    });
+  }
+  setupModalLinkClose();
+  // 背景クリックでも閉じる
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // ===== Button behavior =====
+  function syncPC(){
+    var hidden = document.body.classList.contains('toc-hidden');
+    btn.textContent = hidden ? '目次を表示' : '目次を非表示';
+  }
+  btn.addEventListener('click', function(){
+    if (isMobile()){
+      // スマホ：モーダルの開閉
+      if (modalOpenNow()) closeModal();
+      else openModal();
+      return;
+    }
+    // PC：従来どおりヘッダ内目次の表示/非表示
+    var h = document.body.classList.toggle('toc-hidden');
+    try{ localStorage.setItem(KEY_HIDE, h ? '1':'0'); }catch(e){}
+    syncPC();
+  });
+  // 初期表示
+  if (!isMobile()) syncPC();
+  else btn.textContent = '目次を表示';
+  // 画面幅が変わった時に整合
+  window.addEventListener('resize', function(){
+    if (isMobile()){
+      // スマホに入ったらPCの文言を「表示」に寄せる
+      if (!modalOpenNow()) btn.textContent = '目次を表示';
+    }else{
+      // PCに戻ったらモーダルは閉じる
+      if (modalOpenNow()) closeModal();
+      syncPC();
+    }
+  });
+})();
+</script>
+<main id="content">
+<section class="sec-title" id="A06">
+  <h2>第６編　契約各論</h2>
+  <div class="p-card chap-card">
+    <h2 id="A06-06">第６章　賃貸借</h2>
+    <div class="p-card sec-card">
+      <h3 id="A06-06-04">第４節　賃貸借の効力</h3>
+    <div class="p-card rank4-card">
+      <p id="A06-06-04-1" class="h6 ind0">Ⅲ　賃借人の第三者に対する関係</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-1-01">１　賃貸人の変更－目的物の新所有者との関係</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　原則－「売買は賃貸借を破る」</p>
+          <p class="p6 ind1">例えば、賃貸人である所有者がその目的物を第三者に譲渡すると、その譲受人は賃借人に対して目的物の返還・明渡しを請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　例外－不動産賃借権が対抗力（605条、借地借家法10条１項、31条１項）を有している場合</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 対抗要件</p>
+        <div class="p-card" id="min46-q1">
+          <p class="h6 ind2 nobold">(a) 民法605条の登記</p>
+          <p class="p6 ind3">不動産の賃貸借は、これを登記したときは、その不動産について物権を取得した者その他の第三者に対抗することができる（605条）。</p>
+          <p class="p6 ind3">登記をするためには共同申請の原則により賃貸人の協力が必要であるが、賃借権は債権であるから、特約のない限り、賃貸人に対する登記請求権を有しない（大判大10.７.11）。</p><br>
+          <p class="p6 ind3">Ｑ　甲がその所有する不動産をＡ・Ｂ２人の者に二重に賃貸した場合、ＡＢ間の優劣関係はどのようになるか。</p>
+          <p class="p6 ind3">→　賃借権の対抗要件を先に備えた者が優先することになる（605条）。</p>
+<div class="kakomon"><a href="pu26min46q.html#q-h23-13-i" title="H23-13-イ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min46-q2">
+          <p class="h6 ind2 nobold">(b) 借地借家法による対抗</p>
+<div class="jobun">
+（借地権の対抗力等）
+借地借家法第10条　借地権は、その登記がなくても、土地の上に借地権者が登記されている建物を所有するときは、これをもって第三者に対抗することができる。
+２　前項の場合において、建物の滅失があっても、借地権者が、その建物を特定するために必要な事項、その滅失があった日及び建物を新たに築造する旨を土地の上の見やすい場所に掲示するときは、借地権は、お同項の効力を有する。ただし、建物の滅失があった日から２年を経過した後にあっては、その前に建物を新たに築造し、かつ、その建物につき登記した場合に限る。
+（建物賃貸借の対抗力等）
+同法第31条　建物の賃貸借は、その登記がなくても、建物の引渡しがあったときは、その後その建物について物権を取得した者に対し、その効力を生ずる。
+</div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　借地の場合（借地借家法10条１項）</p>
+          <p class="p6 ind4">借地権（建物所有を目的とする地上権・土地の賃借権）につき、借地人が借地上に借地権者を登記した建物を有するときは、その借地権に対抗力があるものとされる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①表示の登記</p>
+          <p class="p6 ind4">登記は不動産の権利変動を公示する「権利の登記」と、不動産の物理的現状を表示する「表示の登記」からなるが、表示の登記も同条の「登記」に含まれる（最判昭50.２.13・通説）。また、職権による表示の登記でもよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">②登記の表示の誤り</p>
+          <p class="p6 ind4">Ｑ１　借地権について建物の登記記録上の地番と実際に建物が建っている敷地の地番が異なっていた場合、賃借人は土地譲受人に借地権を対抗できるか。</p>
+          <p class="p6 ind4">→　対抗できる（最大判昭40.３.17）。</p><br>
+          <p class="p6 ind4">Ｑ２　建物について改築等をしたことにより建物の表示に変更があった場合、対抗力は失われるか。</p>
+          <p class="p6 ind4">→　建物について同一性が認められる以上、建物の登記は有効であり、表示の変更登記をしなくても対抗力は失われない（最判昭31.7.20）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">③家族名義の建物登記</p>
+          <p class="p6 ind4">Ｑ　建物登記が家族名義の場合、対抗力は認められるか。</p><br>
+          <p class="p6 ind4">Ａ　対抗力否定説（最大判昭41.４.27、最判昭47.６.22）</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">・建物登記の借地権公示機能は、建物所有権の存在を公示する有効な登記があることを前提にしているのだから、他人名義の登記では建物所有権を公示できず、従って借地権も公示できない。</p>
+          <p class="p6 ind4">・他人名義の虚偽の登記をする原因は、租税の回避など違法な目的にあり、これを便宜的に是認すべきではない。</p><br>
+          <p class="p6 ind4">Ｂ　対抗力肯定説（多数説）</p>
+          <p class="p6 ind4">（理由）</p>
+          <p class="p6 ind4">・土地取引にあたっては現地検分するのが通常であり、借地上に登記した建物があればそれを手がかりにして借地権者を推知でき、取引の安全を害することはない。</p>
+          <p class="p6 ind4">・借地借家法は社会政策立法であり、その「登記」を物権変動の公示を目的とする177条の登記と同一視して有効性を考えなくてよい。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　借家の場合</p>
+          <p class="p6 ind4">借家については、建物の引渡しが対抗要件とされている（借地借家法31条１項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h24-07-i" title="H24-7-イ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min46-q7">
+          <p class="h6 ind1">(2) 賃貸人たる地位の移転</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 賃貸借の対抗要件を備えている賃貸不動産が譲渡されたとき</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　原則</p>
+          <p class="p6 ind4">民法605条、借地借家法10条又は31条その他の法令の規定による賃貸借の対抗要件を備えた場合において、その不動産が譲渡されたときは、その不動産の賃貸人たる地位は、その譲受人に移転する（605条の２第１項）。</p>
+          <p class="p6 ind4">旧所有者・賃借人間の賃貸借関係が法律上当然に新所有者・賃借人間に移転するため、旧所有者はその関係から離脱する（最判昭46.４.23）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　賃貸人たる地位を留保する旨の合意</p>
+          <p class="p6 ind4">不動産の譲渡人及び譲受人が、賃貸人たる地位を譲渡人に留保する旨及びその不動産を譲受人が譲渡人に賃貸する旨の合意をしたときは、賃貸人たる地位は、譲受人に移転しない（605条の２第２項前段）。</p>
+          <p class="p6 ind4">この場合において、譲渡人と譲受人又はその承継人との間の賃貸借が終了したときは、譲渡人に留保されていた賃貸人たる地位は、譲受人又はその承継人に移転する（605条の２第２項後段）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 賃貸借の対抗要件を備えていない賃貸不動産が譲渡されたとき</p>
+          <p class="p6 ind3">不動産の譲渡人が賃貸人であるときは、その賃貸人たる地位は、賃借人の承諾を要しないで、譲渡人と譲受人との合意により、譲受人に移転させることができる（605条の３前段）。賃借人の承諾は不要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 賃借人の承諾の要否</p>
+          <p class="p6 ind2">承諾は不要である（605条の２第１項、605条の３）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 賃貸人たる地位の対抗</p>
+          <p class="p6 ind2">賃貸人たる地位の移転は、賃貸物である不動産について所有権の移転の登記をしなければ、賃借人に対抗することができない（605条の２第３項、605条の３）。賃借権が対抗要件を備えているか否かを問わない。</p><br>
+          <p class="p6 ind2">Ｑ　新所有者が賃借人に対して、賃貸人の地位の承継を主張して、賃料の請求、解約申入れ、更新拒絶をする場合、新所有者名義の所有権移転登記が必要か。</p>
+          <p class="p6 ind2">→　登記が必要である（605条の２第３項、大判昭８.５.９）。</p>
+          <p class="p6 ind2">（理由）</p>
+          <p class="p6 ind2">賃借人が、誰が賃貸人か分からないという事態を避け、賃料の二重払等の危険を回避するためには、登記という明確な基準を要求すべきである。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-r03-19-i" title="R3-19-イ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-1-02">２　無権限の侵奪者に対する関係</div>
+<div class="jobun">
+（不動産の賃借人による妨害の停止の請求等）
+第605条の４　不動産の賃借人は、第605条の２第１項に規定する対抗要件を備えた場合において、次の各号に掲げるときは、それぞれ当該各号に定める請求をすることができる。
+一　その不動産の占有を第三者が妨害しているとき　その第三者に対する妨害の停止の請求
+二　その不動産を第三者が占有しているとき　その第三者に対する返還の請求
+</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　占有訴権</p>
+          <p class="p6 ind1">賃借人が占有していた場合には占有の訴えを提起することが認められる（197条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　妨害排除請求権の代位行使</p>
+          <p class="p6 ind1">賃借人は、所有者に、妨害者に対して排除請求をするように求めることにより救済され得る。</p>
+          <p class="p6 ind1">しかし、所有者がこれを行使しない場合には、所有者の妨害排除請求権を賃借人が代位行使することができる（債権者代位権（423条）の転用、大判昭４.12.16）。</p>
+        </div>
+        <div class="p-card" id="min46-q10">
+          <p class="h6 ind0">3.　賃借権に基づく妨害停止請求権及び返還請求権</p>
+          <p class="p6 ind1">賃借権が対抗要件を備えた場合には、賃借権に基づく妨害停止請求や返還請求が認められる（605条の４第１号、２号）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-r03-07-i" title="R3-7-イ">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A06-06-04-2" class="h6 ind0">Ⅳ　賃借権の譲渡・転貸</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-2-01">１　意義</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　賃借権の譲渡の意義</p>
+          <p class="p6 ind1">賃借権の譲渡とは、賃借人が賃借権を第三者に譲渡し、従前の賃借人が賃貸借関係から離脱し、賃貸人と賃借権の譲受人との間に賃貸借関係が生じる効果をもたらすものをいう。</p>
+          <p class="p6 ind1">なお、借地上の建物を第三者に譲渡する場合、特に契約がなくても、建物所有権と共に敷地賃借権も第三者へ譲渡される（87条２項類推）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　転貸の意義</p>
+          <p class="p6 ind1">転貸とは、賃借人（転貸人）が第三者（転借人）に賃貸物を又貸し（転貸）し、賃貸人と賃借人（転貸人）間の賃貸借関係が存続するものをいう。</p>
+          <p class="p6 ind1">賃借人が自己以外の者に賃借物の全部又は一部を使用させても、その者が独立の使用権を与えられているとみられないときは「転貸」には当たらない。</p>
+          <p class="p6 ind1">ex.妻子等の家族や家事使用人に使用させるのは転貸借に当たらない。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-2-02">２　612条の定める原則</div>
+      <div class="blk inner">
+        <div class="p-card" id="min46-q13">
+          <p class="h6 ind0">1.　賃借権の譲渡・転貸の要件</p>
+          <p class="p6 ind1">賃借権の譲渡・転貸には、賃貸人の承諾が必要とされる（612条１項）。</p>
+          <p class="p6 ind1">賃貸人の承諾が得られない場合でも、譲渡・転貸は当事者間では有効である。賃貸人の承諾は、譲渡・転貸の効力要件ではなく対抗要件であるから、譲受人・転借人は賃貸人に対抗できないだけである。</p>
+          <p class="p6 ind1">承諾は、明示でも黙示でもよく、また事前でも事後でもよい。</p>
+          <p class="p6 ind1">賃借権の譲渡・転貸に対する承諾の意思表示の相手方は、賃借人でもよいし、譲受人・転借人でもよい（最判昭31.10.５）。転貸についても同様に解されている。</p>
+          <p class="p6 ind1">なお、ひとたび承諾がされると、賃貸人はそれを撤回することはできない（最判昭30.５.13）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h22-10-i" title="H22-10-イ">過去問</a></div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　無断譲渡・転貸の効果</p>
+        <div class="p-card" id="min46-q18">
+          <p class="h6 ind1">(1) 賃貸人の解除権</p>
+          <p class="p6 ind2">612条１項の規定に反して、賃借人が第三者に賃借物の使用･収益をさせたときは、賃貸人は契約の解除をすることができる（612条２項）。無断譲渡・転貸は信頼関係を破る最大の背信行為と考えられるためである。なお、１個の契約で２棟の建物を賃貸した場合において、１棟の建物の無断転貸を理由として賃貸借全部を解除できる（最判昭32.11.12）。</p>
+          <p class="p6 ind2">「第三者に賃借物の使用又は収益をさせた」ことが要件となっており、ＢＣに無断譲渡の契約が締結されただけで、賃借人Ｂがまだ現実の使用収益をさせていない場合には、賃貸人Ａは契約を解除することができない。</p>
+          <p class="p6 ind2">借地上の建物に譲渡担保権が設定された場合であっても、譲渡担保権設定者が引き続き建物を使用している限りは賃借権の譲渡・転貸に当たらないが（最判昭40.12.17）、譲渡担保権者が建物の引渡しを受けて使用・収益する場合には、譲渡担保権が実行されておらず譲渡担保権設定者による受戻権の行使が可能であるとしても、賃借権の譲渡・転貸に当たる（最判平９.７.17）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h01-17-1" title="H1-17-1">過去問</a></div>
+        <div class="p-card" id="min46-q20">
+          <p class="h6 ind1">(2) 解除権の行使</p>
+          <p class="p6 ind2">賃貸借契約が612条２項により解除された場合、譲受人又は転借人は賃貸人に対する関係では不法占拠者になるから、賃貸人は所有権に基づき引渡しを請求できる。</p>
+          <p class="p6 ind2">さらに、賃貸人は解除しなくても、譲受人又は転借人に対し妨害排除及び物の自己への直接の返還を請求することができる（最判昭26.５.31）。</p>
+          <p class="p6 ind2">また、不法行為・不当利得を理由に損害賠償又は不当利得返還請求もすることができる。</p>
+          <p class="p6 ind2">612条２項の解除権が時効消滅した場合でも、所有権に基づいて、賃借権の無断譲受人に対して目的物の明渡しを請求できる（最判昭55.12.11）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h29-07-uh01-17-2" title="H29-7-ウ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-2-03">３　612条の制限</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　解除権の制限－信頼関係破壊の法理（信頼関係理論）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 信頼関係破壊の法理（信頼関係理論）</p>
+          <p class="p6 ind2">Ｑ　無断譲渡・転貸がされた場合、常に賃貸人による契約の解除が認められるのか。</p>
+          <p class="p6 ind2">→　無断譲渡・転貸がされた場合でも、それが「賃貸人に対する背信的行為と認めるに足らない特段の事情がある場合」には、解除できない（最判昭28.９.25・通説）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2)「特段の事情」が認められる場合</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　譲渡・転貸に営利性がなく動機において人道的なものがある場合（ex. 親族間）</p>
+          <p class="h6 ind3 nobold">ⅱ　譲渡・転貸が、一時的であるとか、ごく一部の間貸しなど軽微な場合</p>
+          <p class="h6 ind3 nobold">ⅲ　使用収益の実体が変わらない場合（ex. 営業主体が形式上は個人から会社に変わったが実体は変わりのない場合）</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card" id="min46-q22">
+          <p class="h6 ind0">2.　借地借家法による修正</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 借地の場合</p>
+          <p class="p6 ind2">借地の場合、借地上の建物を借地権付きで売却するという切実な必要性がある。そのため、特別法により借地権の譲渡をする者に対し一定の保護がなされている。</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 第三者の建物買取請求権（借地借家法14条）</p>
+          <p class="p6 ind3">第三者が借地上の建物を譲り受けた場合において、借地権設定者が賃借権の譲渡又は転借を承諾しないときは、その第三者は、借地権設定者に対して建物の買取りを請求することができる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 賃貸人の承諾に代わる裁判所の許可（借地借家法19条）</p>
+          <p class="p6 ind3">第三者が賃借権を取得し、又は転借しても借地権設定者に不利となるおそれがないにもかかわらず、借地権設定者が承諾をしないときは、裁判所は、借地権者の申立てにより、借地権設定者の承諾に代わる許可を与えることができる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 借家の場合</p>
+          <p class="p6 ind2">借家の場合、借地と異なりこれを譲渡する切実な必要性はなく、借地借家法上何らの規定も置かれていない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h23-18-e" title="H23-18-エ">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　賃借人の実質的な変更</p>
+          <p class="p6 ind1">形式的に賃借人が変更しても、実質的に変更がなければ賃借権の無断譲渡を理由とする解除は制限される（ⅰ）。他方で、実質的に賃借権の主体が変わっても形式的に変更がなければ、賃借権の譲渡に当たらない（ⅱ）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　外形的・形式的な変更のみ認められる場合</p>
+          <p class="p6 ind4">賃借人の譲渡（転貸）により賃借人が第三者に目的物を使用収益させている場合であっても、個人とその経営する会社のように譲渡人（転貸人）と譲受人（転借人）との間に密接な関係があり、使用収益の主体が実質的には同一とみられるときは、賃借権の無断譲渡（転貸）が賃貸人に対する背信行為と認めるに足りない特段の事情があり、612条による解除は否定される（最判昭39.11.19、最判昭47.４.25等）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　実質的な変更のみ認められる場合</p>
+          <p class="p6 ind4">外形的・形式的には賃借人である会社の法人格に変動はないが、役員・資本構成の変更により、実質的な使用収益の主体が変更されたと認められる場合でも、法人格の同一性が失われるものではないから、賃借権の譲渡に当たらない（最判平８.10.14）。</p>
+          <p class="p6 ind4">判例のこのような判断は、形式的にも実質的にも賃借権の主体が変更することをもって解除原因とするものであり、何ら矛盾するものではない。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A06-06-04-2-04">４　転貸借を賃貸人に対抗できる場合の効果（613条）</div>
+<div class="jobun">
+（転貸の効果）
+第613条　賃借人が適法に賃借物を転貸したときは、転借人は、賃貸人と賃借人との間の賃貸借に基づく賃借人の債務の範囲を限度として、賃貸人に対して転貸借に基づく債務を直接履行する義務を負う。この場合においては、賃料の前払をもって賃貸人に対抗することができない。
+２　前項の規定は、賃貸人が賃借人に対してその権利を行使することを妨げない。
+３　賃借人が適法に賃借物を転貸した場合には、賃貸人は、賃借人との間の賃貸借を合意により解除したことをもって転借人に対抗することができない。ただし、その解除の当時、賃貸人が賃借人の債務不履行による解除権を有していたときは、この限りでない。
+</div>
+      <div class="blk inner">
+        <div class="p-card" id="min46-q23">
+          <p class="h6 ind0">1.　転借人と賃貸人の法律関係</p>
+          <p class="p6 ind1">賃貸人の承諾がある場合、又は信頼関係を破壊しない特段の事情があると認められる場合には、転貸借は賃貸人との関係においても適法な占有となるが、賃貸人・転借人間に契約関係がないことに変わりはない。</p>
+<div class="kakomon"><a href="pu26min46q.html#q-h01-17-5" title="H1-17-5">過去問</a></div>
+        <div class="p-card" id="min46-q24">
+          <p class="h6 ind1">(1) 賃料支払義務</p>
+          <p class="p6 ind2">上記のように、賃貸人・転借人間に契約関係がないことに変わりはないはずであるが、転借人は、賃貸人と賃借人との間の賃貸借に基づく賃借人の債務の範囲を限度として賃貸人に対して直接に義務を負い、賃料の前払をもって賃貸人に対抗することができない（613条１項）。</p>
+          <p class="p6 ind2">なお、上記の「賃料の前払」とは、弁済期より前に支払う趣旨であると解されているので、転借人が弁済期に転貸人に対して転借料を支払ったときは、転貸人に対して上記の義務を負わない（大判昭７.10.８）。</p>
+          <p class="p6 ind2">また、転借人は、賃貸人に対し義務を負うのみで権利を有するのではない。例えば、転借人は、賃貸人に対して608条の有益費の償還を請求することはできない。</p>
+<div class="kakomon"><a href="pu26min46q.html#q-h23-18-i" title="H23-18-イ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min46-q28">
+          <p class="h6 ind1">(2) 賃貸借が終了した場合</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 期間満了又は解約申入れの場合</p>
+          <p class="p6 ind3">賃貸人は、転借人に対し、直接目的物の返還を請求することができる。ただし、建物の転貸借において、建物賃貸借終了の場合には転借人へ通知をしなければ、その終了を転借人に対抗することができない（借地借家法34条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 債務不履行解除の場合</p>
+          <p class="p6 ind3">賃借人の債務不履行により賃貸借契約が解除されたときは、転借人は賃貸人に対して、転貸借の存続を主張できない（613条３項ただし書。最判昭36.12.21）。</p><br>
+          <p class="p6 ind3">Ｑ　賃貸人が賃借人の賃料の不払を理由に賃貸借契約を解除する場合、賃貸人は転借人に通知等をして賃料の代払の機会を与える必要があるか。</p>
+          <p class="p6 ind3">→　不要説（最判平６.７.18）</p>
+          <p class="p6 ind3">（理由）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①賃貸人は、転借人に義務を負うわけではない（613条）。</p>
+          <p class="h6 ind3 nobold">②賃貸人の解除権を不当に制限すべきでない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 合意解除の場合</p>
+          <p class="p6 ind3">賃貸人と賃借人が賃貸借契約を合意解除しても、賃貸人はこれをもって転借人に対抗することができない（613条３項本文）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h17-20-uh14-14-u" title="H17-20-ウ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min46-q31">
+          <p class="h6 ind0">2.　転借人と賃借人（転貸人）との関係</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 転貸借契約の有効性</p>
+          <p class="p6 ind2">賃貸人の承諾がなくても、転貸借契約そのものは有効である。転貸人は転借人に対し、遅滞なく賃貸人の承諾を得る義務を負う一方、賃料を請求することもできる。</p>
+          <p class="p6 ind2">賃貸人が転貸借を承諾せず転借人に対し明渡しを請求したときには、転借人は転貸人に対し担保責任（559条、561条）ないし債務不履行責任を問い、転貸借契約を解除できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 転借人が賃貸人の地位を取得した場合</p>
+          <p class="p6 ind2">転借人が目的物の所有権を取得して賃貸人の地位を承継しても、転貸借は当事者間にこれを消滅させる合意の成立しない限り、消滅しない（最判昭35.６.23）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　賃貸人と賃借人（転貸人）との関係</p>
+          <p class="p6 ind1">転貸借が適法になされても、賃貸人と賃借人との関係には何ら影響がない。</p>
+          <div class="sp"></div>
+        </div>
+<div class="kakomon"><a href="pu26min46q.html#q-h23-18-o" title="H23-18-オ">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('a.toplink');
+  for (var i=0;i<links.length;i++){
+    links[i].addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      location.hash = '#top';
+    }, {passive:false});
+  }
+})();
+(function(){
+  var KEY = 'baseFontPx';
+  var MIN = 12, MAX = 24, STEP = 1;
+  var root = document.documentElement;
+  var btnDown = document.getElementById('fsDown');
+  var btnUp = document.getElementById('fsUp');
+  var btnReset = document.getElementById('fsReset');
+  var range = document.getElementById('fsRange');
+  var label = document.getElementById('fsLabel');
+  function clamp(n){ return Math.max(MIN, Math.min(MAX, n)); }
+  function getCurrent(){
+    var v = getComputedStyle(root).getPropertyValue('--base-font').trim();
+    var n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : 16;
+  }
+  function apply(px, save){
+    px = clamp(px);
+    root.style.setProperty('--base-font', px + 'px');
+    if (range) range.value = String(px);
+    if (label) label.textContent = px + 'px';
+    if (save) {
+      try { localStorage.setItem(KEY, String(px)); } catch(e){}
+    }
+  }
+  (function init(){
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    var px = saved ? parseInt(saved, 10) : getCurrent();
+    if (!Number.isFinite(px)) px = 16;
+    apply(px, false);
+  })();
+  if (btnDown) btnDown.addEventListener('click', function(){ apply(getCurrent() - STEP, true); });
+  if (btnUp) btnUp.addEventListener('click', function(){ apply(getCurrent() + STEP, true); });
+  if (btnReset) btnReset.addEventListener('click', function(){ apply(16, true); });
+  if (range) {
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = String(STEP);
+    range.addEventListener('input', function(){
+      apply(parseInt(range.value, 10), true);
+    });
+  }
+})();
+(function(){
+  var dialog = document.getElementById('linkDialog');
+  var list = document.getElementById('linkDialogList');
+  var closeBtn = document.getElementById('linkDialogClose');
+  var backdrop = document.getElementById('linkDialogBackdrop');
+  function openDialog(links){
+    list.innerHTML = '';
+    links.forEach(function(item){
+      var li = document.createElement('li');
+      if(item.url && item.url.trim() !== ''){
+        // ===== 通常リンク =====
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.text;
+        a.addEventListener('click', function(){
+          closeDialog();   // クリックで自動閉鎖
+        });
+        li.appendChild(a);
+      } else {
+        // ===== リンクなし（テキストのみ）=====
+        var span = document.createElement('span');
+        span.textContent = item.text;
+        span.className = 'dialog-text-only';
+        li.appendChild(span);
+      }
+      list.appendChild(li);
+    });
+    dialog.classList.add('is-open');
+  }
+  function closeDialog(){
+    dialog.classList.remove('is-open');
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.popup-btn');
+    if(btn){
+      try{
+        var links = JSON.parse(btn.getAttribute('data-links'));
+        openDialog(links);
+      }catch(err){}
+    }
+  });
+  if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if(backdrop) backdrop.addEventListener('click', closeDialog);
+})();
+</script>
+</body>
+</html>
