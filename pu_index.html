@@ -721,6 +721,23 @@
     'pu26min54q.html'
   ];
 
+  function normalizeHtmlFileName(file){
+    file = String(file || '').trim();
+
+    // パスが入っていても最後のファイル名だけ見る
+    file = file.split('/').pop();
+
+    // .html をいったん外す
+    file = file.replace(/\.html$/i, '');
+
+    // 必ず .html を付ける
+    return file + '.html';
+  }
+
+  function sameHtmlFileName(a, b){
+    return normalizeHtmlFileName(a) === normalizeHtmlFileName(b);
+  }
+
   function getBasePath(){
     return location.pathname.replace(/[^/]*$/, '');
   }
@@ -757,18 +774,21 @@
     return `pu26${y}${mo}${da}${h}${mi}${s}.exp`;
   }
 
+
   function exportAllSteps(){
     const data = {
       type: 'qcheck-steps-all',
-      version: 2,
-      parent: location.pathname,
+      version: 3,
+      parent: normalizeHtmlFileName(location.pathname),
       exportedAt: new Date().toISOString(),
       files: {}
     };
 
     CHILD_Q_FILES.forEach(file => {
-      data.files[file] = {
-        steps: loadChildSteps(file)
+      const normalizedFile = normalizeHtmlFileName(file);
+
+      data.files[normalizedFile] = {
+        steps: loadChildSteps(normalizedFile)
       };
     });
 
@@ -787,6 +807,9 @@
     URL.revokeObjectURL(a.href);
     a.remove();
   }
+
+
+
 
   function importAllStepsFromFile(file){
     const reader = new FileReader();
@@ -807,10 +830,20 @@
         let count = 0;
 
         CHILD_Q_FILES.forEach(fileName => {
-          const item = data.files[fileName];
+          const targetFile = normalizeHtmlFileName(fileName);
+
+          let item = null;
+
+          Object.keys(data.files).some(importedFileName => {
+            if (sameHtmlFileName(importedFileName, targetFile)) {
+              item = data.files[importedFileName];
+              return true;
+            }
+            return false;
+          });
 
           if (item && item.steps) {
-            saveChildSteps(fileName, item.steps);
+            saveChildSteps(targetFile, item.steps);
             count++;
           }
         });
