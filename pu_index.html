@@ -722,46 +722,29 @@
   ];
 
   // ==============================
-  // ファイル名正規化
-  // pu26min01q.html と pu26min01q を同一扱いにする
-  // ==============================
-  function normalizePageId(file){
-    file = String(file || '').trim();
-
-    // パスが入っていても最後のファイル名だけ取り出す
-    file = file.split('/').pop();
-
-    // .html を外す
-    file = file.replace(/\.html$/i, '');
-
-    return file;
-  }
-
-  function toHtmlFileName(file){
-    return normalizePageId(file) + '.html';
-  }
-
-  // ==============================
   // localStorageキー
-  // 子ファイル側の PAGE_ID と一致させる
+  // 子ファイル側：
+  // const PAGE_ID = 'pu26min01q';
+  // const STORAGE_KEY = 'steps::' + PAGE_ID;
+  // と一致する
   // ==============================
-  function getChildStorageKey(file){
-    return 'steps::' + normalizePageId(file);
+  function getChildStorageKey(pageId){
+    return 'steps::' + pageId;
   }
 
-  function loadChildSteps(file){
+  function loadChildSteps(pageId){
     try {
       return JSON.parse(
-        localStorage.getItem(getChildStorageKey(file)) || '{}'
+        localStorage.getItem(getChildStorageKey(pageId)) || '{}'
       );
     } catch(e) {
       return {};
     }
   }
 
-  function saveChildSteps(file, steps){
+  function saveChildSteps(pageId, steps){
     localStorage.setItem(
-      getChildStorageKey(file),
+      getChildStorageKey(pageId),
       JSON.stringify(steps || {})
     );
   }
@@ -785,23 +768,18 @@
 
   // ==============================
   // 一括エクスポート
-  // JSON内には必ず .html 付きで保存する
   // ==============================
   function exportAllSteps(){
     const data = {
       type: 'qcheck-steps-all',
-      version: 4,
-      parent: toHtmlFileName(location.pathname),
+      version: 5,
+      parent: location.pathname,
       exportedAt: new Date().toISOString(),
       files: {}
     };
 
-    CHILD_Q_FILES.forEach(file => {
-      const pageId = normalizePageId(file);
-      const htmlName = toHtmlFileName(pageId);
-
-      data.files[htmlName] = {
-        pageId: pageId,
+    CHILD_Q_FILES.forEach(pageId => {
+      data.files[pageId] = {
         steps: loadChildSteps(pageId)
       };
     });
@@ -824,8 +802,8 @@
 
   // ==============================
   // 一括インポート
-  // 読込時は拡張子を見ない
-  // 現在の親ファイル側 CHILD_Q_FILES に合わせて保存する
+  // 拡張子判定なし
+  // CHILD_Q_FILES の PAGE_ID と完全一致するものだけ読む
   // ==============================
   function importAllStepsFromFile(file){
     const reader = new FileReader();
@@ -847,23 +825,11 @@
 
         let count = 0;
 
-        CHILD_Q_FILES.forEach(childFile => {
-          const targetId = normalizePageId(childFile);
-          let item = null;
-
-          Object.keys(data.files).some(importedFileName => {
-            const importedId = normalizePageId(importedFileName);
-
-            if (importedId === targetId) {
-              item = data.files[importedFileName];
-              return true;
-            }
-
-            return false;
-          });
+        CHILD_Q_FILES.forEach(pageId => {
+          const item = data.files[pageId];
 
           if (item && item.steps) {
-            saveChildSteps(targetId, item.steps);
+            saveChildSteps(pageId, item.steps);
             count++;
           }
         });
