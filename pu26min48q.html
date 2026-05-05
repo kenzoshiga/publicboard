@@ -461,7 +461,18 @@
 </dialog>
 
 <script>
-  const STORAGE_KEY = 'steps::' + location.pathname;
+  const PAGE_ID = 'pu26min48q';
+  const STORAGE_KEY = 'steps::' + PAGE_ID;
+  const OLD_STORAGE_KEY = 'steps::' + location.pathname;
+  function migrateOldStepsIfNeeded(){
+    try {
+      const current = localStorage.getItem(STORAGE_KEY);
+      const old = localStorage.getItem(OLD_STORAGE_KEY);
+      if (!current && old) {
+        localStorage.setItem(STORAGE_KEY, old);
+      }
+    } catch(e) {}
+  }
   function loadSteps(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
   function saveSteps(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
   function getAllQuestionIds(){ return Array.from(document.querySelectorAll('section.q[id]')).map(sec => sec.id); }
@@ -471,7 +482,7 @@
       btn.textContent = (level === 0) ? '' : (level === 1 ? '済' : '再');
       btn.setAttribute('aria-pressed', level > 0 ? 'true' : 'false');
       btn.setAttribute('aria-label', `チェック段階 ${level}`);
-      // <br> 起動時は btn.closest が効かないことがあるので card を優先
+      // ★ 起動時は btn.closest が効かないことがあるので card を優先
       const card = cardEl || btn.closest('.q');
       if (card){
         card.classList.remove('lv1');
@@ -675,9 +686,32 @@
       if (a && a.blur) a.blur();
     })
   );
-  loadFont();
-  ensureHeaderTools();
-  ensureStepButtons();
-  updateProgress();
+    function bindFontButtons(){
+      const dec = document.getElementById('btn-font-dec');
+      const std = document.getElementById('btn-font-std');
+      const inc = document.getElementById('btn-font-inc');
+      if (dec) {
+        dec.addEventListener('click', () => {
+          applyFont(getCurrentFont() - FONT_STEP, true);
+        });
+      }
+      if (std) {
+        std.addEventListener('click', () => {
+          applyFont(FONT_DEFAULT, true);
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', () => {
+          applyFont(getCurrentFont() + FONT_STEP, true);
+        });
+      }
+    }
+    migrateOldStepsIfNeeded();
+    loadFont();
+    bindFontButtons();
+    ensureHeaderTools();
+    ensureStepButtons();
+    updateProgress();
 </script>
-</body></html>
+</body>
+</html>

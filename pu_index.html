@@ -665,90 +665,95 @@
 
 <script>
   const CHILD_Q_FILES = [
-    'pu26min01q.html',
-    'pu26min02q.html',
-    'pu26min03q.html',
-    'pu26min04q.html',
-    'pu26min05q.html',
-    'pu26min06q.html',
-    'pu26min07q.html',
-    'pu26min08q.html',
-    'pu26min09q.html',
-    'pu26min10q.html',
-    'pu26min11q.html',
-    'pu26min12q.html',
-    'pu26min13q.html',
-    'pu26min14q.html',
-    'pu26min15q.html',
-    'pu26min16q.html',
-    'pu26min17q.html',
-    'pu26min18q.html',
-    'pu26min19q.html',
-    'pu26min20q.html',
-    'pu26min21q.html',
-    'pu26min22q.html',
-    'pu26min23q.html',
-    'pu26min24q.html',
-    'pu26min25q.html',
-    'pu26min26q.html',
-    'pu26min27q.html',
-    'pu26min28q.html',
-    'pu26min29q.html',
-    'pu26min30q.html',
-    'pu26min31q.html',
-    'pu26min32q.html',
-    'pu26min33q.html',
-    'pu26min34q.html',
-    'pu26min35q.html',
-    'pu26min36q.html',
-    'pu26min37q.html',
-    'pu26min38q.html',
-    'pu26min39q.html',
-    'pu26min40q.html',
-    'pu26min41q.html',
-    'pu26min42q.html',
-    'pu26min43q.html',
-    'pu26min44q.html',
-    'pu26min45q.html',
-    'pu26min46q.html',
-    'pu26min47q.html',
-    'pu26min48q.html',
-    'pu26min49q.html',
-    'pu26min50q.html',
-    'pu26min51q.html',
-    'pu26min52q.html',
-    'pu26min53q.html',
-    'pu26min54q.html'
+    'pu26min01q',
+    'pu26min02q',
+    'pu26min03q',
+    'pu26min04q',
+    'pu26min05q',
+    'pu26min06q',
+    'pu26min07q',
+    'pu26min08q',
+    'pu26min09q',
+    'pu26min10q',
+    'pu26min11q',
+    'pu26min12q',
+    'pu26min13q',
+    'pu26min14q',
+    'pu26min15q',
+    'pu26min16q',
+    'pu26min17q',
+    'pu26min18q',
+    'pu26min19q',
+    'pu26min20q',
+    'pu26min21q',
+    'pu26min22q',
+    'pu26min23q',
+    'pu26min24q',
+    'pu26min25q',
+    'pu26min26q',
+    'pu26min27q',
+    'pu26min28q',
+    'pu26min29q',
+    'pu26min30q',
+    'pu26min31q',
+    'pu26min32q',
+    'pu26min33q',
+    'pu26min34q',
+    'pu26min35q',
+    'pu26min36q',
+    'pu26min37q',
+    'pu26min38q',
+    'pu26min39q',
+    'pu26min40q',
+    'pu26min41q',
+    'pu26min42q',
+    'pu26min43q',
+    'pu26min44q',
+    'pu26min45q',
+    'pu26min46q',
+    'pu26min47q',
+    'pu26min48q',
+    'pu26min49q',
+    'pu26min50q',
+    'pu26min51q',
+    'pu26min52q',
+    'pu26min53q',
+    'pu26min54q'
   ];
 
-  function normalizeHtmlFileName(file){
+  // ==============================
+  // ファイル名正規化
+  // pu26min01q.html と pu26min01q を同一扱いにする
+  // ==============================
+  function normalizePageId(file){
     file = String(file || '').trim();
 
-    // パスが入っていても最後のファイル名だけ見る
+    // パスが入っていても最後のファイル名だけ取り出す
     file = file.split('/').pop();
 
-    // .html をいったん外す
+    // .html を外す
     file = file.replace(/\.html$/i, '');
 
-    // 必ず .html を付ける
-    return file + '.html';
+    return file;
   }
 
-  function sameHtmlFileName(a, b){
-    return normalizeHtmlFileName(a) === normalizeHtmlFileName(b);
+  function toHtmlFileName(file){
+    return normalizePageId(file) + '.html';
   }
 
-  function getBasePath(){
-    return location.pathname.replace(/[^/]*$/, '');
-  }
-
+  // ==============================
+  // localStorageキー
+  // 子ファイル側の PAGE_ID と一致させる
+  // ==============================
   function getChildStorageKey(file){
-    return 'steps::' + getBasePath() + file;
+    return 'steps::' + normalizePageId(file);
   }
 
   function loadChildSteps(file){
     try {
-      return JSON.parse(localStorage.getItem(getChildStorageKey(file)) || '{}');
+      return JSON.parse(
+        localStorage.getItem(getChildStorageKey(file)) || '{}'
+      );
     } catch(e) {
       return {};
     }
@@ -761,6 +766,10 @@
     );
   }
 
+  // ==============================
+  // エクスポートファイル名
+  // pu26yyyymmddhhmnss.exp
+  // ==============================
   function getExportFileName(){
     const d = new Date();
 
@@ -771,24 +780,29 @@
     const mi = String(d.getMinutes()).padStart(2, '0');
     const s  = String(d.getSeconds()).padStart(2, '0');
 
-    return `pu26${y}${mo}${da}${h}${mi}${s}.exp`;
+    return 'pu26' + y + mo + da + h + mi + s + '.exp';
   }
 
-
+  // ==============================
+  // 一括エクスポート
+  // JSON内には必ず .html 付きで保存する
+  // ==============================
   function exportAllSteps(){
     const data = {
       type: 'qcheck-steps-all',
-      version: 3,
-      parent: normalizeHtmlFileName(location.pathname),
+      version: 4,
+      parent: toHtmlFileName(location.pathname),
       exportedAt: new Date().toISOString(),
       files: {}
     };
 
     CHILD_Q_FILES.forEach(file => {
-      const normalizedFile = normalizeHtmlFileName(file);
+      const pageId = normalizePageId(file);
+      const htmlName = toHtmlFileName(pageId);
 
-      data.files[normalizedFile] = {
-        steps: loadChildSteps(normalizedFile)
+      data.files[htmlName] = {
+        pageId: pageId,
+        steps: loadChildSteps(pageId)
       };
     });
 
@@ -808,9 +822,11 @@
     a.remove();
   }
 
-
-
-
+  // ==============================
+  // 一括インポート
+  // 読込時は拡張子を見ない
+  // 現在の親ファイル側 CHILD_Q_FILES に合わせて保存する
+  // ==============================
   function importAllStepsFromFile(file){
     const reader = new FileReader();
 
@@ -823,27 +839,31 @@
           return;
         }
 
-        if (!confirm('子ファイルすべての「再」「済」チェックを、読み込んだ内容で上書きしますか？')) {
-          return;
-        }
+        const ok = confirm(
+          '子ファイルすべての「再」「済」チェックを、読み込んだ内容で上書きしますか？'
+        );
+
+        if (!ok) return;
 
         let count = 0;
 
-        CHILD_Q_FILES.forEach(fileName => {
-          const targetFile = normalizeHtmlFileName(fileName);
-
+        CHILD_Q_FILES.forEach(childFile => {
+          const targetId = normalizePageId(childFile);
           let item = null;
 
           Object.keys(data.files).some(importedFileName => {
-            if (sameHtmlFileName(importedFileName, targetFile)) {
+            const importedId = normalizePageId(importedFileName);
+
+            if (importedId === targetId) {
               item = data.files[importedFileName];
               return true;
             }
+
             return false;
           });
 
           if (item && item.steps) {
-            saveChildSteps(targetFile, item.steps);
+            saveChildSteps(targetId, item.steps);
             count++;
           }
         });
@@ -858,18 +878,38 @@
     reader.readAsText(file, 'utf-8');
   }
 
-  document.getElementById('btn-export-all').addEventListener('click', exportAllSteps);
+  // ==============================
+  // ボタンイベント
+  // ==============================
+  document.addEventListener('DOMContentLoaded', function(){
+    const exportBtn = document.getElementById('btn-export-all');
+    const importBtn = document.getElementById('btn-import-all');
+    const importFile = document.getElementById('import-all-file');
 
-  document.getElementById('btn-import-all').addEventListener('click', function(){
-    document.getElementById('import-all-file').click();
-  });
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function(){
+        exportAllSteps();
+      });
+    }
 
-  document.getElementById('import-all-file').addEventListener('change', function(){
-    const file = this.files && this.files[0];
-    if (file) importAllStepsFromFile(file);
-    this.value = '';
+    if (importBtn && importFile) {
+      importBtn.addEventListener('click', function(){
+        importFile.click();
+      });
+    }
+
+    if (importFile) {
+      importFile.addEventListener('change', function(){
+        const file = this.files && this.files[0];
+
+        if (file) {
+          importAllStepsFromFile(file);
+        }
+
+        this.value = '';
+      });
+    }
   });
 </script>
-
 </body>
 </html>
