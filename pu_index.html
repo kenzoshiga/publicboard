@@ -636,8 +636,9 @@
         </div>
         <a class="toplink" href="#top">↑ Top</a>
       </div>
-<button id="btn-export-all">エキスポート</button>
-<button id="btn-import-all">インポート</button>
+<button id="btn-export-all" type="button">エキスポート</button>
+<button id="btn-import-all" type="button">インポート</button>
+<button id="btn-migrate-steps" type="button">旧データ移行</button>
 <input type="file" id="import-all-file" style="display:none;">
     </section>
   </main>
@@ -721,6 +722,66 @@
     'pu26min54q'
   ];
 
+  // ==============================
+  // 旧データ移行
+  // ==============================
+  function migrateOldKeysByScanning(){
+    const newKeys = {};
+    CHILD_Q_FILES.forEach(pageId => {
+      newKeys[pageId] = getChildStorageKey(pageId);
+    });
+    let migrated = 0;
+    let skipped = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith('steps::')) continue;
+      // すでに新方式のキーなら対象外
+      if (Object.values(newKeys).includes(key)) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      let steps;
+      try {
+        steps = JSON.parse(raw);
+      } catch(e) {
+        skipped++;
+        continue;
+      }
+      if (!steps || typeof steps !== 'object' || Array.isArray(steps)) {
+        skipped++;
+        continue;
+      }
+      CHILD_Q_FILES.forEach(pageId => {
+        const newKey = getChildStorageKey(pageId);
+        // 旧キー名の末尾で判定
+        // 例：
+        // steps::/study/pu26min01q.html
+        // steps::/member/pu26min01q
+        if (
+          key.endsWith('/' + pageId + '.html') ||
+          key.endsWith('/' + pageId) ||
+          key.endsWith(pageId + '.html') ||
+          key.endsWith(pageId)
+        ) {
+          const current = localStorage.getItem(newKey);
+          // 新キーにまだデータがない場合だけコピー
+          if (!current) {
+            localStorage.setItem(newKey, raw);
+            migrated++;
+          }
+          return;
+        }
+      });
+    }
+    alert(
+      migrated + '個の旧チェックデータを新方式へ移行しました。'
+    );
+  }
+  const migrateBtn = document.getElementById('btn-migrate-steps');
+  if (migrateBtn) {
+    migrateBtn.addEventListener('click', function(){
+      migrateOldKeysByScanning();
+    });
+  }
   // ==============================
   // localStorageキー
   // 子ファイル側：
