@@ -1,0 +1,1042 @@
+﻿<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit30</title>
+  <link rel="stylesheet" href="css/style_q.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit30</h1>
+      <div class="hnav">
+      <a href="pu_index.php">トップへ</a>
+      <a href="pu26min29q.php">前へ</a>
+      <a href="pu26min31q.php">次へ</a>
+      <a href="pu26min30.php">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-r02-11-oh15-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-11-オ)(H15-13-イ)</div>
+          <p class="qtext">1　教授：　今日は、ＡがＢから、Ｂの所有する甲建物の価値を維持するための修繕を請け負い、その修繕を完了させたという事例を題材に、不動産保存の先取特権について考えてみましょう。Ａが甲建物の修繕費用についての請負代金債権をＦに譲渡したときは、甲建物についての不動産保存の先取特権は、消滅しますか。<br>学生：　いいえ。被担保債権の譲渡があった場合には、新たな債権者に不動産保存の先取特権が移転しますので、甲建物についての不動産保存の先取特権は消滅しません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05">先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-11-oh15-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h30-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H30-12-ウ)</div>
+          <p class="qtext">2　一般の先取特権は、担保物権の不可分性を有しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05">先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h30-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h16-14-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-14-ア)</div>
+          <p class="qtext">3　先取特権は、その被担保債権の全部の弁済を受けるまで、目的物の全部につき効力が及び、約定担保物権である抵当権とは異なり、当事者の特約によってこの性質を排除することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05">先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-14-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-r05-13-uh24-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-13-ウ)(H24-11-ウ)</div>
+          <p class="qtext">4　一般の先取特権者は、債務者の財産に不動産と不動産以外の財産とがある場合には、まず不動産から弁済を受けなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-01">一般の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-13-uh24-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r07-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R07-12-ア)</div>
+          <p class="qtext">5　雇用関係の先取特権は、債務者と使用人との間の雇用関係に基づいて生じた最後の6か月間の債権についてのみ存在する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-01">一般の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r07-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h17-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-11-ア)</div>
+          <p class="qtext">6　Ｂから賃借した甲建物を事務所として貿易業を営んでいる株式会社Ａが、多額の債務を抱えて経営に行き詰まっているが、破産には至っていない。また、株式会社Ａでパートタイムで働いている主婦Ｃが株式会社Ａからその賃金の支払を受けていない。この場合におけるＣの賃金に関する債権は、雇用関係に基づいて生じた債権といえ、株式会社Ａの総財産の上に先取特権が認められる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-01">一般の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h17-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-11-イ)</div>
+          <p class="qtext">7　Ｂから賃借した甲建物を事務所として貿易業を営んでいる株式会社Ａが、多額の債務を抱えて経営に行き詰まっているが、破産には至っていない。また、既に退職したＤが株式会社Ａから退職金の支払を受けていない。この場合、退職金が給料の後払の性格を有すると認められる場合には、雇用関係に基づいて生じた債権といえるため、株式会社Ａの総財産の上に先取特権が認められる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-01">一般の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h17-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-11-ウ)</div>
+          <p class="qtext">8　Ｂから賃借した甲建物を事務所として貿易業を営んでいる株式会社Ａが、多額の債務を抱えて経営に行き詰まっているが、破産には至っていない。また、株式会社Ａに電気を供給していたＥ電力会社が株式会社Ａから電気代の支払を受けていない。この場合、電気代に関する債権は、日用品の供給を原因として生じた債権といえ、株式会社Ａの総財産の上に先取特権が認められる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-01">一般の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r07-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R07-12-ウ)</div>
+          <p class="qtext">9　不動産の賃貸の先取特権について、即時取得の規定は準用されない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r07-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h16-14-uh10-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-14-ウ)(H10-12-エ)</div>
+          <p class="qtext">10　賃借人が賃借不動産に備え付けた動産が賃借人の所有物でない場合には、賃貸人がこれを賃借人の所有物であると過失なく誤信したときであっても、当該動産について、不動産賃貸の先取特権は成立しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-14-uh10-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-r06-12-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-12-イ)</div>
+          <p class="qtext">11　建物の賃借権の譲渡が適法にされた場合であっても、建物の賃貸人の先取特権は、賃借権の譲受人がその建物に備え付けた動産には及ばない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-12-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-r03-11-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-11-エ)</div>
+          <p class="qtext">12　不動産の賃借人がその不動産を転貸している場合には、賃貸人の先取特権は、賃借人がその転貸借契約に基づいて転借人から受けるべき金銭にも及ぶ。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-11-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-r03-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-11-ア)</div>
+          <p class="qtext">13　不動産の賃貸人は、敷金を受け取っている場合には、その敷金で弁済を受けない債権の部分についてのみ、不動産賃貸の先取特権を有する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-r05-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-11-イ)</div>
+          <p class="qtext">14　動産の売買の先取特権は、動産の代価及びその利息に関し、債務者の総財産について存在する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-02">動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-r05-13-oh26-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-13-オ)(H26-11-ア)</div>
+          <p class="qtext">15　不動産の売買の先取特権の効力を保存するためには、売買契約と同時に、不動産の代価又はその利息の弁済がされていない旨を登記しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-13-oh26-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-r02-11-ar06-12-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-11-ア)(R06-12-オ)</div>
+          <p class="qtext">16　教授：　今日は、ＡがＢから、Ｂの所有する甲建物の価値を維持するための修繕を請け負い、その修繕を完了させたという事例を題材に、不動産保存の先取特権について考えてみましょう。<br>まず、Ａが甲建物について不動産保存の先取特権の効力を保存するためには、修繕を始める前に登記をする必要がありますか。<br>学生：　はい。Ａが不動産保存の先取特権の効力を保存するためには、甲建物の修繕を始める前に登記をしなければなりません。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-11-ar06-12-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-h28-11-ir06-12-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-11-イ)(R06-12-ウ)</div>
+          <p class="qtext">17　不動産の工事の先取特権は、工事によって不動産の価格が一旦増加した場合には、先取特権の行使時点において当該価格の増加が現存しないときであっても、行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-11-ir06-12-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h26-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-11-イ)</div>
+          <p class="qtext">18　建物を新築する場合における不動産工事の先取特権の効力を保存するためには、当該建物の新築後直ちにその工事の費用の額を登記しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h24-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-11-ア)</div>
+          <p class="qtext">19　不動産の工事の先取特権は、実際の工事の費用が工事を始める前に登記した費用の予算額を超えるときは、その超過額については存在しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h24-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H24-11-イ)</div>
+          <p class="qtext">20　不動産の保存の先取特権は、保存行為が完了した後直ちに登記をすれば、その登記がされる前に登記された抵当権に先立って行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h24-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-h16-14-oh15-13-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H16-14-オ)(H15-13-エ)</div>
+          <p class="qtext">21　不動産工事の先取特権を保存するには、その工事の開始前にその費用の予算額を登記しなければならないが、その工事が建物の新築工事であるときは、建物自体が存在しないので、建物の建築後直ちに登記すれば足りる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-02-0-03">不動産の先取特権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h16-14-oh15-13-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h15-13-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-13-ウ)</div>
+          <p class="qtext">22　不動産売買の先取特権については、売買代金及び利息の支払がされていない旨の登記がされていても、権利を行使し得る利息の範囲は最後の2年分に限られるが、根抵当権については、利息は元本と合わせて極度額を超えなければ最後の2年分に限られない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-03">効力</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-13-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h28-11-uh16-14-eh10-12-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-11-ウ)(H16-14-エ)(H10-12-ア)</div>
+          <p class="qtext">23　動産売買の先取特権の目的物である動産が第三者に売却された場合には、その引渡しが占有改定の方法によりされたときであっても、先取特権者は、その動産に対して先取特権を行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-03-0-03">追及効－第三取得者との関係</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-11-uh16-14-eh10-12-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h19-12-oh02-19-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-12-オ)(H02-19-イ)</div>
+          <p class="qtext">24　動産売買の先取特権の目的物である動産について、買主が第三者に対し質権を設定して引き渡したときは、当該動産の売主は、当該先取特権を行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-03-0-03">追及効－第三取得者との関係</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-12-oh02-19-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h25-12-1r03-11-uh18-15-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-12-1)(R03-11-ウ)(H18-15-イ)</div>
+          <p class="qtext">25　動産売買の先取特権者Ａは、物上代位の目的となる債権につき一般債権者Ｂが差押命令を取得したにとどまる場合には、当該債権を差し押さえて物上代位権を行使することを妨げられない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-03-0-04">物上代位（304条）</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-12-1r03-11-uh18-15-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-h10-12-or06-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-12-オ)(R06-12-エ)</div>
+          <p class="qtext">26　動産保存の先取特権相互間では、保存が動産について行われたか、動産に関する権利について行われたかにかかわらず、後の保存者が優先する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q26">先取特権相互間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-12-or06-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-r07-12-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R07-12-エ)</div>
+          <p class="qtext">27　同一の不動産について不動産の工事の先取特権と不動産の保存の先取特権とが競合する場合には、不動産の工事の先取特権は、不動産の保存の先取特権に優先する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q26">先取特権相互間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r07-12-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-r05-13-eh24-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-13-エ)(H24-11-オ)</div>
+          <p class="qtext">28　同一の不動産について売買が順次された場合には、売主相互間における不動産売買の先取特権の優先権の順位は、売買の前後による。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q26">先取特権相互間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-13-eh24-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-r03-11-ih26-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-11-イ)(H26-11-ウ)</div>
+          <p class="qtext">29　同一の不動産について不動産保存の先取特権と不動産工事の先取特権が互いに競合する場合には、その優先権の順位は、登記の前後による。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q26">先取特権相互間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-11-ih26-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-r05-13-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-13-イ)</div>
+          <p class="qtext">30　同一の目的物について共益の費用の先取特権者が数人あるときは、各先取特権者は、その債権額の割合に応じて弁済を受ける。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q26">先取特権相互間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-13-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h28-11-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-11-ア)</div>
+          <p class="qtext">31　動産売買の先取特権の目的物に質権が設定された場合、当該質権は、当該動産売買の先取特権に優先する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-11-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h26-11-eh10-12-ir02-11-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-11-エ)(H10-12-イ)(R02-11-ウ)</div>
+          <p class="qtext">32　不動産保存の先取特権は、保存行為が完了した後直ちに登記をした場合には、その登記の前後を問わず、抵当権に優先して行使することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-11-eh10-12-ir02-11-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h15-13-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H15-13-ア)</div>
+          <p class="qtext">33　不動産工事の先取特権と根抵当権との優先関係は、登記の先後によって決まる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h15-13-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-r07-12-or03-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R07-12-オ)(R03-11-オ)</div>
+          <p class="qtext">34　不動産の売買の先取特権は、売買契約と同時に不動産の代価又はその利息の弁済がされていない旨の登記がされた場合であっても、その前に登記がされた抵当権に先立って行使することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r07-12-or03-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-r05-13-ah16-14-ih26-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-13-ア)(H16-14-イ)(H26-11-オ)</div>
+          <p class="qtext">35　一般の先取特権者は、不動産について登記をしなくても、不動産売買の先取特権について登記をした者に優先して当該不動産から弁済を受けることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-13-ah16-14-ih26-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h28-11-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-11-オ)</div>
+          <p class="qtext">36　登記されていない一般の先取特権は、登記されていない抵当権と同一の順位となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-11-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-h19-09-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-09-1)</div>
+          <p class="qtext">37　一般の先取特権を有する者は、不動産について先取特権の保存の登記をしなくても、その不動産につき未登記の抵当権を有する者に対抗することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-09-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h22-11-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H22-11-イ)</div>
+          <p class="qtext">38　不動産の先取特権及び抵当権は、当該不動産について所有権を取得した第三者が、先取特権者又は抵当権者の請求に応じて代価を弁済したときは、その第三者のために消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-04">消滅</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h22-11-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-h10-12-uh15-13-oh04-09-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H10-12-ウ)(H15-13-オ)(H04-09-3)</div>
+          <p class="qtext">39　先取特権の登記がされている不動産の第三取得者は、消滅請求の手続をとることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#A03-05-04">消滅</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h10-12-uh15-13-oh04-09-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h01-09">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H01-09）</div>
+          <p class="qtext">40　不動産上に次の順位で権利が登記されているとき、優先順位が第3順位となるものはどれか。（H01-09）<br><br>1　抵当権<br><br>2　不動産売買の先取特権<br><br>3　不動産質権<br><br>4　不動産保存の先取特権<br><br>5　雇人の給料の先取特権</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min30.php#min30-q31">全体の優先弁済の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-09">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-r02-11-oh15-13-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-11-オ)(H15-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>被担保債権の譲渡があっても、先取特権は消滅せず、新たな債権者に先取特権が移転する（随伴性）。そして、被担保債権の消滅により、先取特権が消滅するところ（付従性）、被担保債権の譲渡があった場合には、先取特権が移転するにすぎず、被担保債権は消滅しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h30-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H30-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>留置権の不可分性に関する規定は、先取特権に準用されている（民法<span class="mono">305条</span>、<span class="mono">296条</span>）。よって、一般の先取特権も担保物権の不可分性を有する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-14-a">
+  <div class="dlg-head"><div class="dlg-title">(H16-14-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>先取特権は、その被担保債権の全部の弁済を受けるまで、目的物の全部につき効力が及ぶ（不可分性。民法<span class="mono">305条</span>、<span class="mono">296条</span>）が、この不可分性は当事者の特約によって排除することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-13-uh24-11-u">
+  <div class="dlg-head"><div class="dlg-title">(R05-13-ウ)(H24-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>一般の先取特権者は、まず不動産以外の財産から弁済を受け、なお不足があるのでなければ、不動産から弁済を受けることができない（民法<span class="mono">335条</span>1項）。その趣旨は、順序を定めることで、他の債権者に損害が及ばないようにする点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r07-12-a">
+  <div class="dlg-head"><div class="dlg-title">(R07-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>雇用関係の先取特権は、給料その他債務者と使用人との間の雇用関係に基づいて生じた債権について存在する（民法<span class="mono">308条</span>）。現行法では、「最後の6か月間」という制限はない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H17-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、民法<span class="mono">308条</span>にいう「使用人」とは、「ひろく雇傭契約によつて労務を供給する者をさすものと解するのが相当である」としている（最判昭47.9.7）。よって、パートタイムで働いている主婦Ｃも使用人であり、その賃金に関する債権について一般の先取特権が成立する（民法<span class="mono">306条</span>2号、<span class="mono">308条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、民法<span class="mono">306条</span>2号、<span class="mono">308条</span>が使用人の給料について一般の先取特権を認めたのは、「賃金保護という社会政策的考慮に出たものであり、…賃金の性格をもつ退職金については、これに一般の先取特権を認めることが右立法の趣旨にも合致する」としている（最判昭44.9.2）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-11-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>電気代に関する債権は日用品の供給を原因として生じた債権であり、一般の先取特権が成立し得る（民法<span class="mono">310条</span>）。しかし、債権を保護することによって間接的に債務者の生活を保護しようとする民法<span class="mono">310条</span>の法意ならびに文言より、同条の債務者は自然人に限られ、法人はこれに含まれないと解されている（最判昭46.10.21）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r07-12-u">
+  <div class="dlg-head"><div class="dlg-title">(R07-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、即時取得の規定は準用されないとしている点で、誤っている。民法<span class="mono">319条</span>は、不動産賃貸の先取特権について、民法<span class="mono">192条</span>～<span class="mono">195条</span>、すなわち即時取得の規定を準用している。その趣旨は、当事者間に目的物につきこれを担保するという意思が推測され、そこに先取特権の存在を前提とする取引がなされるため、善意の債権者を保護する点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-14-uh10-12-e">
+  <div class="dlg-head"><div class="dlg-title">(H16-14-ウ)(H10-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産賃貸の先取特権は、賃借人が賃借不動産に備え付けた、その所有する動産について成立する（民法<span class="mono">313条</span>）が、賃借不動産に備え付けた動産が賃借人の所有物でない場合でも、賃貸人がこれを賃借人の所有物であると過失なく誤信したときは、即時取得の規定の準用により、その動産上にも不動産賃貸の先取特権が成立する（民法<span class="mono">319条</span>、<span class="mono">192条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-12-i">
+  <div class="dlg-head"><div class="dlg-title">(R06-12-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>賃借権の譲渡又は転貸の場合には、賃貸人の先取特権は、譲受人又は転借人の動産にも及ぶ（民法<span class="mono">314条</span>前段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-11-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-11-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">314条</span>。賃借権の譲渡又は転貸の場合には、賃貸人の先取特権は、譲受人又は転借人の動産にも及ぶ。譲渡人又は転貸人が受けるべき金銭についても、同様とする。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-11-a">
+  <div class="dlg-head"><div class="dlg-title">(R03-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">316条</span>。賃貸人は、民法<span class="mono">622条の2</span>第1項に規定する敷金を受け取っている場合には、その敷金で弁済を受けない債権の部分についてのみ先取特権を有する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-11-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>動産の売買の先取特権は、動産の代価及びその利息に関し、その動産について存在する（民法<span class="mono">321条</span>）。その趣旨は、公平の確保という点にある。よって、債務者の総財産についてまでは存在しない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-13-oh26-11-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-13-オ)(H26-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の売買の先取特権の効力を保存するためには、売買契約と同時に、不動産の代価又はその利息の弁済がされていない旨を登記しなければならない（民法<span class="mono">340条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-11-ar06-12-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-11-ア)(R06-12-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の保存の先取特権の効力を保存するためには、保存行為が完了した後直ちに登記をしなければならない（民法<span class="mono">337条</span>）。なお、効力を保存するために始める前に登記をしなければならないのは、不動産工事の先取特権であり、この場合、工事を始める前にその費用の予算額を登記しなければならない（民法<span class="mono">338条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-11-ir06-12-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-11-イ)(R06-12-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産工事の先取特権は、工事によって生じた不動産の価格の増加が現存する場合に限って、その増価額についてのみ存在する（民法<span class="mono">327条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H26-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の工事の先取特権の効力を保存するためには、工事を始める前にその費用の予算額を登記しなければならない（民法<span class="mono">338条</span>1項前段）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H24-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の工事の先取特権について、その費用の予算額を登記した場合において、工事の費用が予算額を超えるときは、先取特権は、その超過額については存在しない（民法<span class="mono">338条</span>1項）。不動産工事の先取特権は、実際に要した労務や材料費と関係なく、その工事によって不動産の価値が増した額についてだけ、登記された予算額の範囲内で認められる（民法<span class="mono">327条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h24-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H24-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産保存の先取特権は、保存行為完了後直ちに登記をすることにより効力を保存するが（民法<span class="mono">337条</span>）、登記がなされれば、抵当権設定との前後を問わず、これに優先する（民法<span class="mono">339条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h16-14-oh15-13-e">
+  <div class="dlg-head"><div class="dlg-title">(H16-14-オ)(H15-13-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産工事の先取特権を保存するには、その工事の開始前にその費用の予算額を登記しなければならず（民法<span class="mono">338条</span>1項前段）、工事着手後になされた不動産工事の先取特権保存登記は無効である。（大判大6.2.9）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-13-u">
+  <div class="dlg-head"><div class="dlg-title">(H15-13-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>先取特権の効力については、特に規定があるものを除き、抵当権に関する規定を準用するため（民法<span class="mono">341条</span>）、利息については、満期となった最後の2年分に限られる（民法<span class="mono">375条</span>）。一方、根抵当権は、確定した元本並びに利息及び損害金の全部について、極度額を限度として担保する（民法<span class="mono">398条の3</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-11-uh16-14-eh10-12-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-11-ウ)(H16-14-エ)(H10-12-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>先取特権は、債務者がその目的である動産をその第三取得者に引き渡した後は、その動産について行使することができない（民法<span class="mono">333条</span>）。そして、占有改定は、民法<span class="mono">333条</span>の引渡しに含まれる（大判大6.7.26）。よって、動産の売主である動産売買の先取特権の先取特権者は、目的物である動産が第三者に売却され、占有改定による引渡しがされたときは、その動産に対して先取特権を行使することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-12-oh02-19-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-12-オ)(H02-19-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>先取特権は、債務者がその目的である動産をその第三取得者に引き渡した後は、その動産について行使することができない（民法<span class="mono">333条</span>）。ここでいう第三取得者とは、目的動産の所有権を取得した者を指すため、目的物につき質権の設定がされても、当該動産の売主は、当該先取特権を行使することができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-12-1r03-11-uh18-15-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-12-1)(R03-11-ウ)(H18-15-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>物上代位権を行使するには物上代位の対象となる金銭その他の物の払渡又は引渡前に差押をしなければならない（民法<span class="mono">304条</span>1項但書）。差押によって、物上代位の目的となる債権の特定性を保持し、これにより、第三債務者等が不測の損害を被ることを防止するためである。よって、目的債権について一般債権者が差押又は仮差押の執行をしたにすぎないときは、その後に物上代位権を行使することはできる（最判昭60.7.19）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-12-or06-12-e">
+  <div class="dlg-head"><div class="dlg-title">(H10-12-オ)(R06-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>動産保存の先取特権は、動産の保存のために要した費用又は動産に関する権利の保存、承認若しくは実行のために要した費用に関し、その動産について存在する（民法<span class="mono">320条</span>）。そして、動産の保存の先取特権について数人の保存者があるときは、後の保存者が前の保存者に優先する（民法<span class="mono">330条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r07-12-e">
+  <div class="dlg-head"><div class="dlg-title">(R07-12-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、不動産の工事の先取特権は、不動産の保存の先取特権に優先するとしている点で、誤っている。民法<span class="mono">325条</span>各号が定める不動産の先取特権は、同一の不動産について競合した場合、その優先順位は本条各号の順序に従うとされている（民法<span class="mono">331条</span>1項）。不動産の保存の先取特権が民法<span class="mono">325条</span>1号で、不動産の工事の先取特権は同条2号なので、不動産の保存の先取特権が優先する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-13-eh24-11-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-13-エ)(H24-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>同一の不動産について売買が順次された場合には、売主相互間における不動産売買の先取特権の優先権の順位は、売買の前後による（民法<span class="mono">331条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-11-ih26-11-u">
+  <div class="dlg-head"><div class="dlg-title">(R03-11-イ)(H26-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>同一の不動産について特別の先取特権が互いに競合する場合には、その優先権の順位は、①不動産保存、②不動産工事、③不動産売買となる（民法<span class="mono">331条</span>1項、<span class="mono">325条</span>各号）。よって、本記述の場合には、優先権の順位は①不動産保存、②不動産工事の順となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-13-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-13-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>同一の目的物について同一順位の先取特権者が数人あるときは、各先取特権者は、その債権額の割合に応じて弁済を受ける（民法<span class="mono">332条</span>）。「目的物」は債務者の総財産をも包含するので、同条は一般先取特権にも適用される。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-11-a">
+  <div class="dlg-head"><div class="dlg-title">(H28-11-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>先取特権と動産質権とが競合するときは、動産質権者は、民法<span class="mono">330条</span>の規定による第1順位の先取特権者と同一の権利を有する（民法<span class="mono">334条</span>）。動産売買の先取特権は、民法<span class="mono">330条</span>において第3順位とされていることから、動産質権は、動産売買の先取特権に優先する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-11-eh10-12-ir02-11-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-11-エ)(H10-12-イ)(R02-11-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>不動産の保存の先取特権の効力を保存するためには、保存行為が完了した後直ちに登記をしなければならない（民法<span class="mono">337条</span>）。そして、この規定に従って登記した不動産保存の先取特権は、抵当権に先立って行使することができる（民法<span class="mono">339条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h15-13-a">
+  <div class="dlg-head"><div class="dlg-title">(H15-13-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産保存の先取特権と不動産工事の先取特権は民法<span class="mono">337条</span>、<span class="mono">338条</span>により登記がされると抵当権に優先する（民法<span class="mono">339条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r07-12-or03-11-o">
+  <div class="dlg-head"><div class="dlg-title">(R07-12-オ)(R03-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">340条</span>は、不動産の売買の先取特権の効力を保存するためには、売買契約と同時に、不動産の代価又はその利息の弁済がされていない旨の登記をしなければならないと定めている。また、不動産保存の先取特権と不動産工事の先取特権は民法<span class="mono">337条</span>、<span class="mono">338条</span>により登記がされると抵当権に優先するが（民法<span class="mono">339条</span>）、不動産売買の先取特権には、民法<span class="mono">339条</span>の適用はない。そのため、不動産売買の先取特権と抵当権の優劣は、民法<span class="mono">177条</span>により、登記の先後によって決まる。本記述では抵当権設定登記が先であるから、先取特権はこれに先立って行使することができない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-13-ah16-14-ih26-11-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-13-ア)(H16-14-イ)(H26-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>一般の先取特権は、不動産について登記をしなくても、特別担保を有しない債権者に対抗することができる。ただし、登記をした第三者に対しては、この限りでない（民法<span class="mono">336条</span>）。不動産売買の先取特権について登記をした者は、「登記をした第三者」に当たるため、本記述の一般の先取特権は、登記をしなければ、登記をした不動産売買の先取特権には優先しない。一般先取特権と不動産売買の先取特権との優劣は、登記の先後によって定まるということである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-11-o">
+  <div class="dlg-head"><div class="dlg-title">(H28-11-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>一般の先取特権は、不動産について登記をしなくても、特別担保を有しない債権者に対抗することができる。ただし、登記をした第三者に対しては、この限りでない（民法<span class="mono">336条</span>）。よって、登記されていない一般の先取特権は、登記されていない抵当権に優先することになり、同一の順位にはならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-09-1">
+  <div class="dlg-head"><div class="dlg-title">(H19-09-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>一般の先取特権を有する者は、不動産について先取特権の保存の登記をしなくても、その不動産につき未登記の抵当権を有する者に対抗することができる（民法<span class="mono">336条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h22-11-i">
+  <div class="dlg-head"><div class="dlg-title">(H22-11-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>抵当不動産について所有権又は地上権を買い受けた第三者が、抵当権者の請求に応じてその抵当権者にその代価を弁済したときは、抵当権は、その第三者のために消滅する（民法<span class="mono">378条</span>）。そして、先取特権の効力については、抵当権の規定が準用されているため（民法<span class="mono">341条</span>、<span class="mono">378条</span>）、不動産の先取特権は、代価弁済によって消滅する。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h10-12-uh15-13-oh04-09-3">
+  <div class="dlg-head"><div class="dlg-title">(H10-12-ウ)(H15-13-オ)(H04-09-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>不動産の先取特権には、その性質に反しない限り、抵当権の規定が準用されるので（民法<span class="mono">341条</span>）、代価弁済（民法<span class="mono">378条</span>）や消滅請求（民法<span class="mono">379条</span>）により先取特権は消滅する。よって、先取特権の登記がされている不動産の第三取得者は、消滅請求の手続をとることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-09">
+  <div class="dlg-head"><div class="dlg-title">（H01-09） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：2</div>
+    <p>不動産保存の先取特権は、適法に登記した場合（民法<span class="mono">337条</span>）、常に抵当権に優先する（民法<span class="mono">339条</span>）。また、不動産質権には抵当権の規定が準用され（民法<span class="mono">361条</span>）、それらの優先関係は登記の先後により（不登法<span class="mono">4条</span>1項）、抵当権と不動産売買の先取特権、不動産上の登記した一般の先取特権についても競合があれば優先関係は、登記の先後による（民法<span class="mono">336条</span>、不登法<span class="mono">4条</span>1項）。そして、特別の先取特権と一般の先取特権が競合するときは、共益費用の先取特権を除き特別の先取特権が優先する（民法<span class="mono">329条</span>2項）。雇人の給料の先取特権は、共益費用の先取特権ではなく、雇用関係の先取特権である（民法<span class="mono">306条</span>1項2号）。<br>以上を総合し、本問にあてはめると、優先順位は第1不動産保存の先取特権、第2抵当権、第3不動産売買の先取特権、第4不動産質権、第5雇人の給料の先取特権となる。したがって、優先順位が第3順位となるものは、肢2の不動産売買の先取特権となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>const PAGE_ID = 'pu26min30q';</script>
+<script src="js/app_q.js"></script>
+</body>
+</html>

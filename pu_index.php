@@ -1,0 +1,954 @@
+<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>パーフェクトユニットWebテキスト</title>
+  <style>
+    :root{
+      --header-bg: #eaf7ee; /* 薄い緑（ヘッダ） */
+      --main-bg:   #f4fbf6; /* もっと薄い緑（本体） */
+      --card:#ffffff;
+      --border:#e6e8f0;
+      --text:#1b1f2a;
+      --muted:#606779;
+      --btn:#2b59ff;
+      --btn2:#0aa36c;
+      --btnText:#ffffff;
+      --shadow: 0 6px 18px rgba(10, 20, 40, .08);
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Meiryo, sans-serif;
+      color:var(--text);
+      background:var(--main-bg); /* 本体の背景 */
+      line-height:1.7;
+    }
+
+    /* ===== Sticky Header ===== */
+    header{
+      position:sticky;
+      top:0;
+      background:var(--header-bg); /* ヘッダ背景（薄い緑） */
+      backdrop-filter:saturate(140%) blur(10px);
+      border-bottom:1px solid var(--border);
+      z-index:10;
+    }
+    .wrap{max-width:1060px;margin:0 auto;padding:12px 16px;}
+    h1{
+      margin:2px 0 6px;
+      font-size:2rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      color: green;
+    }
+
+    /* ヘッダ内：操作行 */
+    .headbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .subhead{
+      margin:0;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    /* インデックス（ヘッダ内、常時表示） */
+    .index{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid var(--border);
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 11px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+      text-decoration:none;
+      color:var(--text);
+      font-weight:700;
+      font-size:.90rem;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .chip small{
+      color:var(--muted);
+      font-weight:700;
+      font-size:.80rem;
+    }
+    .chip:active{ transform: translateY(1px); }
+
+    /* インデックス表示/非表示ボタン */
+    .toggle-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      font-weight:800;
+      font-size:.9rem;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .toggle-btn:active{ transform: translateY(1px); }
+
+    /* 画面からは見えないがアクセシブル */
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    /* ===== Main ===== */
+    main{max-width:1060px;margin:0 auto;padding:18px 16px 40px;}
+
+    .subject{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      margin:22px 0 12px;
+    }
+    .subject h2{
+      margin:0;
+      font-size:1.0rem;
+      font-weight:800;
+    }
+    .subject .pill{
+      display:inline-block;
+      padding:2px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+      color:var(--muted);
+      font-size:.85rem;
+      white-space:nowrap;
+      margin-left:8px;
+    }
+    .toplink{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:700;
+      font-size:.9rem;
+      white-space:nowrap;
+    }
+
+    .list{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+  .card{
+    background:#fff;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(10,20,40,.08);
+    padding:12px 14px;
+  }
+
+  /* 1行レイアウト */
+  .row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  .actions{
+    display:flex;
+    gap:8px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:4px 8px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:.78rem;
+    line-height:1.2;
+    white-space:nowrap;
+    border:1px solid transparent;
+    transition:.15s ease;
+  }
+  
+  /* 有効状態 */
+  .btn.text{ background:#2b59ff; color:#fff; }
+  .btn.q{ background:#0aa36c; color:#fff; }
+  
+  /* ===== 無効ボタン ===== */
+  .btn.disabled{
+    background:#e0e0e0 !important;
+    color:#888 !important;
+    pointer-events:none;
+    border:1px solid #d0d0d0;
+  }
+  
+  /* ===== カード相対配置 ===== */
+  .card{
+    position:relative; /* ←バッジ用 */
+  }
+  
+  /* ===== Coming Soon バッジ ===== */
+  .badge-soon{
+    position:absolute;
+    top:8px;
+    right:10px;
+    background:#ff9800;
+    color:#fff;
+    font-size:.65rem;
+    font-weight:800;
+    padding:3px 7px;
+    border-radius:999px;
+    letter-spacing:.03em;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+  }
+
+  .unit{
+    font-weight:800;
+    color:#606779;
+    white-space:nowrap;
+  }
+
+  .theme{
+    font-weight:400;
+    white-space:nowrap;
+    font-size:.9rem;
+  }
+
+  @media (max-width:720px){
+    .theme{ white-space:normal; }
+  }
+
+    footer{
+      margin-top:22px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+  section[id]{scroll-margin-top: 180px;}
+  #top{scroll-margin-top: 130px;}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="headbar">
+        <div>
+          <h1>パーフェクトユニット</h1>
+        </div>
+        <button id="btnIndexToggle" class="toggle-btn" type="button" aria-controls="subjectIndex" aria-expanded="true">
+          科目インデックス：表示
+        </button>
+      </div>
+
+      <!-- 常時表示される科目インデックス（ボタンで折りたたみ可能） -->
+      <nav id="subjectIndex" class="index" aria-label="科目インデックス">
+        <div class="chips">
+          <a class="chip" href="#sub-minpo">民法 <small>(Unit1–65)</small></a>
+          <a class="chip" href="#sub-fudosan">不動産登記法 <small>(Unit1–48)</small></a>
+          <a class="chip" href="#sub-kaisha">会社法・商業登記法 <small>(Unit1–64)</small></a>
+          <a class="chip" href="#sub-minji">民事訴訟法等 <small>(Unit1–23)</small></a>
+          <a class="chip" href="#sub-kyotaku">供託法 <small>(Unit1–10)</small></a>
+          <a class="chip" href="#sub-keiho">刑法 <small>(Unit1–12)</small></a>
+          <a class="chip" href="#sub-kenpo">憲法 <small>(Unit1–9)</small></a>
+          <a class="chip" href="#sub-shoshi">司法書士法 <small>(Unit1–2)</small></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 以降の各科目セクションは「前回のHTML」のままでOK（ここでは代表例のみ置きます） -->
+
+    <!-- 民法 -->
+    <section id="sub-minpo" aria-label="民法">
+      <div class="subject" id="top">
+        <div>
+          <h2>民法</h2>
+        </div>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min01.php">テキスト</a><a class="btn q" href="pu26min01q.php">肢別</a></div><div class="unit">Unit1</div><div class="theme">制限行為能力者1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min02.php">テキスト</a><a class="btn q" href="pu26min02q.php">肢別</a></div><div class="unit">Unit2</div><div class="theme">制限行為能力者2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min03.php">テキスト</a><a class="btn q" href="pu26min03q.php">肢別</a></div><div class="unit">Unit3</div><div class="theme">不在者・失踪宣告・法人</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min04.php">テキスト</a><a class="btn q" href="pu26min04q.php">肢別</a></div><div class="unit">Unit4</div><div class="theme">物、意思表示1(心裡留保)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min05.php">テキスト</a><a class="btn q" href="pu26min05q.php">肢別</a></div><div class="unit">Unit5</div><div class="theme">意思表示2(通謀虚偽表示)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min06.php">テキスト</a><a class="btn q" href="pu26min06q.php">肢別</a></div><div class="unit">Unit6</div><div class="theme">意思表示3(錯誤、詐欺・強迫)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min07.php">テキスト</a><a class="btn q" href="pu26min07q.php">肢別</a></div><div class="unit">Unit7</div><div class="theme">代理1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min08.php">テキスト</a><a class="btn q" href="pu26min08q.php">肢別</a></div><div class="unit">Unit8</div><div class="theme">代理2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min09.php">テキスト</a><a class="btn q" href="pu26min09q.php">肢別</a></div><div class="unit">Unit9</div><div class="theme">代理3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min10.php">テキスト</a><a class="btn q" href="pu26min10q.php">肢別</a></div><div class="unit">Unit10</div><div class="theme">無効・取消し、条件・期限</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min11.php">テキスト</a><a class="btn q" href="pu26min11q.php">肢別</a></div><div class="unit">Unit11</div><div class="theme">時効1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min12.php">テキスト</a><a class="btn q" href="pu26min12q.php">肢別</a></div><div class="unit">Unit12</div><div class="theme">時効2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min13.php">テキスト</a><a class="btn q" href="pu26min13q.php">肢別</a></div><div class="unit">Unit13</div><div class="theme">物権・物権変動</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min14.php">テキスト</a><a class="btn q" href="pu26min14q.php">肢別</a></div><div class="unit">Unit14</div><div class="theme">不動産物権変動1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min15.php">テキスト</a><a class="btn q" href="pu26min15q.php">肢別</a></div><div class="unit">Unit15</div><div class="theme">不動産物権変動2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min16.php">テキスト</a><a class="btn q" href="pu26min16q.php">肢別</a></div><div class="unit">Unit16</div><div class="theme">動産物権変動1(即時取得)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min17.php">テキスト</a><a class="btn q" href="pu26min17q.php">肢別</a></div><div class="unit">Unit17</div><div class="theme">動産物権変動2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min18.php">テキスト</a><a class="btn q" href="pu26min18q.php">肢別</a></div><div class="unit">Unit18</div><div class="theme">占有</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min19.php">テキスト</a><a class="btn q" href="pu26min19q.php">肢別</a></div><div class="unit">Unit19</div><div class="theme">所有権1(相隣関係、所有権の取得)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min20.php">テキスト</a><a class="btn q" href="pu26min20q.php">肢別</a></div><div class="unit">Unit20</div><div class="theme">所有権2(共有1)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min21.php">テキスト</a><a class="btn q" href="pu26min21q.php">肢別</a></div><div class="unit">Unit21</div><div class="theme">所有権3(共有2、所有者不明土地管理制度等)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min22.php">テキスト</a><a class="btn q" href="pu26min22q.php">肢別</a></div><div class="unit">Unit22</div><div class="theme">用益物権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min23.php">テキスト</a><a class="btn q" href="pu26min23q.php">肢別</a></div><div class="unit">Unit23</div><div class="theme">担保物権、抵当権1(設定)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min24.php">テキスト</a><a class="btn q" href="pu26min24q.php">肢別</a></div><div class="unit">Unit24</div><div class="theme">抵当権2(物上代位)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min25.php">テキスト</a><a class="btn q" href="pu26min25q.php">肢別</a></div><div class="unit">Unit25</div><div class="theme">抵当権3(法定地上権)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min26.php">テキスト</a><a class="btn q" href="pu26min26q.php">肢別</a></div><div class="unit">Unit26</div><div class="theme">抵当権4(第三取得者の保護・処分)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min27.php">テキスト</a><a class="btn q" href="pu26min27q.php">肢別</a></div><div class="unit">Unit27</div><div class="theme">抵当権5(共同抵当・根抵当権)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min28.php">テキスト</a><a class="btn q" href="pu26min28q.php">肢別</a></div><div class="unit">Unit28</div><div class="theme">質権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min29.php">テキスト</a><a class="btn q" href="pu26min29q.php">肢別</a></div><div class="unit">Unit29</div><div class="theme">留置権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min30.php">テキスト</a><a class="btn q" href="pu26min30q.php">肢別</a></div><div class="unit">Unit30</div><div class="theme">先取特権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min31.php">テキスト</a><a class="btn q" href="pu26min31q.php">肢別</a></div><div class="unit">Unit31</div><div class="theme">譲渡担保、代理受領</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min32.php">テキスト</a><a class="btn q" href="pu26min32q.php">肢別</a></div><div class="unit">Unit32</div><div class="theme">債権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min33.php">テキスト</a><a class="btn q" href="pu26min33q.php">肢別</a></div><div class="unit">Unit33</div><div class="theme">債権者代位権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min34.php">テキスト</a><a class="btn q" href="pu26min34q.php">肢別</a></div><div class="unit">Unit34</div><div class="theme">詐害行為取消権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min35.php">テキスト</a><a class="btn q" href="pu26min35q.php">肢別</a></div><div class="unit">Unit35</div><div class="theme">多数当事者の債権関係1(連帯債務等)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min36.php">テキスト</a><a class="btn q" href="pu26min36q.php">肢別</a></div><div class="unit">Unit36</div><div class="theme">多数当事者の債権関係2(保証)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min37.php">テキスト</a><a class="btn q" href="pu26min37q.php">肢別</a></div><div class="unit">Unit37</div><div class="theme">債権譲渡</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min38.php">テキスト</a><a class="btn q" href="pu26min38q.php">肢別</a></div><div class="unit">Unit38</div><div class="theme">債権の消滅1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min39.php">テキスト</a><a class="btn q" href="pu26min39q.php">肢別</a></div><div class="unit">Unit39</div><div class="theme">債権の消滅2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min40.php">テキスト</a><a class="btn q" href="pu26min40q.php">肢別</a></div><div class="unit">Unit40</div><div class="theme">契約、同時履行の抗弁権、定型約款</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min41.php">テキスト</a><a class="btn q" href="pu26min41q.php">肢別</a></div><div class="unit">Unit41</div><div class="theme">債務不履行、解除、危険負担</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min42.php">テキスト</a><a class="btn q" href="pu26min42q.php">肢別</a></div><div class="unit">Unit42</div><div class="theme">贈与・売買</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min43.php">テキスト</a><a class="btn q" href="pu26min43q.php">肢別</a></div><div class="unit">Unit43</div><div class="theme">売買(契約不適合責任)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min44.php">テキスト</a><a class="btn q" href="pu26min44q.php">肢別</a></div><div class="unit">Unit44</div><div class="theme">消費貸借・使用貸借</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min45.php">テキスト</a><a class="btn q" href="pu26min45q.php">肢別</a></div><div class="unit">Unit45</div><div class="theme">賃貸借1(賃貸借の成立等)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min46.php">テキスト</a><a class="btn q" href="pu26min46q.php">肢別</a></div><div class="unit">Unit46</div><div class="theme">賃貸借2(賃貸借と第三者)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min47.php">テキスト</a><a class="btn q" href="pu26min47q.php">肢別</a></div><div class="unit">Unit47</div><div class="theme">賃貸借3(賃貸借の終了、敷金)</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min48.php">テキスト</a><a class="btn q" href="pu26min48q.php">肢別</a></div><div class="unit">Unit48</div><div class="theme">請負</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min49.php">テキスト</a><a class="btn q" href="pu26min49q.php">肢別</a></div><div class="unit">Unit49</div><div class="theme">委任・寄託</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min50.php">テキスト</a><a class="btn q" href="pu26min50q.php">肢別</a></div><div class="unit">Unit50</div><div class="theme">組合・事務管理</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min51.php">テキスト</a><a class="btn q" href="pu26min51q.php">肢別</a></div><div class="unit">Unit51</div><div class="theme">不法行為1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min52.php">テキスト</a><a class="btn q" href="pu26min52q.php">肢別</a></div><div class="unit">Unit52</div><div class="theme">不法行為2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min53.php">テキスト</a><a class="btn q" href="pu26min53q.php">肢別</a></div><div class="unit">Unit53</div><div class="theme">婚姻</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min54.php">テキスト</a><a class="btn q" href="pu26min54q.php">肢別</a></div><div class="unit">Unit54</div><div class="theme">婚姻の解消、内縁</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min55.php">テキスト</a><a class="btn q" href="pu26min55q.php">肢別</a></div><div class="unit">Unit55</div><div class="theme">親子1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min56.php">テキスト</a><a class="btn q" href="pu26min56q.php">肢別</a></div><div class="unit">Unit56</div><div class="theme">親子2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min57.php">テキスト</a><a class="btn q" href="pu26min57q.php">肢別</a></div><div class="unit">Unit57</div><div class="theme">親子3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min58.php">テキスト</a><a class="btn q" href="pu26min58q.php">肢別</a></div><div class="unit">Unit58</div><div class="theme">親子4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min59.php">テキスト</a><a class="btn q" href="pu26min59q.php">肢別</a></div><div class="unit">Unit59</div><div class="theme">相続人</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min60.php">テキスト</a><a class="btn q" href="pu26min60q.php">肢別</a></div><div class="unit">Unit60</div><div class="theme">相続の効力1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min61.php">テキスト</a><a class="btn q" href="pu26min61q.php">肢別</a></div><div class="unit">Unit61</div><div class="theme">相続の効力2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min62.php">テキスト</a><a class="btn q" href="pu26min62q.php">肢別</a></div><div class="unit">Unit62</div><div class="theme">遺産共有、遺産分割</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min63.php">テキスト</a><a class="btn q" href="pu26min63q.php">肢別</a></div><div class="unit">Unit63</div><div class="theme">配偶者居住権、相続人不存在</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min64.php">テキスト</a><a class="btn q" href="pu26min64q.php">肢別</a></div><div class="unit">Unit64</div><div class="theme">遺言</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text" href="pu26min65.php">テキスト</a><a class="btn q" href="pu26min65q.php">肢別</a></div><div class="unit">Unit65</div><div class="theme">遺留分</div></div></article>
+      </div>
+    </section>
+
+    <!-- 不動産登記法 pu26fud01.html -->
+    <section id="sub-fudosan" aria-label="不動産登記法">
+      <div class="subject">
+        <div>
+          <h2>不動産登記法</h2>
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">不動産登記とは</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">所有権保存1</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">所有権保存2、所有権移転1</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">所有権移転2</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">所有権移転3</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">相続1</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">相続2</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">相続3</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">相続4</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit10</div><div class="theme">所有権抹消、更正</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit11</div><div class="theme">買戻</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit12</div><div class="theme">会社の登記</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit13</div><div class="theme">抵当権設定1</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit14</div><div class="theme">抵当権設定2、抵当権移転</div></div></article>
+<article class="card"><span class="badge-soon">Coming Soon</span><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit15</div><div class="theme">抵当権変更・更正</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit16</div><div class="theme">抵当権の処分、順位変更</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit17</div><div class="theme">根抵当権設定1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit18</div><div class="theme">根抵当権設定2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit19</div><div class="theme">根抵当権移転</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit20</div><div class="theme">根抵当権の処分・根抵当権変更1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit21</div><div class="theme">根抵当権変更2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit22</div><div class="theme">当事者の相続、合併、会社分割</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit23</div><div class="theme">元本確定1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit24</div><div class="theme">元本確定2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit25</div><div class="theme">抵当権等の抹消1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit26</div><div class="theme">抵当権等の抹消2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit27</div><div class="theme">抵当証券、工場抵当、その他担保物権</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit28</div><div class="theme">用益物権1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit29</div><div class="theme">用益物権2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit30</div><div class="theme">用益物権3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit31</div><div class="theme">仮登記1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit32</div><div class="theme">仮登記2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit33</div><div class="theme">仮登記3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit34</div><div class="theme">仮登記担保、登記名義人氏名変更等1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit35</div><div class="theme">登記名義人氏名変更等2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit36</div><div class="theme">区分建物</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit37</div><div class="theme">信託</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit38</div><div class="theme">判決による登記</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit39</div><div class="theme">仮処分</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit40</div><div class="theme">代位による登記、更正・抹消</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit41</div><div class="theme">総論1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit42</div><div class="theme">総論2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit43</div><div class="theme">総論3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit44</div><div class="theme">添付情報1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit45</div><div class="theme">添付情報2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit46</div><div class="theme">添付情報3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit47</div><div class="theme">添付情報4、登記に関する通知、却下・取下</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit48</div><div class="theme">情報の公開、嘱託・職権登記</div></div></article>
+      </div>
+    </section>
+
+    <!-- 会社法・商業登記法 pu26kai01.html -->
+    <section id="sub-kaisha" aria-label="会社法・商業登記法">
+      <div class="subject">
+        <div>
+          <h3>会社法・商業登記法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">設立1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">設立2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">設立3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">設立4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">機関1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">機関2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">役員総論</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">取締役、取締役会</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">代表取締役、取締役の行為の規制等</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit10</div><div class="theme">監査役</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit11</div><div class="theme">監査役会、会計参与・会計監査人</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit12</div><div class="theme">機関の登記1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit13</div><div class="theme">機関の登記2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit14</div><div class="theme">機関の登記3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit15</div><div class="theme">機関の登記4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit16</div><div class="theme">社外取締役・社外監査役</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit17</div><div class="theme">監査等委員会設置会社</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit18</div><div class="theme">指名委員会等設置会社</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit19</div><div class="theme">株式1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit20</div><div class="theme">株式2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit21</div><div class="theme">株式の譲渡</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit22</div><div class="theme">自己株式</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit23</div><div class="theme">株式等売渡請求、株式の併合等1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit24</div><div class="theme">株式の併合等2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit25</div><div class="theme">募集株式の発行1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit26</div><div class="theme">募集株式の発行2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit27</div><div class="theme">募集株式の発行3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit28</div><div class="theme">新株予約権1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit29</div><div class="theme">新株予約権2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit30</div><div class="theme">定款変更</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit31</div><div class="theme">社債</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit32</div><div class="theme">計算1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit33</div><div class="theme">計算2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit34</div><div class="theme">解散1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit35</div><div class="theme">解散2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit36</div><div class="theme">持分会社1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit37</div><div class="theme">持分会社2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit38</div><div class="theme">持分会社3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit39</div><div class="theme">持分会社4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit40</div><div class="theme">組織再編総説、合併1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit41</div><div class="theme">合併2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit42</div><div class="theme">合併3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit43</div><div class="theme">会社分割1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit44</div><div class="theme">会社分割2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit45</div><div class="theme">株式交換、株式移転、株式交付1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit46</div><div class="theme">株式交換、株式移転、株式交付2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit47</div><div class="theme">組織変更</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit48</div><div class="theme">事業譲渡</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit49</div><div class="theme">役員の責任1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit50</div><div class="theme">役員の責任2、訴訟1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit51</div><div class="theme">訴訟2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit52</div><div class="theme">訴訟3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit53</div><div class="theme">本店移転</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit54</div><div class="theme">支配人、外国会社</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit55</div><div class="theme">特例有限会社</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit56</div><div class="theme">商法1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit57</div><div class="theme">商法2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit58</div><div class="theme">商法3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit59</div><div class="theme">商法4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit60</div><div class="theme">一般社団法人、一般財団法人1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit61</div><div class="theme">一般社団法人、一般財団法人2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit62</div><div class="theme">一般社団法人、一般財団法人3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit63</div><div class="theme">商登 総論1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit64</div><div class="theme">商登 総論2</div></div></article>
+      </div>
+    </section>
+
+    <!-- 民事訴訟法・民事執行法・民事保全法 pu26mns01.html -->
+    <section id="sub-minji" aria-label="民事訴訟法・民事執行法・民事保全法">
+      <div class="subject">
+        <div>
+          <h3>民事訴訟法・民事執行法・民事保全法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">民事訴訟法 訴えの提起</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">民事訴訟法 管轄</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">民事訴訟法 当事者、口頭弁論</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">民事訴訟法 口頭弁論の準備</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">民事訴訟法 審理の進行</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">民事訴訟法 訴えの利益等</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">民事訴訟法 証拠1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">民事訴訟法 証拠2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">民事訴訟法 訴訟の終了1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit10</div><div class="theme">民事訴訟法 訴訟の終了2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit11</div><div class="theme">民事訴訟法 多数当事者訴訟</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit12</div><div class="theme">民事訴訟法 控訴</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit13</div><div class="theme">民事訴訟法 簡易な手続1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit14</div><div class="theme">民事訴訟法 簡易な手続2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit15</div><div class="theme">民事訴訟法</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit16</div><div class="theme">民事訴訟法</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit17</div><div class="theme">民事訴訟法</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit18</div><div class="theme">民事執行法 強制執行</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit19</div><div class="theme">民事執行法 強制競売</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit20</div><div class="theme">民事執行法 動産執行、債権執行</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit21</div><div class="theme">民事執行法 不服申立</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit22</div><div class="theme">民事保全法 保全命令</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit23</div><div class="theme">民事保全法 保全執行</div></div></article>
+      </div>
+    </section>
+
+    <!-- 供託法 pu26kyo01.html -->
+    <section id="sub-kyotaku" aria-label="供託法">
+      <div class="subject">
+        <div>
+          <h3>供託法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">供託総論</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">供託手続1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">供託手続2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">供託手続3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">供託手続4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">管理人等による供託、弁済供託1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">弁済供託2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">民事執行法による供託</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">民事保全法、滞調法による供託</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit10</div><div class="theme">その他</div></div></article>
+      </div>
+    </section>
+
+    <!-- 刑法 pu26kei01.html -->
+    <section id="sub-keiho" aria-label="刑法">
+      <div class="subject">
+        <div>
+          <h3>刑法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">総論1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">総論2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">総論3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">総論4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">総論5</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">個人的法益に関する罪1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">個人的法益に関する罪2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">個人的法益に関する罪3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">個人的法益に関する罪4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit10</div><div class="theme">個人的法益に関する罪5、社会的法益に関する罪1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit11</div><div class="theme">社会的法益に関する罪2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit12</div><div class="theme">国家的法益に関する罪</div></div></article>
+      </div>
+    </section>
+
+    <!-- 憲法 pu26ken01.html -->
+    <section id="sub-kenpo" aria-label="憲法">
+      <div class="subject">
+        <div>
+          <h3>憲法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">基本的人権1</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">基本的人権2</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit3</div><div class="theme">基本的人権3</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit4</div><div class="theme">基本的人権4</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit5</div><div class="theme">基本的人権5</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit6</div><div class="theme">基本的人権6</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit7</div><div class="theme">国会</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit8</div><div class="theme">内閣、財政、地方自治</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit9</div><div class="theme">司法権</div></div></article>
+      </div>
+    </section>
+
+    <!-- 司法書士法 pu26sis01.html -->
+    <section id="sub-shoshi" aria-label="司法書士法">
+      <div class="subject">
+        <div>
+          <h3>司法書士法</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+
+      <div class="list">
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit1</div><div class="theme">司書 業務</div></div></article>
+<article class="card"><div class="row"><div class="actions"><a class="btn text disabled">テキスト</a><a class="btn q disabled">肢別</a></div><div class="unit">Unit2</div><div class="theme">司書 司法書士法人、懲戒</div></div></article>
+      </div>
+    </section>
+
+    <!-- 肢別データExp/Imp -->
+    <section id="sub-impexp" aria-label="肢別チェック操作">
+      <div class="subject">
+        <div>
+          <h3>肢別チェックデータ</h3>
+         
+        </div>
+        <a class="toplink" href="#top">↑ Top</a>
+      </div>
+<button id="btn-export-all" type="button">エキスポート</button>
+<button id="btn-import-all" type="button">インポート</button>
+<button id="btn-migrate-steps" type="button">旧データ移行</button>
+<input type="file" id="import-all-file" style="display:none;">
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const btn = document.getElementById('btnIndexToggle');
+      const index = document.getElementById('subjectIndex');
+
+      function setExpanded(expanded){
+        index.hidden = !expanded;
+        btn.setAttribute('aria-expanded', String(expanded));
+        btn.textContent = expanded ? '目次を隠す' : '目次を表示';
+      }
+
+      // 初期状態（表示）
+      setExpanded(true);
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        setExpanded(!expanded);
+      });
+    })();
+  </script>
+
+<script>
+  const CHILD_Q_FILES = [
+    'pu26min01q',
+    'pu26min02q',
+    'pu26min03q',
+    'pu26min04q',
+    'pu26min05q',
+    'pu26min06q',
+    'pu26min07q',
+    'pu26min08q',
+    'pu26min09q',
+    'pu26min10q',
+    'pu26min11q',
+    'pu26min12q',
+    'pu26min13q',
+    'pu26min14q',
+    'pu26min15q',
+    'pu26min16q',
+    'pu26min17q',
+    'pu26min18q',
+    'pu26min19q',
+    'pu26min20q',
+    'pu26min21q',
+    'pu26min22q',
+    'pu26min23q',
+    'pu26min24q',
+    'pu26min25q',
+    'pu26min26q',
+    'pu26min27q',
+    'pu26min28q',
+    'pu26min29q',
+    'pu26min30q',
+    'pu26min31q',
+    'pu26min32q',
+    'pu26min33q',
+    'pu26min34q',
+    'pu26min35q',
+    'pu26min36q',
+    'pu26min37q',
+    'pu26min38q',
+    'pu26min39q',
+    'pu26min40q',
+    'pu26min41q',
+    'pu26min42q',
+    'pu26min43q',
+    'pu26min44q',
+    'pu26min45q',
+    'pu26min46q',
+    'pu26min47q',
+    'pu26min48q',
+    'pu26min49q',
+    'pu26min50q',
+    'pu26min51q',
+    'pu26min52q',
+    'pu26min53q',
+    'pu26min54q',
+    'pu26min55q',
+    'pu26min56q',
+    'pu26min57q',
+    'pu26min58q',
+    'pu26min59q',
+    'pu26min60q',
+    'pu26min61q',
+    'pu26min62q',
+    'pu26min63q',
+    'pu26min64q',
+    'pu26min65q'
+  ];
+
+  // ==============================
+  // 旧データ移行
+  // ==============================
+  function migrateOldKeysByScanning(){
+    const newKeys = {};
+    CHILD_Q_FILES.forEach(pageId => {
+      newKeys[pageId] = getChildStorageKey(pageId);
+    });
+    let migrated = 0;
+    let skipped = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith('steps::')) continue;
+      // すでに新方式のキーなら対象外
+      if (Object.values(newKeys).includes(key)) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      let steps;
+      try {
+        steps = JSON.parse(raw);
+      } catch(e) {
+        skipped++;
+        continue;
+      }
+      if (!steps || typeof steps !== 'object' || Array.isArray(steps)) {
+        skipped++;
+        continue;
+      }
+      CHILD_Q_FILES.forEach(pageId => {
+        const newKey = getChildStorageKey(pageId);
+        // 旧キー名の末尾で判定
+        // 例：
+        // steps::/study/pu26min01q.html
+        // steps::/member/pu26min01q
+        if (
+          key.endsWith('/' + pageId + '.html') ||
+          key.endsWith('/' + pageId) ||
+          key.endsWith(pageId + '.html') ||
+          key.endsWith(pageId)
+        ) {
+          const current = localStorage.getItem(newKey);
+          // 新キーにまだデータがない場合だけコピー
+          if (!current) {
+            localStorage.setItem(newKey, raw);
+            migrated++;
+          }
+          return;
+        }
+      });
+    }
+    alert(
+      migrated + '個の旧チェックデータを新方式へ移行しました。'
+    );
+  }
+  const migrateBtn = document.getElementById('btn-migrate-steps');
+  if (migrateBtn) {
+    migrateBtn.addEventListener('click', function(){
+      migrateOldKeysByScanning();
+    });
+  }
+  // ==============================
+  // localStorageキー
+  // 子ファイル側：
+  // const PAGE_ID = 'pu26min01q';
+  // const STORAGE_KEY = 'steps::' + PAGE_ID;
+  // と一致する
+  // ==============================
+  function getChildStorageKey(pageId){
+    return 'steps::' + pageId;
+  }
+
+  function loadChildSteps(pageId){
+    try {
+      return JSON.parse(
+        localStorage.getItem(getChildStorageKey(pageId)) || '{}'
+      );
+    } catch(e) {
+      return {};
+    }
+  }
+
+  function saveChildSteps(pageId, steps){
+    localStorage.setItem(
+      getChildStorageKey(pageId),
+      JSON.stringify(steps || {})
+    );
+  }
+
+  // ==============================
+  // エクスポートファイル名
+  // pu26yyyymmddhhmnss.exp
+  // ==============================
+  function getExportFileName(){
+    const d = new Date();
+
+    const y  = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const da = String(d.getDate()).padStart(2, '0');
+    const h  = String(d.getHours()).padStart(2, '0');
+    const mi = String(d.getMinutes()).padStart(2, '0');
+    const s  = String(d.getSeconds()).padStart(2, '0');
+
+    return 'pu26' + y + mo + da + h + mi + s + '.exp';
+  }
+
+  // ==============================
+  // 一括エクスポート
+  // ==============================
+  function exportAllSteps(){
+    const data = {
+      type: 'qcheck-steps-all',
+      version: 5,
+      parent: location.pathname,
+      exportedAt: new Date().toISOString(),
+      files: {}
+    };
+
+    CHILD_Q_FILES.forEach(pageId => {
+      data.files[pageId] = {
+        steps: loadChildSteps(pageId)
+      };
+    });
+
+    const blob = new Blob(
+      [JSON.stringify(data, null, 2)],
+      { type: 'application/octet-stream' }
+    );
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = getExportFileName();
+
+    document.body.appendChild(a);
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }
+
+  // ==============================
+  // 一括インポート
+  // 拡張子判定なし
+  // CHILD_Q_FILES の PAGE_ID と完全一致するものだけ読む
+  // ==============================
+  function importAllStepsFromFile(file){
+    const reader = new FileReader();
+
+    reader.onload = function(){
+      try {
+        const data = JSON.parse(reader.result);
+
+        if (!data || data.type !== 'qcheck-steps-all' || !data.files) {
+          alert('読み込めないファイルです。');
+          return;
+        }
+
+        const ok = confirm(
+          '子ファイルすべての「再」「済」チェックを、読み込んだ内容で上書きしますか？'
+        );
+
+        if (!ok) return;
+
+        let count = 0;
+
+        CHILD_Q_FILES.forEach(pageId => {
+          const item = data.files[pageId];
+
+          if (item && item.steps) {
+            saveChildSteps(pageId, item.steps);
+            count++;
+          }
+        });
+
+        alert(count + '個の子ファイルのチェックデータをインポートしました。');
+
+      } catch(e) {
+        alert('ファイルの読み込みに失敗しました。');
+      }
+    };
+
+    reader.readAsText(file, 'utf-8');
+  }
+
+  // ==============================
+  // ボタンイベント
+  // ==============================
+  document.addEventListener('DOMContentLoaded', function(){
+    const exportBtn = document.getElementById('btn-export-all');
+    const importBtn = document.getElementById('btn-import-all');
+    const importFile = document.getElementById('import-all-file');
+
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function(){
+        exportAllSteps();
+      });
+    }
+
+    if (importBtn && importFile) {
+      importBtn.addEventListener('click', function(){
+        importFile.click();
+      });
+    }
+
+    if (importFile) {
+      importFile.addEventListener('change', function(){
+        const file = this.files && this.files[0];
+
+        if (file) {
+          importAllStepsFromFile(file);
+        }
+
+        this.value = '';
+      });
+    }
+  });
+</script>
+</body>
+</html>

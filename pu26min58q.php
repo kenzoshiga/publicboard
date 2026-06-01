@@ -1,0 +1,1066 @@
+﻿<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit58</title>
+  <link rel="stylesheet" href="css/style_q.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit58</h1>
+      <div class="hnav">
+      <a href="pu_index.php">トップへ</a>
+      <a href="pu26min57q.php">前へ</a>
+      <a href="pu26min59q.php">次へ</a>
+      <a href="pu26min58.php">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h26-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-21-ア)</div>
+          <p class="qtext">1　父母の婚姻中に父が後見開始の審判を受けた場合には、母が単独で親権を行使しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q1">親権を行う能力</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-r02-20-eh26-20-ih12-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-20-エ)(H26-20-イ)(H12-22-ア)</div>
+          <p class="qtext">2　ＡとＢが、その間の嫡出子であるＣ（現在5歳）の親権者をＢと定めて協議上の離婚をしたという事例に関して。ＢがＦと婚姻して、ＦがＣと養子縁組をした場合には、Ｃの親権者は、Ｂ及びＦである。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-20-eh26-20-ih12-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-h19-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-21-イ)</div>
+          <p class="qtext">3　婚姻中の夫Ａと妻Ｂとの間には未成年者である子Ｃがおり、Ａ及びＢはＣの共同親権者である。Ｃが、Ａの同意を得たが、Ｂの同意を得ないで、Ｄとの間で動産を購入する契約を締結したときは、Ａ及びＢは、共同で、当該契約を取り消すことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h19-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-21-エ)</div>
+          <p class="qtext">4　婚姻中の夫Ａと妻Ｂとの間には未成年者である子Ｃがおり、Ａ及びＢはＣの共同親権者である。Ａは、Ｂの同意を得て、Ｄとの間で、Ｃの代理人として、Ｃの所有する土地を売却する契約を締結することができ、当該契約が締結された場合には、Ｃは、Ｄに対し、当該土地を引き渡す義務を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-h26-21-ih10-18">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-21-イ)(H10-18-ク)(改)</div>
+          <p class="qtext">5　子の出生前に父母が離婚した場合には、父は、出生した子に対する親権を母と共同して行うことができる場合がある。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-21-ih10-18">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-r03-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-21-ア)(改)</div>
+          <p class="qtext">6　嫡出でない子を父が認知した場合には、その子に対する親権は、父母の間に婚姻関係がなくとも、父と母が共同して行うことができる場合がある。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h25-21-oh12-20-eh08-18-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-21-オ)(H12-20-エ)(H08-18-ウ)</div>
+          <p class="qtext">7　母が親権者となっている子について、当該母と婚姻関係にない父が認知をしても、当該認知によって当該父が親権者となることはないが、父母の協議で、親権者を母から父に変更することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q2">親権の行使</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-21-oh12-20-eh08-18-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-r02-20-ah26-21-uh12-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-20-ア)(H26-21-ウ)(H12-22-イ)</div>
+          <p class="qtext">8　ＡとＢが、その間の嫡出子であるＣ（現在5歳）の親権者をＢと定めて協議上の離婚をしたという事例に関して。離婚後に、ＡとＢとの協議のみによって親権者をＡに変更することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q8">家庭裁判所による親権者の変更</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-20-ah26-21-uh12-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-r02-20-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-20-ウ)</div>
+          <p class="qtext">9　ＡとＢが、その間の嫡出子であるＣ（現在5歳）の親権者をＢと定めて協議上の離婚をしたという事例に関して。Ａの父母であるＤ及びＥは、家庭裁判所に対し、Ａへの親権者の変更を求める調停又は審判の申立てをすることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q8">家庭裁判所による親権者の変更</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-20-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-r02-20-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-20-オ)</div>
+          <p class="qtext">10　ＡとＢが、その間の嫡出子であるＣ（現在5歳）の親権者をＢと定めて協議上の離婚をしたという事例に関して。ＢがＦと婚姻して、ＦがＣと養子縁組をした場合において、Ｂ及びＦがＣを虐待していると疑われるときは、Ａは、家庭裁判所に対し、Ａへの親権者の変更を求める調停又は審判の申立てをすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q8">家庭裁判所による親権者の変更</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-20-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-pu58-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(PU58-1)</div>
+          <p class="qtext">11　親権を行う者は、監護及び教育をするに当たっては、子の人格を尊重しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q11">身上監護権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-pu58-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h28-21-ah19-21-oh06-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-21-ア)(H19-21-オ)(H06-21-イ)</div>
+          <p class="qtext">12　親権を行う者は、自己のためにするのと同一の注意をもって、子の財産を管理しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q12">注意義務</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-21-ah19-21-oh06-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h07-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-22-ウ)</div>
+          <p class="qtext">13　Ａが未成年者であり、Ｂがその法定代理人である。ＡがＢを連帯保証人としてＥから金銭を借り入れることは、Ｂの代理行為として許されない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h06-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-21-ウ)</div>
+          <p class="qtext">14　親権者が、借受金を自己の用途に充てる意図で、子の名のもとに金員を借り受け、子の所有する不動産に抵当権を設定することは、親権者とその子の利益が相反する行為に当たる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h07-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-22-ア)</div>
+          <p class="qtext">15　Ａが未成年者であり、Ｂがその法定代理人である。ＡがＢから贈与を受けることは、Ｂの代理行為として許されない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h19-21-ah07-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-21-ア)(H07-22-イ)</div>
+          <p class="qtext">16　婚姻中の夫Ａと妻Ｂとの間には未成年者である子Ｃがおり、Ａ及びＢはＣの共同親権者である。Ｄの債務について連帯して保証しているＡは、Ｂと共同で、Ｃの代理人として、当該Ｄの債務について連帯して保証をする旨の契約を締結することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-21-ah07-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r03-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-21-イ)</div>
+          <p class="qtext">17　親権を行う母が、第三者の債務の担保として、子を代理して、その子が所有する不動産に抵当権を設定する行為は、特別代理人の選任を要する利益相反行為に当たる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h07-22-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H07-22-エ)</div>
+          <p class="qtext">18　Ａが未成年者であり、Ｂがその法定代理人である。Ａが法定代理人をＢとする未成年者Ｆとの間で遺産分割協議をすることは、Ｂの代理行為として許されない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h07-22-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h09-19-eh07-22-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-19-エ)(H07-22-オ)</div>
+          <p class="qtext">19　被相続人に妻と2人の未成年の子がある場合、妻は、自らが相続の放棄をしたときは、子の双方を代理して相続の放棄をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q13">利益相反</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-19-eh07-22-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h06-21-eh26-21-eh02-18-2">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H06-21-エ)(H26-21-エ)(H02-18-2)</div>
+          <p class="qtext">20　親権者とその子の利益が相反する行為を親権者が子の代理人としてした場合、その行為は、無権代理行為となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q20">利益相反行為の効力</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h06-21-eh26-21-eh02-18-2">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-r03-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-21-エ)</div>
+          <p class="qtext">21　父又は母による親権の行使が困難であることにより子の利益を害する場合には、検察官は、家庭裁判所に対し、その父又は母について親権停止の審判を請求することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-04-05-0-05">親権の喪失・停止</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-r03-21-oh28-21-ih06-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R03-21-オ)(H28-21-イ)(H06-21-オ)</div>
+          <p class="qtext">22　親権者による管理権の行使が不適当であることにより子の利益を害する場合に、家庭裁判所は、審判によって、その親権者について管理権のみを喪失させることはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-04-05-0-05">親権の喪失・停止</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r03-21-oh28-21-ih06-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h26-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-21-オ)</div>
+          <p class="qtext">23　家庭裁判所が親権停止の審判をするには、父又は母による虐待又は悪意の遺棄があるときその他父又は母による親権の行使が著しく困難又は不適当であることにより子の利益を著しく害するときでなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-04-05-0-05">親権の喪失・停止</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-r05-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-21-ア)</div>
+          <p class="qtext">24　未成年者に対して最後に親権を行う者であっても、管理権を有しない場合には、遺言で未成年後見人を指定することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q24">未成年後見人</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-r05-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-21-イ)</div>
+          <p class="qtext">25　未成年後見人が欠けたときは、家庭裁判所は、職権で未成年後見人を選任することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q24">未成年後見人</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-r05-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-21-オ)</div>
+          <p class="qtext">26　親権を喪失した父又は母は、未成年後見人の選任を家庭裁判所に請求することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q24">未成年後見人</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-r05-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R05-21-エ)</div>
+          <p class="qtext">27　家庭裁判所は、法人を未成年後見人に選任することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q24">未成年後見人</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r05-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h29-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-21-ウ)</div>
+          <p class="qtext">28　未成年者Ａについて未成年後見が開始された場合には、家庭裁判所は、未成年後見人を複数選任することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q24">未成年後見人</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h21-22-eh07-18-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H21-22-エ)(H07-18-イ)</div>
+          <p class="qtext">29　離婚に際してＡがＡ及びＢの間の未成年の子Ｃの親権者と定められた場合、非親権者ＢのＣに対する扶養義務は、消滅する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h21-22-eh07-18-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-r06-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-21-ウ)</div>
+          <p class="qtext">30　家庭裁判所は、特別の事情がある場合には、扶養を受けるべき者の父母の兄弟姉妹の子に扶養の義務を負わせることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h20-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H20-21-エ)</div>
+          <p class="qtext">31　Ａ男とＢ女について婚姻の届出がされている。Ｂ女は、Ａ男と離婚する前であっても、Ａ男の母親に対しては扶養義務を負うことはない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h20-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h17-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-22-ア)</div>
+          <p class="qtext">32　扶養義務は、配偶者、直系血族及び兄弟姉妹について生じ、これらの者が存在しない場合には、三親等内の親族間において生じる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h09-22-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-22-4)</div>
+          <p class="qtext">33　Ａ女は、婚姻関係にないＢ男との間に子Ｃをもうけたが、Ｂ男はＣを認知していない。その後、Ａ女はＤ男と婚姻し、Ｄ男との間に子Ｅをもうけた。ＣとＥの間には、互いに扶養する法律上の義務はない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-22-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h08-19-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H08-19-1)</div>
+          <p class="qtext">34　Ａは、Ｂを養子とする縁組をした後、Ｃと婚姻した。ＢとＣは、特別の事情があるときに限り、相互に扶養義務を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q29">扶養義務を負う者</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h08-19-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-r06-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-21-ア)</div>
+          <p class="qtext">35　扶養権利者を扶養した扶養義務者が他の扶養義務者に対して求償する場合における各自の分担額について、扶養義務者の間で協議が調わなかったときは、家庭裁判所が当該分担額を審判で定める。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q35">扶養の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h17-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-22-ウ)</div>
+          <p class="qtext">36　要扶養者を現に扶養している扶養義務者の意思に反して、他の扶養義務者が要扶養者を引き取って扶養した場合には、当該他の扶養義務者が扶養料の全額を負担することとなる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q35">扶養の順序</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-r06-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-21-イ)</div>
+          <p class="qtext">37　扶養権利者と扶養義務者との間で扶養の程度又は方法について協議が調った後に、事情の変更があったときは、家庭裁判所は、その協議の変更又は取消しをすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q37">扶養に関する協議又は審判の変更又は取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h17-22-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-22-オ)</div>
+          <p class="qtext">38　扶養義務者でないにもかかわらず、自発的に要扶養者を扶養してきた者は、扶養義務者に対して扶養に要した費用を求償することはできない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#min58-q38">立替扶養料の求償</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-22-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 39 -->
+    <section class="q" id="q-r06-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R06-21-オ)</div>
+          <p class="qtext">39　扶養権利者は、扶養義務者との間で扶養料の具体的な額について協議をする前に扶養を受ける権利を放棄することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-05-00-0-02">扶養請求権の性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r06-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 40 -->
+    <section class="q" id="q-h09-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-21-オ)</div>
+          <p class="qtext">40　Ａを被相続人とし、Ｂを唯一の相続人とする相続に関し、Ａが親族Ｃに対する扶養義務の履行として、Ｃとの協議により、毎月一定額の生活費を支払うことになっていた場合、Ａの死亡時以降の生活費について、Ｂは、Ｃに対する支払義務を負わない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-05-00-0-02">扶養請求権の性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 41 -->
+    <section class="q" id="q-h17-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H17-22-イ)</div>
+          <p class="qtext">41　要扶養者は、将来の扶養請求権を放棄することはできないが、既に弁済期が到来した扶養料請求権については、これを放棄することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min58.php#A08-05-00-0-02">扶養請求権の性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h17-22-i">解答・解説</button>
+      </div>
+    </section>
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h26-21-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-21-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権は、父母の婚姻中は父母が共同して行うのが原則である（民法<span class="mono">818条</span>2項、<span class="mono">824条の2</span>第1項本文）が、「他の一方が親権を行うことができないとき」は、その一方が行う（民法<span class="mono">824条の2</span>第1項ただし書2号）。一般的に、自らが財産上の行為能力を制限されている者は、親権を行うことができないと解されているため、成年被後見人は親権者となることはできないと解されている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-20-eh26-20-ih12-22-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-20-エ)(H26-20-イ)(H12-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>子が養子であるときは、①養親（当該子を養子とする縁組が２以上あるときは、直近の縁組により養親となった者に限る。）、②子の父母であって、①に掲げる養親の配偶者であるものが親権を行使する（民法<span class="mono">818条</span>3項）。よって、本記述の場合、親権者は、①Ｆ（同項1号）及び②Ｂ（同項2号）である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権は、父母が婚姻中は父母が共同して行わなければならない（民法<span class="mono">818条</span>2項）。父母の一方が他方の同意を得ることなく、単独名義で子に同意を与えたときは、適法な追認がない限り、子の行為は取り消すことができるものとなり、親権者の取消権も共同で行使しなければならない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-21-e">
+  <div class="dlg-head"><div class="dlg-title">(H19-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権は、父母の婚姻中は、父母が共同して行う（民法818 条2項）。「共同して行う」とは、父母共同の意思に基づき行うことを必要とするという意味であり、父母の共同名義でなされなければならないということではない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-21-ih10-18">
+  <div class="dlg-head"><div class="dlg-title">(H26-21-イ)(H10-18-ク)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>子の出生前に父母が離婚した場合には、親権は、母が行う（民法<span class="mono">819条</span>3項本文）。ただし、子の出生後に、父母の協議で、父母の双方又は父を親権者と定めることができる（民法<span class="mono">819条</span>3項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-21-a">
+  <div class="dlg-head"><div class="dlg-title">(R03-21-ア)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>父が認知した子に対する親権は、母が行う（民法<span class="mono">819条</span>4項本文）。ただし、父母の協議で、父母の双方又は父を親権者と定めることができる（民法<span class="mono">819条</span>4項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-21-oh12-20-eh08-18-u">
+  <div class="dlg-head"><div class="dlg-title">(H25-21-オ)(H12-20-エ)(H08-18-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>認知によって父親に当然に親権が生じるものではないため、認知後も子の親権者は母である（民法<span class="mono">819条</span>4項本文）。ただし、父母の協議で、父母の双方又は父を親権者と定めることができる（民法<span class="mono">819条</span>4項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-20-ah26-21-uh12-22-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-20-ア)(H26-21-ウ)(H12-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>子の利益のため必要があると認めるときは、家庭裁判所は、子又はその親族の請求によって、親権者を変更することができる（民法<span class="mono">819条</span>6項）。親権者の変更は、親権者の指定と異なり、父母の協議のみによって行うことはできない。その趣旨は、親権者の変更について、子の安定的な養育環境に配慮し、変更の妥当性につき客観的な判断を必要とする点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-20-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-20-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>子の利益のため必要があると認めるときは、家庭裁判所は、子又はその親族の請求によって、親権者を変更することができる（民法<span class="mono">819条</span>6項）。よって、離婚時に協議でＢを親権者と定めたとしても、Ａの父母であるＤ及びＥは、Ａの子Ｃの親族として、家庭裁判所に対し、親権者をＡとする変更を求める調停又は審判の申立てをすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-20-o">
+  <div class="dlg-head"><div class="dlg-title">(R02-20-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>子が実親の一方及び養親の共同親権に服する場合、民法<span class="mono">819条</span>6項の規定に基づき、子の親権者を他の一方の実親に変更することはできない（最決平26.4.14）。その理由として、判例は、民法<span class="mono">819条</span>の「規定の構造や同条6項の規定の文理に照らせば、子が実親の一方及び養親の共同親権に服する場合、子の親権者を他の一方の実親に変更することは、同項の予定しないところ」であり、他方、「親権者による親権の行使が不適切なもので子の保護の観点から何らかの措置をとる必要があるときは、親権喪失の審判等を通じて子の保護を図ることも可能である」ということを挙げている。よって、本記述のＡは、親権者をＡとする変更を求める調停又は審判の申立てをすることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-pu58-1">
+  <div class="dlg-head"><div class="dlg-title">(PU58-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権を行う者は、前条（民法<span class="mono">820条</span>）の規定による監護及び教育をするに当たっては、子の人格を尊重するとともに、その年齢及び発達の程度に配慮しなければならず、かつ、体罰その他の子の心身の健全な発達に有害な影響を及ぼす言動をしてはならない（民法<span class="mono">821条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-21-ah19-21-oh06-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H28-21-ア)(H19-21-オ)(H06-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権を行う者は、自己のためにするのと同一の注意をもって、その管理権を行わなければならない（民法<span class="mono">827条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H07-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>未成年の子であるＡが法定代理人Ｂを連帯保証人として金銭を借り入れる行為は、利益相反行為に当たらない。外形上から判断して、Ａの不利益となるものではないからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-21-u">
+  <div class="dlg-head"><div class="dlg-title">(H06-21-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>親権者が、借受金を自己の用途に充てる意図で、子の名のもとに金員を借り受け、子の所有する不動産に抵当権を設定する場合、親権者の意図のみをもって利益相反行為とはいえない（最判昭37.10.2参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-22-a">
+  <div class="dlg-head"><div class="dlg-title">(H07-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>未成年者が、法定代理人から贈与を受ける場合、何ら子の利益を害する事情はなく、利益相反行為に当たらない（大判昭6.11.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-21-ah07-22-i">
+  <div class="dlg-head"><div class="dlg-title">(H19-21-ア)(H07-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>第三者の負担する債務について、親権者が自ら連帯保証をするとともに子の代理人として同一債務について連帯保証をなし、かつ親権者と子が共有する不動産に抵当権を設定する行為は利益相反行為に当たる（最判昭43.10.8）。親権者とその子との間で利益が相反する場合、親権者は子のために特別代理人の選任を家庭裁判所に請求しなければならず（民法<span class="mono">826条</span>1項）、親権者が自ら子を代理することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-21-i">
+  <div class="dlg-head"><div class="dlg-title">(R03-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>親権者とその子との間で利益が相反する場合、親権者は子のために特別代理人の選任を家庭裁判所に請求しなければならない（民法<span class="mono">826条</span>1項）。そして、親権者が子を代理して子の所有する不動産を第三者の債務の担保に供する行為は、利益相反行為に当たらないとされる（最判平4.12.10）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h07-22-e">
+  <div class="dlg-head"><div class="dlg-title">(H07-22-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>親権者が共同相続人である数人の子を代理して遺産分割の協議をすることは、利益相反行為に当たるから、親権者が共同相続人である数人の子を代理してした遺産分割の協議は、追認のない限り無効である（最判昭48.4.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-19-eh07-22-o">
+  <div class="dlg-head"><div class="dlg-title">(H09-19-エ)(H07-22-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続放棄も利益相反の規定の適用があるが（最判昭53.2.24）、必ずしも常に利益相反行為に当たるとはいえず、妻が自ら相続の放棄をし、2人の未成年の子を代理して相続の放棄をすることは、その行為の客観的性質からみて、利益相反に当たらない（最判昭53.2.24参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h06-21-eh26-21-eh02-18-2">
+  <div class="dlg-head"><div class="dlg-title">(H06-21-エ)(H26-21-エ)(H02-18-2) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>利益相反行為に当たる行為を特別代理人を選任せずに親権者自身が子を代理して行った場合は、無権代理行為となる（最判昭48.4.24）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-21-e">
+  <div class="dlg-head"><div class="dlg-title">(R03-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>父又は母による親権の行使が困難又は不適当であることにより子の利益を害するときは、家庭裁判所は、子、その親族、未成年後見人、未成年後見監督人又は検察官の請求により、その父又は母について、親権停止の審判をすることができる（民法<span class="mono">834条の2</span>第1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r03-21-oh28-21-ih06-21-o">
+  <div class="dlg-head"><div class="dlg-title">(R03-21-オ)(H28-21-イ)(H06-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>父又は母による管理権の行使が困難又は不適当であることにより子の利益を害するときは、家庭裁判所は、子・その親族等の請求により、その父又は母について、管理権喪失の審判をすることができる（民法<span class="mono">835条</span>）。管理権喪失の審判とは、家庭裁判所が親権者の親権のうち管理権のみを喪失させる審判である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-21-o">
+  <div class="dlg-head"><div class="dlg-title">(H26-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>親権を行っている父または母による親権の行使が困難又は不適当であることにより子の利益を害するときには、家庭裁判所は、子・その親族等の請求により、2年を越えない期間の範囲内で、親権停止の審判を行うことができる（民法<span class="mono">834条の2</span>）。もっとも、親権喪失と異なり、虐待と悪意の遺棄は、親権停止原因となっておらず、親権の行使が「著しく」困難又は不適当である必要はなく、また、子の利益が「著しく」害されている必要もない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-21-a">
+  <div class="dlg-head"><div class="dlg-title">(R05-21-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>未成年者に対して最後に親権を行う者は、遺言で、未成年後見人を指定することができる。ただし、管理権を有しない者は、この限りでない（民法<span class="mono">839条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-21-i">
+  <div class="dlg-head"><div class="dlg-title">(R05-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>家庭裁判所による未成年後見人の選任には未成年被後見人等の請求を要するとされ、家庭裁判所の職権による選任は認められていない（民法<span class="mono">840条</span>1項）。なお、未成年後見人がある場合においても、家庭裁判所は、必要があると認めるときは、未成年後見人・未成年被後見人・その親族・利害関係人の請求又は職権で、更に未成年後見人を選任することができる（民法<span class="mono">840条</span>2項）。また、成年後見人については、職権で選任する（民法<span class="mono">843条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-21-o">
+  <div class="dlg-head"><div class="dlg-title">(R05-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、親権を喪失した父又は母は、未成年後見人の選任を家庭裁判所に請求することができないとしている点で、誤っている。父若しくは母が親権若しくは管理権を辞し、又は父若しくは母について親権喪失、親権停止若しくは管理権喪失の審判があったことによって未成年後見人を選任する必要が生じたときは、その父又は母は、遅滞なく未成年後見人の選任を家庭裁判所に請求しなければならない（民法<span class="mono">841条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r05-21-e">
+  <div class="dlg-head"><div class="dlg-title">(R05-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>民法<span class="mono">840条</span>3項は、「未成年後見人を選任するには、未成年被後見人の年齢、心身の状態並びに生活及び財産の状況、未成年後見人となる者の職業及び経歴並びに未成年被後見人との利害関係の有無（未成年後見人となる者が法人であるときは、その事業の種類及び内容並びにその法人及びその代表者と未成年被後見人との利害関係の有無）、未成年被後見人の意見その他一切の事情を考慮しなければならない。」と規定しており、法人を未成年後見人に選定することを当然に想定している（民法<span class="mono">840条</span>3項かっこ書参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-21-u">
+  <div class="dlg-head"><div class="dlg-title">(H29-21-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>未成年後見人が数人あるときは、共同してその権限を行使する（民法857 条の2 第1 項）。未成年後見人を複数選任することも可能である。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h21-22-eh07-18-i">
+  <div class="dlg-head"><div class="dlg-title">(H21-22-エ)(H07-18-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>直系血族は互いに扶養する義務を負う（民法<span class="mono">877条</span>1項）。離婚に際して親権者を定めた場合であっても、親権を有しない親と子とは、直系血族である以上、依然として扶養義務を負う。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-21-u">
+  <div class="dlg-head"><div class="dlg-title">(R06-21-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、扶養を受けるべき者の父母の兄弟姉妹の子に扶養の義務を負わせることができるとしている点で、誤っている。家庭裁判所は、特別の事情があるときは、前項に規定する場合のほか、3親等内の親族間においても扶養の義務を負わせることができる（民法<span class="mono">877条</span>2項）。そして、扶養を受けるべき者の父母の兄弟姉妹の子は3親等内の親族ではない。よって、特別の事情があるときであっても、扶養を受けるべき者の父母の兄弟姉妹の子に扶養の義務を負わせることはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h20-21-e">
+  <div class="dlg-head"><div class="dlg-title">(H20-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>家庭裁判所は、特別の事情があるときは、民法<span class="mono">877条</span>1項に規定する場合のほか、三親等内の親族間においても扶養の義務を負わせることができる（民法<span class="mono">877条</span>2項）。よってＢ女は、Ａ男と離婚する前であっても、Ａ男の母親に対しては扶養義務を負うことはないとはいえない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-22-a">
+  <div class="dlg-head"><div class="dlg-title">(H17-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>扶養義務は配偶者、直系血族及び兄弟姉妹について法律上当然に生じる（民法<span class="mono">752条</span>、<span class="mono">877条</span>1項）。従って、本記述前段は正しい。しかし、「家庭裁判所は、特別の事情があるときは、…三親等内の親族間においても扶養の義務を負わせることができる」（民法<span class="mono">877条</span>2項）ので、本記述の後段は誤りである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-22-4">
+  <div class="dlg-head"><div class="dlg-title">(H09-22-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>扶養義務は配偶者、直系血族及び兄弟姉妹について法律上当然に生じる（民法<span class="mono">752条</span>、<span class="mono">877条</span>1項）。ＣとＥは、父を異にするものの母を共通にする兄弟であるため、民法<span class="mono">877条</span>1項により互いに扶養する義務を負う。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h08-19-1">
+  <div class="dlg-head"><div class="dlg-title">(H08-19-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>Ａの養子ＢとＡの配偶者Ｃとは、血族関係になく、民法<span class="mono">725条</span>3号により、1親等の直系姻族として親族とされる。また、家庭裁判所は、特別の事情があるときは、3親等内の親族間においても扶養の義務を負わせることができるため（民法<span class="mono">877条</span>2項）、特別な事情があれば、家庭裁判所の審判によりＢとＣは相互に扶養義務を負う。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-21-a">
+  <div class="dlg-head"><div class="dlg-title">(R06-21-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例は、「民法<span class="mono">878条</span>・<span class="mono">879条</span>によれば、扶養義務者が複数である場合に各人の扶養義務の分担の割合は、協議が整わないかぎり、家庭裁判所が審判によつて定めるべきである。扶養義務者の1人のみが扶養権利者を扶養してきた場合に、過去の扶養料を他の扶養義務者に求償する場合においても同様であつて、各自の分但額は、協議が整わないかぎり、家庭裁判所が、各自の資力その他一切の事情を考慮して審判で決定すべきであつて、通常裁判所が判決手続で判定すべきではないと解するのが相当である」としている（最判昭42.2.17）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H17-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>要扶養者を現に扶養している扶養義務者の意思に反して、他の扶養義務者が要扶養者を引き取って扶養したという事実だけでは、現に扶養している扶養義務者が全面的に義務を免れ、引き取った扶養義務者が扶養料の全額を負担すべきものとすることはできない（民法<span class="mono">878条</span>、最判昭26.2.13）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-21-i">
+  <div class="dlg-head"><div class="dlg-title">(R06-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>扶養をすべき者若しくは扶養を受けるべき者の順序又は扶養の程度若しくは方法について協議又は審判があった後事情に変更を生じたときは、家庭裁判所は、その協議又は審判の変更又は取消しをすることができる（民法<span class="mono">880条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-22-o">
+  <div class="dlg-head"><div class="dlg-title">(H17-22-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>扶養義務者でない者が要扶養者を事実上扶養し、扶養料を支払った場合においては、立替扶養料を不当利得（民法<span class="mono">703条</span>、<span class="mono">704条</span>）あるいは事務管理（民法<span class="mono">702条</span>1項）として扶養義務者に対して請求することができると解されている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r06-21-o">
+  <div class="dlg-head"><div class="dlg-title">(R06-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>本記述は、扶養料の具体的な額について協議をする前に扶養を受ける権利を放棄することができるとしている点で、誤っている。扶養を受ける権利は、処分することができない（民法<span class="mono">881条</span>）。ただし、既に弁済期の到来した扶養料請求権は通常の金銭債権と同じであるから、処分（放棄）することができる。具体的な額について協議をする前の扶養料請求権は弁済期が到来していないため、放棄することはできない（札幌高決昭43.12.19参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-21-o">
+  <div class="dlg-head"><div class="dlg-title">(H09-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>扶養義務は、扶養義務者の死亡により消滅する（民法<span class="mono">896条</span>ただし書）。本記述のように扶養権利者・義務者間の協議、調停、審判により、扶養義務の具体的内容が確定している場合も変わらないとされる。よって、Ａの相続人ＢはＣに対する支払義務を負わない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h17-22-i">
+  <div class="dlg-head"><div class="dlg-title">(H17-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>扶養を受ける権利は、処分することができない（民法<span class="mono">881条</span>）。この処分には放棄も含まれる（札幌高決昭43.12.19）。ただし、既に弁済期の到来した扶養料請求権は通常の金銭債権と同じであるから、処分（放棄）をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>const PAGE_ID = 'pu26min58q';</script>
+<script src="js/app_q.js"></script>
+</body></html>

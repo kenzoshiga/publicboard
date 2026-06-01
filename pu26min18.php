@@ -1,0 +1,689 @@
+﻿<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit18</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit18</h1>
+    <div class="hnav">
+      <a href="pu_index.php">トップへ</a>
+      <a href="pu26min17.php">前へ</a>
+      <a href="pu26min19.php">次へ</a>
+      <a href="pu26min18q.php">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A02">第２編　物権</a>
+  <ul>
+    <li><a href="#A02-02">第２章　占有権</a>
+      <ul>
+        <li><a href="#A02-02-01">第１節　総説</a>
+          <ul>
+            <li><a href="#A02-02-01-0-01">１　占有の意義</a></li>
+            <li><a href="#A02-02-01-0-02">２　区別すべき概念</a></li>
+          </ul>
+        </li>
+        <li><a href="#A02-02-02">第２節　占有の成立要件</a>
+          <ul>
+            <li><a href="#A02-02-02-0-01">１　所持</a></li>
+            <li><a href="#A02-02-02-0-02">２　意思</a></li>
+          </ul>
+        </li>
+        <li><a href="#A02-02-03">第３節　占有の種類</a>
+          <ul>
+            <li><a href="#A02-02-03-0-01">１　自己占有・代理占有</a></li>
+            <li><a href="#A02-02-03-0-02">２　自主占有・他主占有</a></li>
+            <li><a href="#A02-02-03-0-03">３　善意占有・悪意占有</a></li>
+            <li><a href="#A02-02-03-0-04">４　過失ある占有・過失なき占有</a></li>
+          </ul>
+        </li>
+        <li><a href="#A02-02-04">第４節　占有権の取得</a>
+          <ul>
+            <li><a href="#A02-02-04-1">Ⅰ　占有権の原始取得</a>
+              <ul>
+            </ul>
+          </li>
+            <li><a href="#A02-02-04-2">Ⅱ　占有権の承継取得</a>
+              <ul>
+            <li><a href="#A02-02-04-2-01">１　占有権の承継の態様</a></li>
+            <li><a href="#A02-02-04-2-02">２　占有権の承継の効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A02-02-05">第５節　占有権の効力</a>
+          <ul>
+            <li><a href="#A02-02-05-0-01">１　占有そのものを保護する効力－占有訴権</a></li>
+            <li><a href="#A02-02-05-0-02">２　本権公示的効力</a></li>
+            <li><a href="#A02-02-05-0-03">３　権利推定（本権の推定。188条）</a></li>
+            <li><a href="#A02-02-05-0-04">４　本権取得的効力</a></li>
+            <li><a href="#A02-02-05-0-05">５　目的物の返還をめぐる法律関係の清算</a></li>
+          </ul>
+        </li>
+        <li><a href="#A02-02-06">第６節　占有権の消滅</a>
+          <ul>
+            <li><a href="#A02-02-06-0-01">１　自己占有（直接占有）の消滅（203条）</a></li>
+            <li><a href="#A02-02-06-0-02">２　代理占有（間接占有）の消滅（204条）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script src="js/app1.js?v=20260518-01"></script>
+<main id="content">
+<section class="sec-title" id="A02">
+  <h2>第２編　物権</h2>
+  <div class="p-card chap-card">
+    <h2 id="A02-02">第２章　占有権</h2>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-01">第１節　総説</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-01-0-01">１　占有の意義</div>
+      <p>占有：自己のためにする意思をもって物を所持するという事実的支配状態</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-01-0-02">２　区別すべき概念</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　所持</p>
+          <p class="p6 ind1">：物が、社会観念上その人の事実的支配に属すると認められる客観的関係</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　占有</p>
+          <p class="p6 ind1">：自己のためにする意思をもって物を所持するという事実的支配状態（占有権の基礎となる事実）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　占有権</p>
+          <p class="p6 ind1">：占有を法律要件として成立する物権</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　占有すべき権利（本権・占有をすることができる権利）</p>
+          <p class="p6 ind1">：所有権･賃借権･質権等、占有することを法律上正当化する権利</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h14-12-a" title="H14-12-ア">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-02">第２節　占有の成立要件</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-02-0-01">１　所持</div>
+      <p>所持：物が社会観念上その人の事実的支配に属すると認められる客観的関係</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　物を物理的に把握していることは必要でない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　他人を介してもよい。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 代理人による占有</p>
+          <p class="p6 ind2">代理人、本人共に所持が認められる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 占有補助者・占有機関による場合</p>
+          <p class="p6 ind2">本人にのみ所持があり、占有補助者・占有機関は所持者でない。それゆえ、占有補助者・占有機関には占有訴権はない。</p>
+          <p class="p6 ind2">ex. 法人の代表者（法人が直接占有者）、同居の家族、他人の使用人として家屋に居住する者</p>
+          <p class="p6 ind2">他人の使用人として家屋に居住するにすぎない者に対しては、特段の事情のないかぎり、その不法占有を理由として家屋の明渡しを請求することはできない（最判昭35.4.7）。使用人は、占有補助者に過ぎず、その占有は雇主の占有の範囲内で行われているものであり、独立の占有をなすものではないからである。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h28-09-o" title="H28-9-オ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-02-0-02">２　意思</div>
+      <p>自己のためにする意思：所持による事実上の利益を自己に帰属させようとする意思</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　所持を生じさせた原因たる事実（占有の権原の性質）から純客観的に決する。</p>
+          <p class="p6 ind1">ex. 所有権譲受人、盗人、地上権者、質権者、留置権者、賃借人、使用借人には、自己のためにする意思があるとされる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　潜在的・一般的に存在すれば足りる。</p>
+          <p class="p6 ind1">ex. 郵便箱に投函された手紙</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　自己の責任において物を所持する者は、有償・無償を問わず、自己のためにする意思がある。</p>
+          <p class="p6 ind1">ex. 倉庫業者、受寄者、受任者、請負人、運送人、破産管財人、財産管理人、遺失物拾得者</p>
+          <p class="p6 ind1">未成年者の財産を管理している親権者は、子のためにする意思を有すると同時に、自己のためにする意思をもって所持するもので、占有権を有する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　占有取得の要件であり継続の要件ではない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">5.　意思無能力者は所持を有するが、占有の意思を有しない。よって、占有を取得しない。法定代理人を通じて占有する。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-r02-08-u" title="R2-8-ウ">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-03">第３節　占有の種類</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-03-0-01">１　自己占有・代理占有</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">自己占有：自らが直接に占有すること</p>
+          <p class="p6 ind1">代理占有：他人の所持を介して占有すること（間接占有）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　代理占有の要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①占有代理人が所持を有すること</p>
+          <p class="h6 ind3 nobold">②占有代理人が本人のためにする意思を有すること</p>
+          <p class="h6 ind3 nobold">③本人・占有代理人間に占有代理関係の存在すること</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　代理占有の効果</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①本人が占有権を取得する。</p>
+          <p class="h6 ind3 nobold">②占有の善意・悪意、侵奪の有無等は占有代理人につき決する。</p>
+          <p class="p6 ind4">ただし、占有代理人が善意でも、本人が悪意のときは、本人につき決する（101条３項の趣旨を類推）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h28-09-e" title="H28-9-エ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-03-0-02">２　自主占有・他主占有</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 自主占有：所有の意思、すなわち、物について所有者と同様な支配をもってする占有</p>
+          <p class="p6 ind2">ex. 買主、盗人</p>
+          <p class="p6 ind2">所有権を有することも、また所有者であると信ずることも必要ではない。</p>
+          <p class="p6 ind2">所有の意思とは所有者として占有する意思をいい、たとえば、売買契約に約定期限までに売買代金を支払わなければ契約が解除されたものとする旨の解除条件が付いており、その解除条件が成就しても、所有の意思を失うわけではない（最判昭60.3.28）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 他主占有：自主占有以外の占有、すなわち、他人の所有権を認めて占有する者の占有</p>
+          <p class="p6 ind2">ex. 賃借人、受寄者、質権者</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　区別の実益</p>
+          <p class="p6 ind1">取得時効（162条以下）、無主物先占（239条）、占有者の責任（191条ただし書）等で、自主占有か他主占有かにより効果が異なる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　区別の基準</p>
+          <p class="p6 ind1">区別は、「所有の意思」の有無による。</p>
+          <p class="p6 ind1">その｢所有の意思｣の有無は、占有取得の原因たる事実＝権原の客観的性質によって決定される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　他主占有が自主占有に転換する条件（185条）</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①他主占有者が自己に占有をさせた者に対して所有の意思があることを表示すること、又は、②新たな権原により更に所有の意思をもって占有を始めることである。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h03-02-1h03-02-2" title="H3-2-1">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-03-0-03">３　善意占有・悪意占有</div>
+      <p>本権なくしてなされる占有のみに関する区別である。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">善意占有：本権がないのに、あると誤信してする占有</p>
+          <p class="p6 ind1">悪意占有：本権のないことを知り、又は、本権の有無に疑いをもってする占有</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　区別の実益</p>
+          <p class="p6 ind1">取得時効（162条以下）、果実の取得（189条、190条）、占有者の責任（191条）、費用償還請求権（196条）、即時取得（192条）で善意占有か悪意占有かにより効果が異なる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　善意占有は推定される（186条１項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-r06-07-a" title="R6-7-ア">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-03-0-04">４　過失ある占有・過失なき占有</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">過失ある占有：善意占有のうち、本権があると誤信することについて過失がある場合</p>
+          <p class="p6 ind1">過失なき占有：善意占有のうち、本権があると誤信することについて過失がない場合</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　区別の実益</p>
+          <p class="p6 ind1">取得時効（162条以下）、即時取得（192条）で過失ある占有か、過失なき占有かにより効果が異なる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　善意占有者の無過失は推定されない（186条１項参照）。しかし、即時取得（192条）の場合、前主の占有が188条により本権の推定を受けるので、無過失も推定される（最判昭41.６.９）。</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-04">第４節　占有権の取得</h3>
+    <div class="p-card rank4-card">
+      <p id="A02-02-04-1" class="h6 ind0">Ⅰ　占有権の原始取得</p>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>占有権は占有という事実を法律要件として生ずる法律効果であるから、「占有」が原始取得されるときは、｢占有権｣も原始取得される。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A02-02-04-2" class="h6 ind0">Ⅱ　占有権の承継取得</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-04-2-01">１　占有権の承継の態様</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　総説</p>
+          <p class="p6 ind1">占有権の承継にも、特定承継と包括承継がある。</p>
+          <p class="p6 ind1">占有の移転と共に占有権も移転する。</p>
+          <p class="p6 ind1">被相続人が死亡して相続が開始するときは、特別の事情がない限り、従前その占有に属したものは、当然相続人の占有に移る（相続による占有の承継。最判昭37.５.18）。</p>
+          <p class="p6 ind1">共同相続の場合、占有権も共同相続されるのが原則であるが、共同相続人の一人が単独に相続したものと信じて疑わず、所有者として行動してきた等の事情のある場合には、その相続の時から自主占有を取得する（最判昭47.9.8）。つまり、このような場合には、共同相続人の一人が、単独所有者としての所有の意思をもってする占有を取得する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　占有権の相続（包括承継）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 占有権の相続性</p>
+          <p class="p6 ind2">被相続人の占有下にあった物に対して、相続人が所持ないし管理しているか否か、あるいは相続の開始を知っているか否かに関わりなく、原則として占有（権）は相続によって承継される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 占有の二面的性格</p>
+          <p class="p6 ind2">占有権の相続性を認めると、さらに相続開始とともに、又は相続開始後に、相続人が相続財産を所持するに至ったときは、相続財産上の相続人の占有権は、普通の占有権の性格をも有することになり、二面的性格を帯びる。そこで、相続人は自己の占有のみの主張が可能かが問題となる。</p>
+          <p class="p6 ind2">→　相続人は187条の「承継人」に当たる（最判昭37.５.18）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 相続は 185条の「新たな権原」に当たるか。</p>
+          <p class="p6 ind2">例えば、賃借人の占有は他主占有であるから、いくら継続して占有しても賃借物の所有権を時効取得することはない（162条）。では、賃借人を相続した者は、自己の所有物だと思って継続して占有しても、時効取得しないであろうか。相続が185条の「新たな権原」に当たるかが問題となる。</p>
+          <p class="p6 ind2">→　相続人が現実の占有開始の時点で所有の意思を有していたことが客観的に明らかであれば、185条の「新たな権原」に当たる（最判昭46.11.30・通説。判例は相続即新たな権原といっていない点に注意）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h05-17-1" title="H5-17-1">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-04-2-02">２　占有権の承継の効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　承継人</p>
+          <p class="p6 ind1">承継人は、選択により、自己の占有のみを主張し、又は前の占有者の占有を併せて主張できる（187条１項）。</p>
+          <p class="p6 ind1">前の占有者とは現占有者に先立つすべての前の占有者をさす。特定の前の占有者以下の前の占有者のみの占有を併せて主張もできる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　前の占有者の占有をも主張するとき、その瑕疵も承継する（187条２項）。</p>
+          <p class="p6 ind1">善意占有を承継した者が承継のとき悪意であっても、前の占有者の占有を併せて主張するときには、その占有は善意占有である（最判昭53.３.６）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　187条の適用範囲</p>
+          <p class="p6 ind1">特定承継だけでなく包括承継（相続）にも適用される（最判昭37.５.18）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-r06-07-o" title="R6-7-オ">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-05">第５節　占有権の効力</h3>
+    <div class="blk outer">
+      <div class="outer-title">本文</div>
+      <p>占有権の基盤は｢占有｣という事実的支配状態にあることから、その保護及び効力も、事実的支配を尊重するものとなっている。民法は、占有権の効力として以下のようなものを認めている。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①占有そのものを保護する効力（占有訴権、197条～202条）</p>
+          <p class="h6 ind3 nobold">②本権公示的効力－占有の公示（178条）、即時取得（192条）</p>
+          <p class="h6 ind3 nobold">③本権の推定（188条）</p>
+          <p class="h6 ind3 nobold">④本権取得的効力－無主物先占（239条）、取得時効（162条以下）等</p>
+          <p class="p6 ind4">このほかに、「占有権の効力」とはいえないが、⑤権原のない不法占有者の返還をめぐる法律関係の清算（189条～191条）についてもここで論ずる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-05-0-01">１　占有そのものを保護する効力－占有訴権</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　占有訴権の意義</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 意義</p>
+          <p class="p6 ind2">：物の占有者がその物の占有を妨害されたときは、その占有が正当な権利に基づくものか否かにかかわらず、妨害の除去を請求できるとする権利</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 性質</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 内容</p>
+          <p class="p6 ind3">占有権の侵害を排斥して完全な占有状態を回復する権利であり、一種の物権的請求権である。</p>
+          <p class="p6 ind3">相手方の故意・過失は問わない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 損害賠償請求権</p>
+          <p class="p6 ind3">占有訴権の内容として、損害賠償の請求を認めているが、性質上は物権的請求権ではなく、不法行為に基づく債権的請求権であるから、その要件及び効果も不法行為の規定に従う。よって、侵害者の故意・過失を要する。</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card" id="min18-q16">
+          <p class="h6 ind0">2.　占有訴権の当事者</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 原告－占有者</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①自己占有者、代理人による占有者</p>
+          <p class="h6 ind3 nobold">②占有代理人</p><br>
+          <p class="p6 ind4">以上の者は、権原の有無、占有者の善意・悪意を問わず自己の名において提起できる（判例）。占有補助者（占有機関）は占有訴権を有しない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 被告（相手方）－占有の侵害者、又は侵害をするおそれのある者</p>
+          <p class="p6 ind2">損害賠償請求の相手は、自ら故意・過失によって損害を生じさせた者及びその包括承継人である。本権の存否、故意・過失の有無を問わない。占有補助者も被告となれる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h09-11-ah05-17-3" title="H9-11-ア">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　占有訴権の種類</p>
+          <p class="p6 ind1">占有訴権には、①占有保持の訴え（198条）、②占有保全の訴え（199条）、③占有回収の訴え（200条）がある。</p>
+        <div class="p-card" id="min18-q18">
+          <p class="h6 ind1">(1) 占有保持の訴え（198条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　占有の妨害</p>
+          <p class="p6 ind4">妨害とは占有状態に対する部分的な侵害であって、占有者がなお占有を保持する場合をいう。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　妨害者の故意・過失は必要か。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　妨害の停止の請求　→　不要</p>
+          <p class="h6 ind3 nobold">②　損害賠償の請求　→　必要</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 内容－妨害の停止及び損害の賠償</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　妨害の停止</p>
+          <p class="p6 ind4">：妨害者の費用をもって妨害の停止に必要な行為をすること（大判大５.７.22）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　損害の賠償</p>
+          <p class="p6 ind4">この訴えにより賠償の対象となるのは、原状が回復するまでの間占有に支障をきたしたために生じた損害である。原状回復に要する費用の賠償ではない（大判大５.７.22）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 訴えの提起期間</p>
+          <p class="p6 ind3">妨害の存する間又はその消滅した後１年以内。ただし、工事により占有物に損害を生じた場合は、工事に着手した時から１年を経過し、又は工事が完成したときは提起できない（201条１項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h15-09-o" title="H15-9-オ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min18-q20">
+          <p class="h6 ind1">(2) 占有保全の訴え（199条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件－占有を妨害されるおそれがあること</p>
+          <p class="p6 ind3">社会観念に従い、客観的に判定する。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 内容－妨害の予防又は損害賠償の担保</p>
+          <p class="p6 ind3">妨害予防請求と損害賠償担保請求とは選択的に請求できるだけである。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　妨害の予防</p>
+          <p class="p6 ind4">相手方の費用をもって将来のため適当な処分をすることを請求できる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　損害賠償の担保</p>
+          <p class="p6 ind4">相手方の故意・過失を要しない。将来の損害発生に備えるものである。</p>
+          <p class="p6 ind4">ただし、損害が現実化したとき、損害賠償請求には相手方の故意・過失が必要である。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 訴えの提起期間</p>
+          <p class="p6 ind3">妨害の危険が存する間（201条２項前段）。もっとも、工事により損害を生じるおそれがある場合は、工事に着手した時から１年を経過し、又は工事が完成したときは提起できない（201条２項後段、１項ただし書）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h27-09-a" title="H27-9-ア">過去問</a></div>
+        </div>
+        <div class="p-card" id="min18-q22">
+          <p class="h6 ind1">(3) 占有回収の訴え（200条）</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 要件－「占有を奪われたとき」＝意思に基づかないで所持を奪われること</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　遺失、詐取は、侵奪に当たらない（物権的請求権とは異なる）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　初めは占有者の意思に基づいて生じた状態が、後日意思に反するようになった場合、占有回収の訴えは認められない。</p>
+          <p class="p6 ind4">ex. 賃借権消滅後の占有</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅲ　代理占有の場合、本人が侵奪されたか否かは、占有代理人について判断する。</p>
+          <p class="p6 ind4">占有代理人の意思に基づくときは本人の意思に反しても侵奪とならない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 請求権者－侵奪された者</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　本権の存否は問わない。</p>
+          <p class="h6 ind3 nobold">ⅱ　占有代理人が侵奪された場合、本人、代理人ともに請求できる。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 相手方</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　占有の侵奪者、及びその包括承継人</p>
+          <p class="p6 ind4">侵奪者が本権者であっても被告適格を有する（交互侵奪の問題、大判大13.５.22）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅱ　悪意の特定承継人</p>
+          <p class="p6 ind4">善意の特定承継人には行使できない（200条２項）。物権的請求権と異なる。</p>
+          <p class="p6 ind4">いったん善意の特定承継人の占有に帰したならば、その後の特定承継人が悪意であってもこれを相手に占有回収の訴えを起こすことはできない（大判昭13.12.26、絶対的構成）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(d) 内容</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　物の返還</p>
+          <p class="h6 ind3 nobold">ⅱ　損害賠償＝占有を奪われたことによる損害</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(e) 訴えの提起期間</p>
+          <p class="p6 ind3">占有を奪われたときから１年以内（201条３項）</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-r03-09-i" title="R3-9-イ">過去問</a></div>
+        </div>
+        </div>
+        <div class="p-card" id="min18-q31">
+          <p class="h6 ind0">4.　占有訴権と本権の訴えとの関係</p><br>
+          <p class="p6 ind1">Ｑ　占有の訴えにおいて、本権を理由とする抗弁が原則として提出できないことは、202条２項から明らかである。では、本権に基づく反訴を提起することはできるか。</p>
+          <p class="p6 ind1">→　肯定（最判昭40.３.４・多数説）</p><br>
+          <p class="p6 ind1">【まとめ　占有訴権】</p>
+          <p class="p6 ind1"><img class="embed-img" src="img/min18-01.png" alt="min18-01.png"></p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h15-09-eh23-09-uh01-06-5" title="H15-9-エ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-05-0-02">２　本権公示的効力</div>
+      <p>動産における本権の公示（178条）、即時取得（192条）</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-05-0-03">３　権利推定（本権の推定。188条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">占有者が占有物について行使する権利は、適法に有するものと推定する（188条）。</p>
+          <p class="p6 ind1">権利推定の趣旨は、占有者は大多数の場合においては、本権者であるが、権利者が必ずしもその証明方法を他に十分持たないため、権利者と主張する者からいたずらに訴訟を仕掛けられてわずらわされることを防ぎ、進んでその権利行使の妨害を除くことを容易にする点にある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　推定される権利－占有物について行使する権利</p>
+          <p class="p6 ind1">占有することを正当とする権利であれば、物権、債権を問わない。</p>
+          <p class="p6 ind1">188条は、占有物上に行使する権利を適法に有することの推定を認める規定である。</p>
+          <p class="p6 ind1">186条は、自主占有の推定を認める規定である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　所有者から権利を取得したとして占有する者は、その所有者に対しては188条の推定を援用することはできない。</p>
+          <p class="p6 ind1">188条の推定は、権利の存在ないし帰属について適用されるものであって、権利変動（所有権の取得や地上権・賃借権の設定など）については及ばない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　登記されている不動産では、登記の推定力が占有の推定力に優先する（最判昭34.１.８）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h14-12-o" title="H14-12-オ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-05-0-04">４　本権取得的効力</div>
+      <p>占有権を本権に昇格させる効力</p>
+      <p>無主物先占（239条１項）、家畜以外の動物の取得（195条）、取得時効（162条以下）等</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-05-0-05">５　目的物の返還をめぐる法律関係の清算</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　果実をめぐる法律関係</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 善意占有者の果実収取権（189条）</p>
+          <p class="p6 ind2">善意の占有者は、占有物から生ずる果実を取得する（189条）。</p>
+          <p class="p6 ind2">果実収取権がないにもかかわらず、これを有するものと誤信して占有する者は果実を収取し消費するのが普通なので、回復請求されると、苛酷な結果となることを回避するものである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 悪意占有者の果実返還義務（190条）</p>
+          <p class="p6 ind2">悪意の占有者は、果実を返還し、かつ、既に消費し、過失によって損傷し、又は収取を怠った果実の代価を償還する義務を負う（190条）。悪意占有者が保護に値しないことから、悪意占有者の果実取得権は否定される。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 善意の占有者が本権の訴えで敗訴した場合</p>
+          <p class="p6 ind2">善意の占有者が本権の訴えにおいて敗訴したときは、その訴え提起の時から悪意の占有者とみなされる（189条２項）。つまり、訴え提起の時から果実収取権はなかったことになり、訴え提起の時以降に取得した果実は返還しなければならない。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h09-11-uh01-06-2" title="H9-11-ウ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min18-q39">
+          <p class="h6 ind0">2.　占有物の滅失・損傷に対する占有者の責任</p>
+<div class="jobun">
+（占有者による損害賠償）
+第191条　占有物が占有者の責めに帰すべき事由によって滅失し、又は損傷したときは、その回復者に対し、悪意の占有者はその損害の全部の賠償をする義務を負い、善意の占有者はその滅失又は損傷によって現に利益を受けている限度において賠償をする義務を負う。ただし、所有の意思のない占有者は、善意であるときであっても、全部の賠償をしなければならない。
+</div>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①悪意占有者及び他主占有者は、損害の全部を賠償する義務を負う。</p>
+          <p class="h6 ind3 nobold">②所有の意思ある善意占有者は、「現に利益を受けている限度」で賠償すれば足りる。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-r06-07-u" title="R6-7-ウ">過去問</a></div>
+        </div>
+        <div class="p-card" id="min18-q41">
+          <p class="h6 ind0">3.　占有者の費用償還請求権（196条）</p>
+          <p class="p6 ind1">（占有者による費用の償還請求）</p>
+<div class="jobun">
+（占有者による費用の償還請求）
+第196条　占有者が占有物を返還する場合には、その物の保存のために支出した金額その他の必要費を回復者から償還させることができる。ただし、占有者が果実を取得したときは、通常の必要費は、占有者の負担に帰する。
+２　占有者が占有物の改良のために支出した金額その他の有益費については、その価格の増加が現存する場合に限り、回復者の選択に従い、その支出した金額又は増価額を償還させることができる。ただし、悪意の占有者に対しては、裁判所は、回復者の請求により、その償還について相当の期限を許与することができる。
+</div>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 趣旨</p>
+          <p class="p6 ind2">本条は、償還される費用の範囲について、占有者と回復者との間に設けられた事務管理（702条）、不当利得（703条、704条）の特則である。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 費用</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 必要費</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①物の保存に必要な費用（修繕費など）、②物の管理に必要な費用（公租公課など）</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 有益費</p>
+          <p class="p6 ind3">物の利用・改良のために支出し、物の価値を増加させる費用</p>
+          <p class="p6 ind3">ex. 建物の前の道路のコンクリート工事</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 償還請求</p>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(a) 必要費</p>
+          <p class="p6 ind3">占有者は善意・悪意を問わず、また所有の意思の有無を問わず、全額償還請求できる(196条１項本文)。ただし、占有者が果実を取得した場合、占有者は「通常の必要費」＝物の使用から通常生ずる費用を負担し、それ以外の臨時ないし特別の必要費の償還を請求できるだけである（196条１項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(b) 有益費</p>
+          <p class="p6 ind3">占有者は善意・悪意を問わず、また所有の意思の有無を問わず、償還請求できるが、①目的物の価格の増加が現存する場合に限られること、 ②回復者の選択する支出額又は増価額のいずれかに限られること、が必要費の場合と異なる（196条２項本文）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　返還前に増加価値が消滅すると、有益費償還請求権は当然に消滅する（最判昭48.７.17）。</p>
+          <p class="h6 ind3 nobold">ⅱ　回復者とは占有回復当時の回復者であるから、建物の賃借人が有益費を支出したのち建物の賃貸人が交替した場合、建物の新所有者（新賃貸人）に対して、賃借人は有益費の償還を請求することができる（最判昭46.２.19）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind2 nobold">(c) 必要費・有益費の償還請求権は留置権によって保護される。</p>
+          <p class="p6 ind3">ただし、有益費について、悪意の占有者には成立しない場合もある（196条２項ただし書参照）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min18q.php#q-h31-09-uh27-09-e" title="H31-9-ウ">過去問</a></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A02-02-06">第６節　占有権の消滅</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-06-0-01">１　自己占有（直接占有）の消滅（203条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　目的物の滅失</p>
+          <p class="h6 ind3 nobold">②　占有の意思の放棄</p>
+          <p class="h6 ind3 nobold">③　所持の喪失</p>
+          <p class="p6 ind4">ただし、占有回収の訴えを提起して勝訴した場合には占有は継続していたものと擬制される（203条ただし書）。取得時効で有利になる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A02-02-06-0-02">２　代理占有（間接占有）の消滅（204条）</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind3 nobold">①　本人が代理人に占有させる意思を放棄した場合</p>
+          <p class="h6 ind3 nobold">②　占有代理人が本人に対して以後自己又は第三者のために占有物を所持する意思を表示した場合</p>
+          <p class="h6 ind3 nobold">③　占有代理人が占有物の所持を失った場合</p>
+          <p class="p6 ind4">もっとも、占有権は、代理権の消滅のみによっては消滅しない（204条２項）。</p>
+          <p class="p6 ind4">ex. 賃貸借契約が終了しても、賃貸人が目的物を代理占有しているという関係がある以上、代理占有は継続する。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script src="js/app2.js?v=20260518-01"></script>
+</body>
+</html>

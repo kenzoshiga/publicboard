@@ -1,0 +1,508 @@
+﻿<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>民法 Unit61</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script>(function(){try{var v=localStorage.getItem('tocHidden');if(v==='1'){document.body.classList.add('toc-hidden');}}catch(e){}})();</script>
+<a id="top"></a>
+<header>
+  <div class="wrap hrow1">
+    <h1>民法 Unit61</h1>
+    <div class="hnav">
+      <a href="pu_index.php">トップへ</a>
+      <a href="pu26min60.php">前へ</a>
+      <a href="pu26min62.php">次へ</a>
+      <a href="pu26min61q.php">肢別へ</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="toc-wrap">
+      <div class="toc" id="toc">
+        <div class="toc-title"><strong>目次</strong>　<a href="#content">本文へ↓</a></div>
+        <ul>
+<li><a href="#A09">第９編　相　続</a>
+  <ul>
+    <li><a href="#A09-03">第３章　相続の効力</a>
+      <ul>
+        <li><a href="#A09-03-03">第３節　相続の承認・放棄</a>
+          <ul>
+            <li><a href="#A09-03-03-1">Ⅰ　承認・放棄制度</a>
+              <ul>
+            <li><a href="#A09-03-03-1-01">１　意義</a></li>
+            <li><a href="#A09-03-03-1-02">２　性質</a></li>
+            <li><a href="#A09-03-03-1-03">３　熟慮期間</a></li>
+            <li><a href="#A09-03-03-1-04">４　相続財産の管理</a></li>
+            <li><a href="#A09-03-03-1-05">５　撤回・取消し</a></li>
+            </ul>
+          </li>
+            <li><a href="#A09-03-03-2">Ⅱ　単純承認</a>
+              <ul>
+            <li><a href="#A09-03-03-2-01">１　意義</a></li>
+            <li><a href="#A09-03-03-2-02">２　法定単純承認</a></li>
+            <li><a href="#A09-03-03-2-03">３　単純承認の効果</a></li>
+            </ul>
+          </li>
+            <li><a href="#A09-03-03-3">Ⅲ　限定承認</a>
+              <ul>
+            <li><a href="#A09-03-03-3-01">１　意義・性質</a></li>
+            <li><a href="#A09-03-03-3-02">２　方法</a></li>
+            <li><a href="#A09-03-03-3-03">３　効果</a></li>
+            </ul>
+          </li>
+            <li><a href="#A09-03-03-4">Ⅳ　相続の放棄</a>
+              <ul>
+            <li><a href="#A09-03-03-4-01">１　意義・性質</a></li>
+            <li><a href="#A09-03-03-4-02">２　方式</a></li>
+            <li><a href="#A09-03-03-4-03">３　効果</a></li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+        <li><a href="#A09-03-04">第４節　相続回復請求権</a>
+          <ul>
+            <li><a href="#A09-03-04-0-01">１　意義</a></li>
+            <li><a href="#A09-03-04-0-02">２　相続回復請求権の行使</a></li>
+            <li><a href="#A09-03-04-0-03">３　相続回復請求権の消滅</a></li>
+          </ul>
+        </li>
+        <li><a href="#A09-03-05">第５節　相続土地国庫帰属制度</a>
+          <ul>
+            <li><a href="#A09-03-05-0-01">１　総説</a></li>
+            <li><a href="#A09-03-05-0-02">２　要件</a></li>
+            <li><a href="#A09-03-05-0-03">３　承認申請後の処分</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+        </ul>
+      </div>
+      <div class="ctrl-wrap">
+        <button type="button" class="toc-toggle" id="tocToggle">目次を非表示</button>
+        <button type="button" class="btn-ctrl" id="fsDown" title="文字を小さく">-</button>
+        <button type="button" class="btn-ctrl" id="fsReset" title="標準に戻す">Aa</button>
+        <button type="button" class="btn-ctrl" id="fsUp" title="文字を大きく">+</button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- TOC Modal (mobile) -->
+<div class="toc-modal" id="tocModal" aria-hidden="true">
+  <div class="toc-modal__backdrop" id="tocModalBackdrop"></div>
+  <div class="toc-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tocModalTitle">
+    <div class="toc-modal__head">
+      <div class="toc-modal__title" id="tocModalTitle">目次</div>
+      <button type="button" class="toc-modal__close" id="tocModalClose">閉じる</button>
+    </div>
+    <div class="toc-modal__body" id="tocModalBody">
+      <!-- JSで #toc の中身を複製 -->
+    </div>
+  </div>
+</div>
+<script src="js/app1.js?v=20260518-01"></script>
+<main id="content">
+<section class="sec-title" id="A09">
+  <h2>第９編　相　続</h2>
+  <div class="p-card chap-card">
+    <h2 id="A09-03">第３章　相続の効力</h2>
+    <div class="p-card sec-card">
+      <h3 id="A09-03-03">第３節　相続の承認・放棄</h3>
+    <div class="p-card rank4-card">
+      <p id="A09-03-03-1" class="h6 ind0">Ⅰ　承認・放棄制度</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-1-01">１　意義</div>
+      <p>単純承認：被相続人の権利義務を無制限・無条件に承継する相続形態</p>
+      <p>限定承認：相続によって得た積極財産の限度においてのみ、被相続人の債務及び遺贈を弁済すべき旨の留保を付して相続を承認する相続形態</p>
+      <p>相続放棄：初めから相続人ではなかったことになる相続形態</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-1-02">２　性質</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　財産上の行為であるから、相続の承認・放棄には、行為能力を必要とする。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　相続の承認・放棄は、原則として、相続財産の全部につき包括的になされる必要があるが、例外的に限定承認がある。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　相続開始前にその意思を表示しても無効である。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h26-22-a" title="H26-22-ア">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-1-03">３　熟慮期間</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　期間</p>
+          <p class="p6 ind1">相続の承認又は放棄は、相続人が「相続の開始があったことを知った時から３箇月以内に」しなければならない（915条１項本文）。</p>
+          <p class="p6 ind1">ただし、相続財産の状態が複雑で調査に時間がかかる等の特別な事情があれば、利害関係人・検察官の請求により、家庭裁判所は期間を伸長できる（915条１項ただし書）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　起算点</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 「相続の開始があったことを知った時」</p>
+          <p class="p6 ind2">：被相続人の死亡及びそれにより自分が相続人になったことを覚知した時（大決大15.８.３）</p>
+          <p class="p6 ind2">もっとも、相続人が相続財産は全くないと信じた場合には、そのことについて相当の理由があれば、例外的に相続財産の存否を覚知した時である（最判昭59.４.27）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相続人が承認・放棄をしないで死亡したとき</p>
+          <p class="p6 ind2">相続人が承認・放棄をしないで死亡したときは、その者の相続人が前相続人の承認・放棄権を承継できる。この場合、相続の承認・放棄の期間は、後相続人が自分のために相続の開始があったことを知った時から起算する（916条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 相続人が未成年者・成年被後見人であるとき</p>
+          <p class="p6 ind2">法定代理人がこれらの者のために相続の開始があったことを知った時（917条）</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-r02-22-a" title="R2-22-ア">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-1-04">４　相続財産の管理</div>
+      <p>相続人は、相続の承認又は放棄をするまでは、「その固有財産におけるのと同一の注意」をもって、相続財産を管理しなければならない（918条１項）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-1-05">５　撤回・取消し</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　撤回</p>
+          <p class="p6 ind1">相続の承認及び放棄の効果は確定的であり、撤回することはできない（919条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　取消し</p>
+          <p class="p6 ind1">相続の承認・放棄に制限行為能力・詐欺・強迫等の取消原因があれば、取消しが認められる（919条２項）。</p>
+          <p class="p6 ind1">※　単純承認についても、黙示の意思表示とみて、その取消しが認められている（大判明41.３.９）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 方式</p>
+          <p class="p6 ind2">家庭裁判所に申述してなされる（919条４項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 取消権の消滅</p>
+          <p class="p6 ind2">この取消権は、追認することができる時から６か月間行使しないときは、時効によって消滅する（919条３項前段）。相続の承認・放棄の時から10年経過したときも、同様である（919条３項後段）。</p>
+          <p class="p6 ind2">なお、同条項後段は除斥期間と解されている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 取消し後の相続の承認・放棄の意思表示</p>
+          <p class="p6 ind2">相続の承認・放棄が取り消されるとその後、遅滞なく、改めて相続の承認あるいは放棄をしなければならない（大判大10.８.３）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h26-22-eh19-24-e" title="H26-22-エ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A09-03-03-2" class="h6 ind0">Ⅱ　単純承認</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-2-01">１　意義</div>
+      <p>単純承認とは、被相続人の権利義務を無制限・無条件に承継することを内容として、相続を承認する相続形態をいう（920条）。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-2-02">２　法定単純承認</div>
+      <p>以下の事由があるときは、相続人の意思にかかわらず、当然に単純承認があったものとみなされる（法定単純承認・921条）。</p>
+      <p>これらの事由があるときに、後に限定承認・放棄をすると、相続債権者及び共同ないし後順位の相続人らが不測の損害を受けるおそれがあるからである。</p>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　相続財産の処分（１号本文）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 「処分」には、事実行為（家屋の取り壊し、山林の伐採等）も含む。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 「処分」というには、相続人が、被相続人の死亡事実を知った後か、確実に死亡を予想しながらしたものでなければならない（最判昭42.４.27）。また、相続人がいったん有効に限定承認又は放棄をした後に相続財産を処分した場合には、921条１号は適用されない（大判昭５.４.26）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 処分行為が無効又は取り消すことができるものであるときも単純承認が擬制される（大判大６.８.４）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(4) 相続人は相続財産を管理すべき立場にあるため、保存行為や短期賃貸借契約の締結をすることはできる（１号ただし書）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h25-22-a" title="H25-22-ア">過去問</a></div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　熟慮期間の経過（２号）</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　相続財産の隠匿、私に消費、悪意で財産目録に記載しなかった場合（３号本文）</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 相続人が有効に限定承認・放棄をした後でも不誠実で背信的な行為に出たときは、制裁的な意味で限定承認・放棄の効果を遡及的に失わせ、初めから単純承認をしたものとして扱うことにした。</p>
+          <p class="p6 ind2">なお、消極財産を財産目録に記載しなかったことも、同号の「相続財産の目録中に記載しなかった」ときに当たる（最判昭61.３.20）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相続人が放棄したことによって相続人になった者が承認した後は、相続人（放棄者）のかかる行為による単純承認の擬制は適用されない（921条３号ただし書）。</p>
+          <p class="p6 ind2">この場合には、相続人が放棄したことによって相続人となった者につき承認の効果が発生している以上、債権者はその者を追及すれば足りるため、相続債権者の利益が害されることもないから、相続人となった者の利益を保護しようとする趣旨である。</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-2-03">３　単純承認の効果</div>
+      <p>単純承認がなされると、相続人は、被相続人の一身専属権を除く一切の権利義務を相続開始の時から無限に承継したことになる（896条、920条）。</p>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A09-03-03-3" class="h6 ind0">Ⅲ　限定承認</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-3-01">１　意義・性質</div>
+      <p>限定承認とは、相続人が一応相続を承認するが、相続によって得た積極財産の限度においてのみ、被相続人の債務及び遺贈を弁済すべき旨の留保を付してする相続形態をいう（922条）。</p>
+      <p>相続財産がマイナスであることが明らかであれば、相続を放棄すればよいが、プラスかマイナスか不明の場合にこの制度が効果を発揮する。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-3-02">２　方法</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　相続人は、限定承認をしようとするときは、熟慮期間内に財産目録を作成して家庭裁判所に提出し、限定承認をする旨の申述をしなければならない（924条）。限定承認は、相続債権者その他の利害関係人に影響することが大きいからである。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　相続人が数人あるときは、共同相続人の全員の共同でなければ限定承認をすることはできない（923条）。各相続人に、限定承認を許せば、その相続分についての精算手続が非常に複雑になるからである。</p>
+          <p class="p6 ind1">なお、共同相続人全員が限定承認した場合でも、一部の相続人が相続財産の隠匿や私に消費した等の事実により単純承認したものとみなされれば（921条３号本文）、その者は自己の相続分に応じて単純承認したものとしての責任を負う（937条）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h11-21-i" title="H11-21-イ">過去問</a></div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-3-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　物的有限責任</p>
+          <p class="p6 ind1">限定承認をした相続人は、「相続によって得た財産の限度においてのみ」、被相続人の債務及び遺贈を弁済すればよいことになる（922条）。</p>
+          <p class="p6 ind1">限定承認によって、相続人の責任は相続財産の限度に縮減されるが、債務そのものは縮減されることはないため、いわゆる物的有限責任（責任なき債務・自然債務）を負うことになる。従って、限定承認をした相続人が、自らの固有財産で弁済をしたとしても、非債弁済とはならない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　相続財産と固有財産の分離</p>
+          <p class="p6 ind1">限定承認をした場合には、相続財産と相続人の固有の財産とは分離して別個のものとして精算するから、混同によって消滅しない（925条）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　相続財産の管理</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 注意義務</p>
+          <p class="p6 ind2">限定承認者は、その固有財産におけるのと同一の注意をもって、相続財産の管理を継続しなければならない（926条１項）。その地位は、受任者とほぼ同様である（926条２項、645条、646条、650条１項及び２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 清算</p>
+          <p class="p6 ind2">927条以下の手続により、除斥広告（927条）、換価（932条以下）、弁済（929条以下）がなされる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 限定承認者の責任</p>
+          <p class="p6 ind2">限定承認者が上記の精算手続に違反した場合には、損害賠償責任を負うことがある（934条）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h11-21-e" title="H11-21-エ">過去問</a></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="p-card rank4-card">
+      <p id="A09-03-03-4" class="h6 ind0">Ⅳ　相続の放棄</p>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-4-01">１　意義・性質</div>
+      <p>相続の放棄とは、相続人が相続の開始によって不確定的にではあるが、一応生じた相続の効果を確定的に拒絶し、初めから相続人でなかった効果を生じさせる相続形態をいう（938条以下）。</p>
+      <p>相続人の単独の意思表示であり、期限・条件を付することはできない。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-4-02">２　方式</div>
+      <p>相続の放棄をしようとする者は、熟慮期間内に家庭裁判所に放棄をする旨の申述をしなければならない（938条）。</p>
+      <p>限定承認の場合と異なり、共同相続の場合でも各相続人が単独で放棄できる。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-03-4-03">３　効果</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　効果</p>
+          <p class="p6 ind1">放棄者はその相続に関しては、初めから相続人でなかったものとみなされる（939条）。その効果は、絶対的で何人に対してもその効果を生じる。</p>
+          <p class="p6 ind1">※　特定の者のために放棄するという相対的放棄は許されず、他人に対して放棄の合意をしても効力は生じない（大判大６.11.９）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　二重資格者の放棄の取り扱い</p>
+          <p class="p6 ind1">Ｑ　二重資格者の放棄をどのように取り扱うべきか。例えば、弟が兄の養子になった場合に、兄が死亡し、弟が養子の地位に基づき（第１順位者）放棄した場合に、兄に他に直系血族も直系卑属もないときは弟たる地位に基づき（第２順位）、改めて相続の承認・放棄をするべきか。</p>
+          <p class="p6 ind1">→　第１順位でなされた放棄の効果は、当然に第２順位の資格に及ぶ（実務・昭32.１.10民甲61）。</p>
+          <p class="p6 ind1">もっとも、以下のように、二重資格者がどの相続人の資格で相続放棄をしたかを明らかとする場合には、もう一方の相続人の資格には相続放棄の効果は及ばない。</p>
+          <p class="p6 ind1">配偶者及び妹としての相続人の資格を有する者から相続による所有権の移転の登記が申請され、相続を証する情報として、戸籍謄本及び相続放棄申述受理証明書のほか、配偶者として相続放棄をしたことを確認できる相続放棄申述書の謄本及び妹としては相続放棄をしていない旨が記載された上申書（印鑑証明書付き）を提供した場合、配偶者としての相続放棄の効果は妹としての相続人の資格に及ばないものとして取り扱う（平27.９.2民二.363）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　放棄後の相続財産の管理</p>
+          <p class="p6 ind1">相続の放棄をした者は、その放棄の時に相続財産に属する財産を現に占有しているときは、相続人又は952条1項の相続財産の清算人に対して当該財産を引き渡すまでの間、自己の財産におけるのと同一の注意をもって、その財産を保存しなければならない（940条１項）。</p>
+          <p class="p6 ind1">放棄者は、本来放棄により相続開始時から相続人でなかったことになるので、財産管理義務を負わないことになるはずであるが、相続財産の保全のために課したものである。</p>
+          <p class="p6 ind1">放棄者が相続財産の保存義務を負う場合、645条、646条並びに650条１項及び２項の規定が準用される（940条２項）。</p>
+        </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h05-22-a" title="H5-22-ア">過去問</a></div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A09-03-04">第４節　相続回復請求権</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-04-0-01">１　意義</div>
+      <p>相続人である者（真正相続人）が相続すべき相続財産を他の者（表見相続人）が相続人と称して侵害している場合に真正相続人を救済する制度である。</p>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-04-0-02">２　相続回復請求権の行使</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　当事者</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 権利者</p>
+          <p class="p6 ind2">相続回復請求権の権利者は、遺産の占有を失っている真正相続人である（大判明38.12.７）。法定代理人も、当然に相続回復請求権を行使することができる（大判明34.９.26）。</p>
+          <p class="p6 ind2">相続分の譲受人は、相続人に準じて、相続回復請求権を行使することができると解されている。しかし、相続回復請求権は真正相続人の一身専属権であるので、相続財産の特定承継人は、相続回復請求権を有しない。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 相手方</p>
+          <p class="p6 ind2">相続回復請求権の相手方は表見相続人に限られる。表見相続人からの第三取得者に対して相続回復請求権を主張することはできない（大判大５.２.８）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　方法</p>
+          <p class="p6 ind1">裁判上でも裁判外でも行使できる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-04-0-03">３　相続回復請求権の消滅</div>
+      <p>相続回復請求権は、相続人又はその法定代理人が、相続権を侵害された事実を知った時から５年間行使しないときは、時効によって消滅する。また、相続開始の時から20年を経過した場合には、相続人が相続権侵害の事実を知っていたか否かに関係なく消滅する（884条）。</p>
+      <p>５年の時効の起算点にいう「相続権を侵害された事実を知」るとは、単に相続開始の事実を知るだけでなく、自分が真正相続人であることを知り、かつ、自分が相続から除外されていることを知ることである（大判明38.９.19）。</p>
+      <p>20年の期間制限は、学説では除斥期間であると解しているものが多いが、判例では、消滅時効としている（最判昭39.２.27）。</p>
+    </div>
+<div class="kakomon"><a href="pu26min61q.php#q-h04-23-3" title="H4-23-3">過去問</a></div>
+    </div>
+    <div class="p-card sec-card">
+      <h3 id="A09-03-05">第５節　相続土地国庫帰属制度</h3>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-05-0-01">１　総説</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　意義</p>
+          <p class="p6 ind1">この法律は、社会経済情勢の変化に伴い所有者不明土地（相当な努力を払ってもなおその所有者の全部又は一部を確知することができない土地をいう。）が増加していることに鑑み、相続又は遺贈（相続人に対する遺贈に限る。）（以下「相続等」という。）により土地の所有権又は共有持分を取得した者等がその土地の所有権を国庫に帰属させることができる制度を創設し、もって所有者不明土地の発生の抑制を図ることを目的とする（１条※）。</p>
+<div class="ftnote">
+※第５節では特段の記載がなければ「相続等により取得した土地所有権の国庫への帰属に関する法律」の条文を記載している。
+</div>        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　趣旨</p>
+          <p class="p6 ind1">所有者不明土地の発生抑制及び相続でやむを得ず土地を取得し、管理の責任を負う相続人等の負担の軽減である。</p>
+          <p class="p6 ind1">もっとも、国による管理等の負担が重くなりすぎないようにする必要もあるため、ある程度厳格な要件が定められている。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　手続きの流れ</p>
+          <p class="p6 ind1">承認申請（２条１項、２項）</p>
+          <p class="p6 ind1">　↓</p>
+          <p class="p6 ind1">審査</p>
+          <p class="p6 ind1">　↓</p>
+          <p class="p6 ind1">承認処分（５条）ｏｒ却下（４条１項）</p>
+          <p class="p6 ind1">　↓</p>
+          <p class="p6 ind1">負担金の納付（10条１項）</p>
+          <p class="p6 ind1">　↓</p>
+          <p class="p6 ind1">国庫への帰属（11条１項）</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-05-0-02">２　要件</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　承認申請</p>
+          <p class="p6 ind1">承認申請は、法務省令で定めるところにより、承認申請書及び法務省令で定める添付書類を法務大臣に提出してする（３条１項）。承認申請者は、承認申請の際、手数料を納めなければならない（３条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　承認申請者</p>
+          <p class="p6 ind1">「相続等によりその土地の所有権の全部又は一部を取得した者」である（２条１項かっこ書）。</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 「相続等」</p>
+          <p class="p6 ind2">「相続等」には、遺産分割、相続人に対する遺贈（１条かっこ書）、及び特定財産承継遺言が含まれる。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 共有地の場合</p>
+          <p class="p6 ind2">共有地の場合には、承認申請は共有者の全員でしなければならない（２条２項）。</p>
+          <p class="p6 ind2">この場合においては、共有者の中に相続等により共有持分を取得した者がいればよく、共有者全員が相続等により共有持分を取得している必要はない。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　対象土地</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 承認申請が認められない土地</p>
+          <p class="p6 ind2">以下の要件に該当する場合、承認申請自体が認められない（２条３項各号）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　建物の存する土地</p>
+          <p class="h6 ind3 nobold">ⅱ　担保権又は使用及び収益を目的とする権利が設定されている土地</p>
+          <p class="h6 ind3 nobold">ⅲ　通路その他の他人による使用が予定される土地として政令で定めるものが含まれる土地</p>
+          <p class="h6 ind3 nobold">ⅳ　土壌汚染対策法２条１項に規定する特定有害物質（法務省令で定める基準を超えるものに限る。）により汚染されている土地</p>
+          <p class="h6 ind3 nobold">ⅴ　境界が明らかでない土地その他の所有権の存否、帰属又は範囲について争いがある土地</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 承認されない土地</p>
+          <p class="p6 ind2">以下の要件に該当する場合、承認申請自体はできるが、国庫帰属が承認されない（５条１項各号）。これらの要件に該当しない場合、法務大臣は、その土地の所有権の国庫帰属を承認しなければならない（５条１項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　崖（勾配、高さその他の事項について政令で定める基準に該当するものに限る。）がある土地のうち、その通常の管理に当たり過分の費用又は労力を要するもの</p>
+          <p class="h6 ind3 nobold">ⅱ　土地の通常の管理又は処分を阻害する工作物、車両又は樹木その他の有体物が地上に存する土地</p>
+          <p class="h6 ind3 nobold">ⅲ　除去しなければ土地の通常の管理又は処分をすることができない有体物が地下に存する土地</p>
+          <p class="h6 ind3 nobold">ⅳ　隣接する土地の所有者その他の者との争訟によらなければ通常の管理又は処分をすることができない土地として政令で定めるもの</p>
+          <p class="h6 ind3 nobold">ⅴ　前各号に掲げる土地のほか、通常の管理又は処分をするに当たり過分の費用又は労力を要する土地として政令で定めるもの</p>
+        </div>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">4.　負担金の納付</p>
+          <p class="p6 ind1">承認申請者は、５条１項の承認があったときは、負担金を納付しなければならない（10条１項）。</p>
+        </div>
+      </div>
+    </div>
+    <div class="blk outer">
+      <div class="outer-title" id="A09-03-05-0-03">３　承認申請後の処分</div>
+      <div class="blk inner">
+        <div class="p-card">
+          <p class="h6 ind0">1.　承認処分</p>
+        <div class="p-card">
+          <p class="h6 ind1">(1) 通知</p>
+          <p class="p6 ind2">法務大臣は、５条１項の承認をし、又はしないこととしたときは、法務省令で定めるところにより、その旨を承認申請者に通知しなければならない（９条）。</p>
+          <p class="p6 ind2">当該通知の際には、法務省令で定めるところにより、併せて負担金の額を通知しなければならない（10条２項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(2) 承認に係る土地の所有権移転</p>
+          <p class="p6 ind2">承認申請者が負担金を納付したときは、その納付の時において、承認に係る土地の所有権は、国庫に帰属する（11条１項）。</p>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind1">(3) 負担金未納付の場合の失効</p>
+          <p class="p6 ind2">承認申請者が前項に規定する負担金の額の通知を受けた日から30日以内に、法務省令で定める手続に従い、負担金を納付しないときは、５条１項の承認は、その効力を失う（10条３項）。</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">2.　却下処分</p>
+          <p class="p6 ind1">法務大臣は、次に掲げる場合には、承認申請を却下しなければならない（４条１項）。そして、却下したときは、遅滞なく、法務省令で定めるところにより、その旨を承認申請者に通知しなければならない（４条２項）。</p>
+        <div class="p-card">
+          <p class="h6 ind3 nobold">ⅰ　承認申請が申請の権限を有しない者の申請によるとき</p>
+          <p class="h6 ind3 nobold">ⅱ　承認申請が２条３項又は３条の規定に違反するとき（※1）</p>
+          <p class="h6 ind3 nobold">ⅲ　承認申請者が、正当な理由がないのに、６条の規定による調査に応じないとき（※2）</p><br>
+          <p class="p6 ind4">※1　２条３項＝前記２3.（1）の要件</p>
+          <p class="p6 ind4">３条＝承認申請書及び添付書類の規定</p>
+          <p class="p6 ind4">※2　６条＝審査のために必要な調査に関する規定</p>
+        </div>
+        </div>
+        <div class="p-card">
+          <p class="h6 ind0">3.　承認処分の職権取消し</p>
+          <p class="p6 ind1">法務大臣は、承認申請者が偽りその他不正の手段により承認を受けたことが判明したときは、当該承認を取り消すことができる（13条１項）。</p>
+          <p class="p6 ind1">職権取消しをする場合、状況に応じて各所管省庁への意見聴取や利害関係人の同意を得ることを要することとなる（13条２項、３項）。</p>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="link-dialog" id="linkDialog">
+  <div class="link-dialog__backdrop" id="linkDialogBackdrop"></div>
+  <div class="link-dialog__panel">
+    <ul id="linkDialogList"></ul>
+    <div class="link-dialog__close">
+      <button type="button" id="linkDialogClose">閉じる</button>
+    </div>
+  </div>
+</div>
+<script src="js/app2.js?v=20260518-01"></script>
+</body>
+</html>

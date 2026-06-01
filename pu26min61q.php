@@ -1,0 +1,992 @@
+﻿<?php require_once 'auth_check.php'; ?>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>民法 Unit61</title>
+  <link rel="stylesheet" href="css/style_q.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hrow1">
+    <h1>民法 Unit61</h1>
+      <div class="hnav">
+      <a href="pu_index.php">トップへ</a>
+      <a href="pu26min60q.php">前へ</a>
+      <a href="pu26min62q.php">次へ</a>
+      <a href="pu26min61.php">テキストへ</a>
+      </div>
+    </div>
+    <div class="hrow2">
+      <div class="hsize">
+        <button class="btn" id="btn-font-dec">-</button>
+        <button class="btn" id="btn-font-std">Aa</button>
+        <button class="btn" id="btn-font-inc">+</button>
+      </div>
+      <button class="btn" id="btn-clear">reset</button>
+      <button class="btn" id="btn-all1">全済</button>
+      <button class="btn" id="btn-all2">全再</button>
+    </div>
+  </div>
+</header>
+<main><div class="list">
+
+    <!-- 1 -->
+    <section class="q" id="q-h26-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-22-ア)</div>
+          <p class="qtext">1　未成年者である相続人が相続の承認又は放棄をするためには、その法定代理人の同意又はその代理によることを要しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-02">性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="q" id="q-h01-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H01-19-エ)</div>
+          <p class="qtext">2　18歳の男子は単独で有効に相続の限定承認をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-02">性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h01-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q" id="q-r02-22-uh19-24-ih09-19-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-22-ウ)(H19-24-イ)(H09-19-ウ)</div>
+          <p class="qtext">3　推定相続人は、相続開始前であっても、家庭裁判所の許可を得れば、相続の放棄をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-02">性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-22-uh19-24-ih09-19-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q" id="q-h19-24-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-24-ア)</div>
+          <p class="qtext">4　相続の放棄には、条件を付すことができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-02">性質</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-24-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q" id="q-r02-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-22-ア)</div>
+          <p class="qtext">5　相続の承認又は放棄をすべき期間は、伸長することができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q" id="q-h12-19-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-19-エ)</div>
+          <p class="qtext">6　相続の放棄をすることができる期間は、利害関係人又は検察官の請求に基づき家庭裁判所が伸長することができるほか、被相続人が遺言で伸長することもできる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-19-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q" id="q-h13-21-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-21-ア)</div>
+          <p class="qtext">7　相続人が自己のために相続の開始があったことを知らない場合でも、相続の開始の時から3か月が経過したときは、単純承認をしたものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-21-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="q" id="q-h12-19-ah05-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H12-19-ア)(H05-22-イ)</div>
+          <p class="qtext">8　相続人が数人いる場合の相続の放棄の申述は、相続人のいずれかが自己のために相続の開始があったことを知った時から3か月以内にしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h12-19-ah05-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="q" id="q-h04-23-1">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-23-1)</div>
+          <p class="qtext">9　相続の承認又は放棄の3月の熟慮期間の起算時は、相続人が被相続人の死亡の事実を知っただけでなく、被相続人の死亡により、自己が相続人となったことを知った時である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-23-1">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="q" id="q-h26-22-ih04-23-4">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-22-イ)(H04-23-4)</div>
+          <p class="qtext">10　相続人において、相続財産が全く存在しないと信じ、かつ、このように信ずるについて相当な理由がある場合における相続の承認又は放棄をすべき期間は、当該相続人が相続開始の原因となる事実及びこれにより自己が法律上相続人となった事実を知った時から起算する。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-22-ih04-23-4">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="q" id="q-h19-24-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H19-24-オ)</div>
+          <p class="qtext">11　相続人Ａが自己のために相続の開始があったことを知った時から3か月以内に相続の承認又は放棄をしないで死亡したときは、Ａの相続人Ｂは、Ａの相続について承認又は放棄をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h19-24-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="q" id="q-h02-06-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H02-06-5)</div>
+          <p class="qtext">12　甲には妻乙と乙との間の子丙がおり、丙には妻丁と丁との間の子戊がいるが、甲の死亡により相続が開始した。丙が相続の承認又は放棄をしないで死亡した場合、戊は、丙が死亡した時から3ヶ月以内に、甲からの相続について承認又は放棄をしなければならない。なお、相続人には、代襲による相続人も含むものとする。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-03">熟慮期間</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h02-06-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="q" id="q-h26-22-eh19-24-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-22-エ)(H19-24-エ)</div>
+          <p class="qtext">13　相続の承認又は放棄をした場合であっても、相続の承認又は放棄をすべき期間内であれば、これを撤回することができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-05">撤回・取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-22-eh19-24-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="q" id="q-h25-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-22-イ)</div>
+          <p class="qtext">14　Ａには、妻Ｂ、Ｂとの間の子Ｃ及びＤ、母Ｅ並びに弟Ｆがおり、Ａが900万円の財産を残して死亡し、Ａを被相続人とする相続について、Ｂがその相続を承認した。Ｃ及びＤが相続の放棄をしたものの、Ｃが自己のために相続の開始があったことを知った時から3か月以内にこれを撤回する旨の意思表示をした場合には、Ｂの相続分は、450万円となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-05">撤回・取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="q" id="q-h29-05-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H29-05-オ)</div>
+          <p class="qtext">15　家庭裁判所に対してされた相続の放棄の意思表示については、錯誤の規定の適用はない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-05">撤回・取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h29-05-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="q" id="q-h05-22-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-22-エ)</div>
+          <p class="qtext">16　甲が死亡し、その子であるＡ、Ｂ及びＣのために相続が開始した。ＣがＡの詐欺により相続放棄の意思表示をしたときは、Ｃは、家庭裁判所に申述することによって、その放棄を取り消すことができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-05">撤回・取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-22-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="q" id="q-r02-22-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-22-エ)</div>
+          <p class="qtext">17　相続の放棄をした者が、強迫を理由として相続の放棄の取消しをしようとする場合には、その旨を家庭裁判所に申述しなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-1-05">撤回・取消し</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-22-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 18 -->
+    <section class="q" id="q-h25-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-22-ア)</div>
+          <p class="qtext">18　Ａには、妻Ｂ、Ｂとの間の子Ｃ及びＤ、母Ｅ並びに弟Ｆがおり、Ａが900万円の財産を残して死亡し、Ａを被相続人とする相続について、Ｂがその相続を承認した。Ｃ及びＤが相続の放棄の申述をしたが、Ｃが当該申述をする前に自己のために相続が開始されたことを知りながら相続財産の一部を自己の債務の弁済に充てていた場合には、Ｂの相続分は、450万円となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 19 -->
+    <section class="q" id="q-h13-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-21-イ)</div>
+          <p class="qtext">19　相続人が相続の放棄をした後に相続財産を処分したときは、単純承認をしたものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 20 -->
+    <section class="q" id="q-h13-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-21-エ)</div>
+          <p class="qtext">20　相続人が相続財産である建物の賃借人に対し賃料の支払を求めたときは、単純承認をしたものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 21 -->
+    <section class="q" id="q-r02-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-22-イ)</div>
+          <p class="qtext">21　相続人は、相続財産を処分したとしても、被相続人が死亡したことを知らず、予想もしていなかった場合には、単純承認をしたものとはみなされない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 22 -->
+    <section class="q" id="q-h26-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H26-22-ウ)</div>
+          <p class="qtext">22　相続人が3年を超えない期間を定めて相続財産である建物を賃貸しても、単純承認をしたものとみなされない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h26-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 23 -->
+    <section class="q" id="q-h13-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H13-21-ウ)</div>
+          <p class="qtext">23　相続人が相続財産である建物の不法占有者に対し明渡しを求めたときは、単純承認をしたものとみなされる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h13-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 24 -->
+    <section class="q" id="q-h09-19-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H09-19-ア)</div>
+          <p class="qtext">24　相続人が、相続財産である不動産の不実の登記名義人に対し、持分権に基づく当該登記の抹消手続請求訴訟を提起したときは、相続の放棄をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-2-02">法定単純承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h09-19-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="q" id="q-h11-21-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-21-イ)</div>
+          <p class="qtext">25　限定承認は、相続人が家庭裁判所に対して限定承認をする旨を申述してしなければならない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3">限定承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-21-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 26 -->
+    <section class="q" id="q-r02-22-oh09-19-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(R02-22-オ)(H09-19-イ)</div>
+          <p class="qtext">26　Ａが死亡し、その相続人がＡの子Ｂ、Ｃ及びＤである場合において、Ｂが相続の放棄をしたときは、Ｃ及びＤは共同して限定承認をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3">限定承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-r02-22-oh09-19-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 27 -->
+    <section class="q" id="q-h11-21-ah19-24-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-21-ア)(H19-24-ウ)</div>
+          <p class="qtext">27　相続人が数人ある場合、限定承認は、相続人が各別にすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3">限定承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-21-ah19-24-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 28 -->
+    <section class="q" id="q-h05-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-22-ウ)</div>
+          <p class="qtext">28　甲が死亡し、その子であるＡ、Ｂ及びＣのために相続が開始した。Ａ及びＢが相続の単純承認をした後であっても、Ｃのみで限定承認をすることができる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3">限定承認</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 29 -->
+    <section class="q" id="q-h11-21-e">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-21-エ)</div>
+          <p class="qtext">29　限定承認をした相続人は、相続によって得た財産の限度においてのみ被相続人の債務及び遺贈を弁済する責任を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3-03">効果</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-21-e">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 30 -->
+    <section class="q" id="q-h11-21-o">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-21-オ)</div>
+          <p class="qtext">30　限定承認をした相続人が被相続人の債務を自己の固有財産で弁済した場合、その弁済は、無効である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3-03">効果</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-21-o">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 31 -->
+    <section class="q" id="q-h03-22-i">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H03-22-イ)</div>
+          <p class="qtext">31　債務者が債権者を相続した場合であっても、債務者が限定承認をしたときは、当該債権は混同により消滅しない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3-03">効果</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h03-22-i">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 32 -->
+    <section class="q" id="q-h11-21-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H11-21-ウ)</div>
+          <p class="qtext">32　限定承認をした相続人は、善良な管理者の注意をもって、相続財産を管理する義務を負う。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-3-03">効果</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h11-21-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 33 -->
+    <section class="q" id="q-h05-22-a">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H05-22-ア)</div>
+          <p class="qtext">33　甲が死亡し、その子であるＡ、Ｂ及びＣのために相続が開始した。甲が遺言により相続人らによる相続の放棄を禁止したときは、相続人らは、相続の放棄をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-4">相続の放棄</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-22-a">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 34 -->
+    <section class="q" id="q-h28-23-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H28-23-ウ)(改)</div>
+          <p class="qtext">34　被相続人の配偶者が相続の放棄をした場合には、当該配偶者は、遺留分侵害額請求をすることができない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-4">相続の放棄</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h28-23-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 35 -->
+    <section class="q" id="q-h25-22-u">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H25-22-ウ)</div>
+          <p class="qtext">35　Ａには、妻Ｂ、Ｂとの間の子Ｃ及びＤ、母Ｅ並びに弟Ｆがおり、Ａが900万円の財産を残して死亡し、Ａを被相続人とする相続について、Ｂがその相続を承認した。Ｃ及びＤが相続の放棄をし、Ｅが相続の承認をした後に死亡した場合において、ＦがＥを被相続人とする相続の放棄をしたときは、Ｂの相続分は、900万円となる。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-03-4">相続の放棄</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h25-22-u">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 36 -->
+    <section class="q" id="q-h04-23-3">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-23-3)</div>
+          <p class="qtext">36　相続回復請求権の5年の短期消滅時効の起算時は、相続人又はその法定代理人が相続の開始及び真正相続人であるにもかかわらず、相続から除外されていることを知った時である。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-04">相続回復請求権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-23-3">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 37 -->
+    <section class="q" id="q-h04-23-5">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">(H04-23-5)</div>
+          <p class="qtext">37　相続回復請求権の20年の消滅時効の起算時は、相続人が被相続人の死亡の事実を知った時であり、その場合、被相続人の死亡により、自己が相続人となったことまで知る必要はない。</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-04">相続回復請求権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h04-23-5">解答・解説</button>
+      </div>
+    </section>
+
+    <!-- 38 -->
+    <section class="q" id="q-h05-21">
+      <div class="qhead">
+        <div class="left">
+          <div class="qid">（H05-21）</div>
+          <p class="qtext">38　次の文中の（　　）内には、三つの語句のうちのいずれかがあてはまるものとして、（ Ａ ）に当てはまる語句が使用される回数は、（ Ａ ）自体を含めて何回か。<br>（H05-21）<br><br>「民法が定める相続回復請求の制度は、（　　）が（　　）の（　　）を否定し相続の目的たる権利を侵害している場合に、（　　）が自己の（　　）を主張して、（　　）に対し侵害の排除を請求することにより、（　　）に（　　）を回復させようとするものである。そして、民法が相続回復請求権について消滅時効を定めたのは、（ Ａ ）が外見上相続により相続財産を取得したという事実状態が生じたのち相当年月を経てからこの事実状態を覆滅して（　　）に（　　）を回復させることにより、当事者又は第三者の権利義務関係に混乱を生じさせることのないよう、（　　）の帰属及びこれに伴う法律関係を早期にかつ終局的に確定させようという趣旨に出たものである。」<br><br>1　1回　　　2　2回　　　3　3回　　　4　4回　　　5　5回</p>
+          <div class="meta">
+            <span class="pill">テキスト：
+<a href="pu26min61.php#A09-03-04">相続回復請求権</a>
+            </span>
+          </div>
+        </div>
+        <button class="btn" data-open="dlg-h05-21">解答・解説</button>
+      </div>
+    </section>
+
+
+</div></main>
+<!-- ========= dialogs ========= -->
+
+<dialog id="dlg-h26-22-a">
+  <div class="dlg-head"><div class="dlg-title">(H26-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>未成年者である相続人が承認・放棄するには、その法定代理人の同意（民法<span class="mono">5条</span>1項本文）または法定代理人の代理による必要がある（民法<span class="mono">824条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h01-19-e">
+  <div class="dlg-head"><div class="dlg-title">(H01-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>18歳の男子は成年に達しているため（民法<span class="mono">4条</span>参照）、単独で相続の承認・放棄をすることができると解される（民法<span class="mono">917条</span>参照）。なお、未成年者が限定承認をするには、その法定代理人の同意（民法<span class="mono">5条</span>1項本文）またはその法定代理人の代理による必要がある（民法<span class="mono">824条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-22-uh19-24-ih09-19-u">
+  <div class="dlg-head"><div class="dlg-title">(R02-22-ウ)(H19-24-イ)(H09-19-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人は、自己のために相続の開始があったことを知った時から3か月以内に、相続について、単純若しくは限定の承認又は放棄をしなければならない（民法<span class="mono">915条</span>1項本文）。承認・放棄の意思表示は、必ず相続開始後にされなければならず、相続開始前にされた承認又は放棄の意思表示は、無効であると解されている。その趣旨は、相続人の承認・放棄の機会を実質的に保障する点にある。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-24-a">
+  <div class="dlg-head"><div class="dlg-title">(H19-24-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続の承認・放棄に条件や期限をつけることは認められない。条件や期限をつけるのに親しまない行為だからである。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-22-a">
+  <div class="dlg-head"><div class="dlg-title">(R02-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人は、自己のために相続の開始があったことを知った時から3か月以内に、相続について、単純若しくは限定の承認又は放棄をしなければならない（民法<span class="mono">915条</span>1項本文）。ただし、この期間は、利害関係人又は検察官の請求によって、家庭裁判所において伸長することができる（民法<span class="mono">915条</span>1項ただし書）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-19-e">
+  <div class="dlg-head"><div class="dlg-title">(H12-19-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続の承認又は放棄をすべき期間は、利害関係人又は検察官の請求によって、家庭裁判所において伸長できる（民法<span class="mono">915条</span>1項ただし書）が、被相続人が遺言により伸長することは認められていない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-21-a">
+  <div class="dlg-head"><div class="dlg-title">(H13-21-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人は、自己のために相続の開始があったことを知った時から3か月以内に、相続について、単純若しくは限定の承認又は放棄をしなければならない（民法<span class="mono">915条</span>1項）。そして、相続人が熟慮期間内に限定承認又は相続の放棄をしなかった時は、単純承認をしたものとみなされる（民法<span class="mono">921条</span>2号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h12-19-ah05-22-i">
+  <div class="dlg-head"><div class="dlg-title">(H12-19-ア)(H05-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人は、自己のために相続の開始があったことを知った時から3か月以内に、相続について、単純若しくは限定の承認又は放棄をしなければならない（民法<span class="mono">915条</span>1項）。そして、相続人が数人あるときは、民法<span class="mono">915条</span>1項に定める3か月の期間は、各相続人が自己のために相続の開始があったことを知った時から各別に進行するとされている（最判昭51.7.1）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-23-1">
+  <div class="dlg-head"><div class="dlg-title">(H04-23-1) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人は、自己のために相続の開始があったことを知った時から3か月以内に、相続の承認または放棄をしなければならない（民法<span class="mono">915条</span>）。「自己のために相続の開始があったことを知った時」とは、相続人が相続開始の原因たる事実の発生を知り、かつ、自己が相続人となったことを覚知した時である（大決大15.8.3）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-22-ih04-23-4">
+  <div class="dlg-head"><div class="dlg-title">(H26-22-イ)(H04-23-4) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続の熟慮期間は、原則として、相続人が相続開始の原因たる事実及びこれにより自己が法律上相続人となった事実を知った時から起算すべきである。しかし、相続人が、相続財産は全くないと信じた場合で、かつ、そのことについて相当の理由があれば、熟慮期間は、相続人が相続財産の全部又は一部の存在を認識した時又は通常これを認識することができるであろう時から起算すべきである（最判昭59.4.27）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h19-24-o">
+  <div class="dlg-head"><div class="dlg-title">(H19-24-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が相続の承認又は放棄をしないで死亡したときは、相続の承認・放棄の期間は、その者の相続人が自己のために相続の開始があったことを知った時から起算する（民法<span class="mono">916条</span>）。よって、Ａの相続人Ｂは、自己のために相続の開始があったことを知った時から3か月以内ならば、Ａの相続について承認又は放棄をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h02-06-5">
+  <div class="dlg-head"><div class="dlg-title">(H02-06-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が相続の承認又は放棄をしないで死亡したときは、相続の承認又は放棄をすべき期間は、その者の相続人が自己のために相続の開始があったことを知った時から起算する（民法<span class="mono">916条</span>）。よって、丙の相続人戊は、自己のために相続の開始があったことを知った時から3か月以内ならば、甲の相続について承認または放棄をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-22-eh19-24-e">
+  <div class="dlg-head"><div class="dlg-title">(H26-22-エ)(H19-24-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続の承認及び放棄は、熟慮期間内であっても、撤回することができない（民法<span class="mono">919条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-22-i">
+  <div class="dlg-head"><div class="dlg-title">(H25-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続の放棄は、相続の放棄をすべき期間内であっても、撤回することはできない（民法<span class="mono">919条</span>1項）ので、本記述のＣによる相続の放棄の撤回は効力を生じない。よって、Ａの相続人は、妻Ｂ、母Ｅとなり、Ｂの相続分は、相続財産の3分の2の600万円となる（民法<span class="mono">900条</span>2号）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h29-05-o">
+  <div class="dlg-head"><div class="dlg-title">(H29-05-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続の承認・放棄の場合にも制限行為能力や意思表示の瑕疵による取消しは認められる（民法<span class="mono">919条</span>2項）。判例も、相続放棄につき「民法<span class="mono">95条</span>の規定の適用があることは当然」であるとしている（最判昭40.5.27）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-22-e">
+  <div class="dlg-head"><div class="dlg-title">(H05-22-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続の承認・放棄の場合にも制限行為能力や意思表示の瑕疵による取消しは認められる（民法<span class="mono">919条</span>2項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-22-e">
+  <div class="dlg-head"><div class="dlg-title">(R02-22-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続の承認及び放棄は、強迫を理由として相続の承認又は放棄の取消しをすることができる（民法<span class="mono">919条</span>2項、<span class="mono">96条</span>1項）。そして、限定承認又は相続の放棄の取消しをしようとする者は、その旨を家庭裁判所に申述しなければならない（民法<span class="mono">919条</span>4項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-22-a">
+  <div class="dlg-head"><div class="dlg-title">(H25-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>Ｃは、相続放棄の申述をする前に、自己のために相続が開始されたことを知りながら相続財産の一部を自己の債務の弁済に当てており、それにより単純承認をしたものとみなされる（民法<span class="mono">921条</span>1号本文）。よって、Ａの相続人は、妻Ｂ及び子Ｃとなり（民法<span class="mono">887条</span>1項、<span class="mono">890条</span>前段）、Ｂの相続分は、相続財産の2分の1の450万円となる（民法<span class="mono">900条</span>1号本文）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H13-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が相続財産の全部又は一部を処分したときは、単純承認をしたものとみなされる（民法<span class="mono">921条</span>1号本文）が、この規定が適用されるのは限定承認・放棄をする前である（大判昭5.4.26）。よって、相続の放棄をした後に相続財産を処分したとしても単純承認をしたものとみなされない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-21-e">
+  <div class="dlg-head"><div class="dlg-title">(H13-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続開始後、相続放棄の申述及びその受理前に、相続人が被相続人の有していた債権を取り立てて、これを収受し領得する行為は、民法<span class="mono">921条</span>1号本文の処分行為に該当するので、相続人は単純承認をしたものとみなされる（最判昭37.6.21参照）。本記述は、「賃料の支払を求めた」とされるのみで、収受領得等の事実について触れていないが、この判例の趣旨から正しいものと考えられる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-22-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>判例（最判昭42.4.27）は、「たとえ相続人が相続財産を処分したとしても、いまだ相続開始の事実を知らなかつたときは、相続人に単純承認の意思があつたものと認めるに由ないから、右の規定〔注：民法<span class="mono">921条</span>1号本文〕により単純承認を擬制することは許されない」としている。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h26-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H26-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人が相続財産の全部又は一部を処分したときは、単純承認とみなされるが、保存行為及び第<span class="mono">602条</span>に定める期間を超えない賃貸をすることは、この限りでない（民法<span class="mono">921条</span>1号）。そして、建物の場合の短期賃貸借となる期間は、3年とされる（民法<span class="mono">602条</span>3号）。よって、本記述の場合は単独単純承認したものとはみなされない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h13-21-u">
+  <div class="dlg-head"><div class="dlg-title">(H13-21-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が相続財産の全部又は一部を処分したときは、単純承認をしたものとみなされるが、保存行為及び民法<span class="mono">602条</span>に定める短期賃貸借の期間を超えない賃貸をすることは、この限りでない（民法<span class="mono">921条</span>1号）。建物の不法占有者に対する明渡請求は保存行為に当たるので、単純承認をしたものとみなされない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h09-19-a">
+  <div class="dlg-head"><div class="dlg-title">(H09-19-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が相続財産の全部又は一部を処分したときは、単純承認をしたものとみなされるが、保存行為及び民法<span class="mono">602条</span>に定める短期賃貸借の期間を超えない賃貸をすることは、この限りでない（民法<span class="mono">921条</span>1号）。不動産の共有者の1人が登記簿上所有名義者たる者に対してその登記の抹消を求めることは、保存行為に該当し（最判昭31.5.10）、単純承認をしたものとはみなされないので、本記述の場合には、相続の放棄は制限されない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-21-i">
+  <div class="dlg-head"><div class="dlg-title">(H11-21-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人は、限定承認をしようとするときは、民法<span class="mono">915条</span>1項の期間内に、相続財産の目録を作成して家庭裁判所に提出し、限定承認をする旨を申述しなければならない（民法<span class="mono">924条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-r02-22-oh09-19-i">
+  <div class="dlg-head"><div class="dlg-title">(R02-22-オ)(H09-19-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人が数人あるときは、限定承認は、共同相続人の全員が共同してのみこれをすることができる（民法<span class="mono">923条</span>）。そして、相続の放棄をした者は、その相続に関しては、初めから相続人とならなかったものとみなされる（民法<span class="mono">939条</span>）。よって、本記述のＢが相続の放棄をしたときは、Ｂを除く他の共同相続人であるＣ及びＤが共同して限定承認をすることができる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-21-ah19-24-u">
+  <div class="dlg-head"><div class="dlg-title">(H11-21-ア)(H19-24-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が数人あるときは、限定承認は、共同相続人の全員が共同してのみこれをすることができる（民法<span class="mono">923条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H05-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続人が数人あるときは、限定承認は、共同相続人の全員が共同してのみこれをすることができる（民法923 条）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-21-e">
+  <div class="dlg-head"><div class="dlg-title">(H11-21-エ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人は、相続によって得た財産の限度においてのみ被相続人の債務及び遺贈を弁済すべきことを留保して、相続の承認をすることができる（民法<span class="mono">922条</span>）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-21-o">
+  <div class="dlg-head"><div class="dlg-title">(H11-21-オ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>限定承認は、債務の存在を限定するものではなく、単に、責任の範囲を限定するものである（大判昭7.6.2）。債務自体は、相続によって当然に相続人に承継され、相続人が任意に自己の固有財産で弁済した場合、その弁済は有効な弁済となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h03-22-i">
+  <div class="dlg-head"><div class="dlg-title">(H03-22-イ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続人が限定承認（民法<span class="mono">922条</span>）をすると、相続財産と相続人の財産は混同にかからない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h11-21-u">
+  <div class="dlg-head"><div class="dlg-title">(H11-21-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>限定承認者は、その固有財産におけるのと同一の注意をもって、相続財産の管理を継続しなければならない（民法<span class="mono">926条</span>1項）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-22-a">
+  <div class="dlg-head"><div class="dlg-title">(H05-22-ア) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>被相続人その他の第三者が相続の放棄を禁止・制限することはできない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h28-23-u">
+  <div class="dlg-head"><div class="dlg-title">(H28-23-ウ)(改) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続の放棄をした相続人は、初めから相続人でなかったことになるので、遺留分侵害額請求をすることもできなくなる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h25-22-u">
+  <div class="dlg-head"><div class="dlg-title">(H25-22-ウ) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>Ｃ及びＤが相続の放棄をしたことで、Ａの相続人は、妻Ｂ及び母Ｅとなり、Ｂの相続分は、相続財産の3分の2の600万円となる（民法<span class="mono">900条</span>2号）。そして、Ａの相続について承認をしたＥが死亡した場合、Ｅを被相続人とする相続の相続人は、Ｅの子Ｆ並びにＡを代襲したＣ及びＤとなる（民法<span class="mono">887条</span>2項）。そして、Ｅを被相続人とする相続をＦが放棄しても、ＢはＥの相続人ではないため、その相続分は影響を受けない。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-23-3">
+  <div class="dlg-head"><div class="dlg-title">(H04-23-3) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：正しい</div>
+    <p>相続回復の請求権は、相続人又はその法定代理人が相続権を侵害された事実を知った時から5年間行使しないときは、時効によって消滅する（民法<span class="mono">884条</span>前段）。5年の時効の起算点について、判例は、相続権を侵害された事実を知るとは、相続開始の事実だけでなく、自分が、あるいは自分も真正相続人であることを知り、かつ、自分が相続から除外されていることを知ることであるとしている（大判明38.9.19参照）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h04-23-5">
+  <div class="dlg-head"><div class="dlg-title">(H04-23-5) 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ng">解答：誤り</div>
+    <p>相続回復の請求権は、相続開始の時から20年を経過したときは、時効によって消滅する（民法<span class="mono">884条</span>後段）。判例は、相続回復請求権の20年の消滅時効の起算点は、相続開始の時から進行するものとしている（最判昭23.11.6）。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<dialog id="dlg-h05-21">
+  <div class="dlg-head"><div class="dlg-title">（H05-21） 解答・解説</div><button class="btn" data-close>閉じる</button></div>
+  <div class="dlg-body">
+    <div class="badge ok">解答：3</div>
+    <p>【完成文】<br><br>民法が定める相続回復請求の制度は、（表見相続人）が（真正相続人）<br>の（相続権）を否定し相続の目的たる権利を侵害している場合に、（真<br>正相続人）が自己の（相続権）を主張して、（表見相続人）に対し侵害<br>の排除を請求することにより、（真正相続人）に（相続権）を回復させ<br>ようとするものである。そして、民法が相続回復請求権について消滅<br>時効を定めたのは、（Ａ：表見相続人）が外見上相続により相続財産を<br>取得したという事実状態が生じたのち相当年月を経てからこの事実状<br>態を覆滅して（真正相続人）に（相続権）を回復させることにより、<br>当事者又は第三者の権利義務関係に混乱を生じさせることのないよう、<br>（相続権）の帰属及びこれに伴う法律関係を早期にかつ終局的に確定<br>させようという趣旨に出たものである。<br><br>以上により、Ａに当てはまる「表見相続人」が使用される回数は、Ａを含めて3回であり、従って、正解は肢3となる。</p>
+  </div>
+  <div class="dlg-foot"><button class="btn" data-close>閉じる</button></div>
+</dialog>
+
+<script>const PAGE_ID = 'pu26min61q';</script>
+<script src="js/app_q.js"></script>
+</body></html>
