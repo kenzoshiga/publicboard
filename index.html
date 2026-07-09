@@ -58,6 +58,12 @@ h2{
     margin-bottom:6px;
     white-space:pre-wrap;
 }
+
+.dialog-link{
+    color:#0645ad;
+    text-decoration:underline;
+    cursor:pointer;
+}
 </style>
 </head>
 
@@ -71,7 +77,7 @@ h2{
 
 <h1>平和な生活―今，また永久に！</h1>
 <h2>喜びのない生活―多くの人の現実（4分）</h2>
-<p class="para" style="margin-left:1.5em;">耐え難い状況や不安また恐れのために喜びある生活を送れない人が増えている（ヨブ 14:1。塔05 2/1 4）</p>
+<p class="para" style="margin-left:1.5em;">耐え難い状況や不安また恐れのために喜びある生活を送れない人が増えている（<span class="dialog-link" onclick="showDialog('人は，女性から生まれ，寿命は短く，悩みの多い日々を送ります。')">ヨブ 14:1</span>。塔05 2/1 4）</p>
 <p class="para" style="margin-left:3em;">戦争や不安定な政治情勢のために荒廃した土地に住む人は多い（塔04 1/1 3-5）</p>
 <p class="para" style="margin-left:3em;">発展途上国の大半は，経済的な問題や食糧不足に悩まされている（塔05 5/15 3。目05 9/22 7-8）</p>
 <p class="para" style="margin-left:4.5em;">豊かな国においても，人々は犯罪，薬物問題，暴力，失業に苦しんでおり，ホームレスの人も多くいる（塔05 10/15 8。目03 7/8 3-8）</p>
@@ -138,6 +144,10 @@ function changeFont(diff){
 function resetFont(){
     currentSize = defaultSize;
     applyFontSize();
+}
+
+function showDialog(msg){
+    alert(msg);
 }
 
 applyFontSize();
