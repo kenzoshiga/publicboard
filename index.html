@@ -1,17 +1,24 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="format-detection" content="telephone=no,email=no,address=no,date=no">
 <title>出力HTML</title>
+
 <style>
-:root{ --base-font-size:16px;}
-body{
-  font-family: "Yu Gothic", "Meiryo", sans-serif;
-  line-height: 1.2;
-  margin: 40px;
-  color: #222;
-  font-size:var(--base-font-size);
+:root{
+    --base-font-size:16px;
 }
+
+body{
+    font-family:"Yu Gothic","Meiryo",sans-serif;
+    line-height:1.2;
+    margin:40px;
+    color:#222;
+    font-size:var(--base-font-size);
+}
+
 #fontToolbar{
     position:fixed;
     top:15px;
@@ -20,6 +27,7 @@ body{
     display:flex;
     gap:6px;
 }
+
 #fontToolbar button{
     width:42px;
     height:36px;
@@ -30,11 +38,19 @@ body{
     border-radius:6px;
     background:#fff;
 }
+
 #fontToolbar button:hover{
     background:#f0f0f0;
 }
-h1{ font-size:1.8em; }
-h2{ font-size:1.3em; }
+
+h1{
+    font-size:1.8em;
+}
+
+h2{
+    font-size:1.3em;
+}
+
 .para{
     font-size:1em;
     line-height:1.25;
@@ -44,12 +60,15 @@ h2{ font-size:1.3em; }
 }
 </style>
 </head>
+
 <body>
+
 <div id="fontToolbar">
     <button onclick="changeFont(1)">＋</button>
     <button onclick="resetFont()">Aa</button>
     <button onclick="changeFont(-1)">－</button>
 </div>
+
 <h1>平和な生活―今，また永久に！</h1>
 <h2>喜びのない生活―多くの人の現実（4分）</h2>
 <p class="para" style="margin-left:1.5em;">耐え難い状況や不安また恐れのために喜びある生活を送れない人が増えている（ヨブ 14:1。塔05 2/1 4）</p>
@@ -95,26 +114,34 @@ h2{ font-size:1.3em; }
 <p class="para" style="margin-left:3em;">聖書の約束するとおり，エホバに仕える人は完全な命と全面的な平和をとこしえに楽しむ（詩 37:10, 11。イザ 9:7。テモ一 4:8; 6:19）</p>
 <p class="para" style="margin-left:3em;">平和の神を愛し，神が与えてくださる平和を大切にする人には，壮大な祝福が待っている（啓 21:3, 4）</p>
 <p class="para" style="margin-left:1.5em;">今，そして永久に平和な生活を楽しむという祝福を得るため，なすべきことをすぐに行なおう（詩 37:37。ゼパ 2:3）</p>
+
 <script>
 var currentSize = 16;
 var defaultSize = 16;
+
 function applyFontSize(){
     document.documentElement.style.setProperty(
         "--base-font-size",
         currentSize + "px"
     );
 }
+
 function changeFont(diff){
     currentSize += diff;
+
     if(currentSize < 12) currentSize = 12;
     if(currentSize > 30) currentSize = 30;
+
     applyFontSize();
 }
+
 function resetFont(){
     currentSize = defaultSize;
     applyFontSize();
 }
+
 applyFontSize();
 </script>
+
 </body>
 </html>
