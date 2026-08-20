@@ -117,3 +117,7 @@ body.modal-open{overflow:hidden;touch-action:none;}
 .simple-table { border-collapse:collapse; background-color:#f5f5f5; font-size:calc(var(--base-font) * 14 / 16); margin:12px; line-height:1.4;}
 .simple-table th,.simple-table td{ border:1px solid #000; padding:6px; font-size:inherit; line-height:1.4; vertical-align:top;}
 .head-cell { text-align: center; background-color: #C0C0C0; font-weight: bold;}
+table.toki { border-collapse: collapse; background-color:#C0C0C0; border: 1px solid #000; font-size:calc(var(--base-font) * 14 / 16);}
+table.toki td,table.toki th { white-space: pre-line; border: none; padding: 4px; vertical-align: top; font-size:inherit; text-align: left; font-weight: normal;}
+table.toki td:first-child,table.toki th:first-child { min-width: 7ch;}
+table.toki td:not(:first-child),table.toki th:not(:first-child) { min-width: 15ch;}
