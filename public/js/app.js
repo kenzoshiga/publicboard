@@ -62,7 +62,12 @@ function newQuestion(mode, c, round) {
   const commercial = L.isCommercialTax(c.tax);
   const poolFor = { base: config.pools.reTaxBase, rate: commercial ? config.pools.coTaxRate : config.pools.reTaxRate };
   const pools = Object.fromEntries(
-    L.taxItems(c.tax).choices.map((ch) => [ch.key, L.shuffle([...new Set([...poolFor[ch.key], ch.answer])])]),
+    L.taxItems(c.tax).choices.map((ch) => {
+      // 「建物…・敷地権…」のように分けて答える区分は、同じ形の選択肢だけを並べる
+      const split = ch.answer.includes("・");
+      const pool = poolFor[ch.key].filter((o) => o.includes("・") === split);
+      return [ch.key, L.shuffle([...new Set([...pool, ch.answer])])];
+    }),
   );
   return { ...base, pools, selected: {}, checks: null, revealed: new Set(), justRevealed: null, blankGrades: {}, result: null };
 }
@@ -257,6 +262,7 @@ function renderAttach(c, q) {
               h("span", { class: "choice-text" }, o),
               MARK_TEXT[mark] && h("span", { class: "mark-tag" }, MARK_TEXT[mark]),
             ),
+            q.result && c.attachNotes?.[o] && h("p", { class: "attach-note" }, c.attachNotes[o]),
           );
         }),
       ),
@@ -569,7 +575,7 @@ function renderData() {
 // ---- 起動 ----
 
 async function reload() {
-  const { cases, progress } = await DB.loadAll(seedCases);
+  const { cases, progress } = await DB.loadAll(seedCases, config.retiredSeedIds ?? []);
   state.cases = cases;
   state.progress = progress;
   state.q = { cloze: null, attach: null, tax: null };

@@ -39,15 +39,9 @@ export async function closeDb() {
 }
 
 /** 申請例と進捗を読み込む。初回起動時は初期データを投入する。 */
-export async function loadAll(seedCases) {
+export async function loadAll(seedCases, retiredSeedIds = []) {
   const d = await db();
-  const seeded = await req(d.transaction("meta").objectStore("meta").get("seeded"));
-  if (!seeded) {
-    const tx = d.transaction(["cases", "meta"], "readwrite");
-    for (const c of seedCases) tx.objectStore("cases").put(c);
-    tx.objectStore("meta").put(true, "seeded");
-    await done(tx);
-  }
+  await syncSeedCases(d, seedCases, retiredSeedIds);
   await addMissingSeedFields(d, seedCases);
   const tx = d.transaction(["cases", "progress"]);
   const cases = await req(tx.objectStore("cases").getAll());
@@ -56,6 +50,28 @@ export async function loadAll(seedCases) {
   const progress = {};
   keys.forEach((k, i) => (progress[k] = values[i]));
   return { cases: sortCases(cases, seedCases), progress };
+}
+
+/**
+ * 同梱の申請例を端末に反映する。初回は全件を入れる。以降は、まだ入れたことのない同梱申請例だけを足し
+ * (利用者が読み込みで消したものは戻さない)、retiredSeedIds の旧見本は取り除く。
+ */
+async function syncSeedCases(d, seedCases, retiredSeedIds) {
+  const tx = d.transaction(["cases", "meta"], "readwrite");
+  const cases = tx.objectStore("cases");
+  const meta = tx.objectStore("meta");
+  const [seeded, seedIds, storedIds] = await Promise.all([
+    req(meta.get("seeded")),
+    req(meta.get("seedIds")),
+    req(cases.getAllKeys()),
+  ]);
+  // seedIds がない旧版の端末では、いま保存されている申請例を「入れたことがある」とみなす
+  const offered = new Set(seedIds ?? (seeded ? storedIds : []));
+  for (const c of seedCases) if (!offered.has(c.id)) cases.put(c);
+  for (const id of retiredSeedIds) if (storedIds.includes(id)) cases.delete(id);
+  meta.put(true, "seeded");
+  meta.put([...new Set([...offered, ...seedCases.map((c) => c.id)])], "seedIds");
+  await done(tx);
 }
 
 /**
