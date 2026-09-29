@@ -4,7 +4,7 @@ import { casePriority, countPending, fieldLabel, fieldsOfCase, hiddenFields, pic
 import { config, DAY, seedCases } from "./bootstrap.js";
 
 const NOW = 1_800_000_000_000;
-const re = seedCases.find((c) => c.id === "re-baibai");
+const re = seedCases.find((c) => c.id === "re-h1-01");
 const co = seedCases.find((c) => c.id === "co-shougou");
 const zero = () => 0;
 
@@ -15,19 +15,19 @@ describe("hiddenFields", () => {
   });
   it("未学習と復習時期到来の項目だけを隠す", () => {
     const p = {
-      "re-baibai:purpose": { level: 3, due: NOW + DAY, count: 3 },
-      "re-baibai:cause": { level: 1, due: NOW - 1, count: 1 },
-      "re-baibai:matters": { level: 2, due: NOW + DAY, count: 2 },
+      "re-h1-01:purpose": { level: 3, due: NOW + DAY, count: 3 },
+      "re-h1-01:cause": { level: 1, due: NOW - 1, count: 1 },
+      "re-h1-01:matters": { level: 2, due: NOW + DAY, count: 2 },
     };
     assert.deepEqual(hiddenFields(config, re, p, NOW), ["cause", "applicant", "price"]);
   });
   it("隠す対象がなければ最も定着度の低い1項目だけ隠す", () => {
     const p = {
-      "re-baibai:purpose": { level: 3, due: NOW + DAY, count: 3 },
-      "re-baibai:cause": { level: 4, due: NOW + DAY, count: 4 },
-      "re-baibai:matters": { level: 1, due: NOW + DAY, count: 1 },
-      "re-baibai:applicant": { level: 2, due: NOW + DAY, count: 2 },
-      "re-baibai:price": { level: 5, due: NOW + DAY, count: 5 },
+      "re-h1-01:purpose": { level: 3, due: NOW + DAY, count: 3 },
+      "re-h1-01:cause": { level: 4, due: NOW + DAY, count: 4 },
+      "re-h1-01:matters": { level: 1, due: NOW + DAY, count: 1 },
+      "re-h1-01:applicant": { level: 2, due: NOW + DAY, count: 2 },
+      "re-h1-01:price": { level: 5, due: NOW + DAY, count: 5 },
     };
     assert.deepEqual(hiddenFields(config, re, p, NOW), ["matters"]);
   });
@@ -46,26 +46,26 @@ describe("pickCase", () => {
   });
   it("復習時期到来がなければ未学習を優先", () => {
     const p = learnedAll(3, NOW + DAY);
-    delete p["re-netei:attach"];
-    assert.equal(pickCase(config, seedCases, "attach", p, NOW, { random: zero }).id, "re-netei");
+    delete p["re-h1-07:attach"];
+    assert.equal(pickCase(config, seedCases, "attach", p, NOW, { random: zero }).id, "re-h1-07");
   });
   it("同順位では level が低いほど優先", () => {
     const p = learnedAll(3, NOW + DAY);
-    p["re-teitou:cause"] = { level: 1, due: NOW + DAY, count: 2 };
-    assert.equal(pickCase(config, seedCases, "cloze", p, NOW, { random: zero }).id, "re-teitou");
+    p["re-h1-11:cause"] = { level: 1, due: NOW + DAY, count: 2 };
+    assert.equal(pickCase(config, seedCases, "cloze", p, NOW, { random: zero }).id, "re-h1-11");
     assert.equal(casePriority(config, re, "cloze", p, NOW), 23);
   });
   it("直前と同じ申請例は避ける", () => {
     const p = learnedAll(3, NOW + DAY);
-    p["re-teitou:cause"] = { level: 0, due: NOW, count: 2 };
-    assert.notEqual(pickCase(config, seedCases, "cloze", p, NOW, { random: zero, lastId: "re-teitou" }).id, "re-teitou");
+    p["re-h1-11:cause"] = { level: 0, due: NOW, count: 2 };
+    assert.notEqual(pickCase(config, seedCases, "cloze", p, NOW, { random: zero, lastId: "re-h1-11" }).id, "re-h1-11");
   });
   it("申請例が1件しかなければ直前と同じでも出題する", () => {
     assert.equal(pickCase(config, [re], "cloze", {}, NOW, { lastId: re.id }).id, re.id);
   });
   it("弱点表から指定された申請例を優先", () => {
     const p = learnedAll(5, NOW + DAY);
-    p["re-teitou:tax"] = { level: 0, due: NOW, count: 2 };
+    p["re-h1-11:tax"] = { level: 0, due: NOW, count: 2 };
     assert.equal(pickCase(config, seedCases, "tax", p, NOW, { forcedId: "co-shougou", lastId: "co-shougou" }).id, "co-shougou");
   });
   it("乱数は優先度の順位を入れ替えない", () => {
@@ -78,16 +78,16 @@ describe("pickCase", () => {
 describe("countPending", () => {
   it("復習待ちと未学習を数える", () => {
     const p = {
-      "re-baibai:attach": { level: 0, due: NOW, count: 1 },
+      "re-h1-01:attach": { level: 0, due: NOW, count: 1 },
       "co-yakuin:attach": { level: 2, due: NOW + DAY, count: 1 },
     };
-    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 7 });
-    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 6 * 5 + 3 * 2 });
+    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: seedCases.length - 2 });
+    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 23 * 5 + 3 * 2 });
   });
 });
 
 describe("fieldLabel", () => {
-  const souzoku = seedCases.find((c) => c.id === "re-souzoku");
+  const souzoku = seedCases.find((c) => c.id === "re-h1-20");
   it("登記原因が相続で終わるなら申請人の項目名は相続人", () => {
     assert.equal(fieldLabel(config, souzoku, "applicant"), "相続人");
     assert.deepEqual(fieldsOfCase(config, souzoku).map((f) => f.label), [
@@ -112,5 +112,14 @@ describe("fieldLabel", () => {
   it("他の項目・商業には影響しない", () => {
     assert.equal(fieldLabel(config, souzoku, "cause"), "登記原因");
     assert.equal(fieldLabel(config, co, "jiyu"), "登記の事由");
+  });
+});
+
+describe("ひな形の項目名との一致", () => {
+  it("ひな形に書かれた申請人欄の項目名と、画面に出す項目名が一致する", () => {
+    const expected = { 申請人: "申請人", 所有者: "所有者", 相続人: "相続人", "権利者・義務者": "申請人" };
+    for (const c of seedCases.filter((x) => x.sourceApplicantLabel)) {
+      assert.equal(fieldLabel(config, c, "applicant"), expected[c.sourceApplicantLabel], `${c.id} ${c.title}`);
+    }
   });
 });

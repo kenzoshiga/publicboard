@@ -47,6 +47,8 @@ function touki_config(): array
                 'label' => '相続人',
             ],
         ],
+        // 以前の版で同梱していた見本。すでに使っている端末からも取り除く
+        'retiredSeedIds' => ['re-baibai', 're-souzoku', 're-teitou', 're-netei', 're-massho', 're-kubun-baibai'],
         'attachHeading' => ['不動産' => '添付情報', '商業' => '添付書面'],
         'attachContext' => ['不動産' => ['purpose', 'cause'], '商業' => ['jiyu']],
         // level ごとの復習間隔(ms)。index = level。0=即時、1=1日、2=3日、3=7日、4=14日、5=30日
@@ -58,6 +60,7 @@ function touki_config(): array
                 '不動産' => [
                     '登記原因証明情報', '登記識別情報', '印鑑証明書', '住所証明情報',
                     '代理権限証明情報', '会社法人等番号', '承諾証明情報', '農地法所定の許可書',
+                    '相続証明情報', '所有権確認証明情報', '所有権取得証明情報',
                 ],
                 '商業' => [
                     '株主総会議事録', '取締役会議事録', '株主リスト', '定款', '就任承諾書', '辞任届',
@@ -66,7 +69,12 @@ function touki_config(): array
                 ],
             ],
             'reTaxBase' => ['不動産の価額', '債権額', '極度額', '不動産の個数'],
-            'reTaxRate' => ['1000分の20', '1000分の15', '1000分の4', '1000分の2', '不動産1個につき1,000円'],
+            'reTaxRate' => [
+                '1000分の20', '1000分の15', '1000分の4', '1000分の2', '不動産1個につき1,000円',
+                // 建物と敷地権で税率が分かれる場合(区分建物)の選択肢
+                '建物1000分の4・敷地権1000分の20', '建物1000分の20・敷地権1000分の4',
+                '建物1000分の4・敷地権1000分の4', '建物1000分の20・敷地権1000分の20',
+            ],
             'coTaxRate' => [
                 '申請件数1件につき3万円',
                 '申請件数1件につき3万円(資本金の額が1億円以下の会社は1万円)',
@@ -78,104 +86,23 @@ function touki_config(): array
     ];
 }
 
-/** 同梱の初期データ(不動産6件・商業3件)。学習用の見本。 */
+/**
+ * 同梱の初期データ。不動産は inc/seed/*.json(ひな形から tools/import_hinagata.php で変換)、
+ * 商業は下の見本3件。
+ */
 function touki_seed_cases(): array
 {
+    $cases = [];
+    foreach (glob(__DIR__ . '/seed/*.json') ?: [] as $file) {
+        array_push($cases, ...json_decode((string)file_get_contents($file), true, 512, JSON_THROW_ON_ERROR));
+    }
+    return array_merge($cases, touki_commercial_seed_cases());
+}
+
+/** 商業登記の見本(学習用) */
+function touki_commercial_seed_cases(): array
+{
     return [
-        [
-            'id' => 're-baibai', 'category' => '不動産', 'title' => '所有権移転(売買)',
-            'scene' => '令和8年4月1日、Aは所有する甲土地をBに売り渡した。所有権移転時期の特約はない。',
-            'fields' => [
-                'purpose' => '所有権移転',
-                'cause' => '令和8年4月1日売買',
-                'matters' => '(なし)',
-                'applicant' => "権利者 B\n義務者 A",
-                'price' => '金2,000万円',
-            ],
-            'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '住所証明情報', '代理権限証明情報'],
-            'tax' => [
-                'base' => '不動産の価額', 'rate' => '1000分の20', 'example' => '不動産の価額 2,000万円', 'answer' => 400000,
-                'note' => '土地の売買には租税特別措置法による軽減税率がある。この見本は本則の1000分の20で計算している。',
-            ],
-        ],
-        [
-            'id' => 're-kubun-baibai', 'category' => '不動産', 'title' => '所有権移転(売買・区分建物)',
-            'scene' => '令和8年4月20日、Aは所有する区分建物(敷地権付き、敷地権の割合10分の1)をBに売り渡した。所有権移転時期の特約はない。',
-            'fields' => [
-                'purpose' => '所有権移転',
-                'cause' => '令和8年4月20日売買',
-                'matters' => '(なし)',
-                'applicant' => "権利者 B\n義務者 A",
-                'price' => "建物 金200万円\n敷地権 金1,000万円\n合計 金1,200万円",
-            ],
-            'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '住所証明情報', '代理権限証明情報'],
-            'tax' => [
-                'base' => '不動産の価額', 'rate' => '1000分の20',
-                'example' => "建物の価額 200万円\n敷地権(土地の価額1億円 × 10分の1)1,000万円",
-                'answer' => 240000,
-                'answerText' => "建物 金4万円\n敷地権 金20万円\n合計 金24万円",
-                'formula' => "建物 200万円 × 1000分の20 = 4万円\n敷地権 1,000万円 × 1000分の20 = 20万円\n合計 24万円",
-                'note' => '区分建物は建物と敷地権を分けて課税価格・税額を記載する。この見本は本則の1000分の20で計算している。',
-            ],
-        ],
-        [
-            'id' => 're-souzoku', 'category' => '不動産', 'title' => '所有権移転(相続)',
-            'scene' => '令和8年3月1日、甲建物の所有者Aが死亡した。相続人は子Bのみである。',
-            'fields' => [
-                'purpose' => '所有権移転',
-                'cause' => '令和8年3月1日相続',
-                'matters' => '(なし)',
-                'applicant' => "(被相続人 A)\nB",
-                'price' => '金3,000万円',
-            ],
-            'attach' => ['登記原因証明情報', '住所証明情報', '代理権限証明情報'],
-            'tax' => [
-                'base' => '不動産の価額', 'rate' => '1000分の4', 'example' => '不動産の価額 3,000万円', 'answer' => 120000,
-                'note' => '相続による所有権移転は単独申請のため、登記識別情報・印鑑証明書は不要。',
-            ],
-        ],
-        [
-            'id' => 're-teitou', 'category' => '不動産', 'title' => '抵当権設定',
-            'scene' => '令和8年5月10日、株式会社B銀行はAに1,000万円を貸し付け(利息年2%、損害金年14%)、同日、A所有の甲土地に抵当権を設定した。',
-            'fields' => [
-                'purpose' => '抵当権設定',
-                'cause' => '令和8年5月10日金銭消費貸借同日設定',
-                'matters' => "債権額 金1,000万円\n利息 年2%\n損害金 年14%\n債務者 A",
-                'applicant' => "抵当権者 株式会社B銀行\n(代表取締役 C)\n設定者 A",
-                'price' => '金1,000万円',
-            ],
-            'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '会社法人等番号', '代理権限証明情報'],
-            'tax' => ['base' => '債権額', 'rate' => '1000分の4', 'example' => '債権額 1,000万円', 'answer' => 40000],
-        ],
-        [
-            'id' => 're-netei', 'category' => '不動産', 'title' => '根抵当権設定',
-            'scene' => '令和8年6月1日、株式会社B銀行とAは、A所有の甲土地に極度額5,000万円、債権の範囲を銀行取引・手形債権・小切手債権とする根抵当権設定契約を締結した。',
-            'fields' => [
-                'purpose' => '根抵当権設定',
-                'cause' => '令和8年6月1日設定',
-                'matters' => "極度額 金5,000万円\n債権の範囲 銀行取引 手形債権 小切手債権\n債務者 A",
-                'applicant' => "根抵当権者 株式会社B銀行\n(代表取締役 C)\n設定者 A",
-                'price' => '金5,000万円',
-            ],
-            'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '会社法人等番号', '代理権限証明情報'],
-            'tax' => ['base' => '極度額', 'rate' => '1000分の4', 'example' => '極度額 5,000万円', 'answer' => 200000],
-        ],
-        [
-            'id' => 're-massho', 'category' => '不動産', 'title' => '抵当権抹消(弁済)',
-            'scene' => '令和8年7月1日、Aは株式会社B銀行に対する借入金を全額弁済した。A所有の甲土地と乙建物に1番抵当権が設定されている。',
-            'fields' => [
-                'purpose' => '1番抵当権抹消',
-                'cause' => '令和8年7月1日弁済',
-                'matters' => '(なし)',
-                'applicant' => "権利者 A\n義務者 株式会社B銀行\n(代表取締役 C)",
-                'price' => '(なし)',
-            ],
-            'attach' => ['登記原因証明情報', '登記識別情報', '会社法人等番号', '代理権限証明情報'],
-            'tax' => [
-                'base' => '不動産の個数', 'rate' => '不動産1個につき1,000円', 'example' => '不動産の個数 2個(土地1筆・建物1個)', 'answer' => 2000,
-                'note' => '抹消登記は不動産1個につき1,000円。同一の申請で20個を超えるときは2万円。',
-            ],
-        ],
         [
             'id' => 'co-zoushi', 'category' => '商業', 'title' => '募集株式の発行',
             'scene' => '非公開会社の甲株式会社(資本金1,000万円、発行済株式1,000株)は、株主総会で募集事項を決定し、令和8年4月15日、1,000株を発行して払込みを受けた。資本金は1,000万円増加し2,000万円となった。',
@@ -218,11 +145,33 @@ function touki_seed_cases(): array
     ];
 }
 
+/** 候補プールに、初期データの正解(添付情報・税率)をひっかけの選択肢として足した設定 */
+function touki_config_with_seed_pools(array $cases): array
+{
+    $config = touki_config();
+    foreach ($cases as $c) {
+        $pool = &$config['pools']['attach'][$c['category']];
+        $pool = array_values(array_unique(array_merge($pool, $c['attach'])));
+        unset($pool);
+        if ($c['category'] === '不動産') {
+            foreach (['reTaxBase' => 'base', 'reTaxRate' => 'rate'] as $poolKey => $k) {
+                if (!in_array($c['tax'][$k], $config['pools'][$poolKey], true)) {
+                    $config['pools'][$poolKey][] = $c['tax'][$k];
+                }
+            }
+        } elseif (!in_array($c['tax']['rate'], $config['pools']['coTaxRate'], true)) {
+            $config['pools']['coTaxRate'][] = $c['tax']['rate'];
+        }
+    }
+    return $config;
+}
+
 /** ブラウザへ渡す JSON */
 function touki_bootstrap_json(): string
 {
+    $cases = touki_seed_cases();
     return json_encode(
-        ['config' => touki_config(), 'seedCases' => touki_seed_cases()],
+        ['config' => touki_config_with_seed_pools($cases), 'seedCases' => $cases],
         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_THROW_ON_ERROR
     );
 }
