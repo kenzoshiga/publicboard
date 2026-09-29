@@ -10,13 +10,22 @@ export function fieldsForMode(config, category, mode) {
   return fieldsOf(config, category).filter((f) => f.mode === mode);
 }
 
-/** 申請例に合わせた項目名(例:登記原因が相続で終わるなら「申請人」を「相続人」と表示) */
+function matchesCondition(c, cond) {
+  const v = String(c.fields?.[cond.field] ?? "").trim();
+  if (cond.equals !== undefined) return v === cond.equals;
+  if (cond.suffix !== undefined) return v.endsWith(cond.suffix);
+  return false;
+}
+
+/**
+ * 申請例に合わせた項目名。例:所有権保存なら「申請人」を「所有者」、
+ * 登記原因が相続で終わるなら「相続人」と表示する。
+ */
 export function fieldLabel(config, c, fieldKey) {
   const def = fieldsOf(config, c.category).find((f) => f.key === fieldKey);
   for (const r of config.labelRules ?? []) {
     if (r.category !== c.category || r.field !== fieldKey) continue;
-    const v = String(c.fields?.[r.when.field] ?? "").trim();
-    if (v.endsWith(r.when.suffix)) return r.label;
+    if (r.when.some((cond) => matchesCondition(c, cond))) return r.label;
   }
   return def?.label ?? fieldKey;
 }

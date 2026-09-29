@@ -102,6 +102,13 @@ describe("fieldLabel", () => {
     }
     assert.equal(fieldLabel(config, withCause("令和8年3月1日数次相続"), "applicant"), "相続人");
   });
+  it("所有権保存なら申請人の項目名は所有者", () => {
+    const hozon = { ...re, fields: { ...re.fields, purpose: "所有権保存", cause: "" } };
+    assert.equal(fieldLabel(config, hozon, "applicant"), "所有者");
+    const byCause = { ...re, fields: { ...re.fields, cause: "所有権保存" } };
+    assert.equal(fieldLabel(config, byCause, "applicant"), "所有者");
+    assert.equal(fieldLabel(config, { ...re, fields: { ...re.fields, purpose: "所有権保存登記の抹消" } }, "applicant"), "申請人");
+  });
   it("他の項目・商業には影響しない", () => {
     assert.equal(fieldLabel(config, souzoku, "cause"), "登記原因");
     assert.equal(fieldLabel(config, co, "jiyu"), "登記の事由");

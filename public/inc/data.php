@@ -27,12 +27,23 @@ function touki_config(): array
                 ['key' => 'attach', 'label' => '添付書面', 'mode' => 'attach'],
             ],
         ],
-        // 申請例ごとに項目名を差し替える規則。when の項目の内容が suffix で終わるときに label を使う
+        // 申請例ごとに項目名を差し替える規則。上から順に見て、when の条件のどれかに当てはまれば label を使う。
+        // 条件は項目(field)の内容が equals と一致する、または suffix で終わる。
         'labelRules' => [
             [
                 'category' => '不動産',
                 'field' => 'applicant',
-                'when' => ['field' => 'cause', 'suffix' => '相続'],
+                // 所有権保存は登記原因を書かないため、登記の目的でも判定する
+                'when' => [
+                    ['field' => 'purpose', 'equals' => '所有権保存'],
+                    ['field' => 'cause', 'equals' => '所有権保存'],
+                ],
+                'label' => '所有者',
+            ],
+            [
+                'category' => '不動産',
+                'field' => 'applicant',
+                'when' => [['field' => 'cause', 'suffix' => '相続']],
                 'label' => '相続人',
             ],
         ],
