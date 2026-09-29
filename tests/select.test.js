@@ -88,16 +88,18 @@ describe("countPending", () => {
 
 describe("fieldLabel", () => {
   const souzoku = seedCases.find((c) => c.id === "re-souzoku");
-  it("登記原因が相続なら申請人の項目名は相続人", () => {
+  it("登記原因に相続を含むなら申請人の項目名は相続人", () => {
     assert.equal(fieldLabel(config, souzoku, "applicant"), "相続人");
     assert.deepEqual(fieldsOfCase(config, souzoku).map((f) => f.label), [
-      "登記の目的", "登記原因", "登記事項", "相続人", "添付情報", "課税価格", "登録免許税",
+      "登記の目的", "登記原因", "上記以外の申請事項等", "相続人", "添付情報", "課税価格", "登録免許税",
     ]);
   });
-  it("相続以外は申請人のまま", () => {
+  it("相続を含む登記原因はすべて相続人、含まなければ申請人のまま", () => {
+    const withCause = (cause) => ({ ...re, fields: { ...re.fields, cause } });
     assert.equal(fieldLabel(config, re, "applicant"), "申請人");
-    for (const cause of ["令和8年3月1日相続分の売買", "令和8年3月1日遺贈"]) {
-      assert.equal(fieldLabel(config, { ...re, fields: { ...re.fields, cause } }, "applicant"), "申請人");
+    assert.equal(fieldLabel(config, withCause("令和8年3月1日遺贈"), "applicant"), "申請人");
+    for (const cause of ["令和8年3月1日相続", "令和8年3月1日相続分の売買", "令和8年3月1日数次相続"]) {
+      assert.equal(fieldLabel(config, withCause(cause), "applicant"), "相続人");
     }
   });
   it("他の項目・商業には影響しない", () => {

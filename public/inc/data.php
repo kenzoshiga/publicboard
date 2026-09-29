@@ -14,7 +14,7 @@ function touki_config(): array
             '不動産' => [
                 ['key' => 'purpose', 'label' => '登記の目的', 'mode' => 'cloze'],
                 ['key' => 'cause', 'label' => '登記原因', 'mode' => 'cloze'],
-                ['key' => 'matters', 'label' => '登記事項', 'mode' => 'cloze'],
+                ['key' => 'matters', 'label' => '上記以外の申請事項等', 'mode' => 'cloze'],
                 ['key' => 'applicant', 'label' => '申請人', 'mode' => 'cloze'],
                 ['key' => 'attach', 'label' => '添付情報', 'mode' => 'attach'],
                 ['key' => 'price', 'label' => '課税価格', 'mode' => 'cloze'],
@@ -27,12 +27,12 @@ function touki_config(): array
                 ['key' => 'attach', 'label' => '添付書面', 'mode' => 'attach'],
             ],
         ],
-        // 申請例ごとに項目名を差し替える規則。when の項目の内容が suffix で終わるときに label を使う
+        // 申請例ごとに項目名を差し替える規則。when の項目の内容に contains が含まれるときに label を使う
         'labelRules' => [
             [
                 'category' => '不動産',
                 'field' => 'applicant',
-                'when' => ['field' => 'cause', 'suffix' => '相続'],
+                'when' => ['field' => 'cause', 'contains' => '相続'],
                 'label' => '相続人',
             ],
         ],

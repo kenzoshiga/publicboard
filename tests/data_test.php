@@ -45,8 +45,8 @@ foreach ($cases as $c) {
 }
 
 check(
-    array_column($config['fieldDefs']['不動産'], 'label') === ['登記の目的', '登記原因', '登記事項', '申請人', '添付情報', '課税価格', '登録免許税'],
-    '不動産は課税価格を含む7項目'
+    array_column($config['fieldDefs']['不動産'], 'label') === ['登記の目的', '登記原因', '上記以外の申請事項等', '申請人', '添付情報', '課税価格', '登録免許税'],
+    '不動産の7項目'
 );
 
 $json = touki_bootstrap_json();
