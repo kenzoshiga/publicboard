@@ -48,6 +48,7 @@ export async function loadAll(seedCases) {
     tx.objectStore("meta").put(true, "seeded");
     await done(tx);
   }
+  await addMissingSeedFields(d, seedCases);
   const tx = d.transaction(["cases", "progress"]);
   const cases = await req(tx.objectStore("cases").getAll());
   const store = tx.objectStore("progress");
@@ -55,6 +56,26 @@ export async function loadAll(seedCases) {
   const progress = {};
   keys.forEach((k, i) => (progress[k] = values[i]));
   return { cases: sortCases(cases, seedCases), progress };
+}
+
+/**
+ * 項目が追加されたとき、保存済みの同梱申請例に足りない項目だけを初期データから補う。
+ * 利用者が編集した既存の項目は上書きしない。
+ */
+async function addMissingSeedFields(d, seedCases) {
+  const seedById = new Map(seedCases.map((c) => [c.id, c]));
+  const tx = d.transaction("cases", "readwrite");
+  const store = tx.objectStore("cases");
+  for (const c of await req(store.getAll())) {
+    const seed = seedById.get(c.id);
+    if (!seed || seed.category !== c.category) continue;
+    const missing = Object.keys(seed.fields).filter((k) => !(k in (c.fields ?? {})));
+    if (missing.length === 0) continue;
+    const fields = { ...c.fields };
+    for (const k of missing) fields[k] = seed.fields[k];
+    store.put({ ...c, fields });
+  }
+  await done(tx);
 }
 
 function sortCases(cases, seedCases) {
