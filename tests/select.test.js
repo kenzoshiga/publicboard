@@ -81,24 +81,33 @@ describe("countPending", () => {
       "re-baibai:attach": { level: 0, due: NOW, count: 1 },
       "co-yakuin:attach": { level: 2, due: NOW + DAY, count: 1 },
     };
-    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 6 });
-    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 5 * 5 + 3 * 2 });
+    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 7 });
+    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 6 * 5 + 3 * 2 });
   });
 });
 
 describe("fieldLabel", () => {
   const souzoku = seedCases.find((c) => c.id === "re-souzoku");
-  it("登記原因が相続なら申請人の項目名は相続人", () => {
+  it("登記原因が相続で終わるなら申請人の項目名は相続人", () => {
     assert.equal(fieldLabel(config, souzoku, "applicant"), "相続人");
     assert.deepEqual(fieldsOfCase(config, souzoku).map((f) => f.label), [
-      "登記の目的", "登記原因", "登記事項", "相続人", "添付情報", "課税価格", "登録免許税",
+      "登記の目的", "登記原因", "上記以外の申請事項等", "相続人", "添付情報", "課税価格", "登録免許税",
     ]);
   });
-  it("相続以外は申請人のまま", () => {
+  it("登記原因が相続で終わらなければ申請人のまま", () => {
+    const withCause = (cause) => ({ ...re, fields: { ...re.fields, cause } });
     assert.equal(fieldLabel(config, re, "applicant"), "申請人");
     for (const cause of ["令和8年3月1日相続分の売買", "令和8年3月1日遺贈"]) {
-      assert.equal(fieldLabel(config, { ...re, fields: { ...re.fields, cause } }, "applicant"), "申請人");
+      assert.equal(fieldLabel(config, withCause(cause), "applicant"), "申請人");
     }
+    assert.equal(fieldLabel(config, withCause("令和8年3月1日数次相続"), "applicant"), "相続人");
+  });
+  it("所有権保存なら申請人の項目名は所有者", () => {
+    const hozon = { ...re, fields: { ...re.fields, purpose: "所有権保存", cause: "" } };
+    assert.equal(fieldLabel(config, hozon, "applicant"), "所有者");
+    const byCause = { ...re, fields: { ...re.fields, cause: "所有権保存" } };
+    assert.equal(fieldLabel(config, byCause, "applicant"), "所有者");
+    assert.equal(fieldLabel(config, { ...re, fields: { ...re.fields, purpose: "所有権保存登記の抹消" } }, "applicant"), "申請人");
   });
   it("他の項目・商業には影響しない", () => {
     assert.equal(fieldLabel(config, souzoku, "cause"), "登記原因");

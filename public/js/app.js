@@ -41,7 +41,6 @@ function h(tag, attrs, ...children) {
   return el;
 }
 
-const yen = (n) => `${n.toLocaleString("ja-JP")}円`;
 const multiline = (text) => h("span", { class: "multiline" }, text ?? "");
 const labelsOf = (c) => Object.fromEntries(L.fieldsOfCase(config, c).map((f) => [f.key, f.label]));
 const gradeBadge = (g) =>
@@ -59,18 +58,13 @@ function newQuestion(mode, c, round) {
     const options = L.shuffle([...new Set([...config.pools.attach[c.category], ...c.attach])]);
     return { ...base, options, selected: new Set(), result: null };
   }
-  const pool = (p, answer) => L.shuffle([...new Set([...p, answer])]);
-  return L.isCommercialTax(c.tax)
-    ? { ...base, ratePool: pool(config.pools.coTaxRate, c.tax.rate), rate: "", baseKind: "", base: "", amount: "", result: null }
-    : {
-        ...base,
-        basePool: pool(config.pools.reTaxBase, c.tax.base),
-        ratePool: pool(config.pools.reTaxRate, c.tax.rate),
-        base: "",
-        rate: "",
-        amount: "",
-        result: null,
-      };
+  // 区分(選択式)の候補。正解にない選択肢はひっかけ
+  const commercial = L.isCommercialTax(c.tax);
+  const poolFor = { base: config.pools.reTaxBase, rate: commercial ? config.pools.coTaxRate : config.pools.reTaxRate };
+  const pools = Object.fromEntries(
+    L.taxItems(c.tax).choices.map((ch) => [ch.key, L.shuffle([...new Set([...poolFor[ch.key], ch.answer])])]),
+  );
+  return { ...base, pools, selected: {}, checks: null, revealed: new Set(), justRevealed: null, blankGrades: {}, result: null };
 }
 
 function advance(mode, forcedId) {
@@ -292,118 +286,91 @@ function renderAttach(c, q) {
   );
 }
 
-// 登録免許税
+// 登録免許税:区分を選んで確定したあと、金額は付箋の穴埋めで答えて自己採点する
 function renderTax(c, q) {
   const tax = c.tax;
   const labels = labelsOf(c);
   const contextKey = c.category === "不動産" ? "purpose" : "jiyu";
-  const commercial = L.isCommercialTax(tax);
-  const locked = q.result !== null;
-  const checks = q.result?.checks;
+  const { choices, blanks } = L.taxItems(tax);
+  const classLocked = q.checks !== null;
 
-  const check = (ok, answer) =>
-    checks && (ok ? h("span", { class: "check ok" }, "✓ 正解") : h("span", { class: "check ng" }, `✗ 正解は「${answer}」`));
-
-  const select = (label, key, pool, answer) =>
+  const selects = choices.map((ch) =>
     h(
       "label",
       { class: "tax-field" },
-      h("span", { class: "tax-label" }, label),
+      h("span", { class: "tax-label" }, ch.label),
       h(
         "select",
-        { required: true, disabled: locked, onchange: (e) => (q[key] = e.target.value) },
+        { required: true, disabled: classLocked, onchange: (e) => (q.selected[ch.key] = e.target.value) },
         h("option", { value: "" }, "選択してください"),
-        pool.map((o) => h("option", { value: o, selected: q[key] === o }, o)),
+        q.pools[ch.key].map((o) => h("option", { value: o, selected: q.selected[ch.key] === o }, o)),
       ),
-      check(checks?.[key], answer),
-    );
+      classLocked &&
+        (q.checks[ch.key]
+          ? h("span", { class: "check ok" }, "✓ 正解")
+          : h("span", { class: "check ng" }, `✗ 正解は「${ch.answer}」`)),
+    ),
+  );
 
-  const amountInput = (label, key, hideLabel = false) =>
-    h(
-      "label",
-      { class: "tax-field" },
-      h("span", { class: hideLabel ? "visually-hidden" : "tax-label" }, label),
-      h(
-        "span",
-        { class: "amount" },
-        h("input", {
-          type: "text",
-          inputmode: "numeric",
-          autocomplete: "off",
-          required: true,
-          disabled: locked,
-          placeholder: "例 30000",
-          value: q[key],
-          oninput: (e) => (q[key] = e.target.value),
-        }),
-        h("span", { "aria-hidden": "true" }, "円"),
-      ),
-    );
-
-  let fields;
-  let formula;
-  if (commercial) {
-    const baseAmount = amountInput("課税標準金額", "base", true);
-    baseAmount.hidden = q.baseKind !== "amount";
-    const radio = (kind, text) =>
-      h(
-        "label",
-        { class: "radio" },
-        h("input", {
-          type: "radio",
-          name: "baseKind",
-          required: true,
-          checked: q.baseKind === kind,
-          onchange: () => {
-            q.baseKind = kind;
-            baseAmount.hidden = kind !== "amount";
-            baseAmount.querySelector("input").required = kind === "amount";
+  const blankRows = blanks.map((b) => {
+    let value;
+    if (!q.revealed.has(b.key)) {
+      value = h(
+        "button",
+        {
+          type: "button",
+          class: "sticky",
+          "aria-label": `${b.label}(隠れています。押すと答えを表示)`,
+          onclick: () => {
+            q.revealed.add(b.key);
+            q.justRevealed = b.key;
+            focusSelector = `[data-grade-for="${b.key}"] .grade-good`;
+            render();
           },
-        }),
-        text,
+        },
+        "?",
       );
-    baseAmount.querySelector("input").required = q.baseKind === "amount";
-    fields = [
-      select("税額の定め", "rate", q.ratePool, tax.rate),
-      h("fieldset", { class: "tax-field base-set", disabled: locked },
-        h("legend", { class: "tax-label" }, "課税標準金額"),
-        radio("amount", "金額を記載"), baseAmount, radio("none", "定額のため記載なし")),
-      check(checks?.base, tax.base === null ? "定額のため記載なし" : yen(tax.base)),
-      amountInput("登録免許税の額", "amount"),
-      check(checks?.amount, yen(tax.answer)),
-    ];
-    formula =
-      tax.base === null
-        ? `定額:${tax.rate} → ${yen(tax.answer)}`
-        : `課税標準金額 ${yen(tax.base)} × ${tax.rate} = ${yen(tax.answer)}`;
-  } else {
-    fields = [
-      select("課税標準", "base", q.basePool, tax.base),
-      select("税率・税額の定め", "rate", q.ratePool, tax.rate),
-      amountInput("登録免許税の額", "amount"),
-      check(checks?.amount, yen(tax.answer)),
-    ];
-    formula = `${tax.example} × ${tax.rate} = ${yen(tax.answer)}`;
-  }
-
-  const submit = (e) => {
-    e.preventDefault();
-    if (locked) return;
-    if (commercial) {
-      const parsedBase = q.baseKind === "amount" ? L.parseAmount(q.base) : null;
-      q.result = L.gradeCommercialTax(tax, {
-        rate: q.rate,
-        base: parsedBase,
-        baseBlank: q.baseKind !== "none" && parsedBase === null,
-        amount: L.parseAmount(q.amount),
-      });
     } else {
-      q.result = L.gradeRealEstateTax(tax, { base: q.base, rate: q.rate, amount: L.parseAmount(q.amount) });
+      const graded = q.blankGrades[b.key];
+      value = [
+        h("span", { class: q.justRevealed === b.key ? "answer reveal" : "answer" }, multiline(b.answer)),
+        h(
+          "div",
+          { class: "grade-row", role: "group", "aria-label": `${b.label}の採点`, "data-grade-for": b.key },
+          GRADE_BUTTONS.map(([g, label]) =>
+            h(
+              "button",
+              {
+                type: "button",
+                class: `grade-btn grade-${g}`,
+                "aria-pressed": String(graded === g),
+                disabled: graded !== undefined && graded !== g,
+                onclick: () => {
+                  if (q.blankGrades[b.key]) return;
+                  q.blankGrades[b.key] = g;
+                  q.justRevealed = null;
+                  if (blanks.every((x) => q.blankGrades[x.key])) {
+                    q.result = L.gradeTax(tax, q.selected, q.blankGrades);
+                    grade(c.id, "tax", q.result.grade);
+                    focusSelector = ".next-btn";
+                  } else {
+                    const nextBlank = blanks.find((x) => !q.revealed.has(x.key));
+                    focusSelector = nextBlank ? `.form-row[data-key="${nextBlank.key}"] .sticky` : null;
+                  }
+                  render();
+                },
+              },
+              h("span", { "aria-hidden": "true" }, GRADE_SYMBOL[g]),
+              ` ${label}`,
+            ),
+          ),
+        ),
+      ];
     }
-    grade(c.id, "tax", q.result.grade);
-    focusSelector = ".next-btn";
-    render();
-  };
+    const row = sheetRow(b.label, value);
+    row.dataset.key = b.key;
+    return row;
+  });
 
   return h(
     "section",
@@ -412,22 +379,34 @@ function renderTax(c, q) {
     h("div", { class: "form-sheet" },
       h("dl", { class: "form-grid" },
         sheetRow(labels[contextKey], multiline(c.fields[contextKey])),
-        sheetRow("条件", tax.example, "condition"))),
+        sheetRow("条件", multiline(tax.example), "condition"))),
     h(
       "form",
-      { class: "tax-form", onsubmit: submit },
-      fields,
-      !locked
-        ? h("div", { class: "next-row" }, h("button", { type: "submit", class: "primary" }, "採点する"))
-        : h(
-            "div",
-            { class: "result", role: "status" },
-            gradeBadge(q.result.grade),
-            h("p", { class: "formula" }, formula),
-            tax.note && h("p", { class: "result-note" }, `補足:${tax.note}`),
-            nextButton("tax"),
-          ),
+      {
+        class: "tax-form",
+        onsubmit: (e) => {
+          e.preventDefault();
+          if (classLocked) return;
+          q.checks = L.checkTaxChoices(tax, q.selected);
+          focusSelector = ".tax-blanks .sticky";
+          render();
+        },
+      },
+      selects,
+      !classLocked && h("div", { class: "next-row" }, h("button", { type: "submit", class: "primary" }, "区分を確定して金額へ")),
     ),
+    classLocked &&
+      h("div", { class: "form-sheet tax-blanks" }, h("dl", { class: "form-grid" }, blankRows)),
+    q.result &&
+      h(
+        "div",
+        { class: "result", role: "status" },
+        gradeBadge(q.result.grade),
+        h("p", { class: "formula" }, multiline(L.taxFormula(tax))),
+        tax.note && h("p", { class: "result-note" }, `補足:${tax.note}`),
+        h("p", { class: "result-note" }, "判定:すべて正解=○、区分は正しいが金額が誤り=△、区分の誤り=×"),
+        nextButton("tax"),
+      ),
   );
 }
 

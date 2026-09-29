@@ -606,3 +606,7 @@ button.primary,
     transition: none !important;
   }
 }
+
+.tax-blanks {
+  margin-top: 16px;
+}

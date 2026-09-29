@@ -14,7 +14,7 @@ function touki_config(): array
             '不動産' => [
                 ['key' => 'purpose', 'label' => '登記の目的', 'mode' => 'cloze'],
                 ['key' => 'cause', 'label' => '登記原因', 'mode' => 'cloze'],
-                ['key' => 'matters', 'label' => '登記事項', 'mode' => 'cloze'],
+                ['key' => 'matters', 'label' => '上記以外の申請事項等', 'mode' => 'cloze'],
                 ['key' => 'applicant', 'label' => '申請人', 'mode' => 'cloze'],
                 ['key' => 'attach', 'label' => '添付情報', 'mode' => 'attach'],
                 ['key' => 'price', 'label' => '課税価格', 'mode' => 'cloze'],
@@ -27,12 +27,23 @@ function touki_config(): array
                 ['key' => 'attach', 'label' => '添付書面', 'mode' => 'attach'],
             ],
         ],
-        // 申請例ごとに項目名を差し替える規則。when の項目の内容が suffix で終わるときに label を使う
+        // 申請例ごとに項目名を差し替える規則。上から順に見て、when の条件のどれかに当てはまれば label を使う。
+        // 条件は項目(field)の内容が equals と一致する、または suffix で終わる。
         'labelRules' => [
             [
                 'category' => '不動産',
                 'field' => 'applicant',
-                'when' => ['field' => 'cause', 'suffix' => '相続'],
+                // 所有権保存は登記原因を書かないため、登記の目的でも判定する
+                'when' => [
+                    ['field' => 'purpose', 'equals' => '所有権保存'],
+                    ['field' => 'cause', 'equals' => '所有権保存'],
+                ],
+                'label' => '所有者',
+            ],
+            [
+                'category' => '不動産',
+                'field' => 'applicant',
+                'when' => [['field' => 'cause', 'suffix' => '相続']],
                 'label' => '相続人',
             ],
         ],
@@ -67,7 +78,7 @@ function touki_config(): array
     ];
 }
 
-/** 同梱の初期データ(不動産5件・商業3件)。学習用の見本。 */
+/** 同梱の初期データ(不動産6件・商業3件)。学習用の見本。 */
 function touki_seed_cases(): array
 {
     return [
@@ -85,6 +96,26 @@ function touki_seed_cases(): array
             'tax' => [
                 'base' => '不動産の価額', 'rate' => '1000分の20', 'example' => '不動産の価額 2,000万円', 'answer' => 400000,
                 'note' => '土地の売買には租税特別措置法による軽減税率がある。この見本は本則の1000分の20で計算している。',
+            ],
+        ],
+        [
+            'id' => 're-kubun-baibai', 'category' => '不動産', 'title' => '所有権移転(売買・区分建物)',
+            'scene' => '令和8年4月20日、Aは所有する区分建物(敷地権付き、敷地権の割合10分の1)をBに売り渡した。所有権移転時期の特約はない。',
+            'fields' => [
+                'purpose' => '所有権移転',
+                'cause' => '令和8年4月20日売買',
+                'matters' => '(なし)',
+                'applicant' => "権利者 B\n義務者 A",
+                'price' => "建物 金200万円\n敷地権 金1,000万円\n合計 金1,200万円",
+            ],
+            'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '住所証明情報', '代理権限証明情報'],
+            'tax' => [
+                'base' => '不動産の価額', 'rate' => '1000分の20',
+                'example' => "建物の価額 200万円\n敷地権(土地の価額1億円 × 10分の1)1,000万円",
+                'answer' => 240000,
+                'answerText' => "建物 金4万円\n敷地権 金20万円\n合計 金24万円",
+                'formula' => "建物 200万円 × 1000分の20 = 4万円\n敷地権 1,000万円 × 1000分の20 = 20万円\n合計 24万円",
+                'note' => '区分建物は建物と敷地権を分けて課税価格・税額を記載する。この見本は本則の1000分の20で計算している。',
             ],
         ],
         [
