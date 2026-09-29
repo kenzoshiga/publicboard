@@ -27,12 +27,12 @@ function touki_config(): array
                 ['key' => 'attach', 'label' => '添付書面', 'mode' => 'attach'],
             ],
         ],
-        // 申請例ごとに項目名を差し替える規則。when の項目の内容に contains が含まれるときに label を使う
+        // 申請例ごとに項目名を差し替える規則。when の項目の内容が suffix で終わるときに label を使う
         'labelRules' => [
             [
                 'category' => '不動産',
                 'field' => 'applicant',
-                'when' => ['field' => 'cause', 'contains' => '相続'],
+                'when' => ['field' => 'cause', 'suffix' => '相続'],
                 'label' => '相続人',
             ],
         ],
