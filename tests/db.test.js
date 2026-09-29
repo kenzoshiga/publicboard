@@ -19,7 +19,7 @@ describe("IndexedDB 保存", () => {
 
   it("初回起動で初期データを投入し、進捗は再読み込み後も残る", async () => {
     const first = await loadAll(seedCases);
-    assert.equal(first.cases.length, 8);
+    assert.equal(first.cases.length, seedCases.length);
     assert.deepEqual(first.progress, {});
     await saveProgress("re-baibai:cause", { level: 1, due: 123, count: 1 });
     await closeDb();
@@ -46,7 +46,7 @@ describe("IndexedDB 保存", () => {
     await resetProgress();
     const r = await loadAll(seedCases);
     assert.deepEqual(r.progress, {});
-    assert.equal(r.cases.length, 8);
+    assert.equal(r.cases.length, seedCases.length);
   });
 
   it("JSONで書き出し・読み込みできる", async () => {

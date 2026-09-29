@@ -85,43 +85,63 @@ export function gradeAttach(options, selected, answer) {
   return { grade, marks };
 }
 
-function combine(classOk, amountOk) {
-  if (!classOk) return "miss";
-  return amountOk ? "good" : "vague";
-}
-
-/** 不動産:すべて正解=○、区分(課税標準・税率)は正しいが金額が誤り=△、区分の誤り=× */
-export function gradeRealEstateTax(tax, a) {
-  const checks = {
-    base: a.base === tax.base,
-    rate: a.rate === tax.rate,
-    amount: a.amount === tax.answer,
-  };
-  return { grade: combine(checks.base && checks.rate, checks.amount), checks };
+/** 登記申請書の金額表記(例:金40,000円) */
+export function yenText(n) {
+  return `金${Number(n).toLocaleString("ja-JP")}円`;
 }
 
 /**
- * 商業:区分(税額の定め)は正しいが課税標準金額・税額が誤り=△、区分の誤り=×。
- * a.base が null =「定額のため記載なし」を選択。a.baseBlank = 金額記載を選んだが空欄・不正。
- * 課税標準金額は、定額の登記では「記載なし」を選んだ場合のみ正解。
+ * 登録免許税の出題項目。choices は選択式(区分)、blanks は付箋の穴埋め(金額)。
+ * 金額の正解は answerText / baseText があればそれを使う(区分建物のように複数行になる場合)。
  */
-export function gradeCommercialTax(tax, a) {
-  const baseOk = a.baseBlank ? false : tax.base === null ? a.base === null : a.base === tax.base;
-  const checks = {
-    rate: a.rate === tax.rate,
-    base: baseOk,
-    amount: a.amount === tax.answer,
+export function taxItems(tax) {
+  const amount = { key: "amount", label: "登録免許税の額", answer: tax.answerText ?? yenText(tax.answer) };
+  if (isCommercialTax(tax)) {
+    return {
+      choices: [{ key: "rate", label: "税額の定め", answer: tax.rate }],
+      blanks: [
+        {
+          key: "base",
+          label: "課税標準金額",
+          answer: tax.baseText ?? (tax.base === null ? "定額のため記載なし" : yenText(tax.base)),
+        },
+        amount,
+      ],
+    };
+  }
+  return {
+    choices: [
+      { key: "base", label: "課税標準", answer: tax.base },
+      { key: "rate", label: "税率・税額の定め", answer: tax.rate },
+    ],
+    blanks: [amount],
   };
-  return { grade: combine(checks.rate, checks.base && checks.amount), checks };
 }
 
-/** "400,000" "400000円" "４０，０００" などを数値にする。数値でなければ null。 */
-export function parseAmount(input) {
-  const s = String(input)
-    .replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
-    .replace(/[,，\s円]/g, "");
-  if (!/^\d+$/.test(s)) return null;
-  return Number(s);
+/** 区分(選択式)の正誤 */
+export function checkTaxChoices(tax, selected) {
+  return Object.fromEntries(taxItems(tax).choices.map((c) => [c.key, selected[c.key] === c.answer]));
+}
+
+/**
+ * 登録免許税の判定。すべて正解=○、区分は正しいが金額が誤り(穴埋めの自己採点に △・× がある)=△、区分の誤り=×。
+ * selected は区分の選択、blankGrades は金額の穴埋めごとの自己採点(good/vague/miss)。
+ */
+export function gradeTax(tax, selected, blankGrades) {
+  const checks = checkTaxChoices(tax, selected);
+  const classOk = Object.values(checks).every(Boolean);
+  const amountOk = taxItems(tax).blanks.every((b) => blankGrades[b.key] === "good");
+  const grade = !classOk ? "miss" : amountOk ? "good" : "vague";
+  return { grade, checks };
+}
+
+/** 結果に出す計算式。申請例に formula があればそれを使う。 */
+export function taxFormula(tax) {
+  if (tax.formula) return tax.formula;
+  if (!isCommercialTax(tax)) return `${tax.example} × ${tax.rate} = ${yenText(tax.answer)}`;
+  return tax.base === null
+    ? `定額:${tax.rate} → ${yenText(tax.answer)}`
+    : `課税標準金額 ${yenText(tax.base)} × ${tax.rate} = ${yenText(tax.answer)}`;
 }
 
 // ---- 出題 ----

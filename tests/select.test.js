@@ -81,8 +81,8 @@ describe("countPending", () => {
       "re-baibai:attach": { level: 0, due: NOW, count: 1 },
       "co-yakuin:attach": { level: 2, due: NOW + DAY, count: 1 },
     };
-    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 6 });
-    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 5 * 5 + 3 * 2 });
+    assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 7 });
+    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 6 * 5 + 3 * 2 });
   });
 });
 

@@ -16,9 +16,9 @@ function check(bool $ok, string $msg): void
 $config = touki_config();
 $cases = touki_seed_cases();
 
-check(count(array_filter($cases, fn($c) => $c['category'] === '不動産')) === 5, '不動産は5件');
+check(count(array_filter($cases, fn($c) => $c['category'] === '不動産')) === 6, '不動産は6件');
 check(count(array_filter($cases, fn($c) => $c['category'] === '商業')) === 3, '商業は3件');
-check(count(array_unique(array_column($cases, 'id'))) === 8, 'id が重複していない');
+check(count(array_unique(array_column($cases, 'id'))) === 9, 'id が重複していない');
 check(
     array_column($config['fieldDefs']['商業'], 'label') === ['登記の事由', '登記すべき事項', '登録免許税(課税標準金額を含む)', '添付書面'],
     '商業は4項目'
@@ -42,6 +42,9 @@ foreach ($cases as $c) {
         check(in_array($c['tax']['base'], $config['pools']['reTaxBase'], true), "$id: 課税標準が候補にある");
     }
     check(is_int($c['tax']['answer']), "$id: 税額は整数");
+    foreach (['answerText', 'baseText', 'formula', 'note'] as $k) {
+        check(!isset($c['tax'][$k]) || is_string($c['tax'][$k]), "$id: tax.$k は文字列");
+    }
 }
 
 check(
