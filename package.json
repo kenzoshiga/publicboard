@@ -1,0 +1,12 @@
+{
+  "name": "touki-anki",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "php tests/data_test.php && node --test tests/*.test.js",
+    "serve": "php -S localhost:8000 -t public"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^6.2.5"
+  }
+}
