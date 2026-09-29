@@ -27,6 +27,19 @@ describe("IndexedDB 保存", () => {
     assert.deepEqual(again.progress["re-baibai:cause"], { level: 1, due: 123, count: 1 });
   });
 
+  it("保存済みの同梱申請例に、追加された項目だけを補う", async () => {
+    const old = seedCases.map((c) => {
+      const { price, ...fields } = c.fields;
+      return { ...c, fields: c.id === "re-baibai" ? { ...fields, cause: "編集した原因" } : fields };
+    });
+    await loadAll(old);
+    await closeDb();
+    const r = await loadAll(seedCases);
+    const baibai = r.cases.find((c) => c.id === "re-baibai");
+    assert.equal(baibai.fields.price, "金2,000万円");
+    assert.equal(baibai.fields.cause, "編集した原因");
+  });
+
   it("リセットで進捗だけ消える", async () => {
     await loadAll(seedCases);
     await saveProgress("re-baibai:cause", { level: 1, due: 123, count: 1 });

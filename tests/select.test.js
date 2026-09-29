@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { casePriority, countPending, hiddenFields, pickCase } from "../public/js/logic.js";
+import { casePriority, countPending, fieldLabel, fieldsOfCase, hiddenFields, pickCase } from "../public/js/logic.js";
 import { config, DAY, seedCases } from "./bootstrap.js";
 
 const NOW = 1_800_000_000_000;
@@ -10,7 +10,7 @@ const zero = () => 0;
 
 describe("hiddenFields", () => {
   it("初めて出る申請例では記述項目がすべて隠れる", () => {
-    assert.deepEqual(hiddenFields(config, re, {}, NOW), ["purpose", "cause", "matters", "applicant"]);
+    assert.deepEqual(hiddenFields(config, re, {}, NOW), ["purpose", "cause", "matters", "applicant", "price"]);
     assert.deepEqual(hiddenFields(config, co, {}, NOW), ["jiyu", "jiko"]);
   });
   it("未学習と復習時期到来の項目だけを隠す", () => {
@@ -19,7 +19,7 @@ describe("hiddenFields", () => {
       "re-baibai:cause": { level: 1, due: NOW - 1, count: 1 },
       "re-baibai:matters": { level: 2, due: NOW + DAY, count: 2 },
     };
-    assert.deepEqual(hiddenFields(config, re, p, NOW), ["cause", "applicant"]);
+    assert.deepEqual(hiddenFields(config, re, p, NOW), ["cause", "applicant", "price"]);
   });
   it("隠す対象がなければ最も定着度の低い1項目だけ隠す", () => {
     const p = {
@@ -27,6 +27,7 @@ describe("hiddenFields", () => {
       "re-baibai:cause": { level: 4, due: NOW + DAY, count: 4 },
       "re-baibai:matters": { level: 1, due: NOW + DAY, count: 1 },
       "re-baibai:applicant": { level: 2, due: NOW + DAY, count: 2 },
+      "re-baibai:price": { level: 5, due: NOW + DAY, count: 5 },
     };
     assert.deepEqual(hiddenFields(config, re, p, NOW), ["matters"]);
   });
@@ -81,6 +82,26 @@ describe("countPending", () => {
       "co-yakuin:attach": { level: 2, due: NOW + DAY, count: 1 },
     };
     assert.deepEqual(countPending(config, seedCases, "attach", p, NOW), { due: 1, fresh: 6 });
-    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 5 * 4 + 3 * 2 });
+    assert.deepEqual(countPending(config, seedCases, "cloze", {}, NOW), { due: 0, fresh: 5 * 5 + 3 * 2 });
+  });
+});
+
+describe("fieldLabel", () => {
+  const souzoku = seedCases.find((c) => c.id === "re-souzoku");
+  it("登記原因が相続なら申請人の項目名は相続人", () => {
+    assert.equal(fieldLabel(config, souzoku, "applicant"), "相続人");
+    assert.deepEqual(fieldsOfCase(config, souzoku).map((f) => f.label), [
+      "登記の目的", "登記原因", "登記事項", "相続人", "添付情報", "課税価格", "登録免許税",
+    ]);
+  });
+  it("相続以外は申請人のまま", () => {
+    assert.equal(fieldLabel(config, re, "applicant"), "申請人");
+    for (const cause of ["令和8年3月1日相続分の売買", "令和8年3月1日遺贈"]) {
+      assert.equal(fieldLabel(config, { ...re, fields: { ...re.fields, cause } }, "applicant"), "申請人");
+    }
+  });
+  it("他の項目・商業には影響しない", () => {
+    assert.equal(fieldLabel(config, souzoku, "cause"), "登記原因");
+    assert.equal(fieldLabel(config, co, "jiyu"), "登記の事由");
   });
 });

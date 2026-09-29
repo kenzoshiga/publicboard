@@ -43,7 +43,7 @@ function h(tag, attrs, ...children) {
 
 const yen = (n) => `${n.toLocaleString("ja-JP")}円`;
 const multiline = (text) => h("span", { class: "multiline" }, text ?? "");
-const labelsOf = (c) => Object.fromEntries(L.fieldsOf(config, c.category).map((f) => [f.key, f.label]));
+const labelsOf = (c) => Object.fromEntries(L.fieldsOfCase(config, c).map((f) => [f.key, f.label]));
 const gradeBadge = (g) =>
   h("span", { class: `grade-badge grade-${g}` }, h("span", { "aria-hidden": "true" }, GRADE_SYMBOL[g]), ` ${GRADE_TEXT[g]}`);
 
@@ -155,7 +155,7 @@ function nextButton(mode) {
 
 // 穴埋め
 function renderCloze(c, q) {
-  const rows = L.fieldsOf(config, c.category).map((f) => {
+  const rows = L.fieldsOfCase(config, c).map((f) => {
     const isHidden = q.hidden.includes(f.key);
     let value;
     if (f.mode !== "cloze") {
@@ -469,6 +469,7 @@ function renderWeak() {
                   const p = state.progress[L.progressKey(c.id, f.key)];
                   const due = L.isDue(p, now);
                   const st = p ? `定着度${p.level}${due ? "、復習待ち" : ""}` : "未学習";
+                  const label = L.fieldLabel(config, c, f.key);
                   return h(
                     "td",
                     {},
@@ -478,7 +479,7 @@ function renderWeak() {
                         type: "button",
                         class: `cell ${levelClass(p)}`,
                         title: st,
-                        "aria-label": `${c.title} ${f.label}:${st}。押すと出題`,
+                        "aria-label": `${c.title} ${label}:${st}。押すと出題`,
                         onclick: () => {
                           advance(f.mode, c.id);
                           setTab(f.mode);

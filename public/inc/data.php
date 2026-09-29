@@ -17,6 +17,7 @@ function touki_config(): array
                 ['key' => 'matters', 'label' => '登記事項', 'mode' => 'cloze'],
                 ['key' => 'applicant', 'label' => '申請人', 'mode' => 'cloze'],
                 ['key' => 'attach', 'label' => '添付情報', 'mode' => 'attach'],
+                ['key' => 'price', 'label' => '課税価格', 'mode' => 'cloze'],
                 ['key' => 'tax', 'label' => '登録免許税', 'mode' => 'tax'],
             ],
             '商業' => [
@@ -24,6 +25,15 @@ function touki_config(): array
                 ['key' => 'jiko', 'label' => '登記すべき事項', 'mode' => 'cloze'],
                 ['key' => 'tax', 'label' => '登録免許税(課税標準金額を含む)', 'mode' => 'tax'],
                 ['key' => 'attach', 'label' => '添付書面', 'mode' => 'attach'],
+            ],
+        ],
+        // 申請例ごとに項目名を差し替える規則。when の項目の内容が suffix で終わるときに label を使う
+        'labelRules' => [
+            [
+                'category' => '不動産',
+                'field' => 'applicant',
+                'when' => ['field' => 'cause', 'suffix' => '相続'],
+                'label' => '相続人',
             ],
         ],
         'attachHeading' => ['不動産' => '添付情報', '商業' => '添付書面'],
@@ -69,6 +79,7 @@ function touki_seed_cases(): array
                 'cause' => '令和8年4月1日売買',
                 'matters' => '(なし)',
                 'applicant' => "権利者 B\n義務者 A",
+                'price' => '金2,000万円',
             ],
             'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '住所証明情報', '代理権限証明情報'],
             'tax' => [
@@ -83,7 +94,8 @@ function touki_seed_cases(): array
                 'purpose' => '所有権移転',
                 'cause' => '令和8年3月1日相続',
                 'matters' => '(なし)',
-                'applicant' => "(被相続人 A)\n相続人 B",
+                'applicant' => "(被相続人 A)\nB",
+                'price' => '金3,000万円',
             ],
             'attach' => ['登記原因証明情報', '住所証明情報', '代理権限証明情報'],
             'tax' => [
@@ -99,6 +111,7 @@ function touki_seed_cases(): array
                 'cause' => '令和8年5月10日金銭消費貸借同日設定',
                 'matters' => "債権額 金1,000万円\n利息 年2%\n損害金 年14%\n債務者 A",
                 'applicant' => "抵当権者 株式会社B銀行\n(代表取締役 C)\n設定者 A",
+                'price' => '金1,000万円',
             ],
             'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '会社法人等番号', '代理権限証明情報'],
             'tax' => ['base' => '債権額', 'rate' => '1000分の4', 'example' => '債権額 1,000万円', 'answer' => 40000],
@@ -111,6 +124,7 @@ function touki_seed_cases(): array
                 'cause' => '令和8年6月1日設定',
                 'matters' => "極度額 金5,000万円\n債権の範囲 銀行取引 手形債権 小切手債権\n債務者 A",
                 'applicant' => "根抵当権者 株式会社B銀行\n(代表取締役 C)\n設定者 A",
+                'price' => '金5,000万円',
             ],
             'attach' => ['登記原因証明情報', '登記識別情報', '印鑑証明書', '会社法人等番号', '代理権限証明情報'],
             'tax' => ['base' => '極度額', 'rate' => '1000分の4', 'example' => '極度額 5,000万円', 'answer' => 200000],
@@ -123,6 +137,7 @@ function touki_seed_cases(): array
                 'cause' => '令和8年7月1日弁済',
                 'matters' => '(なし)',
                 'applicant' => "権利者 A\n義務者 株式会社B銀行\n(代表取締役 C)",
+                'price' => '(なし)',
             ],
             'attach' => ['登記原因証明情報', '登記識別情報', '会社法人等番号', '代理権限証明情報'],
             'tax' => [

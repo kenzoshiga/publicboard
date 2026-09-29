@@ -10,6 +10,22 @@ export function fieldsForMode(config, category, mode) {
   return fieldsOf(config, category).filter((f) => f.mode === mode);
 }
 
+/** 申請例に合わせた項目名(例:登記原因が相続なら「申請人」を「相続人」と表示) */
+export function fieldLabel(config, c, fieldKey) {
+  const def = fieldsOf(config, c.category).find((f) => f.key === fieldKey);
+  for (const r of config.labelRules ?? []) {
+    if (r.category !== c.category || r.field !== fieldKey) continue;
+    const v = String(c.fields?.[r.when.field] ?? "").trim();
+    if (v.endsWith(r.when.suffix)) return r.label;
+  }
+  return def?.label ?? fieldKey;
+}
+
+/** 申請例ごとの項目名を反映した項目定義 */
+export function fieldsOfCase(config, c) {
+  return fieldsOf(config, c.category).map((f) => ({ ...f, label: fieldLabel(config, c, f.key) }));
+}
+
 export function isCommercialTax(tax) {
   return typeof tax.base !== "string";
 }

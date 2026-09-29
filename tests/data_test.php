@@ -44,6 +44,11 @@ foreach ($cases as $c) {
     check(is_int($c['tax']['answer']), "$id: 税額は整数");
 }
 
+check(
+    array_column($config['fieldDefs']['不動産'], 'label') === ['登記の目的', '登記原因', '登記事項', '申請人', '添付情報', '課税価格', '登録免許税'],
+    '不動産は課税価格を含む7項目'
+);
+
 $json = touki_bootstrap_json();
 check(json_decode($json, true)['seedCases'] === $cases, 'JSON に往復変換できる');
 check(!str_contains($json, '</'), 'JSON に </ が含まれない(script 埋め込み安全)');
